@@ -46,7 +46,13 @@ def main(argv=None):
     p.add_argument("--needle-size", type=int, default=500_000, help="approx prompt_tokens for needle haystack")
     p.add_argument("--skip-search", action="store_true", help="skip binary search, run needle test only")
     sub.add_parser("errors", parents=[common], help=t("cli.err"))
-    sub.add_parser("vision", parents=[common], help=t("cli.vision"))
+    p = sub.add_parser("vision", parents=[common], help=t("cli.vision"))
+    p.add_argument("--repeats", type=int, default=0,
+                   help="if >0, run N identical 64x64 color probes instead of the size/color grid")
+    sub.add_parser("video", parents=[common], help=t("cli.video"))
+    p = sub.add_parser("catalog", parents=[common], help=t("cli.cat"))
+    p.add_argument("--peers", default=None, help="comma-separated model ids to A/B on this gateway")
+    p.add_argument("--family", default=None, help="substring filter on GET /v1/models ids (e.g. glm)")
 
     args = ap.parse_args(argv)
     set_lang(args.lang)
@@ -65,7 +71,12 @@ def main(argv=None):
     elif args.cmd == "errors":
         r = layers.error_family(client)
     elif args.cmd == "vision":
-        r = layers.vision_truth(client)
+        r = layers.vision_repeat(client, n=args.repeats) if args.repeats else layers.vision_truth(client)
+    elif args.cmd == "video":
+        r = layers.video_probe(client)
+    elif args.cmd == "catalog":
+        peers = [x.strip() for x in args.peers.split(",")] if args.peers else None
+        r = layers.catalog_ab(client, peers=peers, family=args.family)
     emit(r, args.json)
 
 

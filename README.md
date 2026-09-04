@@ -28,6 +28,9 @@ stealthprint wrapper                       # L2: chat-template overhead constant
 stealthprint context                       # L3: context limit + needle retrieval
 stealthprint errors                        # L4: error envelope family (serving-stack language)
 stealthprint vision                        # L6: vision ground truth (colors + token slope)
+stealthprint vision --repeats 24           # L6: repeated identical 64x64 probe (backend mix)
+stealthprint video                         # L6: video_url / type:video content-block shapes
+stealthprint catalog --family glm          # L7: same-gateway A/B vs named catalog siblings
 ```
 
 Every identity parameter can also be passed per command:
@@ -92,7 +95,9 @@ Data keys stay English regardless of display language.
 | L2 wrapper | `wrapper` | How much fixed chat-template overhead does the gateway add? Same model via different entries may differ; vocab does not |
 | L3 context | `context` | Verified context ceiling (binary search) + long-context retrieval fidelity (head/mid/tail needles) |
 | L4 errors | `errors` | Serving-stack fingerprints: numeric vs string codes, serde/Java error text, accepted roles, validation style |
-| L6 vision | `vision` | Is vision real? Color ground truth + token-overhead slope across image sizes (constant => placeholder; size-scaled => real encoder) |
+| L6 vision | `vision` | Is vision real? Color ground truth + token-overhead slope across image sizes (constant => placeholder; size-scaled => real encoder). `--repeats N` for mix rate |
+| L6 video | `video` | Does the model accept native video (`video_url`) vs unknown `type: video` vs mp4-as-image? |
+| L7 catalog | `catalog` | Same-gateway A/B: wrapper offset, special-token delta, `reasoning_effort=none`, one image vs named siblings (`--peers` / `--family`) |
 
 Self-identification ("who are you"), prompt injection, censorship probes and
 emoji density are deliberately **not** implemented as layers — for stealth
@@ -110,8 +115,8 @@ included automatically.
 
 ## Case study
 
-Full worked example (GLM-5 vocab identification, ~1M context, Rust gateway,
-heterogeneous vision backends):
+Full worked example (GLM-5 vocab identification, ~1M context, Flash-class
+image+video, +24 stealth wrapper vs named `glm-5.3-flash`):
 [docs/case-omen-alpha.md](docs/case-omen-alpha.md) ·
 [中文](docs/case-omen-alpha.zh-CN.md)
 
@@ -120,7 +125,8 @@ heterogeneous vision backends):
 Methodology builds on `iSimplifyMe/tokenizer-fingerprint`,
 `LuD1161/ox-alpha-identification-public`, and `unclecode/modelprint`.
 stealthprint adds: heterogeneous-backend detection, vision ground-truth
-protocol, wrapper-constant verification, and multilingual probe sets.
+protocol, wrapper-constant verification, video modality probes, same-gateway
+catalog A/B, and multilingual probe sets.
 
 ## License
 

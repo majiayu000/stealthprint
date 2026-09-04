@@ -36,30 +36,43 @@ class ChatClient:
                 return entry["key"]
         return None
 
-    def chat(self, messages, max_tokens=1, extra=None, timeout=None):
-        body = {"model": self.model, "messages": messages, "max_tokens": max_tokens}
-        if extra:
-            body.update(extra)
+    def _headers(self):
+        return {"Authorization": "Bearer " + self.api_key,
+                "Content-Type": "application/json",
+                "User-Agent": "curl/8.7.1", "Accept": "*/*"}
+
+    def request(self, method, path, body=None, timeout=None):
+        """Raw HTTP to base_url+path. Returns (parsed_json_or_None, err_dict_or_None)."""
+        data = None if body is None else json.dumps(body).encode()
         req = urllib.request.Request(
-            self.base_url + "/chat/completions",
-            data=json.dumps(body).encode(),
-            headers={"Authorization": "Bearer " + self.api_key,
-                     "Content-Type": "application/json",
-                     "User-Agent": "curl/8.7.1", "Accept": "*/*"})
+            self.base_url + path, data=data, headers=self._headers(), method=method)
         try:
             with urllib.request.urlopen(req, timeout=timeout or self.timeout) as r:
                 return json.load(r), None
         except urllib.error.HTTPError as e:
             try:
-                body_text = e.read().decode()[:600]
+                body_text = e.read().decode()[:1200]
             except Exception:
                 body_text = ""
             return None, {"http": e.code, "body": body_text}
         except Exception as e:
             return None, {"http": None, "body": str(e)}
 
-    def prompt_tokens(self, messages, max_tokens=1, extra=None, timeout=None):
-        d, err = self.chat(messages, max_tokens=max_tokens, extra=extra, timeout=timeout)
+    def chat(self, messages, max_tokens=1, extra=None, timeout=None, model=None):
+        body = {"model": model or self.model, "messages": messages, "max_tokens": max_tokens}
+        if extra:
+            body.update(extra)
+        return self.request("POST", "/chat/completions", body=body, timeout=timeout)
+
+    def prompt_tokens(self, messages, max_tokens=1, extra=None, timeout=None, model=None):
+        d, err = self.chat(messages, max_tokens=max_tokens, extra=extra,
+                           timeout=timeout, model=model)
         if err:
             return None, err
         return d["usage"]["prompt_tokens"], None
+
+    def list_models(self, timeout=None):
+        d, err = self.request("GET", "/models", timeout=timeout)
+        if err:
+            return None, err
+        return [m.get("id") for m in (d.get("data") or []) if m.get("id")], None

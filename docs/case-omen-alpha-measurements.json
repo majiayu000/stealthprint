@@ -78,11 +78,51 @@
         "answers": ["Red", "Blue", "Red"], "token_delta": [18, 18, 102],
         "note": "all correct; +102 at 256px shows resolution-scaled encoding on the working backend"}
     ],
-    "verdict": "heterogeneous backend pool: ~half of multimodal requests hit a backend that rejects array content; on the accepting backend vision is real (correct colors, size-dependent token cost); 1x1 images answered wrong with invented dimensions - treat small-image failures as unreliable"
+    "verdict": "early session: ~half of multimodal requests hit serde untagged enum MessageContent; 1x1 images hallucinated colors/dimensions. later 64x64 repeats (n=24) were 24/24 HTTP 200 pt=65, 16/24 explicit Red/Red. content, 8/24 empty content (thinking truncated). never observed glm-5.3 'does not support image' on omen-alpha."
   },
   "models_endpoint": {
     "url": "/v1/models",
     "catalog_sample": ["minimax-m3", "minimax-m2.7", "minimax-m2.5", "kimi-k3", "kimi-k2.7-code", "kimi-k2.6", "longcat-2.0", "kimi-k2.5", "glm-5.2", "glm-5.3-flash", "glm-5.3", "glm-5.1", "glm-5", "deepseek-v4-pro", "deepseek-v4-flash", "deepseek-v4-flash-vision-exp", "qwen3.7-max", "qwen3.8-max"],
     "owned_by": "opencode"
+  },
+  "same_gateway_ab_2026_09_04": {
+    "note": "live A/B on https://opencode.ai/zen/go/v1; emoji_zwj delta=16 on every glm-5* and omen-alpha",
+    "hi_prompt_tokens": {"omen-alpha": 37, "glm-5": 13, "glm-5.1": 13, "glm-5.2": 13, "glm-5.3": 13, "glm-5.3-flash": 13},
+    "wrapper_vs_local_glm": {"omen-alpha": 36, "named_glm5_family": 12},
+    "wrapper_offset_omen_minus_named_flash": 24,
+    "effort_none": {
+      "omen-alpha": {"http": 200, "note": "accepted; no Zhipu numeric code"},
+      "glm-5.3-flash": {"http": 400, "body": "[1210] This model always engages in thinking and cannot be disabled; please use low, high, or max"},
+      "glm-5.3": {"http": 400, "body": "GLM-5.3 is a thinking-only model; disabling thinking (reasoning_effort='none') is not supported."},
+      "glm-5.2": {"http": 400, "body": "GLM-5.3 is a thinking-only model; disabling thinking (reasoning_effort='none') is not supported.", "note": "copy-paste: 5.2 id returns a 5.3 error string"}
+    },
+    "special_begin_of_image_delta": {"omen-alpha": 1, "glm-5.3-flash": 7, "note": "omen fires special-token id; named flash hardens/escapes user specials"},
+    "reasoning_effort_low_vs_max_17x19": {
+      "omen-alpha": {"low_rlen": 9, "max_rlen": 39, "answer": "323"},
+      "glm-5.3-flash": {"low_reasoning_tokens": 2, "max_reasoning_tokens": 7, "answer": "323"}
+    }
+  },
+  "video_2026_09_04": {
+    "tiny_red_mp4_bytes": 1591,
+    "video_url_data_uri": {
+      "omen-alpha": {"http": 200, "kind": "ok_red", "prompt_tokens": 71},
+      "glm-5.3-flash": {"http": 200, "kind": "ok_red", "prompt_tokens": 47, "note": "71-47=24 wrapper offset"},
+      "glm-5.3": {"http": 400, "detail": "Chat Message Content with video_url ... not supported"}
+    },
+    "video_url_https": {
+      "omen-alpha": {"http": 200, "kind": "ok_red", "prompt_tokens": 4014},
+      "glm-5.3-flash": {"http": 200, "kind": "ok_red", "prompt_tokens": 3990, "note": "4014-3990=24"},
+      "glm-5.3": {"http": 400}
+    },
+    "verdict": "omen-alpha accepts native video_url like glm-5.3-flash (and unlike glm-5.3 flagship), with a fixed +24 prompt-token stealth wrapper"
+  },
+  "vision_repeats_64x64_red_2026_09_04": {
+    "omen-alpha": {"n": 24, "http_200": 24, "prompt_tokens": 65,
+      "content": {"Red": 10, "Red.": 6, "empty": 8},
+      "note": "16/24 visible content was literally Red/Red.; 8/24 empty content (max_tokens=48 cut inside thinking). early classifier treated empty+reasoning as ok_red — do not read that as 24/24 color-correct. 0 serde, 0 flagship no-image."},
+    "glm-5.3-flash": {"n": 8, "http_200": 8, "prompt_tokens": 41,
+      "content": {"Red": 3, "empty": 5}, "note": "65-41=24; same thinking-truncation pattern"},
+    "glm-5.3": {"n": 8, "counts": {"no_image_support": 8}},
+    "verdict": "no mix with the text-only glm-5.3 backend in this sample; image token overhead matches flash exactly after subtracting the +24 wrapper; color accuracy is 16/24 explicit on omen at max_tokens=48, not 24/24"
   }
 }

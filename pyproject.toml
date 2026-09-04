@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "stealthprint"
 version = "0.1.0"
-description = "Fingerprint OpenAI-compatible stealth models: tokenizer differential, context limit, error envelopes, vision ground truth. Model-agnostic, multilingual."
+description = "Fingerprint OpenAI-compatible stealth models: tokenizer differential, context limit, error envelopes, vision/video ground truth, same-gateway catalog A/B. Model-agnostic, multilingual."
 readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "MIT" }

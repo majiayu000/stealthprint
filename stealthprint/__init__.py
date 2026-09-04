@@ -10,6 +10,9 @@ from .layers import (
     needle_test,
     error_family,
     vision_truth,
+    vision_repeat,
+    video_probe,
+    catalog_ab,
 )
 
 __all__ = [
@@ -20,5 +23,8 @@ __all__ = [
     "needle_test",
     "error_family",
     "vision_truth",
+    "vision_repeat",
+    "video_probe",
+    "catalog_ab",
     "__version__",
 ]
