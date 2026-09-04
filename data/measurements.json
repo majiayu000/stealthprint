@@ -1,0 +1,88 @@
+{
+  "session": "2026-09-04, opencode zen gateway https://opencode.ai/zen/go/v1, model id omen-alpha, all calls max_tokens:1 unless noted, cost reported by gateway: 0",
+  "note": "transcribed from session tool output; scripts reproduce all numbers",
+  "tokenizer_round1_16_probes": {
+    "base_api_prompt_tokens": 52,
+    "api_delta": {
+      "en_pangram": 10, "zh_long": 14, "code": 18, "emoji_zwj": 16, "rare_uni": 18,
+      "digits": 19, "ja": 7, "ko": 7, "code_indent": 14, "url_sym": 18,
+      "cjk_rare": 17, "long_words": 16, "ws": 4, "zh_num": 14, "punct": 10, "hex_bin": 14
+    },
+    "local_T_probe": {
+      "deepseek":   [10, 14, 19, 20, 15, 17, 10, 7, 14, 21, 18, 14, 5, 14, 9, 14],
+      "dots3":      [10, 15, 18, 20, 17, 32, 6, 5, 14, 18, 13, 16, 4, 17, 12, 17],
+      "glm5":       [10, 14, 18, 16, 18, 19, 7, 7, 14, 18, 17, 16, 4, 14, 10, 14],
+      "glm53":      [10, 14, 18, 16, 18, 19, 7, 7, 14, 18, 17, 16, 4, 14, 10, 14],
+      "llama3":     [10, 21, 18, 28, 18, 17, 7, 4, 14, 18, 17, 16, 4, 16, 12, 14],
+      "minimax":    [10, 13, 18, 20, 17, 17, 6, 4, 14, 18, 18, 14, 4, 12, 9, 16],
+      "qwen3":      [10, 15, 18, 20, 17, 32, 6, 5, 14, 18, 13, 16, 4, 17, 12, 17],
+      "o200k_base": [10, 18, 18, 21, 18, 17, 7, 4, 14, 18, 17, 15, 4, 15, 11, 16]
+    },
+    "ranking": {
+      "glm5": "exact 16/16, mae 0.00",
+      "glm53": "exact 16/16, mae 0.00",
+      "llama3": "exact 10/16, mae 1.75",
+      "o200k_base": "exact 8/16, mae 1.19",
+      "deepseek": "exact 6/16, mae 1.31",
+      "dots3": "exact 6/16, mae 2.12",
+      "qwen3": "exact 6/16, mae 2.12",
+      "minimax": "exact 5/16, mae 1.25"
+    },
+    "note": "glm5 and glm53 tokenizer.json sha256 identical (19e7736...), same file on HF"
+  },
+  "tokenizer_round2_8_probes": {
+    "base_api_prompt_tokens": 52,
+    "api_delta": {"fr": 14, "ru": 11, "mixed_code_zh": 24, "emoji_flags": 30, "thai": 16, "floats": 21, "html": 15, "quotes2": 12},
+    "glm5_delta": [14, 11, 24, 30, 16, 21, 15, 12],
+    "o200k_delta": [10, 13, 24, 24, 6, 17, 15, 11],
+    "wrapper_per_probe": [0, 0, 0, 0, 0, 0, 0, 0]
+  },
+  "wrapper_constant": {
+    "api_hi": 37, "api_base52": 52,
+    "glm_raw_hi": 1, "glm_raw_base": 16,
+    "wrapper": 36, "stable_across_lengths": true
+  },
+  "context_limit": {
+    "filler": "The quiet harbor town woke slowly under a gray sky, and fishermen checked their nets. ",
+    "body_limit_error": {"http": 400, "message": "[invalid_request_error] Request body exceeds the 4.5 MiB limit."},
+    "lower_scan": {"chars": [10000, 1255000, 1877500, 2188750, 2344375, 2422187, 2461093, 2480546, 2500000], "prompt_tokens": [2159, 265521, 397202, 463048, 495971, 512427, 520655, 524769, 528883]},
+    "upper_scan": {"chars": [3550000, 4075000, 4337500, 4468750, 4534375, 4567187, 4583593], "prompt_tokens": [751006, 862062, 917590, 945354, 959236, 966177, 969653]},
+    "verdict": "all 200 OK up to 969,653 tokens; real limit not reached, bounded only by gateway 4.5 MiB body limit (~1M tokens). Community claim of 500K context is false."
+  },
+  "needle_tests": {
+    "at_595080_tokens": {"answer": "48219, 70553, 91024", "expected": "48219, 70553, 91024", "recovered": "3/3"},
+    "at_833079_tokens": {"answer": "31587,62248,88401", "expected": "31587, 62248, 88401", "recovered": "3/3",
+      "note": "first attempt with max_tokens=200 hit finish=length inside reasoning; retry with 3000 succeeded"}
+  },
+  "error_envelopes": {
+    "temperature_2.0": {"http": 200, "note": "accepted, no [1210]-style range validation"},
+    "temperature_hot": {"http": 400, "body": "{\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Error from provider (Console Go): Upstream request failed: [json_parse_error] Invalid JSON data: Failed to deserialize the JSON body into the target type: temperature: invalid type: string \\\"hot\\\", expected f32 at line 1 column 239\"}}",
+      "note": "Rust serde error text; not Zhipu numeric codes"},
+    "bad_role_wizard": {"http": 400, "note": "serde: unknown variant `wizard`, expected one of `system`, `user`, `assistant`, `tool`, `function`, `developer`"},
+    "developer_role": {"http": 200, "note": "accepted; OpenAI-style schema, not Zhipu official API"},
+    "reasoning_effort_none": {"http": 200},
+    "max_tokens_999999": {"http": 200, "note": "accepted, no output-limit validation at request level"},
+    "unknown_model": {"http": 401, "body": "{\"type\":\"error\",\"error\":{\"type\":\"ModelError\",\"message\":\"Model nonexistent-model is not supported\"}}",
+      "note": "Anthropic-shaped envelope; different from OpenAI-style envelopes above; two envelope families in one gateway"}
+  },
+  "vision": {
+    "no_image_control_pt": 47,
+    "attempts": [
+      {"image": "1x1 solid red (known-good b64)", "n": 5, "http_ok": 5, "answers": ["Green", "Nothing", "Green.", "Yellow.", "Green"],
+        "invented_dimensions": ["37x40", "200x200"], "note": "sent red; answered green/yellow; dimensions hallucinated"},
+      {"image": "64x64 solid red (PIL)", "n": 5, "http_ok": 2, "answers": ["Red", "Red"],
+        "note": "3 attempts HTTP 400 serde untagged enum MessageContent"},
+      {"image": "64x64 solid blue (PIL)", "n": 8, "http_ok": 0, "answers": [],
+        "note": "all HTTP 400 serde 'data did not match any variant of untagged enum MessageContent'"},
+      {"image": "final toolkit run: 64x64 red / 64x64 blue / 256x256 red", "n": 3, "http_ok": 3,
+        "answers": ["Red", "Blue", "Red"], "token_delta": [18, 18, 102],
+        "note": "all correct; +102 at 256px shows resolution-scaled encoding on the working backend"}
+    ],
+    "verdict": "heterogeneous backend pool: ~half of multimodal requests hit a backend that rejects array content; on the accepting backend vision is real (correct colors, size-dependent token cost); 1x1 images answered wrong with invented dimensions - treat small-image failures as unreliable"
+  },
+  "models_endpoint": {
+    "url": "/v1/models",
+    "catalog_sample": ["minimax-m3", "minimax-m2.7", "minimax-m2.5", "kimi-k3", "kimi-k2.7-code", "kimi-k2.6", "longcat-2.0", "kimi-k2.5", "glm-5.2", "glm-5.3-flash", "glm-5.3", "glm-5.1", "glm-5", "deepseek-v4-pro", "deepseek-v4-flash", "deepseek-v4-flash-vision-exp", "qwen3.7-max", "qwen3.8-max"],
+    "owned_by": "opencode"
+  }
+}

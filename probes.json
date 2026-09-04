@@ -1,0 +1,30 @@
+{
+  "base": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n",
+  "note": "delta = T(base+probe) - T(base); chat-template overhead cancels in the subtraction",
+  "probes": [
+    ["en_pangram", "The quick brown fox jumps over the lazy dog."],
+    ["zh_long", "人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。"],
+    ["code", "def foo(x):\n    return x**2  # comment\nprint(foo(3))"],
+    ["emoji_zwj", "👨‍👩‍👧‍👦 🏳️‍🌈 👍🏽"],
+    ["rare_uni", "㉑ ½ ℮ ﬁ 𝕏 ∮ ∑ ∞"],
+    ["digits", "1234567890 007 3.14159 1,000,000"],
+    ["ja", "こんにちは世界、テストです。"],
+    ["ko", "안녕하세요 세계입니다"],
+    ["code_indent", "    if (a == b) {\n        return null;\n    }"],
+    ["url_sym", "https://example.com/path?q=1&x=2#frag -> <tag/>"],
+    ["cjk_rare", "𠮷野家、喋々、𠀀𠀁"],
+    ["long_words", "antidisestablishmentarianism pseudopseudohypoparathyroidism"],
+    ["ws", "     \t\n\r\n   "],
+    ["zh_num", "二〇二六年九月四日，第 42 届。"],
+    ["punct", "？！……——“‘’”……〈·〉"],
+    ["hex_bin", "0xFF 0b1010 1e10 +inf NaN"],
+    ["fr", "Voilà l'hôtel île-de-France, garçon !"],
+    ["ru", "Достопримечательности Москвы — это красная площадь."],
+    ["mixed_code_zh", "# 注释\nx = [1, 'a', 2.5]\nassert len(x) == 3"],
+    ["emoji_flags", "🇨🇳🇯🇵🇺🇸 🧑‍🚀 👩🏻‍💻"],
+    ["thai", "กรุงเทพมหานคร ครับ"],
+    ["floats", "3.14159265358979 -273.15 6.02e23"],
+    ["html", "<div class=\"a\" data-x='1'>&nbsp;</div>"],
+    ["quotes2", "「」『』【】〖〗《》"]
+  ]
+}
