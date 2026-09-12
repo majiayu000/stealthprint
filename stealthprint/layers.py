@@ -196,7 +196,11 @@ def wrapper_constant(client, texts=None, verbose=True):
 # ------------------------------------------------------------------ L3
 def context_search(client, max_bytes=4_500_000, min_step=30_000, task=None, verbose=True):
     """L3: binary-search max working input size (capped by gateway body limit).
-    Returns verified max in chars + prompt_tokens at that point."""
+
+    Returns verified max in chars + prompt_tokens at that point.
+    ``max_verified_chars`` is only set for a size that passed ``ok_at``; on total
+    failure it is ``None`` (never an unverified floor such as 10_000).
+    """
     task = task or "Answer with the single word OK and nothing else."
 
     def ok_at(chars):
@@ -204,24 +208,74 @@ def context_search(client, max_bytes=4_500_000, min_step=30_000, task=None, verb
         pt, e = client.prompt_tokens([{"role": "user", "content": text}], timeout=300)
         return (True, pt, None) if e is None else (False, None, e)
 
+    def _log_probe(chars, good, pt, e):
+        if verbose:
+            print(
+                "  %,d chars: %s"
+                % (chars, ("OK pt=" + format(pt, ",")) if good else "FAIL " + str(e)[:160]),
+                flush=True,
+            )
+
     if verbose:
         print(t("ctx.header"))
     lo, hi = 10_000, max_bytes
     history = []
+
+    # Probe the initial lower bound before searching — never treat it as verified.
+    good, pt, e = ok_at(lo)
+    history.append({"chars": lo, "ok": good, "prompt_tokens": pt})
+    _log_probe(lo, good, pt, e)
+    if not good:
+        if verbose:
+            print(t("ctx.fail"))
+        return {
+            "max_verified_chars": None,
+            "max_verified_prompt_tokens": None,
+            "error": e,
+            "history": history,
+        }
+
     while hi - lo > min_step:
         mid = (lo + hi) // 2
         good, pt, e = ok_at(mid)
         history.append({"chars": mid, "ok": good, "prompt_tokens": pt})
-        if verbose:
-            print("  %,d chars: %s" % (mid, ("OK pt=" + format(pt, ",")) if good else "FAIL " + str(e)[:160]), flush=True)
+        _log_probe(mid, good, pt, e)
         if good:
             lo = mid
         else:
             hi = mid
-    good, pt, _ = ok_at(lo)
+
+    # Final confirmation: only accept lo when ok_at succeeds.
+    good, pt, e = ok_at(lo)
+    if good:
+        if verbose:
+            print(t("ctx.max", chars=format(lo, ","), tokens=pt or 0))
+        return {"max_verified_chars": lo, "max_verified_prompt_tokens": pt, "history": history}
+
+    verified = next((h for h in reversed(history) if h["ok"]), None)
+    if verified is not None:
+        if verbose:
+            print(
+                t(
+                    "ctx.max",
+                    chars=format(verified["chars"], ","),
+                    tokens=verified["prompt_tokens"] or 0,
+                )
+            )
+        return {
+            "max_verified_chars": verified["chars"],
+            "max_verified_prompt_tokens": verified["prompt_tokens"],
+            "history": history,
+        }
+
     if verbose:
-        print(t("ctx.max", chars=format(lo, ","), tokens=pt or 0))
-    return {"max_verified_chars": lo, "max_verified_prompt_tokens": pt, "history": history}
+        print(t("ctx.fail"))
+    return {
+        "max_verified_chars": None,
+        "max_verified_prompt_tokens": None,
+        "error": e,
+        "history": history,
+    }
 
 
 def needle_test(client, prompt_tokens_size=500_000, needles=None, max_tokens=3000, verbose=True):
