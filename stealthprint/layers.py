@@ -119,6 +119,9 @@ def tokenizer_differential(client, probes=None, tokenizers_dir="tok", verbose=Tr
         if verbose:
             print("  %-14s prompt=%-6d delta=%d" % (name, pt, pt - base_api))
 
+    if not api_delta:
+        raise RuntimeError(t("tok.no_probes"))
+
     local = {}
     if os.path.isdir(tokenizers_dir):
         for f in sorted(os.listdir(tokenizers_dir)):
