@@ -69,7 +69,10 @@ class ChatClient:
                            timeout=timeout, model=model)
         if err:
             return None, err
-        return d["usage"]["prompt_tokens"], None
+        usage = d.get("usage") if isinstance(d, dict) else None
+        if not isinstance(usage, dict) or usage.get("prompt_tokens") is None:
+            return None, {"http": 200, "body": "malformed response: missing usage.prompt_tokens"}
+        return usage["prompt_tokens"], None
 
     def list_models(self, timeout=None):
         d, err = self.request("GET", "/models", timeout=timeout)

@@ -38,6 +38,29 @@ def _err_text(err):
     return str(err)
 
 
+def _usage_prompt_tokens(d):
+    """Safely read usage.prompt_tokens. Returns (tokens, err_dict_or_None)."""
+    if not isinstance(d, dict):
+        return None, {"http": 200, "body": "malformed response: not an object"}
+    usage = d.get("usage")
+    if not isinstance(usage, dict) or usage.get("prompt_tokens") is None:
+        return None, {"http": 200, "body": "malformed response: missing usage.prompt_tokens"}
+    return usage["prompt_tokens"], None
+
+
+def _first_message(d):
+    """Safely read choices[0].message. Returns (message_dict, err_dict_or_None)."""
+    if not isinstance(d, dict):
+        return None, {"http": 200, "body": "malformed response: not an object"}
+    choices = d.get("choices")
+    if not isinstance(choices, list) or not choices or not isinstance(choices[0], dict):
+        return None, {"http": 200, "body": "malformed response: missing choices[0]"}
+    message = choices[0].get("message")
+    if not isinstance(message, dict):
+        return None, {"http": 200, "body": "malformed response: missing choices[0].message"}
+    return message, None
+
+
 _COLOR_REFUSAL = (
     "don't actually see",
     "do not actually see",
@@ -304,8 +327,10 @@ def vision_truth(client, colors=None, verbose=True):
         print(t("vision.hint"))
     colors = colors or [((255, 0, 0), "red"), ((0, 0, 255), "blue")]
 
-    pt_noimg, _ = client.prompt_tokens(
+    pt_noimg, err = client.prompt_tokens(
         [{"role": "user", "content": "Is this image red or blue? Answer one word."}])
+    if err:
+        raise RuntimeError("no-image control request failed: %s" % err)
     if verbose:
         print(t("vision.control", pt=pt_noimg))
 
@@ -322,11 +347,28 @@ def vision_truth(client, colors=None, verbose=True):
                                             "attempt": attempt + 1, "kind": kind,
                                             "http": e.get("http"), "body": (_err_text(e) or "")[:200]})
                     continue
-                m = d["choices"][0]["message"]
+                m, parse_err = _first_message(d)
+                if parse_err:
+                    last_err = parse_err
+                    kind, _ = _classify_multimodal(parse_err)
+                    out["failures"].append({"size": "%dx%d" % size, "true_color": color,
+                                            "attempt": attempt + 1, "kind": kind,
+                                            "http": parse_err.get("http"),
+                                            "body": (_err_text(parse_err) or "")[:200]})
+                    continue
+                pt, pt_err = _usage_prompt_tokens(d)
+                if pt_err:
+                    last_err = pt_err
+                    kind, _ = _classify_multimodal(pt_err)
+                    out["failures"].append({"size": "%dx%d" % size, "true_color": color,
+                                            "attempt": attempt + 1, "kind": kind,
+                                            "http": pt_err.get("http"),
+                                            "body": (_err_text(pt_err) or "")[:200]})
+                    continue
                 row = {"size": "%dx%d" % size, "true_color": color,
                        "answer": (m.get("content") or "").strip(),
-                       "prompt_tokens": d["usage"]["prompt_tokens"],
-                       "delta": d["usage"]["prompt_tokens"] - pt_noimg, "attempts": attempt + 1}
+                       "prompt_tokens": pt,
+                       "delta": pt - pt_noimg, "attempts": attempt + 1}
                 out["probes"].append(row)
                 if verbose:
                     print("%-10s %-4s => %-8r (+%d tokens, tries=%d)" % (
@@ -357,12 +399,22 @@ def vision_repeat(client, n=24, size=(64, 64), rgb=(255, 0, 0), max_tokens=48, v
             ans = rea = ""
             http = e.get("http")
         else:
-            m = d["choices"][0]["message"]
-            ans = m.get("content") or ""
-            rea = m.get("reasoning_content") or ""
-            kind, detail = _classify_multimodal(None, ans, rea)
-            pt = d["usage"]["prompt_tokens"]
-            http = 200
+            m, parse_err = _first_message(d)
+            if parse_err:
+                kind, detail = _classify_multimodal(parse_err)
+                pt = None
+                ans = rea = ""
+                http = parse_err.get("http")
+            else:
+                ans = m.get("content") or ""
+                rea = m.get("reasoning_content") or ""
+                pt, pt_err = _usage_prompt_tokens(d)
+                if pt_err:
+                    kind, detail = _classify_multimodal(pt_err)
+                    http = pt_err.get("http")
+                else:
+                    kind, detail = _classify_multimodal(None, ans, rea)
+                    http = 200
         counts[kind] = counts.get(kind, 0) + 1
         row = {"i": i + 1, "kind": kind, "prompt_tokens": pt, "detail": (detail or "")[:160],
                "http": http, "answer": (ans or "")[:160]}
@@ -411,11 +463,20 @@ def video_probe(client, path=None, verbose=True):
             pt = None
             http = e.get("http")
         else:
-            m = d["choices"][0]["message"]
-            kind, detail = _classify_multimodal(
-                None, m.get("content") or "", m.get("reasoning_content") or "")
-            pt = d["usage"]["prompt_tokens"]
-            http = 200
+            m, parse_err = _first_message(d)
+            if parse_err:
+                kind, detail = _classify_multimodal(parse_err)
+                pt = None
+                http = parse_err.get("http")
+            else:
+                pt, pt_err = _usage_prompt_tokens(d)
+                if pt_err:
+                    kind, detail = _classify_multimodal(pt_err)
+                    http = pt_err.get("http")
+                else:
+                    kind, detail = _classify_multimodal(
+                        None, m.get("content") or "", m.get("reasoning_content") or "")
+                    http = 200
         out["shapes"][name] = {"http": http, "kind": kind, "prompt_tokens": pt,
                                "detail": (detail or "")[:200]}
         if verbose:
