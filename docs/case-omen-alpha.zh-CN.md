@@ -69,7 +69,7 @@ pip install "stealthprint @ git+https://github.com/majiayu000/stealthprint.git#e
 # 目标配置
 export STEALTHPRINT_BASE_URL="https://opencode.ai/zen/go/v1"
 export STEALTHPRINT_MODEL="omen-alpha"
-export STEALTHPRINT_API_KEY="sk-..."    # 或放在 ~/.local/share/opencode/auth.json
+export STEALTHPRINT_API_KEY="sk-..."    # 默认必须显式提供；设置 STEALTHPRINT_USE_OPENCODE_AUTH=1 才允许读取 ~/.local/share/opencode/auth.json
 
 # 拉取本地对照词表（Hugging Face 开源文件，不花一分钱 API）
 ./fetch_tokenizers.sh

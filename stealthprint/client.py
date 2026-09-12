@@ -8,26 +8,52 @@ class ChatClient:
     """Minimal OpenAI-compatible chat client (stdlib only).
 
     All identity is explicit: model + base_url + api_key. No model is baked in.
+    OpenCode auth.json is never read unless STEALTHPRINT_USE_OPENCODE_AUTH=1.
     """
 
     def __init__(self, model, base_url=None, api_key=None, timeout=180):
         self.model = model
         self.base_url = (base_url or os.environ.get("STEALTHPRINT_BASE_URL") or "").rstrip("/")
-        self.api_key = api_key or os.environ.get("STEALTHPRINT_API_KEY") or self._opencode_fallback_key()
+        self.api_key, self._api_key_source = self._resolve_api_key(api_key)
         if not self.base_url:
             raise ValueError("no base_url (pass base_url= or set STEALTHPRINT_BASE_URL)")
         if not self.api_key:
-            raise ValueError("no api_key (pass api_key= or set STEALTHPRINT_API_KEY)")
+            raise ValueError(
+                "no api_key (pass api_key= or set STEALTHPRINT_API_KEY; "
+                "set STEALTHPRINT_USE_OPENCODE_AUTH=1 to allow ~/.local/share/opencode/auth.json)"
+            )
         self.timeout = timeout
+
+    @classmethod
+    def _resolve_api_key(cls, api_key):
+        """Resolve API key with explicit sources only by default.
+
+        Returns (key_or_None, source_label).
+        """
+        if api_key:
+            return api_key, "constructor"
+        env_key = os.environ.get("STEALTHPRINT_API_KEY")
+        if env_key:
+            return env_key, "STEALTHPRINT_API_KEY"
+        if cls._opencode_auth_opted_in():
+            fallback = cls._opencode_fallback_key()
+            if fallback:
+                return fallback, "opencode_auth.json"
+        return None, None
+
+    @staticmethod
+    def _opencode_auth_opted_in():
+        return os.environ.get("STEALTHPRINT_USE_OPENCODE_AUTH", "").strip() in ("1", "true", "yes")
 
     @staticmethod
     def _opencode_fallback_key():
-        """Convenience: reuse an existing opencode login if present (optional)."""
+        """Reuse an existing opencode login when explicitly opted in."""
         path = os.path.expanduser("~/.local/share/opencode/auth.json")
         if not os.path.exists(path):
             return None
         try:
-            data = json.load(open(path))
+            with open(path, encoding="utf-8") as f:
+                data = json.load(f)
         except Exception:
             return None
         for provider in ("opencode-go", "opencode"):
