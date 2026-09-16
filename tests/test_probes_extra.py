@@ -91,6 +91,17 @@ class _CharTok:
         return SimpleNamespace(ids=list(s))
 
 
+class EncodeLenTests(unittest.TestCase):
+    def test_tiktoken_branch_selected_by_name_suffix(self):
+        class FakeTik:
+            def encode(self, s):  # tiktoken API: no add_special_tokens kwarg
+                return [0] * len(s)
+
+        self.assertEqual(probes_extra.encode_len("cl100k_base", FakeTik(), "abc"), 3)
+        self.assertEqual(probes_extra.encode_len("o200k_base", FakeTik(), "ab"), 2)
+        self.assertEqual(probes_extra.encode_len("llama3", _CharTok(), "abc"), 3)
+
+
 class EchoVerifyTests(unittest.TestCase):
     def _patch_toks(self):
         return mock.patch.object(probes_extra, "load_local_tokenizers",

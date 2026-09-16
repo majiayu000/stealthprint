@@ -5,7 +5,7 @@ import sys
 
 from .client import ChatClient
 from .i18n import set_lang, get_lang, VALID_LANGS, load_probes, t
-from . import layers, probes_extra
+from . import layers, probes_extra, survey
 
 
 def make_client(args):
@@ -63,13 +63,22 @@ def build_parser():
     p = sub.add_parser("catalog", parents=[common], help=t("cli.cat"))
     p.add_argument("--peers", default=None, help="comma-separated model ids to A/B on this gateway")
     p.add_argument("--family", default=None, help="substring filter on GET /v1/models ids (e.g. glm)")
+    p = sub.add_parser("survey", parents=[common], help=t("cli.survey"))
+    p.add_argument("--tokenizers", default="tok", help="dir of local tokenizer.json candidates")
+    p.add_argument("--filter", default=None, help="substring filter on catalog ids")
+    p.add_argument("--max-models", type=int, default=0,
+                   help="budget guard: stop after N models (0 = no limit)")
+    p.add_argument("--out", default=None,
+                   help="append one JSON line per model here; existing models are skipped (resume)")
+    p.add_argument("--delay", type=float, default=0.5, help="seconds between models (free tiers allow ~1 concurrent)")
+    p.add_argument("--retries", type=int, default=1, help="retries per probe on failure")
     return ap
 
 
 def main(argv=None):
     args = build_parser().parse_args(argv)
     set_lang(args.lang)
-    if not args.model:
+    if not args.model and args.cmd != "survey":
         sys.exit(t("err.no_model"))
     client = make_client(args)
 
@@ -103,6 +112,19 @@ def main(argv=None):
     elif args.cmd == "catalog":
         peers = [x.strip() for x in args.peers.split(",")] if args.peers else None
         r = layers.catalog_ab(client, peers=peers, family=args.family)
+    elif args.cmd == "survey":
+        ids, err = client.list_models()
+        if err or not ids:
+            sys.exit("catalog fetch failed: %s" % (err or "empty catalog"))
+
+        def factory(m):
+            if m is None or m == args.model:
+                return client
+            return ChatClient(model=m, base_url=args.base_url, api_key=args.api_key)
+
+        r = survey.run_survey(factory, ids, tokenizers_dir=args.tokenizers,
+                              filter_sub=args.filter, max_models=args.max_models,
+                              out_path=args.out, delay=args.delay, retries=args.retries)
     emit(r, args.json)
 
 

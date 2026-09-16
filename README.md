@@ -31,6 +31,10 @@ stealthprint vision                        # L6: vision ground truth (colors + t
 stealthprint vision --repeats 24           # L6: repeated identical 64x64 probe (backend mix)
 stealthprint video                         # L6: video_url / type:video content-block shapes
 stealthprint catalog --family glm          # L7: same-gateway A/B vs named catalog siblings
+stealthprint survey --out census.jsonl     # census the whole catalog: classify reachability
+                                           # (paid-walled / rate-limited / upstream errors), then
+                                           # L1-probe the reachable models (--max-models budget guard,
+                                           # resume-safe via the jsonl, Muse-style /responses fallback)
 ```
 
 Every identity parameter can also be passed per command:

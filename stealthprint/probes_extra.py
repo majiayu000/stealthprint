@@ -12,7 +12,6 @@ These live in their own module to keep layers.py stable and to avoid
 colliding with concurrent edits there.
 """
 
-import json
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
 
@@ -83,8 +82,8 @@ _ECHO_PROMPT = "Repeat the following text exactly, character for character, with
 
 
 def encode_len(name, tk, s):
-    """Token count for tokenizer name/obj pair (o200k is tiktoken, rest HF)."""
-    if name == "o200k_base":
+    """Token count for tokenizer name/obj pair (*_base are tiktoken, rest HF)."""
+    if name.endswith("_base"):
         return len(tk.encode(s))
     return len(tk.encode(s, add_special_tokens=False).ids)
 
@@ -102,6 +101,7 @@ def load_local_tokenizers(tokenizers_dir="tok"):
             if f.endswith(".json"):
                 local[f[:-5]] = Tokenizer.from_file(os.path.join(tokenizers_dir, f))
     local["o200k_base"] = tiktoken.get_encoding("o200k_base")
+    local["cl100k_base"] = tiktoken.get_encoding("cl100k_base")
     return local
 
 

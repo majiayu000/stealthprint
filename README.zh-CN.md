@@ -28,6 +28,9 @@ stealthprint vision                        # L6 视觉真值测试（颜色 + to
 stealthprint vision --repeats 24           # L6 同一张 64×64 重复探针（混后端）
 stealthprint video                         # L6 视频 content 形状（video_url / type:video）
 stealthprint catalog --family glm          # L7 同网关目录对照（wrapper / 视觉 / effort=none）
+stealthprint survey --out census.jsonl     # 网关普查：目录可达性分类（付费墙 / 限流 / 上游错误），
+                                           # 再对可达模型跑 L1 探针（--max-models 预算护栏、
+                                           # jsonl 断点续跑、Muse 系 /responses 自动回退）
 ```
 
 也可以每条命令显式传参：`stealthprint --base-url ... --model ... --api-key ... tokenizer`。全局 flag 放在子命令前后都可以。加 `--json` 可同时输出机器可读结果。
