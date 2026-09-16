@@ -2,6 +2,7 @@ import json
 import os
 import urllib.error
 import urllib.request
+import uuid
 
 
 class ChatClient:
@@ -10,7 +11,7 @@ class ChatClient:
     All identity is explicit: model + base_url + api_key. No model is baked in.
     """
 
-    def __init__(self, model, base_url=None, api_key=None, timeout=180):
+    def __init__(self, model, base_url=None, api_key=None, timeout=180, session_id=None):
         self.model = model
         self.base_url = (base_url or os.environ.get("STEALTHPRINT_BASE_URL") or "").rstrip("/")
         self.api_key = api_key or os.environ.get("STEALTHPRINT_API_KEY") or self._opencode_fallback_key()
@@ -18,6 +19,9 @@ class ChatClient:
             raise ValueError("no base_url (pass base_url= or set STEALTHPRINT_BASE_URL)")
         if not self.api_key:
             raise ValueError("no api_key (pass api_key= or set STEALTHPRINT_API_KEY)")
+        # Some gateways (e.g. OpenCode Zen free tier) only accept requests
+        # carrying a client session id; other servers ignore the header.
+        self.session_id = session_id or str(uuid.uuid4())
         self.timeout = timeout
 
     @staticmethod
@@ -39,6 +43,7 @@ class ChatClient:
     def _headers(self):
         return {"Authorization": "Bearer " + self.api_key,
                 "Content-Type": "application/json",
+                "x-session-id": self.session_id,
                 "User-Agent": "curl/8.7.1", "Accept": "*/*"}
 
     def request(self, method, path, body=None, timeout=None):
