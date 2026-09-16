@@ -152,6 +152,18 @@
     },
     "implication": "the free tier is a paid catalog with a tiny free sample (4/71 = 5.6% reachable without credits); error envelopes name the upstream provider 'Console'; Muse-family llama4 exclusion now covers v1.2 and v1.3"
   },
+  "third_party_image_audit": {
+    "measured_at": "2026-09-17",
+    "claim_under_test": "circulating composite image, left panel: 'Z.ai GLM-5/5.1/5.2/5.3 match the model's reported tokens 9/10 exact, outliers ~+43', shown next to benchmark charts placing 'Union Alpha (anticipated pricing)'",
+    "method": "pure-local deterministic replay: archived union-alpha API deltas (10 probes, majority path, base_api=33) recomputed against every local candidate tokenizer; zero API calls",
+    "result": {
+      "glm5": "2/10 exact (only ja and code_indent) - NOT 9/10",
+      "llama3": "9/10 exact (en_pangram is the archived unstable row: api 11 vs local 10, pre-clustering)",
+      "all_other_candidates": "<= 4/10",
+      "implied_wrapper_glm5": "+17 - the image's +43 outlier has no corresponding constant anywhere in union data (wrapper is stably 16/17)"
+    },
+    "verdict": "conditional falsification: IF the image's tokenizer panel targets union-alpha, the GLM-5 '9/10' claim fails against archived data (actual glm5: 2/10). The 9/10 figure is exactly llama3's true match count on this archived set - consistent with llama3-vocab data relabeled onto the GLM-5 row, or with the panel analyzing a different (genuinely GLM-vocab) stealth model spliced next to union-alpha benchmark points. Either way the image's implied union=GLM conclusion contradicts the archived species-level llama3 verdict; the 'anticipated pricing' benchmark labels are self-declared guesses."
+  },
   "corrections_log": [
     "context-compression plugin text is OpenRouter copy, NOT an upstream stack fingerprint (initial inference falsified via openrouter docs + web search)",
     "262144 is OpenRouter-side config; downgraded to medium confidence for true model limit"
