@@ -20,7 +20,7 @@ def emit(result, as_json):
         print(json.dumps(result, ensure_ascii=False, indent=2, default=str))
 
 
-def main(argv=None):
+def build_parser():
     # CLI help language follows env at parse time; output messages follow --lang.
     ap = argparse.ArgumentParser(prog="stealthprint", description=t("cli.desc"))
     ap.add_argument("--base-url", default=os.environ.get("STEALTHPRINT_BASE_URL"))
@@ -28,13 +28,15 @@ def main(argv=None):
     ap.add_argument("--api-key", default=os.environ.get("STEALTHPRINT_API_KEY"))
     ap.add_argument("--lang", default=get_lang(), choices=VALID_LANGS)
     ap.add_argument("--json", action="store_true", help="also print machine-readable JSON")
-    # same flags accepted after the subcommand too (hidden, same dests)
+    # same flags accepted after the subcommand too (hidden, same dests).
+    # SUPPRESS defaults keep the subparser from clobbering values the main
+    # parser already stored when the flag only appears before the subcommand.
     common = argparse.ArgumentParser(add_help=False)
-    common.add_argument("--base-url", default=os.environ.get("STEALTHPRINT_BASE_URL"), help=argparse.SUPPRESS)
-    common.add_argument("--model", default=os.environ.get("STEALTHPRINT_MODEL"), help=argparse.SUPPRESS)
-    common.add_argument("--api-key", default=os.environ.get("STEALTHPRINT_API_KEY"), help=argparse.SUPPRESS)
-    common.add_argument("--lang", default=get_lang(), choices=VALID_LANGS, help=argparse.SUPPRESS)
-    common.add_argument("--json", action="store_true", help=argparse.SUPPRESS)
+    common.add_argument("--base-url", default=argparse.SUPPRESS, help=argparse.SUPPRESS)
+    common.add_argument("--model", default=argparse.SUPPRESS, help=argparse.SUPPRESS)
+    common.add_argument("--api-key", default=argparse.SUPPRESS, help=argparse.SUPPRESS)
+    common.add_argument("--lang", default=argparse.SUPPRESS, choices=VALID_LANGS, help=argparse.SUPPRESS)
+    common.add_argument("--json", action="store_true", default=argparse.SUPPRESS, help=argparse.SUPPRESS)
     sub = ap.add_subparsers(dest="cmd", required=True)
 
     p = sub.add_parser("tokenizer", parents=[common], help=t("cli.tok"))
@@ -53,8 +55,11 @@ def main(argv=None):
     p = sub.add_parser("catalog", parents=[common], help=t("cli.cat"))
     p.add_argument("--peers", default=None, help="comma-separated model ids to A/B on this gateway")
     p.add_argument("--family", default=None, help="substring filter on GET /v1/models ids (e.g. glm)")
+    return ap
 
-    args = ap.parse_args(argv)
+
+def main(argv=None):
+    args = build_parser().parse_args(argv)
     set_lang(args.lang)
     if not args.model:
         sys.exit(t("err.no_model"))
