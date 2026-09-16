@@ -119,6 +119,17 @@
       "tokenizer": "no candidate matches (best 8/24, MAE 3.5+, no-winner shape) - proprietary Nemotron 3 vocab",
       "wrapper_constant": 16,
       "implication": "NVIDIA's 2026 Nemotron-3 line (Mamba-MoE) confirmed unrelated to union-alpha by vocab; legacy Llama-Nemotron line stays inside the llama3 family circle but no public SKU matches size/window/modality"
+    },
+    "deepseek/deepseek-v4.1-flash": {
+      "tokenizer": "deepseek vocab (V3 lineage, 129,280) - 24/24 probes exact match, MAE 0.00",
+      "wrapper_constant": 30,
+      "vision": {
+        "color_ground_truth": "4/4 (red/blue both ways)",
+        "token_shape": "flat +184 for 64x64 and 256x256 alike (no-image control 41)",
+        "tower_config": "self-built deepseek_v41_vision (HF open weights config.json + inference/vision.py): 32 layers, hidden 1024, 16 heads, patch 14, 3x3 pixel-shuffle downsample, 2D-RoPE, min_pixels 295936 (~544x544), max_image_tokens 1024",
+        "mechanism": "+184 is upstream real behavior, not gateway billing: min_pixels floor upscales every small image to ~544x544 -> (544/14)^2 ~ 1512 patches / 9 ~ 168 + overhead ~ 184"
+      },
+      "implication": "double exclusion for union-alpha: text side (llama3 vs deepseek vocab) plus vision side (union small images flat 24 with no floor, even 1x1; V4.1-Flash small images flat 184 = min_pixels floor) - different towers. Also archives min_pixels floor as a measurable vision-tower signature: flat small-image cost with a HIGH floor vs floorless flat cost separates encoders even when both look flat"
     }
   },
   "corrections_log": [
