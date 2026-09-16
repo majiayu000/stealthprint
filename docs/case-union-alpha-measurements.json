@@ -95,14 +95,30 @@
     "all_three_choices": "none/auto/required all behave identically (2 parallel calls)"
   },
   "peer_fingerprints": {
+    "meta/muse-spark-1.3": {
+      "measured_via": "OpenCode Zen /v1/responses (Responses API), muse-spark-1.3-contributor-free, cost 0",
+      "tokenizer": "llama4 vocab (201K) - 24/24 probes exact match, MAE 0.00 (input_tokens semantics)",
+      "behavior": "default reasoning effort=high: 13 of 16 output tokens were reasoning_tokens; parallel_tool_calls=true",
+      "implication": "species-level exclusion of Muse Spark for union-alpha; cross-gateway agreement with glimmer (OpenRouter) validates the differential across both APIs"
+    },
     "meta/muse-glimmer-30b": {
       "tokenizer": "llama4 vocab (201K) - 24/24 probes exact match, MAE 0.00",
       "wrapper_constant": 56,
-      "implication": "Meta Muse family uses llama4 vocab; union-alpha (llama3) is NOT Muse family (family-vocab assumption, medium-high confidence; spark-1.3 itself gated behind OpenRouter 18+ attestation, retest pending)"
+      "implication": "Muse family confirmed llama4 vocab on both gateways"
     },
     "xiaomi/mimo-v2.5": {
       "tokenizer_local": "vocab 151643, deltas identical to qwen3 on every probe (HF XiaomiMiMo/MiMo-V2.5 tokenizer.json)",
       "implication": "MiMo-V2 switched to Qwen vocab; transitive exclusion of all MiMo-V2.x for union-alpha"
+    },
+    "nousresearch/hermes-3-llama-3.1-405b": {
+      "tokenizer": "llama3 vocab 24/24 exact, MAE 0.00 (usage semantics clean on this provider)",
+      "wrapper_constant": 10,
+      "implication": "llama3-finetune family shares union-alpha's vocab - vocab cannot discriminate inside the family; wrapper constant (ChatML=10 vs union 16/17) CAN: union is not a Hermes-template model"
+    },
+    "nvidia/nemotron-3-nano-30b-a3b": {
+      "tokenizer": "no candidate matches (best 8/24, MAE 3.5+, no-winner shape) - proprietary Nemotron 3 vocab",
+      "wrapper_constant": 16,
+      "implication": "NVIDIA's 2026 Nemotron-3 line (Mamba-MoE) confirmed unrelated to union-alpha by vocab; legacy Llama-Nemotron line stays inside the llama3 family circle but no public SKU matches size/window/modality"
     }
   },
   "corrections_log": [

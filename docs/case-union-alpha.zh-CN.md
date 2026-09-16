@@ -45,8 +45,22 @@
 - 「MiniMax M3.1」——**被词表排除**（MiniMax-M1 词表全行不匹配；若 M3.1 沿用 M 系词表则同样排除）。
 - 「Kimi K3.1」——moonshot 不发布 tokenizer.json 无法本地对照；但 K 系历来 163K 自研词表，与 128K llama3 匹配相悖（置信度：中，非直接证据）。
 - 「小米 MiMo」——**被排除**（2026-09-17）：从 HF 下载 `XiaomiMiMo/MiMo-V2.5` tokenizer.json（vocab 151,643），其判别探针 Δ 与 qwen3 **逐行完全相等**（MiMo-V2 换用了 Qwen 词表）；qwen3 在本 probe set 上不匹配 ⇒ MiMo-V2/V2.5 传递排除。OpenRouter 在售的 `xiaomi/mimo-v2.5` 同理。
-- 「Meta Muse Spark」——**大概率排除**（置信度：中高）：Meta Muse 家族小模型 `meta/muse-glimmer-30b` 实测 **llama4 词表（24/24 探针精确匹配，MAE 0.00）** + wrapper +56，与 union-alpha 的 llama3 词表在每个判别探针上均不同。Muse 家族内词表一致是推断而非 Spark 1.3 本体实测——`meta/muse-spark-1.3` 在 OpenRouter 被 18+ 年龄确认 attestation 拦截，账户持有人确认后可补测定种。
+- 「Meta Muse Spark」——**定种级排除（两网关实测）**：`meta/muse-spark-1.3-contributor-free` 经 **OpenCode Zen Responses API（/v1/responses）**实测 **llama4 词表 24/24 精确匹配（MAE 0.00）**；OpenRouter 侧 `meta/muse-glimmer-30b` 同为 llama4 24/24 + wrapper +56。判别探针全面分离（emoji：Muse 20 / union 28；zh_long 15/21；fr 12/16）。Muse 1.3 附带指纹：默认 `reasoning effort=high`（16 输出 token 中 13 个是 reasoning_tokens）、`parallel_tool_calls=true`。
 - llama3 词表 + 真视觉 + 256K 上下文：与 **Llama 3.x 底座的多模态衍生**（128K 原生上下文做过外扩）或**沿用 llama3 词表的新训练**均相容。公开模型库中无词表、视觉计费形状（小图固定 24 patch）、262K 三者全吻合的已知模型——支持「未公开的新训练/衍生」这一结论。
+
+### llama3 后训练家族圈内对照（词表无判别力，换层判别）
+
+Hermes/Tülu/Llama-Nemotron 一类公开后训练全部挂在 Llama 3.1/3.3 底座上，与 union 同词表——词表差分对圈内全部失效，判别换到模板与行为层：
+
+| 对照模型 | 词表 | wrapper | 结论 |
+|---|---|---|---|
+| union-alpha | llama3 | **+16/17** | — |
+| hermes-3-llama-3.1-405b | llama3（24/24） | +10（ChatML） | **非 Hermes 模板家族** |
+| muse-glimmer-30b / muse-spark-1.3 | llama4（24/24×2） | +56 / — | 词表圈外 |
+| nemotron-3-nano-30b | 自研（无候选匹配，无赢家形状） | +16 | NVIDIA 2026 主力线与 union 无关 |
+| meta-llama/llama-3.1-8b-instruct | usage 被 prompt cache 污染（Δ 系统性 +23~24、不均匀） | 锚点不可得 | OpenRouter 的 llama 官方模型 usage 语义不可靠（与 llama-3.3-70b 那次同因） |
+
+圈内剩余解释（与社区分析一致）：Llama 3.1-70B/3.3-70B/405B 做视觉适配 + 扩窗到 262K 的**内部未公开衍生**——这类流水线在后训练厂手里最现成，但公开目录无现货 SKU 对得上。
 
 ---
 
@@ -56,8 +70,10 @@
 2. **OpenRouter usage 语义不可跨模型对照**：具名 `meta-llama/llama-3.3-70b-instruct`（走 DeepInfra）的 `prompt_tokens` 与词表理论值不符且 Δ 可为负——同网关具名对照（L7）在 OpenRouter 不可用；词表判定应依赖**本地 tokenizer 对照**（对照侧零 API 成本、零语义歧义）。
 3. **"context-compression plugin" 是 OpenRouter 网关文案**，不是上游栈指纹；其引用的 262,144 是 OpenRouter 侧配置，模型真实上限须以埋针实测为准。
 4. **HTTP 200 包错误对象**：OpenRouter 对上游 5xx 返回 HTTP 200 + `{"error":{"code":502,"metadata":{"error_type":"provider_unavailable"}}}`——错误信封分析必须解析 body 而非只看状态码。
-5. **年龄 attestation 是模型级路由 gate**：`meta/muse-spark-*` 全系（含 contributor 变体）在 OpenRouter 要求账户先完成 18+ 确认（`missing_attestation_types: ["age_18plus"]`），否则 403——对照实验设计需把 attestation 状态当作前置条件。
+5. **年龄 attestation 是模型级路由 gate**：`meta/muse-spark-*` 全系（含 contributor 变体）在 OpenRouter 要求账户先完成 18+ 确认（`missing_attestation_types: ["age_18plus"]`），否则 403——对照实验设计需把 attestation 状态当作前置条件；同一模型可换网关绕过（OpenCode 免费档无此 gate）。
 6. **wrapper 常数会漂移**：同探针同词表两轮测量 +17 → +16。模板常数适合做「同家族」判断，不适合做跨会话的精确身份断言。
+7. **OpenCode 的 Muse 系走 Responses API**：`/zen/v1/chat/completions` 对 Muse 全 500，正确入口是 `/zen/v1/responses`（`usage.input_tokens`）；且网关按 User-Agent 过滤——`Python-urllib/*` 直接 403，须伪装成 `curl/*`；免费档实际并发约 1（并发 4 即 403）。
+8. **llama3 圈内判别靠模板常数，不靠词表**：hermes-3（llama3 词表 24/24）wrapper +10 vs union +16/17——同词表家族内部，模板常数成为可用判别器；但 llama 官方模型在 OpenRouter 的 usage 被 prompt cache 污染（Δ 系统性偏移 +23~24），官方模板锚点在该网关不可得。
 
 ## 工具包使用
 

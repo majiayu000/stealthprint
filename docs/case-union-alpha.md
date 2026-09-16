@@ -45,8 +45,22 @@ The secondary (low) path's counts are **unstable across rounds** (fr probe 19→
 - "MiniMax M3.1" — **excluded by tokenizer** (MiniMax-M1 vocab misses every row; M3.1 presumably inherits M-series vocab).
 - "Kimi K3.1" — moonshot publishes no tokenizer.json (no local comparison possible); K-series has used its own 163K vocab, which contradicts a 128K llama3 match (medium confidence, indirect).
 - "Xiaomi MiMo" — **excluded** (2026-09-17): `XiaomiMiMo/MiMo-V2.5` tokenizer.json downloaded from HF (vocab 151,643); its probe deltas are **identical to qwen3 row-for-row** (MiMo-V2 switched to the Qwen vocab); qwen3 mismatches this probe set ⇒ MiMo-V2/V2.5 excluded transitively. Same for `xiaomi/mimo-v2.5` on OpenRouter.
-- "Meta Muse Spark" — **likely excluded** (medium-high confidence): `meta/muse-glimmer-30b` (the Muse family small model) measured **llama4 vocab, 24/24 probes exact, MAE 0.00**, wrapper +56 — every discriminating probe differs from union-alpha's llama3 match. Family-vocab consistency is an inference, not a Spark-1.3 measurement — `meta/muse-spark-1.3` is gated behind OpenRouter's 18+ age attestation; retest after the account owner confirms.
+- "Meta Muse Spark" — **excluded at species level (measured on both gateways)**: `meta/muse-spark-1.3-contributor-free` measured via the **OpenCode Zen Responses API (/v1/responses)** as **llama4 vocab, 24/24 probes exact, MAE 0.00**; OpenRouter's `meta/muse-glimmer-30b` agrees (llama4 24/24, wrapper +56). Every discriminating probe separates (emoji: Muse 20 / union 28; zh_long 15/21; fr 12/16). Bonus Muse fingerprints: default `reasoning effort=high` (13 of 16 output tokens were reasoning_tokens), `parallel_tool_calls=true`.
 - llama3 vocab + real vision + 256K context is consistent with a **Llama 3.x-based multimodal derivative** (context extended beyond native 128K) or a new training run reusing the llama3 vocab. No publicly known model matches all three of vocab, vision billing shape (flat 24 patches for small images), and 262K — supporting "undisclosed new training/derivative" as the conclusion.
+
+### Inside the llama3 post-training family (vocab has no power; discriminate by template)
+
+Public post-trainings (Hermes, Tülu, Llama-Nemotron) all sit on Llama 3.1/3.3 bases — same vocab as union-alpha, so the differential is blind inside this circle; discrimination moves to the template and behavior layers:
+
+| Peer | Vocab | wrapper | Verdict |
+|---|---|---|---|
+| union-alpha | llama3 | **+16/17** | — |
+| hermes-3-llama-3.1-405b | llama3 (24/24) | +10 (ChatML) | **not a Hermes-template model** |
+| muse-glimmer-30b / muse-spark-1.3 | llama4 (24/24 ×2) | +56 / — | outside the vocab circle |
+| nemotron-3-nano-30b | proprietary (no candidate matches, no-winner shape) | +16 | NVIDIA's 2026 line unrelated to union-alpha |
+| meta-llama/llama-3.1-8b-instruct | usage polluted by prompt cache (deltas shifted +23~24, non-uniform) | anchor unavailable | OpenRouter's official-llama usage semantics unreliable (same cause as the llama-3.3-70b case) |
+
+The surviving explanation (matching the community analysis): an **undisclosed internal derivative** of Llama 3.1-70B/3.3-70B/405B with a vision adapter and a 262K window extension — post-training shops have this pipeline ready-made, but no public catalog SKU fits.
 
 ---
 
@@ -56,8 +70,10 @@ The secondary (low) path's counts are **unstable across rounds** (fr probe 19→
 2. **OpenRouter usage semantics are not comparable across models**: named `meta-llama/llama-3.3-70b-instruct` (via DeepInfra) returned prompt_tokens inconsistent with vocab theory, with negative deltas — same-gateway named A/B (L7) is unusable on OpenRouter; tokenizer verdicts should rest on **local tokenizer comparison** (zero API cost, zero semantic ambiguity).
 3. **"context-compression plugin" is OpenRouter gateway copy**, not an upstream fingerprint; the 262,144 it quotes is OpenRouter-side config. Real limits need needle measurement.
 4. **HTTP 200 wrapping errors**: OpenRouter returns HTTP 200 + `{"error":{"code":502,...}}` for upstream 5xx — error-envelope analysis must parse bodies, not status codes.
-5. **Age attestation is a model-level routing gate**: all `meta/muse-spark-*` variants (contributor included) return 403 with `missing_attestation_types: ["age_18plus"]` until the OpenRouter account completes 18+ confirmation — treat attestation status as a prerequisite when designing peer-comparison experiments.
+5. **Age attestation is a model-level routing gate**: all `meta/muse-spark-*` variants (contributor included) return 403 with `missing_attestation_types: ["age_18plus"]` until the OpenRouter account completes 18+ confirmation — treat attestation status as a prerequisite when designing peer-comparison experiments; the same model can be measured on another gateway (OpenCode's free tier has no such gate).
 6. **The wrapper constant drifts**: same probes, same vocab, two sessions: +17 → +16. Template constants are good for family-level judgments, not cross-session exact identity claims.
+7. **OpenCode's Muse line speaks the Responses API**: `/zen/v1/chat/completions` returns 500 for Muse models; the working endpoint is `/zen/v1/responses` (`usage.input_tokens`). The gateway also filters by User-Agent — `Python-urllib/*` gets 403, a `curl/*` UA passes — and the free tier allows ~1 concurrent request (4 parallel = 403).
+8. **Inside the llama3 vocab circle, discriminate by template constant, not vocab**: hermes-3 (llama3 vocab 24/24) has wrapper +10 vs union's +16/17 — a usable discriminator within the same-vocab family. But official-llama models on OpenRouter have usage polluted by prompt caching (deltas shifted +23~24, non-uniform), so the official-template anchor is unobtainable on that gateway.
 
 ## Toolkit usage
 
