@@ -17,6 +17,8 @@ deepseek-ai/DeepSeek-V3:deepseek
 dots-studio/dots3-note-prev:dots3
 MiniMaxAI/MiniMax-M1:minimax
 NousResearch/Meta-Llama-3.1-8B-Instruct:llama3
+XiaomiMiMo/MiMo-V2.5:mimo-v2.5
+meta-llama/Llama-4-Scout-17B-16E-Instruct:llama4
 EOF
 # o200k comes from tiktoken (pip install tiktoken), no file needed
 echo "done. note: moonshotai/* does not publish tokenizer.json; add your own candidates to the list."

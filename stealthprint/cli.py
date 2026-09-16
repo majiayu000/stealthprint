@@ -5,7 +5,7 @@ import sys
 
 from .client import ChatClient
 from .i18n import set_lang, get_lang, VALID_LANGS, load_probes, t
-from . import layers
+from . import layers, probes_extra
 
 
 def make_client(args):
@@ -42,7 +42,15 @@ def build_parser():
     p = sub.add_parser("tokenizer", parents=[common], help=t("cli.tok"))
     p.add_argument("--probes", default=None, help="probe set json (default: bundled multilingual set)")
     p.add_argument("--tokenizers", default="tok", help="dir of local tokenizer.json candidates")
-    sub.add_parser("wrapper", parents=[common], help=t("cli.wrap"))
+    p.add_argument("--repeats", type=int, default=0,
+                   help="if >0, sample every probe N times and pair deltas within the majority path (mixed backends)")
+    p = sub.add_parser("wrapper", parents=[common], help=t("cli.wrap"))
+    p.add_argument("--turns", type=int, default=0,
+                   help="if >0, run the multi-turn accumulation probe instead of the length ladder")
+    p = sub.add_parser("echo", parents=[common], help=t("cli.echo"))
+    p.add_argument("--probes", default=None, help="probe set json (default: bundled multilingual set)")
+    p.add_argument("--tokenizers", default="tok", help="dir of local tokenizer.json candidates")
+    sub.add_parser("tools", parents=[common], help=t("cli.tools"))
     p = sub.add_parser("context", parents=[common], help=t("cli.ctx"))
     p.add_argument("--max-bytes", type=int, default=4_500_000)
     p.add_argument("--needle-size", type=int, default=500_000, help="approx prompt_tokens for needle haystack")
@@ -67,9 +75,22 @@ def main(argv=None):
 
     if args.cmd == "tokenizer":
         probes = load_probes(args.probes) if args.probes else load_probes()
-        r = layers.tokenizer_differential(client, probes=probes, tokenizers_dir=args.tokenizers)
+        if args.repeats > 0:
+            r = probes_extra.tokenizer_repeats(client, probes=probes,
+                                               tokenizers_dir=args.tokenizers,
+                                               repeats=args.repeats)
+        else:
+            r = layers.tokenizer_differential(client, probes=probes, tokenizers_dir=args.tokenizers)
     elif args.cmd == "wrapper":
-        r = layers.wrapper_constant(client)
+        if args.turns > 0:
+            r = probes_extra.wrapper_turns(client, turns=args.turns)
+        else:
+            r = layers.wrapper_constant(client)
+    elif args.cmd == "echo":
+        probes = load_probes(args.probes) if args.probes else load_probes()
+        r = probes_extra.echo_verify(client, probes=probes, tokenizers_dir=args.tokenizers)
+    elif args.cmd == "tools":
+        r = probes_extra.tools_probe(client)
     elif args.cmd == "context":
         r = {} if args.skip_search else layers.context_search(client, max_bytes=args.max_bytes)
         r["needle"] = layers.needle_test(client, prompt_tokens_size=args.needle_size)
