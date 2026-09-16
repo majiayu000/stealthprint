@@ -76,6 +76,7 @@ Hermes/Tülu/Llama-Nemotron 一类公开后训练全部挂在 Llama 3.1/3.3 底�
 7. **OpenCode 的 Muse 系走 Responses API**：`/zen/v1/chat/completions` 对 Muse 全 500，正确入口是 `/zen/v1/responses`（`usage.input_tokens`）；且网关按 User-Agent 过滤——`Python-urllib/*` 直接 403，须伪装成 `curl/*`；免费档实际并发约 1（并发 4 即 403）。
 8. **llama3 圈内判别靠模板常数，不靠词表**：hermes-3（llama3 词表 24/24）wrapper +10 vs union +16/17——同词表家族内部，模板常数成为可用判别器；但 llama 官方模型在 OpenRouter 的 usage 被 prompt cache 污染（Δ 系统性偏移 +23~24），官方模板锚点在该网关不可得。
 9. **min_pixels 下限是可测的视觉塔签名**：DeepSeek V4.1-Flash（开源权重）对任何低于 ~544×544 的图恒收 **+184**——与 config 里 `min_pixels=295,936` 的上采样下限精确对账（(544/14)²/9 ≈ 168 + 开销），且与其公开 `vision_config` 互证。两种「小图恒价」都是真编码器，但**高恒价**（V4.1-Flash：184，下限强制）与**无下限恒价**（union：24，1×1 也 24）能区分「恒 vs 斜率」单一测试会混为一谈的塔。
+10. **OpenCode 免费线是「付费目录 + 极少量免费样本」**（2026-09-17 全量普查）：目录 71 个模型中 62 个返回 401 CreditsError，真正免费可测仅 4 个（5.6%）——`muse-spark-1.2/1.3-contributor-free`（均 llama4 12/12，家族排除扩展覆盖到 v1.2）、`ling-3.0-flash-fin-free` 与 `nemotron-3.5-lightning-free`（均为自研词表无赢家形状）。union-alpha 持续 500（上游故障自 09-16 起）；`deepseek-v4-flash-free` 返回 400「Model is unavailable」（V4.1-Flash 发布后免费版被撤）。错误信封显示上游 provider 名为「Console」。
 
 ## 工具包使用
 

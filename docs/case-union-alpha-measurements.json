@@ -132,6 +132,26 @@
       "implication": "double exclusion for union-alpha: text side (llama3 vs deepseek vocab) plus vision side (union small images flat 24 with no floor, even 1x1; V4.1-Flash small images flat 184 = min_pixels floor) - different towers. Also archives min_pixels floor as a measurable vision-tower signature: flat small-image cost with a HIGH floor vs floorless flat cost separates encoders even when both look flat"
     }
   },
+  "opencode_free_tier_census": {
+    "measured_at": "2026-09-17",
+    "catalog_size": 71,
+    "probes": "12-probe discriminating subset, serial, 1 sample per probe",
+    "breakdown": {
+      "paid_401_creditserror": 62,
+      "free_measured": 4,
+      "rate_limited_429_console_provider": ["big-pickle", "mimo-v2.5-free"],
+      "upstream_500": ["union-alpha"],
+      "upstream_400_model_unavailable": ["deepseek-v4-flash-free"],
+      "read_timeout": ["nemotron-3-ultra-free"]
+    },
+    "measured": {
+      "muse-spark-1.3-contributor-free": "llama4 12/12 MAE 0.00 via /responses, wrapper +6 (matches prior 24-probe OpenCode run and OpenRouter glimmer)",
+      "muse-spark-1.2-contributor-free": "llama4 12/12 MAE 0.00 via /responses, wrapper +6 (new datapoint: v1.2 also llama4)",
+      "ling-3.0-flash-fin-free": "no winner (best deepseek 2/12, MAE 2.92) - proprietary vocab, wrapper 22",
+      "nemotron-3.5-lightning-free": "no winner (best o200k 4/12, MAE 4.0) - proprietary vocab, consistent with nemotron-3-nano-30b on OpenRouter, wrapper 16"
+    },
+    "implication": "the free tier is a paid catalog with a tiny free sample (4/71 = 5.6% reachable without credits); error envelopes name the upstream provider 'Console'; Muse-family llama4 exclusion now covers v1.2 and v1.3"
+  },
   "corrections_log": [
     "context-compression plugin text is OpenRouter copy, NOT an upstream stack fingerprint (initial inference falsified via openrouter docs + web search)",
     "262144 is OpenRouter-side config; downgraded to medium confidence for true model limit"
