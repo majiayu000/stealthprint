@@ -1,0 +1,112 @@
+{
+  "case": "union-alpha",
+  "gateway": "openrouter",
+  "base_url": "https://openrouter.ai/api/v1",
+  "model_id": "stealth/union-alpha",
+  "measured_at": "2026-09-17T00:00-01:10+08:00",
+  "cost": {"model_pricing": "0", "calls_approx": 150, "total_spent_usd": 0},
+  "listing": {
+    "context_length": 262144,
+    "modality": "text+image->text",
+    "max_completion_tokens": 131072,
+    "supported_parameters": ["max_tokens", "response_format", "temperature", "tool_choice", "tools", "top_p"]
+  },
+  "l1_tokenizer": {
+    "method": "delta = T(base+probe) - T(base) on majority path (path B), repeated sampling",
+    "path_distribution_base_text": {"33": 17, "15": 6, "21": 1, "n_total": 24},
+    "majority_path": {"base_prompt_tokens": 33, "local_llama3_base": 16, "wrapper_constant": 17},
+    "delta_vs_local": {
+      "en_pangram": {"api": 11, "llama3": 10, "note": "observed 26-33 pre-clustering"},
+      "zh_long": {"api": 21, "llama3": 21},
+      "emoji_zwj": {"api": 28, "llama3": 28, "n": 12},
+      "digits": {"api": 17, "llama3": 17, "n": 12},
+      "ja": {"api": 7, "llama3": 7},
+      "ko": {"api": 4, "llama3": 4},
+      "thai": {"api": 4, "llama3": 4},
+      "code_indent": {"api": 14, "llama3": 14},
+      "ru": {"api": 16, "llama3": 16},
+      "fr": {"api": 16, "llama3": 16}
+    },
+    "verdict": "llama3 vocab (128256), 15 discriminating probes exact, zero deviation across 12-repeat runs",
+    "excluded": ["glm5", "glm53", "qwen3", "deepseek", "dots3", "minimax", "o200k_base", "llama4 (201135 vocab, all probes differ)", "xiaomi mimo-v2.5 (tokenizer identical to qwen3: vocab 151643, deltas equal on every probe; transitive exclusion)"]
+  },
+  "l1b_completion_side": {
+    "echo_exact": "7/8 probes repeated character-exact",
+    "offset_majority": 4,
+    "anomalies": {
+      "en_pangram": "offset +34 (content exactly equals text but 44 tokens billed vs 10 local) - hidden reasoning tokens billed into completion_tokens",
+      "zh_long": "completion_tokens=120 but message content empty - entire output was invisible reasoning; Chinese long text triggers thinking path"
+    },
+    "verdict": "generation side is real (no placeholder relay); completion-side vocab discrimination weaker than input-side differential; probe's value = authenticity + hidden-billing detection"
+  },
+  "l1_repeats_probe_validation": {
+    "probes": "custom 4-probe set, repeats=4, parallel",
+    "result": "llama3 exact=3/4 mae=0.25 (only winner; all 9 other candidates 0/4)",
+    "wrapper_constant_this_round": 16,
+    "note": "wrapper constant drifted 17 -> 16 between sessions (template version churn or path variance)"
+  },
+  "mixed_backends": {
+    "evidence": "same-shape requests split into >=2 prompt_tokens paths; secondary path counts unstable across rounds (fr 19->29, ru 34->30)",
+    "provider_field": "both paths report 'Stealth' (real provider hidden by OpenRouter)",
+    "implication": "differential probes must pair within one path; majority-mode pairing used"
+  },
+  "l2_wrapper": {"constant_vs_local_llama3": 17, "cross_model_compare": "unusable on OpenRouter (named models via e.g. DeepInfra return non-exact/cache-shaped usage; llama-3.3 deltas were negative)"},
+  "l2_turns": {
+    "turns": [{"turn": 1, "pt": 20}, {"turn": 2, "pt": 32, "delta": 12}, {"turn": 3, "pt": 46, "delta": 14}, {"turn": 4, "pt": 40, "delta": -6}],
+    "per_turn_constant": false,
+    "note": "negative delta (-6) on monotonically growing content = request landed on a different backend path; multi-turn probe doubles as a mixing detector"
+  },
+  "l3_context": {"advertised": 262144, "advertised_source": "OpenRouter config (not upstream-verified)", "needle": {"prompt_tokens": 187039, "positions": "head/mid/tail", "recovered": "3/3", "exact": true}},
+  "l4_service_stack": {
+    "developer_role": "accepted (200)",
+    "reasoning_effort_none": "accepted/swallowed (200)",
+    "temperature_out_of_range": "accepted (200)",
+    "temperature_wrong_type": "400 at OpenRouter layer, serde-style message, Clerk user_id leaked",
+    "bad_role_wizard": "HTTP 200 wrapping upstream 502 provider_unavailable",
+    "huge_max_tokens_error": "262144 limit message is OpenRouter 'context-compression plugin' copy",
+    "max_tokens_enforcement": "not enforced upstream (max_tokens=1 returned 11 completion tokens, finish=stop)"
+  },
+  "l6_vision": {
+    "ground_truth": {
+      "red_64x64": {"n": 6, "pt_dist": {"24": 6}, "content": "5/6 'Red', 1/6 thinking-truncated"},
+      "blue_64x64": {"n": 4, "pt_dist": {"24": 4}, "content": "3/4 'Blue', 1/4 thinking-truncated"},
+      "red_1x1": {"pt": 24, "note": "same 24 as 64x64; fixed patch count"},
+      "red_256x256": {"pt": 108, "content": "'solid red color'"},
+      "red_512x512": {"pt": 369, "content": "'appears to be a solid red color'"}
+    },
+    "slope": "small images flat at 24; 256->108, 512->369 (~linear in pixels above 256)",
+    "verdict": "real vision encoder; red/blue discrimination passes (not position-biased)"
+  },
+  "l6_video": {
+    "video_url": "404 at OpenRouter routing (Filter by Input Video)",
+    "type_video_data": "200, pt=28, placeholder behavior; red mp4 answered 'Blue' (hallucination)",
+    "mp4_as_image_url": "HTTP 200 wrapping upstream 502",
+    "verdict": "no native video support"
+  },
+  "opencode_zen_status": {
+    "public": "catalog lists union-alpha (71 models); inference HTTP 500 throughout 2026-09-16 23:15 ~ 2026-09-17 01:10 +08:00",
+    "go": "catalog lists union-alpha + omen-alpha (38 models); requires paid Go subscription (CreditsError otherwise)",
+    "free_tier_access": "x-session-id header unlocks free tier on public line (MissingSessionID otherwise)"
+  },
+  "l5_tools": {
+    "schema_overhead_tokens": 168,
+    "tool_choice_none": "IGNORED - still returns tool_calls (finish=tool_calls, 2 calls)",
+    "parallel_calls": "default behavior: get_weather(city=Paris) + get_time(timezone=UTC) in ONE response, correct args",
+    "all_three_choices": "none/auto/required all behave identically (2 parallel calls)"
+  },
+  "peer_fingerprints": {
+    "meta/muse-glimmer-30b": {
+      "tokenizer": "llama4 vocab (201K) - 24/24 probes exact match, MAE 0.00",
+      "wrapper_constant": 56,
+      "implication": "Meta Muse family uses llama4 vocab; union-alpha (llama3) is NOT Muse family (family-vocab assumption, medium-high confidence; spark-1.3 itself gated behind OpenRouter 18+ attestation, retest pending)"
+    },
+    "xiaomi/mimo-v2.5": {
+      "tokenizer_local": "vocab 151643, deltas identical to qwen3 on every probe (HF XiaomiMiMo/MiMo-V2.5 tokenizer.json)",
+      "implication": "MiMo-V2 switched to Qwen vocab; transitive exclusion of all MiMo-V2.x for union-alpha"
+    }
+  },
+  "corrections_log": [
+    "context-compression plugin text is OpenRouter copy, NOT an upstream stack fingerprint (initial inference falsified via openrouter docs + web search)",
+    "262144 is OpenRouter-side config; downgraded to medium confidence for true model limit"
+  ]
+}
