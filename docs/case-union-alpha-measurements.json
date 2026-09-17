@@ -211,10 +211,38 @@
                        "cost_details{upstream_inference_*}", "is_byok",
                        "image tokens are billed inside prompt_tokens; the image_tokens detail field stays 0"]
   },
+  "regime_flip_axis_tests": {
+    "measured_at": "2026-09-17 (round 3b, OpenRouter; hours after round 2)",
+    "motivation": "user challenge: probe homogeneity - 'all probes were the same shape, maybe you only sampled one worker'. Tests whether routing keys on request LENGTH or TASK TYPE, and whether the model behind changes over time.",
+    "short_control_same_epoch": {
+      "deltas": {"zh_long": [15], "emoji_zwj": [8, 33], "digits": [15], "fr": [14]},
+      "note": "NOT llama3 anymore (llama3 expects 21/28/17/16) - every value reproduces round-2 SECONDARY-path numbers (emoji 33 and 8 are that channel's two recorded values); base counts flip 10/28 within one minute"
+    },
+    "length_axis": {
+      "8k": {"zh_long": 15, "emoji_zwj": "33 (channel-corrected; raw pair delta 56 was an A/B straddle)", "digits": 33, "fr": 14},
+      "32k": {"zh_long": 15, "emoji_zwj": 33, "digits": 33, "fr": "14 (raw 294 = straddle: base landed on the llama3-scale channel, probe on B)"},
+      "128k": {"zh_long": 14, "emoji_zwj": 17, "digits": 20, "fr": 14, "note": "further distorted at very long input - counting is additionally unstable there"},
+      "verdict": "B-channel values at every length; no length-triggered model routing"
+    },
+    "task_axis": {
+      "code": {"zh_long": 14, "emoji_zwj": 30},
+      "math": {"zh_long": "straddled (-17: base 36 vs probe 19)", "emoji_zwj": 30},
+      "verdict": "same non-closing B-family signature; no task-type-triggered routing"
+    },
+    "identity_consistency": "all 5 framings (en / zh / maker / leading-question / projective) return the same anonymous Union Alpha identity; the system-prompt front layer is intact",
+    "echo_ct_reproduction": {
+      "fr": {"pt": {"27": 8}, "exact": "8/8", "ct": {"14": 7, "70": 1}},
+      "en_pangram": {"pt": {"24": 7, "36": 1}, "exact": "8/8", "ct": {"14": 5, "38": 1, "44": 1, "50": 1}},
+      "digits": {"pt": {"43": 3, "46": 4, "48": 1}, "exact": "8/8", "ct": {"21": 7, "64": 1}},
+      "note": "EXACTLY reproduces round-2 (fr pt 27 x11; en_pangram 24/36; digits 43/46; ct modes 14/14/21 with the same hidden-reasoning tails)"
+    },
+    "verdict": "the counting-channel mix FLIPPED for a whole epoch (the B channel - round-2's ~30% secondary - became dominant; the llama3-scale counter still appears, e.g. the 32k fr base) while the model behind is UNCHANGED (echo 24/24 exact, ct modes identical, hidden-reasoning tails identical, identity intact). The instability axis is TIME, not request length or task type - the probe-homogeneity concern is tested and refuted on both content axes. Input counting and completion counting are severed: B rewrites prompt_tokens only; completion_tokens stays llama3-line in every epoch."
+  },
   "corrections_log": [
     "context-compression plugin text is OpenRouter copy, NOT an upstream stack fingerprint (initial inference falsified via openrouter docs + web search)",
     "262144 is OpenRouter-side config; downgraded to medium confidence for true model limit",
     "round-1 mixing attribution said 'a different backend/counter'; round-2 behavioral split (echo fidelity and completion modes identical across paths) supports the counter branch and rejects the second-backend branch (2026-09-17)",
-    "round-1 vision finding said '256->108, 512->369 ~linear in pixels'; the round-3 11-point curve fits ceil(H/28)^2+6 exactly - quadratic-with-floor (28px/token), not linear; 'linear' was an artifact of two points"
+    "round-1 vision finding said '256->108, 512->369 ~linear in pixels'; the round-3 11-point curve fits ceil(H/28)^2+6 exactly - quadratic-with-floor (28px/token), not linear; 'linear' was an artifact of two points",
+    "round-1/2 phrasing implied a stable llama3-counting majority; round 3b measured a whole-epoch flip (B channel dominant hours later, generation side unchanged) - endpoint identity is time-varying on the counting axis, so 'species-level llama3' applies to the model (and the A counter), not to the endpoint's counts at an arbitrary sampling time"
   ]
 }
