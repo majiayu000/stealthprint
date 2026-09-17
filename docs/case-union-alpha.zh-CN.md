@@ -81,7 +81,7 @@ Hermes/Tülu/Llama-Nemotron 一类公开后训练全部挂在 Llama 3.1/3.3 底�
 
 ## 方法论发现（本案新增）
 
-1. **OpenCode 免费层准入**：OpenCode Zen 免费模型对裸 API 调用返回 `MissingSessionID`（"free tier can only be used in OpenCode"），请求带任意 UUID 的 `x-session-id` header 即放行。本库 `ChatClient` 已默认携带。
+1. **OpenCode 免费层准入**：OpenCode Zen 免费模型对裸 API 调用返回 `MissingSessionID`（"free tier can only be used in OpenCode"），请求带任意 UUID 的 `x-session-id` header 即放行。本库 `ChatClient` 已默认携带。**（09-17 下午更新：此路已被关闭**——`/messages` 现返回 403 `FreeTierError` "OpenCode's free tier can only be used from within OpenCode"，换 `opencode/1.0.154` UA、去掉 session header 结果相同 → gate 移到服务端由 provider Console 校验真实客户端会话；OpenCode 侧继续测量须用真实 OpenCode 客户端或付费 Go 订阅。）
 2. **OpenRouter usage 语义不可跨模型对照**：具名 `meta-llama/llama-3.3-70b-instruct`（走 DeepInfra）的 `prompt_tokens` 与词表理论值不符且 Δ 可为负——同网关具名对照（L7）在 OpenRouter 不可用；词表判定应依赖**本地 tokenizer 对照**（对照侧零 API 成本、零语义歧义）。
 3. **"context-compression plugin" 是 OpenRouter 网关文案**，不是上游栈指纹；其引用的 262,144 是 OpenRouter 侧配置，模型真实上限须以埋针实测为准。
 4. **HTTP 200 包错误对象**：OpenRouter 对上游 5xx 返回 HTTP 200 + `{"error":{"code":502,"metadata":{"error_type":"provider_unavailable"}}}`——错误信封分析必须解析 body 而非只看状态码。

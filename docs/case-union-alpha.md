@@ -81,7 +81,7 @@ The surviving explanation (matching the community analysis): an **undisclosed in
 
 ## Methodology notes (new in this case)
 
-1. **OpenCode free-tier access**: OpenCode Zen free models reject bare API calls with `MissingSessionID` ("free tier can only be used in OpenCode"); any UUID in an `x-session-id` header unlocks it. `ChatClient` now sends one by default.
+1. **OpenCode free-tier access**: OpenCode Zen free models reject bare API calls with `MissingSessionID` ("free tier can only be used in OpenCode"); any UUID in an `x-session-id` header unlocks it. `ChatClient` now sends one by default. **(Closed as of 2026-09-17 afternoon:** `/messages` now returns 403 `FreeTierError` "OpenCode's free tier can only be used from within OpenCode", identical with an `opencode/1.0.154` UA and with no session header — the gate moved server-side to provider Console; further OpenCode-side probing requires the real OpenCode client or a paid Go subscription.)
 2. **OpenRouter usage semantics are not comparable across models**: named `meta-llama/llama-3.3-70b-instruct` (via DeepInfra) returned prompt_tokens inconsistent with vocab theory, with negative deltas — same-gateway named A/B (L7) is unusable on OpenRouter; tokenizer verdicts should rest on **local tokenizer comparison** (zero API cost, zero semantic ambiguity).
 3. **"context-compression plugin" is OpenRouter gateway copy**, not an upstream fingerprint; the 262,144 it quotes is OpenRouter-side config. Real limits need needle measurement.
 4. **HTTP 200 wrapping errors**: OpenRouter returns HTTP 200 + `{"error":{"code":502,...}}` for upstream 5xx — error-envelope analysis must parse bodies, not status codes.

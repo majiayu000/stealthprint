@@ -86,7 +86,13 @@
   "opencode_zen_status": {
     "public": "catalog lists union-alpha (71 models); inference HTTP 500 throughout 2026-09-16 23:15 ~ 2026-09-17 01:10 +08:00",
     "go": "catalog lists union-alpha + omen-alpha (38 models); requires paid Go subscription (CreditsError otherwise)",
-    "free_tier_access": "x-session-id header unlocks free tier on public line (MissingSessionID otherwise)"
+    "free_tier_access": "x-session-id header unlocks free tier on public line (MissingSessionID otherwise)",
+    "recheck_2026_09_17_afternoon": {
+      "chat_completions": "still HTTP 500 Internal server error (upstream outage continues, >14h)",
+      "messages": "403 FreeTierError - 'Error from provider (Console): OpenCode's free tier can only be used from within OpenCode' - the any-UUID x-session-id loophole is CLOSED; identical error with opencode/1.0.154 UA and with no session header at all => the gate moved server-side (provider Console validates genuine in-app sessions)",
+      "responses": "still HTTP 500",
+      "implication": "cross-gateway fingerprinting of union-alpha via OpenCode now requires running probes from inside the OpenCode client itself (user's own account) or a paid Go subscription; the policy tightened inside the same day the stealth models drew probing attention"
+    }
   },
   "l5_tools": {
     "schema_overhead_tokens": 168,
@@ -300,6 +306,7 @@
     "262144 is OpenRouter-side config; downgraded to medium confidence for true model limit",
     "round-1 mixing attribution said 'a different backend/counter'; round-2 behavioral split (echo fidelity and completion modes identical across paths) supports the counter branch and rejects the second-backend branch (2026-09-17)",
     "round-1 vision finding said '256->108, 512->369 ~linear in pixels'; the round-3 11-point curve fits ceil(H/28)^2+6 exactly - quadratic-with-floor (28px/token), not linear; 'linear' was an artifact of two points",
-    "round-1/2 phrasing implied a stable llama3-counting majority; round 3b measured a whole-epoch flip (B channel dominant hours later, generation side unchanged) - endpoint identity is time-varying on the counting axis, so 'species-level llama3' applies to the model (and the A counter), not to the endpoint's counts at an arbitrary sampling time"
+    "round-1/2 phrasing implied a stable llama3-counting majority; round 3b measured a whole-epoch flip (B channel dominant hours later, generation side unchanged) - endpoint identity is time-varying on the counting axis, so 'species-level llama3' applies to the model (and the A counter), not to the endpoint's counts at an arbitrary sampling time",
+    "methodology note 1's x-session-id free-tier trick is CLOSED as of 2026-09-17 afternoon: /messages now returns 403 FreeTierError 'can only be used from within OpenCode' regardless of UA or session header - the gate is enforced server-side by provider Console; OpenCode-side probing now requires the real OpenCode client or a paid Go subscription"
   ]
 }
