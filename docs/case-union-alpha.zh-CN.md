@@ -4,7 +4,7 @@
 
 对 OpenRouter 免费预览的匿名模型 `stealth/union-alpha`（2026-09-16 上线，价格 0）做的指纹分析，全程使用本库（`stealthprint`）方法论。OpenCode Zen 线（公开线与 Go 线目录均含 `union-alpha`）截至本文写作时推理持续 HTTP 500，全部测量在 OpenRouter 入口完成。
 
-> **TL;DR：** `stealth/union-alpha` 使用 **Llama-3 词表（128K）**（15 判别探针 × 12 次重复零偏离 + 混挂感知复测再确认），带 **+16~17 token 固定模板**（会话间存在 ±1 漂移）。**真视觉编码器**：红/蓝双向颜色真值通过（红 5/6、蓝 3/4），小图恒 24 token（固定 patch 数），256×256→108、512×512→369 随像素线性增长。**无原生视频**。187K token 埋针 3/3 精确召回。**工具调用指纹**：`tool_choice="none"` 被完全无视，默认并行双调用。**至少两条异构后端混挂**：主路径（llama3+16/17，约 70%）与一条计数不稳定的次路径（约 30%），OpenRouter 对两者统一标 `provider: "Stealth"`。排除 GLM 全系、Qwen3、DeepSeek、dots3、MiniMax、o200k、Llama 4（201K 新词表）、**小米 MiMo-V2.5（≡Qwen 词表，传递排除）**、**Meta Muse 家族（muse-glimmer-30b 实测 = llama4 词表 24/24，家族推断排除）**。社区猜测 MiniMax M3.1 / Kimi K3.1 中前者被词表直接排除。
+> **TL;DR：** `stealth/union-alpha` 使用 **Llama-3 词表（128K）**（15 判别探针 × 12 次重复零偏离 + 混挂感知复测再确认），带 **+16~17 token 固定模板**（会话间存在 ±1 漂移）。**真视觉编码器，计费公式已逆向**：`max(22, ceil(H/28)² + 6)` 拟合 11/11 尺寸点零误差——Qwen2-VL 家族视觉塔形状，与 llama3 文本词表**跨血统**（LLaVA 式缝合）；红/蓝颜色真值通过（红 5/6、蓝 3/4）。知识截止 ≥ 2025-02（必有 2025+ 数据继续训练）。**无原生视频**。187K token 埋针 3/3 精确召回。**工具调用指纹**：`tool_choice="none"` 被完全无视，默认并行双调用。**fusion-router 式前置层**：单一 llama3 系后端 + 计数/计费通道分流（次路径计数无任何词表可产生、行为与主路径完全同构——非第二模型；路由占比随时间漂移并曾反转），OpenRouter 对各路径统一标 `provider: "Stealth"`。排除 GLM 全系、Qwen3、DeepSeek、dots3、MiniMax、o200k、Llama 4（201K 新词表）、**小米 MiMo-V2.5（≡Qwen 词表，传递排除）**、**Meta Muse 家族（muse-glimmer-30b 实测 = llama4 词表 24/24，家族推断排除）**。社区猜测 MiniMax M3.1 / Kimi K3.1 中前者被词表直接排除。
 
 ---
 
@@ -18,7 +18,7 @@
 | 3 上下文 | 标称 262,144（OpenRouter 配置）；实测 187,039 token 埋针 **头/中/尾 3/3 精确召回**，未触顶 | 高（下限 187K） |
 | 4 服务栈 | `developer` role 被接受；`reasoning_effort=none` 被吞（200）；`temperature` 越界放行；`role:"wizard"` 与 mp4-as-image 均触发上游 502（OpenRouter 以 HTTP 200 包错误对象）；`max_tokens` 不被上游强制执行 | 高 |
 | 5 工具 | **`tool_choice` 语义缺失**：none/auto/required 三者行为完全相同——none 照样返回 `finish=tool_calls`；**默认并行双调用**（get_weather + get_time 同响应、参数精确）；schema 开销 168 token | 高 |
-| 6 视觉 | **真编码器**。64×64 红 5/6 "Red"、蓝 3/4 "Blue"（判别通过：非偏置）；1×1 与 64×64 同为 24 token（固定 patch 数）；256×256 = 108、512×512 = 369（≈随像素线性） | 高 |
+| 6 视觉 | **真编码器，计费公式已逆向（09-17 三轮，11/11 尺寸点零误差）**：`prompt_tokens = max(22, ceil(H/28)² + 6)`——Qwen2-VL 家族 28px/token 动态分辨率形状（patch 14 + 2×2 merge）+ floor 22（≈min_pixels 112²）+ 6 开销 token；64×64 红 5/6、蓝 3/4 颜色真值通过 | 高 |
 | 6 视频 | **无原生视频**。`video_url` 在 OpenRouter 路由层被过滤（404，`routing_funnel: Filter by Input Video`）；`type:video` 被占位处理（pt=28，红色视频答 "Blue" 幻觉）；mp4 塞 `image_url` 上游 502 | 高 |
 | 混挂 | 同形状请求 `prompt_tokens` 双峰（base: 33 / 15 / 21 三值均出现）；多轮增量出现**负值**（turn 3→4：46→40，单调递增内容下不可能 = 换路径，多轮探针兼任混挂检测器）；两路径 `provider` 字段同标 `"Stealth"`；深化（09-17 二轮）：**次路径不是第二模型**——行为分流显示两路径 echo 保真、completion 众数、隐藏 reasoning 计费完全同构，而次路径计数（base 15）低于全部 11 个候选词表的裸计数（均 16）、无任何词表可产生 → 单一 llama3 系后端 + 前置换算/计数通道，路由权重随时间漂移 | 高（现象）/ 中高（次路径=计数通道） |
 
@@ -55,7 +55,8 @@
 - 「小米 MiMo」——**被排除**（2026-09-17）：从 HF 下载 `XiaomiMiMo/MiMo-V2.5` tokenizer.json（vocab 151,643），其判别探针 Δ 与 qwen3 **逐行完全相等**（MiMo-V2 换用了 Qwen 词表）；qwen3 在本 probe set 上不匹配 ⇒ MiMo-V2/V2.5 传递排除。OpenRouter 在售的 `xiaomi/mimo-v2.5` 同理。
 - 「Meta Muse Spark」——**定种级排除（两网关实测）**：`meta/muse-spark-1.3-contributor-free` 经 **OpenCode Zen Responses API（/v1/responses）**实测 **llama4 词表 24/24 精确匹配（MAE 0.00）**；OpenRouter 侧 `meta/muse-glimmer-30b` 同为 llama4 24/24 + wrapper +56。判别探针全面分离（emoji：Muse 20 / union 28；zh_long 15/21；fr 12/16）。Muse 1.3 附带指纹：默认 `reasoning effort=high`（16 输出 token 中 13 个是 reasoning_tokens）、`parallel_tool_calls=true`。
 - 「DeepSeek V4.1-Flash」——**双重排除（视觉塔已实测，开源权重当锚点）**：tokenizer 对其自身 deepseek 词表（V3 血统，129,280）24/24 自洽，wrapper +30；视觉塔为自研 `deepseek_v41_vision`（config.json：32 层、hidden 1024、patch 14、3×3 pixel-shuffle 合并、2D-RoPE、min_pixels≈544²、每图上限 1024 token），小图恒 **+184**（64×64 = 256×256 = 184）正是 min_pixels 上采样下限的机制体现——与 union 无下限的恒 24 形状不同。词表不同、塔不同。
-- 「流传 tokenizer 分析图（2026-09-17，三联图）」——**条件证伪（本地重放，零 API 调用）**：图左半声称 GLM-5/5.1/5.2/5.3 对该模型 9/10 精确匹配、离群 +43，并与标注 "Union Alpha (anticipated pricing)★" 的基准图并排，暗示 union = GLM。对归档 API Δ（10 探针、主路径）重放：**glm5 实际 2/10**（仅 ja、code_indent），llama3 9/10（en_pangram 为归档已知不稳定行）——图的「9/10」恰是 llama3 的真实匹配数；+43 离群在 union 数据中无对应常数（wrapper 恒 16/17）。两种读法：llama3 底座模型的数据被错标到 GLM 行，或图分析的是另一个真 GLM 词表 stealth 模型、被拼接在 union 基准点旁。右半 "anticipated pricing" 自认价格是猜测。无论哪种读法，其暗示的 union=GLM 与归档的 llama3 定种级结论矛盾。
+- 「流传 tokenizer 分析图（2026-09-17，三联图）」——**条件证伪（本地重放，零 API 调用）**：图左半声称 GLM-5/5.1/5.2/5.3 对该模型 9/10 精确匹配、离群 +43，并与标注 "Union Alpha (anticipated pricing)★" 的基准图并排，暗示 union = GLM。对归档 API Δ（10 探针、主路径）重放：**glm5 实际 2/10**（仅 ja、code_indent），llama3 9/10（en_pangram 为归档已知不稳定行）——图的「9/10」恰是 llama3 的真实匹配数；+43 离群在 union 数据中无对应常数（wrapper 恒 16/17）。两种读法：llama3 底座模型的数据被错标到 GLM 行，或图分析的是另一个真 GLM 词表 stealth 模型、被拼接在 union 基准点旁。右半 "anticipated pricing" 自认价格是猜测。无论哪种读法，其暗示的 union=GLM 与归档的 llama3 定种级结论矛盾。（旁证：另一 stealth 案例 Ox Alpha 已被社区确认为 GLM-5.3-Flash——图左半极可能是 Ox Alpha 的真实分析被错配到 union。）
+- 「官方 Llama 3.2 Vision」——**塔形状排除 + 视觉血统改写（09-17 三轮）**：拉取 Llama-3.2-11B-Vision config（image_size 560、patch 14、max 4 tiles、无 merge——每 tile 1600 patch 直进 cross-attention）；union 512×512 仅计 367 token，比单个 3.2 tile 低一个数量级。反向地，union 计费曲线精确拟合 `ceil(H/28)²+6`——**Qwen2-VL 家族的 28px/token 动态分辨率公式**。结合文本侧 llama3 词表：**视觉塔与文本塔跨血统**（llama3 系文本底座 + Qwen2-VL 家族视觉编码器的 LLaVA 式缝合，或等价定制训练）。知识截止 ≥ 2025-02（正确知道 2024 美国大选、DeepSeek V3、GPT-4.5 2025-02 发布）——官方 3.1/3.3 截止装不下，**必有 2025+ 数据的继续训练**。self_id 答复 "I'm Union Alpha, a model whose maker is currently anonymous"——部署者 system prompt 注入身份（前置层又一证据）。
 - llama3 词表 + 真视觉 + 256K 上下文：与 **Llama 3.x 底座的多模态衍生**（128K 原生上下文做过外扩）或**沿用 llama3 词表的新训练**均相容。公开模型库中无词表、视觉计费形状（小图固定 24 patch）、262K 三者全吻合的已知模型——支持「未公开的新训练/衍生」这一结论。
 
 ### llama3 后训练家族圈内对照（词表无判别力，换层判别）
@@ -86,6 +87,7 @@ Hermes/Tülu/Llama-Nemotron 一类公开后训练全部挂在 Llama 3.1/3.3 底�
 8. **llama3 圈内判别靠模板常数，不靠词表**：hermes-3（llama3 词表 24/24）wrapper +10 vs union +16/17——同词表家族内部，模板常数成为可用判别器；但 llama 官方模型在 OpenRouter 的 usage 被 prompt cache 污染（Δ 系统性偏移 +23~24），官方模板锚点在该网关不可得。
 9. **min_pixels 下限是可测的视觉塔签名**：DeepSeek V4.1-Flash（开源权重）对任何低于 ~544×544 的图恒收 **+184**——与 config 里 `min_pixels=295,936` 的上采样下限精确对账（(544/14)²/9 ≈ 168 + 开销），且与其公开 `vision_config` 互证。两种「小图恒价」都是真编码器，但**高恒价**（V4.1-Flash：184，下限强制）与**无下限恒价**（union：24，1×1 也 24）能区分「恒 vs 斜率」单一测试会混为一谈的塔。
 10. **OpenCode 免费线是「付费目录 + 极少量免费样本」**（2026-09-17 全量普查）：目录 71 个模型中 62 个返回 401 CreditsError，真正免费可测仅 4 个（5.6%）——`muse-spark-1.2/1.3-contributor-free`（均 llama4 12/12，家族排除扩展覆盖到 v1.2）、`ling-3.0-flash-fin-free` 与 `nemotron-3.5-lightning-free`（均为自研词表无赢家形状）。union-alpha 持续 500（上游故障自 09-16 起）；`deepseek-v4-flash-free` 返回 400「Model is unavailable」（V4.1-Flash 发布后免费版被撤）。错误信封显示上游 provider 名为「Console」。
+11. **计费曲线公式拟合是视觉塔家族判别器**：union 的 11 点尺寸曲线精确拟合 `max(22, ceil(H/28)²+6)`（Qwen2-VL 家族 28px/token + 16 token 下限 + 6 开销），官方 Llama 3.2 Vision 每 tile 1600 patch 直进 cross-attention、DeepSeek V4.1-Flash 是 min_pixels 高地板恒价——三种塔形状互不相同，把「flat vs slope」粗分类升级为**公式族判别**，塔家族及其定制参数（min_pixels 等）可被逆向。
 
 ## 工具包使用
 

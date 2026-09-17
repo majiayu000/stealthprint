@@ -192,9 +192,29 @@
     },
     "verdict": "the secondary path is NOT a second model: it is behaviorally indistinguishable from the majority path (echo fidelity, completion-token modes, hidden-reasoning billing all identical) while its counts are impossible for any known vocab (base 15 < every candidate's 16). Best fit: a single llama3-family backend behind a pre-processing layer that re-counts (and possibly rewrites) some requests through a drifting counter - a fusion-router-style front layer exists, but it routes between COUNTING channels, not between models"
   },
+  "vision_tower_reverse": {
+    "measured_at": "2026-09-17 (round 3, OpenRouter)",
+    "curve": {"16": 22, "32": 22, "128": 31, "192": 55, "256": 106, "320": 150,
+              "384": 202, "448": 262, "512": 367, "640": 535, "768": 790},
+    "formula": "prompt_tokens(image) = max(22, ceil(H/28)^2 + 6) - exact fit on 11/11 size points, zero error",
+    "reading": "28px/token dynamic resolution is the Qwen2-VL/Qwen2.5-VL family billing shape (patch 14 + 2x2 spatial merge, aspect-aligned to factor 28); +6 overhead tokens (vision start/end etc.); floor 22 = 16-token minimum => min_pixels ~112x112 (above Qwen's 56x56 default -> customized)",
+    "exclusions": ["official Llama 3.2 Vision towers: config pulled from the unsloth mirror of Llama-3.2-11B-Vision-Instruct (image_size 560, patch 14, max_num_tiles 4, NO merge -> 1600 patches/tile straight into cross-attention); a union 512x512 image bills 367 tokens, an order of magnitude below even one 3.2 tile"],
+    "combined": "text side llama3 vocab (4/4, two rounds) + vision side Qwen2-VL-family billing -> cross-lineage assembly (LLaVA-style llama3-line text backbone + Qwen2-VL-family encoder + projector, or an equivalent custom training)",
+    "knowledge_horizon": {
+      "election_2024": "Trump win stated correctly",
+      "deepseek_v3": "known",
+      "gpt45_feb_2025": "known -> cutoff >= 2025-02; official llama3.1/3.3 cutoffs (2023-12 / 2024) cannot contain this -> continued or fresh post-training on 2025+ data"
+    },
+    "self_id": "\"I'm Union Alpha, a model whose maker is currently anonymous.\" - the deployed system prompt injects the anonymous identity (front-layer evidence)",
+    "usage_envelope": ["prompt_tokens_details{cached_tokens, cache_write_tokens, audio_tokens, video_tokens}",
+                       "completion_tokens_details{reasoning_tokens, image_tokens, audio_tokens}",
+                       "cost_details{upstream_inference_*}", "is_byok",
+                       "image tokens are billed inside prompt_tokens; the image_tokens detail field stays 0"]
+  },
   "corrections_log": [
     "context-compression plugin text is OpenRouter copy, NOT an upstream stack fingerprint (initial inference falsified via openrouter docs + web search)",
     "262144 is OpenRouter-side config; downgraded to medium confidence for true model limit",
-    "round-1 mixing attribution said 'a different backend/counter'; round-2 behavioral split (echo fidelity and completion modes identical across paths) supports the counter branch and rejects the second-backend branch (2026-09-17)"
+    "round-1 mixing attribution said 'a different backend/counter'; round-2 behavioral split (echo fidelity and completion modes identical across paths) supports the counter branch and rejects the second-backend branch (2026-09-17)",
+    "round-1 vision finding said '256->108, 512->369 ~linear in pixels'; the round-3 11-point curve fits ceil(H/28)^2+6 exactly - quadratic-with-floor (28px/token), not linear; 'linear' was an artifact of two points"
   ]
 }
