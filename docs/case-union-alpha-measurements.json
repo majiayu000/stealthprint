@@ -238,6 +238,27 @@
     },
     "verdict": "the counting-channel mix FLIPPED for a whole epoch (the B channel - round-2's ~30% secondary - became dominant; the llama3-scale counter still appears, e.g. the 32k fr base) while the model behind is UNCHANGED (echo 24/24 exact, ct modes identical, hidden-reasoning tails identical, identity intact). The instability axis is TIME, not request length or task type - the probe-homogeneity concern is tested and refuted on both content axes. Input counting and completion counting are severed: B rewrites prompt_tokens only; completion_tokens stays llama3-line in every epoch."
   },
+  "difficulty_axis_tests": {
+    "measured_at": "2026-09-17 (round 4, OpenRouter; user-requested: 'use hard problems, e.g. Fermat Last Theorem')",
+    "motivation": "the one content axis not yet directly tested with GENUINE difficulty (round 3b's task axis used trivial math); a Fugu-style cascade would route hard requests to a different (bigger) worker",
+    "questions": {
+      "flt_outline_en": {"q": "key steps of Wiles' proof (<=5 sentences)", "pt": 33, "ct": 236, "grade": "CORRECT - Frey curve -> Ribet (non-modular) -> Wiles+Taylor semistable modularity -> contradiction; historically accurate incl. Taylor's role"},
+      "flt_outline_zh": {"pt": 19, "ct": 194, "grade": "CORRECT - same chain in Chinese, same order, same theorems"},
+      "flt_flaw_adversarial": {"q": "planted-flaw fake proof (congruence-implies-equality non sequitur)", "pt": 109, "ct": 134, "grade": "CORRECT - names the exact failing inference a+b=c (mod n) => a+b=c, explains n | (a+b-c) does not force equality, and validates the remaining steps", "note": "3x 429 in the main batch; retried solo, first-try answer"},
+      "mod_pow": {"q": "2^1000 mod 125", "pt": 33, "ct": 102, "grade": "CORRECT - 1 via Euler phi(125)=100 (locally verified pow(2,1000,125)=1)"},
+      "factorial_zeros": {"q": "smallest n with n! ending in exactly 2025 zeros", "pt": 30, "ct": 165, "grade": "CORRECT - 8115 with exact Legendre sum 1623+324+64+12+2=2025, even distinguishes 8114->2024 (locally verified)"},
+      "lis_code": {"q": "O(n log n) LIS with reconstruction", "pt": 49, "ct": 153, "grade": "CORRECT - 2000 random trials vs O(n^2) oracle all pass (length match, strictly increasing, true subsequence); n=100k instant"}
+    },
+    "capability_verdict": "6/6 correct on hard verifiable problems (4 machine-verified, 2 fact-checked); well above small-model territory (inference: consistent with a 70B-class post-training)",
+    "hidden_reasoning": "every hard question bills 70-120 invisible completion tokens above its visible answer (ct 102-236 for visible 30-100 token answers) - the thinking path engages uniformly on hard input",
+    "channel_labels": {
+      "method": "local llama3 count of each raw prompt; A channel predicts local+16/17, B's signature is counts BELOW local raw",
+      "result": "ALL 6 hard questions land B-family (flt_outline 33<35, flt_zh 19<29, flt_flaw 109<111 raw-local comparisons); same-epoch echo: fr pt {27:4(B-mode), 47:1(A=27+20)}, digits {43:1, 46:4(B)} - B dominant epoch continues from round 3b, A survives as stragglers",
+      "hard_footer_delta": "20 = exactly the A-B channel offset (matches echo fr 47-27=20) - a straddle artifact, not a routing signal"
+    },
+    "fingerprint_unchanged": {"echo_exact": "10/10", "ct_modes": "fr 14 x5; digits 21 x3 (+64/91 hidden-reasoning tails) - identical modes to rounds 2/3b"},
+    "verdict": "difficulty does NOT reroute: genuinely hard requests land on the same counting channels as short easy ones in the same epoch, and the generation-side fingerprint (ct modes, echo fidelity, hidden reasoning) is unchanged. The last untested content axis (difficulty) agrees with length/task: the instability axis stays TIME."
+  },
   "corrections_log": [
     "context-compression plugin text is OpenRouter copy, NOT an upstream stack fingerprint (initial inference falsified via openrouter docs + web search)",
     "262144 is OpenRouter-side config; downgraded to medium confidence for true model limit",
