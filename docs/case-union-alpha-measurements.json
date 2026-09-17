@@ -301,6 +301,20 @@
     },
     "verdict": "coding confirms the pattern on a fully machine-graded axis: difficulty changes HOW MUCH the model thinks (0-600 invisible tokens) but not WHICH channel counts it, not the model that answers, and not the answer quality (10/10)."
   },
+  "freeform_generative_test": {
+    "measured_at": "2026-09-17 evening (round 6, OpenRouter; user-requested: have the model build a Raiden-style game with free rein, Claude Code orchestrating)",
+    "single_shot_attempts": "2x clean 200-wrapped 504 'Provider timed out after 300158ms' - a 24K-token one-shot generation cannot finish inside OpenRouter's fixed 300s provider timeout on the free tier; bounded stages of ~3-4K ct each fit comfortably",
+    "staged_build": {
+      "design": {"ct": 511, "note": "free rein honored: its own game 'Thunderwing: Deep Space Assault' - graze-to-charge mechanic, Web Audio synthesized sound, combo multiplier, cat-squadron easter egg for no-damage boss kills, localStorage best score, touch support, prefers-reduced-motion accessibility"},
+      "partA_html_css_player": {"ct": 2989, "finish": "stop"},
+      "partB_enemies_bullets_score": {"ct": 3776, "finish": "stop", "note": "carried 3.5K-token partA in context, reused it consistently"},
+      "partC_v1": {"ct": 212, "note": "REFUSED to write blind: 'my context only has the design list; writing the continuation cannot guarantee variable/interface/HTML consistency - paste the code first' (correct engineering behavior, caught the orchestrator trimming context)"},
+      "partC_v2": {"pt": 6353, "ct": 3637, "finish": "stop", "note": "with full code context: closed the file correctly to </html>"}
+    },
+    "verification": "394 lines / 26KB single HTML; node --check PASS on extracted JS; headless runtime smoke under stubbed browser globals PASS (initial 'duplicate declaration' finding was the harness concatenating the JS twice - the game itself needed zero fix rounds)",
+    "channel": "design prompt pt=107 = local llama3 91 + 16 -> the A (llama3-scale) channel returned in the evening after the afternoon's whole-epoch B dominance - the time-drift story continues on a fresh axis",
+    "verdict": "multi-K freeform generation works when staged to ~3-4K ct per call; the model improvises coherent design, reuses its own prior code correctly across stages, and refuses unsafe continuations instead of hallucinating"
+  },
   "corrections_log": [
     "context-compression plugin text is OpenRouter copy, NOT an upstream stack fingerprint (initial inference falsified via openrouter docs + web search)",
     "262144 is OpenRouter-side config; downgraded to medium confidence for true model limit",
