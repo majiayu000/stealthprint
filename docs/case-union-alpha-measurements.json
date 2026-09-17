@@ -164,8 +164,37 @@
     },
     "verdict": "conditional falsification: IF the image's tokenizer panel targets union-alpha, the GLM-5 '9/10' claim fails against archived data (actual glm5: 2/10). The 9/10 figure is exactly llama3's true match count on this archived set - consistent with llama3-vocab data relabeled onto the GLM-5 row, or with the panel analyzing a different (genuinely GLM-vocab) stealth model spliced next to union-alpha benchmark points. Either way the image's implied union=GLM conclusion contradicts the archived species-level llama3 verdict; the 'anticipated pricing' benchmark labels are self-declared guesses."
   },
+  "mixing_deep_dive": {
+    "measured_at": "2026-09-17 (round 2, OpenRouter)",
+    "routing_census": {
+      "base_hist": {"15": 8, "33": 5},
+      "probe_hists": {
+        "zh_long": {"30": 4, "54": 4},
+        "fr": {"19": 1, "29": 9, "49": 4},
+        "digits": {"48": 12, "50": 2},
+        "emoji_zwj": {"23": 2, "48": 8, "61": 5}
+      },
+      "note": "path majority flipped vs round 1 (33 x17 / 15 x6 -> 15 x8 / 33 x5): routing weights drift over time; every histogram is discrete, no scatter"
+    },
+    "majority_path_deltas": {"zh_long": 21, "fr": 16, "digits": 17, "emoji_zwj": 28,
+                             "verdict": "llama3 4/4 exact, identical to round 1"},
+    "secondary_path": {
+      "deltas_vs_base15": {"zh_long": 15, "fr": 14, "digits": 33, "emoji_zwj": "33 (or 8 for the rare 23)"},
+      "closure": "NOT closed on any candidate: zh single-hits qwen3 (15) while fr single-hits glm5 (14) - mutually contradictory; digits 33 and emoji 33/8 match zero of 11 candidates",
+      "absolute_counts": {"base": 15, "zh_long": 30, "fr": 29, "digits": 48, "emoji_zwj": 48},
+      "absolute_note": "all 11 candidates count the base text at exactly 16 - no vocab can produce 15; 'glm5 minus 1' matches base/zh/fr (15/30/29) then fails digits (needs 48, glm5 raw 35); digits 48 equals the qwen3/dots3/mimo raw count - the counter's vocab drifts between epochs"
+    },
+    "echo_split": {
+      "method": "echo probes xN grouped by prompt_tokens path; generation-side fingerprint per group",
+      "hists": {"fr": {"27": 11}, "en_pangram": {"24": 6, "36": 2}, "digits": {"43": 2, "46": 6}},
+      "low_path": "echo exact 8/8; completion_tokens modes (14, 21) identical to high path; same hidden-reasoning long tails (45-83)",
+      "high_path": "echo exact 19/19; same ct modes; same long tails (52-109)"
+    },
+    "verdict": "the secondary path is NOT a second model: it is behaviorally indistinguishable from the majority path (echo fidelity, completion-token modes, hidden-reasoning billing all identical) while its counts are impossible for any known vocab (base 15 < every candidate's 16). Best fit: a single llama3-family backend behind a pre-processing layer that re-counts (and possibly rewrites) some requests through a drifting counter - a fusion-router-style front layer exists, but it routes between COUNTING channels, not between models"
+  },
   "corrections_log": [
     "context-compression plugin text is OpenRouter copy, NOT an upstream stack fingerprint (initial inference falsified via openrouter docs + web search)",
-    "262144 is OpenRouter-side config; downgraded to medium confidence for true model limit"
+    "262144 is OpenRouter-side config; downgraded to medium confidence for true model limit",
+    "round-1 mixing attribution said 'a different backend/counter'; round-2 behavioral split (echo fidelity and completion modes identical across paths) supports the counter branch and rejects the second-backend branch (2026-09-17)"
   ]
 }
