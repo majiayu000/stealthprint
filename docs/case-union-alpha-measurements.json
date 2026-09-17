@@ -274,6 +274,27 @@
     },
     "verdict": "difficulty does NOT reroute: genuinely hard requests land on the same counting channels as short easy ones in the same epoch, and the generation-side fingerprint (ct modes, echo fidelity, hidden reasoning) is unchanged. The last untested content axis (difficulty) agrees with length/task: the instability axis stays TIME."
   },
+  "simple_vs_complex_coding": {
+    "measured_at": "2026-09-17 (round 5, OpenRouter; user-requested: simple vs complex PROGRAMMING tasks)",
+    "design": "5 domain pairs (string/search/dp/graph/parse), easy and complex versions as separate interleaved calls in one run; every answer machine-graded against an independent oracle (1500-2000 random trials each): re.fullmatch, statistics.median, memoized recursion, Bellman-Ford, csv module, eval",
+    "correctness": {
+      "string-e count_vowels": "PASS", "string-h is_match (regex DP)": "PASS",
+      "search-e bsearch": "PASS", "search-h median_two (O(log) partition)": "PASS",
+      "dp-e climb": "PASS", "dp-h edit_distance": "PASS",
+      "graph-e has_cycle": "PASS", "graph-h dijkstra (directed, heap)": "PASS",
+      "parse-e parse_csv": "PASS on 1960/1960 non-empty trials; empty line returns [''] vs csv module [] - defensible-convention edge case, not an error",
+      "parse-h eval_arith (tokenizer+precedence)": "PASS",
+      "verdict": "10/10 functionally correct on substantive inputs; zero quality drop from simple to complex"
+    },
+    "oracle_bugs_note": "two initial FAILs were harness bugs, not model bugs: the dijkstra oracle sorted edge pairs and relaxed bidirectionally (prompt says DIRECTED - the model's inf on a no-out-edge source was correct), and the csv generator emitted unescaped quotes (malformed lines). Model code survived oracle repair unchanged.",
+    "channel": "all 10 calls non-A (B-family); 9/10 exactly local_llama3 - 2 (a stable B offset this epoch), 1 outlier dp-h local+12 - no easy/complex asymmetry; every pair internally same-channel again (5/5 pairs)",
+    "invisible_reasoning": {
+      "easy": "string 2, search 53, dp 3, graph 3, parse 9 (median 3 - easy code is written without thinking)",
+      "complex": "string 3, search 599, dp 216, graph 211, parse 111 (median 211)",
+      "note": "search-h median_two bills 599 invisible tokens (ct 841 vs 242 visible) - the largest single hidden-thinking bill in the whole case; contrast round-4b's LPS (0 invisible) - thinking depth is per-task, not a difficulty gate"
+    },
+    "verdict": "coding confirms the pattern on a fully machine-graded axis: difficulty changes HOW MUCH the model thinks (0-600 invisible tokens) but not WHICH channel counts it, not the model that answers, and not the answer quality (10/10)."
+  },
   "corrections_log": [
     "context-compression plugin text is OpenRouter copy, NOT an upstream stack fingerprint (initial inference falsified via openrouter docs + web search)",
     "262144 is OpenRouter-side config; downgraded to medium confidence for true model limit",
