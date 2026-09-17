@@ -257,6 +257,21 @@
       "hard_footer_delta": "20 = exactly the A-B channel offset (matches echo fr 47-27=20) - a straddle artifact, not a routing signal"
     },
     "fingerprint_unchanged": {"echo_exact": "10/10", "ct_modes": "fr 14 x5; digits 21 x3 (+64/91 hidden-reasoning tails) - identical modes to rounds 2/3b"},
+    "easy_hard_pairs": {
+      "measured_at": "2026-09-17 (round 4b, minutes after round 4; user follow-up: 'did you ever ask easy vs hard SEPARATELY?')",
+      "design": "5 same-type pairs, easy and hard versions asked as separate interleaved calls (E,H,E,H...) in one run => one epoch; per call: channel label (A = local+16/17), invisible reasoning = ct - local llama3 count of visible answer",
+      "channel_by_pair": {
+        "mod(e/h)": "B / B", "fact(e/h)": "A / A (31=15+16, 46=30+16 - the only A hits)", "flt(e/h)": "B / B",
+        "fib(e/h)": "non-A both, pt EXACTLY equals local both (19/19, 28/28)", "code(e/h)": "e 4x429-failed / h B"
+      },
+      "note": "within every completed pair easy and hard land on the SAME channel (4/4 pairs internally consistent, incl. a same-third-value fib pair) while neighboring pairs differ - channel assignment is difficulty-blind; the pair-level agreement weakly suggests short-window affinity (n=4, recorded as observation only)",
+      "correctness": "9/9 answered correct (mod-e 24, mod-h 1 Euler, fact-e 6, fact-h 8115, flt-e statement, flt-h chain, fib-e 5050, fib-h 43 with the exact 7^4=1 mod 100 / 7^7=3 mod 4 argument, code-h LPS 2000 random trials vs brute-force oracle PASS)",
+      "invisible_reasoning_by_level": {
+        "easy": "mod-e 19, fact-e 39, flt-e 8, fib-e 3 (median ~14; '6' as a 1-token answer still bills 39 invisible thinking tokens)",
+        "hard": "mod-h 52, fact-h 98, flt-h 155, fib-h 41, code-h 0 (median ~52; the LPS code answer has ct=159=visible EXACTLY, zero invisible)",
+        "reading": "thinking engages MORE on hard input but is not a difficulty gate - easy-with-thinking and hard-without-thinking both occur; the switch is the model's own per-request decision (reasoning-model behavior), not a router"
+      }
+    },
     "verdict": "difficulty does NOT reroute: genuinely hard requests land on the same counting channels as short easy ones in the same epoch, and the generation-side fingerprint (ct modes, echo fidelity, hidden reasoning) is unchanged. The last untested content axis (difficulty) agrees with length/task: the instability axis stays TIME."
   },
   "corrections_log": [
