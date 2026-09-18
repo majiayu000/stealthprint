@@ -82,6 +82,8 @@ Hermes/Tülu/Llama-Nemotron 一类公开后训练全部挂在 Llama 3.1/3.3 底�
 
 预览结束，`stealth/union-alpha` 现返回 **404 且附自揭**：*"Thank you for participating in the Stealth Union Alpha testing period. **This model was Unbiased's Pareto.** Use it now: https://openrouter.ai/unbiased/pareto"*。`stealth/*` 命名空间整组下架；转正模型 `unbiased/pareto`（标称 ctx 262,144 与 union 一致；$2.5/$7.5 每百万）对身份问题的答复是 *"I'm Pareto, a model service made by **Circuit & Chisel**"*——匿名期结束。对转正模型做 7 次调用指纹对照显示**后端连续**：echo fr 2/2 字符级精确、**ct=14 众数**与 117 token 隐藏思考长尾同现；四个判别 delta 对全落 **15/14/33/33——正是 union 的 B 通道签名**（二轮次路径与三轮 B 主导时段记录的同一组值），且无一匹配 llama3（应为 21/16/17/28）。那个无任何已知词表可产生的神秘计数器，原来就是产品自己的计费计数器。（厂商名是模型自述；"Unbiased" 与 "Circuit & Chisel" 的命名关系未验证。本轮采样中 llama3 尺度 A 计数器未出现——与时间漂移一致：敲门前先看钟。）
 
+**深探（同日，约 25 次调用）**：A 通道狩猎命中——base=40 的两轮里 **zh/fr/digits 三个 delta 精确命中 llama3 期望值 21/16/17**（该入口上首次拿到 llama3 直接证据），而第 0 轮纯 B（base 22，即昨日值），轮内跨计数器的 −3/−4 straddle 实时复现了 fusion-router 混合行为。视觉塔零误差重拟合：四档红 PNG 全部精确等于 `max(22, ceil(H/28)²+6) + 7`（相对 union 的 +2 差 5 = 本轮提问文本恰长 5 token——与尺寸无关的常数，推断高置信）；`tool_choice="none"` **依旧被无视**（`finish=tool_calls`，`get_weather({"city":"Paris"})`）。转正模型在历来测过的每一轴上全部对上：llama3 系词表（本入口直接证据）、Qwen2-VL 视觉塔、tool_choice 语义缺失、echo 保真、ct 众数 14。`unbiased/pareto` 就是 union-alpha 后端，已卸面具。
+
 ---
 
 ## 方法论发现（本案新增）

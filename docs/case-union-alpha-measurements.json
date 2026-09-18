@@ -327,6 +327,25 @@
       "absolute_offsets": "base 22 = local 17 + 5; echo 34 = local 31 + 3 - B's absolute wrapper drifted again (local-1 in round 2, local-2 in round 5, now small positive); the delta signature, not the absolute count, is the stable identifier"
     },
     "cost": "7 calls, ~1.5K in / ~0.4K out, well under $0.01",
+    "deep_probe_2026_09_18": {
+      "a_channel_hunt": {
+        "design": "4 rounds x (base + 4 probes); A-channel deltas (llama3) expected 21/16/17/28, B 15/14/33/33",
+        "base_pts": [22, 40, 40, 40],
+        "zh_long_deltas": [15, 21, 21, -3],
+        "fr_deltas": [34, -4, 16, -4],
+        "digits_deltas": [33, 17, 17, 17],
+        "emoji_zwj_deltas": [33, 15, 15, 15],
+        "reading": "FIRST direct llama3 evidence on this endpoint: rounds 1-2 hit 21/16/17 EXACTLY (three probes) under base=40; round 0 was pure B (15/33/33, base 22 - yesterday's value). Channel mixing and straddles (-3/-4 = base and probe on different counters within one round) reproduce the union fusion-router behavior in real time. New anomalies recorded: the A-line wrapper drifted again (base 40 = local 17 + 23, vs union-era +16/17 - the +23 band is where OpenRouter's prompt-cache-polluted official-llama usage also sat, coincidence noted, unverified); emoji delta=15 (constant x3) matches neither A(28) nor B(33) - a third emoji value after union's 33 and 8"
+      },
+      "vision_tower": {
+        "red_png_pts": {"64": 29, "128": 38, "256": 113, "512": 374},
+        "fit": "ALL FOUR = Qwen2-VL formula max(22, ceil(H/28)^2+6) + 7 EXACTLY (22+7/31+7/106+7/367+7) - zero error; union-era values were formula + 2, so the +5 constant difference is the probe question text being 5 tokens longer this round (inference, high confidence: the constant is size-independent)",
+        "color": "512 answers 'Red.'; smaller images' answers truncated by max_tokens=20 (visible preamble before the answer - reasoning leaking into visible content at low max_tokens), billing unaffected"
+      },
+      "tool_fingerprint": "tool_choice='none' + get_weather schema -> finish=tool_calls, get_weather({city:Paris}) - the union signature (tool_choice semantics missing) reproduces EXACTLY",
+      "cost": "~25 calls, ~$0.01",
+      "verdict": "the successor's identity is now confirmed on every axis we ever measured: input counting (llama3 deltas 21/16/17 direct + B-channel mixing + straddles), vision tower (Qwen2-VL formula, zero error), tools (none ignored), generation side (exact echo, ct mode 14, hidden-reasoning tails). unbiased/pareto IS the union-alpha backend - and its text-side counter confirms llama3-lineage vocabulary directly on this endpoint, no longer only by inference from the union case"
+    },
     "verdict": "case closed by the deployer's own reveal: union-alpha = Unbiased's Pareto (self-described maker Circuit & Chisel). The paid successor unbiased/pareto is fingerprint-continuous with the union-alpha backend on both the counting side (B-channel deltas) and the generation side (echo fidelity, ct modes, hidden reasoning). The llama3-scale A counter did not appear in this 09-18 sample."
   },
   "corrections_log": [
