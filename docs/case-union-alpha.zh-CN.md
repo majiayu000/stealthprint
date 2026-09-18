@@ -4,7 +4,7 @@
 
 对 OpenRouter 免费预览的匿名模型 `stealth/union-alpha`（2026-09-16 上线，价格 0）做的指纹分析，全程使用本库（`stealthprint`）方法论。OpenCode Zen 线（公开线与 Go 线目录均含 `union-alpha`）截至本文写作时推理持续 HTTP 500，全部测量在 OpenRouter 入口完成。
 
-> **TL;DR：** `stealth/union-alpha` 使用 **Llama-3 词表（128K）**（15 判别探针 × 12 次重复零偏离 + 混挂感知复测再确认），带 **+16~17 token 固定模板**（会话间存在 ±1 漂移）。**真视觉编码器，计费公式已逆向**：`max(22, ceil(H/28)² + 6)` 拟合 11/11 尺寸点零误差——Qwen2-VL 家族视觉塔形状，与 llama3 文本词表**跨血统**（LLaVA 式缝合）；红/蓝颜色真值通过（红 5/6、蓝 3/4）。知识截止 ≥ 2025-02（必有 2025+ 数据继续训练）。**无原生视频**。187K token 埋针 3/3 精确召回。**工具调用指纹**：`tool_choice="none"` 被完全无视，默认并行双调用。**fusion-router 式前置层**：单一 llama3 系后端 + 计数/计费通道分流（次路径计数无任何词表可产生、行为与主路径完全同构——非第二模型；通道占比随时间漂移，**已实测数小时内整段翻转**——B 计数通道接管时段生成侧 ct 众数 14/14/21 与 echo 保真完全不变，模型未换），OpenRouter 对各路径统一标 `provider: "Stealth"`。排除 GLM 全系、Qwen3、DeepSeek、dots3、MiniMax、o200k、Llama 4（201K 新词表）、**小米 MiMo-V2.5（≡Qwen 词表，传递排除）**、**Meta Muse 家族（muse-glimmer-30b 实测 = llama4 词表 24/24，家族推断排除）**。社区猜测 MiniMax M3.1 / Kimi K3.1 中前者被词表直接排除。
+> **TL;DR：** `stealth/union-alpha` 使用 **Llama-3 词表（128K）**（15 判别探针 × 12 次重复零偏离 + 混挂感知复测再确认），带 **+16~17 token 固定模板**（会话间存在 ±1 漂移）。**真视觉编码器，计费公式已逆向**：`max(22, ceil(H/28)² + 6)` 拟合 11/11 尺寸点零误差——Qwen2-VL 家族视觉塔形状，与 llama3 文本词表**跨血统**（LLaVA 式缝合）；红/蓝颜色真值通过（红 5/6、蓝 3/4）。知识截止 ≥ 2025-02（必有 2025+ 数据继续训练）。**无原生视频**。187K token 埋针 3/3 精确召回。**工具调用指纹**：`tool_choice="none"` 被完全无视，默认并行双调用。**fusion-router 式前置层**：单一 llama3 系后端 + 计数/计费通道分流（次路径计数无任何词表可产生、行为与主路径完全同构——非第二模型；通道占比随时间漂移，**已实测数小时内整段翻转**——B 计数通道接管时段生成侧 ct 众数 14/14/21 与 echo 保真完全不变，模型未换），OpenRouter 对各路径统一标 `provider: "Stealth"`。排除 GLM 全系、Qwen3、DeepSeek、dots3、MiniMax、o200k、Llama 4（201K 新词表）、**小米 MiMo-V2.5（≡Qwen 词表，传递排除）**、**Meta Muse 家族（muse-glimmer-30b 实测 = llama4 词表 24/24，家族推断排除）**。社区猜测 MiniMax M3.1 / Kimi K3.1 中前者被词表直接排除。**收官（09-18）：预览结束、部署方自揭真身——*Unbiased 的 Pareto*（自述厂商 Circuit & Chisel）；付费转正的 `unbiased/pareto` 指纹连续——B 通道 delta 15/14/33/33 精确复现、ct 众数 14、echo 保真。**
 
 ---
 
@@ -77,6 +77,10 @@ Hermes/Tülu/Llama-Nemotron 一类公开后训练全部挂在 Llama 3.1/3.3 底�
 | meta-llama/llama-3.1-8b-instruct | usage 被 prompt cache 污染（Δ 系统性 +23~24、不均匀） | 锚点不可得 | OpenRouter 的 llama 官方模型 usage 语义不可靠（与 llama-3.3-70b 那次同因） |
 
 圈内剩余解释（与社区分析一致）：Llama 3.1-70B/3.3-70B/405B 做视觉适配 + 扩窗到 262K 的**内部未公开衍生**——这类流水线在后训练厂手里最现成，但公开目录无现货 SKU 对得上。
+
+### 收官：部署方自揭真身（2026-09-18）
+
+预览结束，`stealth/union-alpha` 现返回 **404 且附自揭**：*"Thank you for participating in the Stealth Union Alpha testing period. **This model was Unbiased's Pareto.** Use it now: https://openrouter.ai/unbiased/pareto"*。`stealth/*` 命名空间整组下架；转正模型 `unbiased/pareto`（标称 ctx 262,144 与 union 一致；$2.5/$7.5 每百万）对身份问题的答复是 *"I'm Pareto, a model service made by **Circuit & Chisel**"*——匿名期结束。对转正模型做 7 次调用指纹对照显示**后端连续**：echo fr 2/2 字符级精确、**ct=14 众数**与 117 token 隐藏思考长尾同现；四个判别 delta 对全落 **15/14/33/33——正是 union 的 B 通道签名**（二轮次路径与三轮 B 主导时段记录的同一组值），且无一匹配 llama3（应为 21/16/17/28）。那个无任何已知词表可产生的神秘计数器，原来就是产品自己的计费计数器。（厂商名是模型自述；"Unbiased" 与 "Circuit & Chisel" 的命名关系未验证。本轮采样中 llama3 尺度 A 计数器未出现——与时间漂移一致：敲门前先看钟。）
 
 ---
 

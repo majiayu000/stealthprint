@@ -315,6 +315,20 @@
     "channel": "design prompt pt=107 = local llama3 91 + 16 -> the A (llama3-scale) channel returned in the evening after the afternoon's whole-epoch B dominance - the time-drift story continues on a fresh axis",
     "verdict": "multi-K freeform generation works when staged to ~3-4K ct per call; the model improvises coherent design, reuses its own prior code correctly across stages, and refuses unsafe continuations instead of hallucinating"
   },
+  "identity_reveal": {
+    "measured_at": "2026-09-18 (user asked 'can you still use this model?'; the alive check itself returned the reveal)",
+    "eol": "stealth/union-alpha now 404: 'Thank you for participating in the Stealth Union Alpha testing period. This model was Unbiased's Pareto. Use it now: https://openrouter.ai/unbiased/pareto' - the anonymous preview ended and the deployer named the model itself",
+    "catalog": "stealth/* fully delisted (union/omen search returns nothing, 446 models total); successor unbiased/pareto listed with ctx 262144 (same as union's advertised) at $2.5/$7.5 per M tokens; an openrouter/pareto-code variant also listed (ctx 2M, pricing unset)",
+    "successor_fingerprint": {
+      "identity": "'I'm Pareto, a model service made by Circuit & Chisel.' - no longer anonymous (self-report; the Unbiased vs Circuit & Chisel naming relationship is unverified)",
+      "echo_fr": "2/2 character-exact; pt=34 = local 31 + 3; ct 14 and ct 117 - the ct=14 mode AND the hidden-reasoning long tail both match union's generation side exactly",
+      "delta_pairs": {"zh_long": 15, "fr": 14, "digits": 33, "emoji_zwj": 33},
+      "reading": "all four deltas EXACTLY reproduce the union B-channel signature (round-2 secondary path recorded 15/14/33/33; the round-3b B-dominant epoch recorded the same values) and none match llama3 (21/16/17/28) - the successor's input counter IS the B channel. The counter that no known vocab can produce turned out to be the product's own billing counter. Backend continuity is confirmed on the generation side (exact echo, ct mode 14, hidden-reasoning tail 117).",
+      "absolute_offsets": "base 22 = local 17 + 5; echo 34 = local 31 + 3 - B's absolute wrapper drifted again (local-1 in round 2, local-2 in round 5, now small positive); the delta signature, not the absolute count, is the stable identifier"
+    },
+    "cost": "7 calls, ~1.5K in / ~0.4K out, well under $0.01",
+    "verdict": "case closed by the deployer's own reveal: union-alpha = Unbiased's Pareto (self-described maker Circuit & Chisel). The paid successor unbiased/pareto is fingerprint-continuous with the union-alpha backend on both the counting side (B-channel deltas) and the generation side (echo fidelity, ct modes, hidden reasoning). The llama3-scale A counter did not appear in this 09-18 sample."
+  },
   "corrections_log": [
     "context-compression plugin text is OpenRouter copy, NOT an upstream stack fingerprint (initial inference falsified via openrouter docs + web search)",
     "262144 is OpenRouter-side config; downgraded to medium confidence for true model limit",
