@@ -97,13 +97,27 @@ CATALOGS["ja"] = {"cli.tok": "L1 トークナイザ差分 ...", ...}
 ./fetch_tokenizers.sh            # 下载开源 tokenizer.json 候选到 tok/
 ```
 
-候选就是目录里的文件——把任何 `tokenizer.json` 丢进去即可新增嫌疑词表（如 `tok/mynewmodel.json`）。tiktoken 的 `o200k_base` 自动包含。
+候选就是目录里的文件——把任何 `tokenizer.json` 丢进去即可新增嫌疑词表（如 `tok/mynewmodel.json`）。tiktoken 的 `o200k_base` 自动包含。只发布 `tiktoken.model` 的厂商（如月之暗面 Kimi）可用 tiktoken 直接构造词表——见 space-bunny 案例的复现章节。
 
 ## 案例报告
 
-完整案例（GLM-5 词表判定、~1M 上下文、Flash 级图+视频、相对具名 `glm-5.3-flash` 的 +24 隐身 wrapper）：
-[docs/case-omen-alpha.zh-CN.md](docs/case-omen-alpha.zh-CN.md) ·
-[English](docs/case-omen-alpha.md)
+三个完整案例，全部用本工具库端到端复现：
+
+- **space-bunny-free → MiniMax**（2026-09-24）：词表 24/24（Kimi 13/24、
+  GLM 7/24），同网关与 `minimax-m3`/`m2.5` delta 全等，上下文 ≥1M 排除
+  m2.5 代，+143 wrapper 零漂移，适配层视觉，同构单栈，即兴自报 ChatGPT。
+  [docs/case-space-bunny.zh-CN.md](docs/case-space-bunny.zh-CN.md) ·
+  [English](docs/case-space-bunny.md)
+- **omen-alpha → GLM-5.3-Flash**（2026-09-04）：GLM-5 词表 24/24，~1M
+  上下文，Flash 级图+视频，相对具名 `glm-5.3-flash` 的 +24 隐身
+  wrapper，Rust 服务栈。
+  [docs/case-omen-alpha.zh-CN.md](docs/case-omen-alpha.zh-CN.md) ·
+  [English](docs/case-omen-alpha.md)
+- **union-alpha → Unbiased Pareto**（2026-09-16）：OpenRouter 免费预览
+  EOL 时官方 404 自揭真身；继任模型指纹连续（B 通道 delta 对完全一
+  致），"神秘计数器"实为产品计费计数器。
+  [docs/case-union-alpha.zh-CN.md](docs/case-union-alpha.zh-CN.md) ·
+  [English](docs/case-union-alpha.md)
 
 ## 前人工作
 

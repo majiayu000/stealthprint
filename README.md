@@ -115,14 +115,31 @@ models, self-descriptions are frequently bait. See the case study for why.
 
 Candidates are just files in a directory — drop in any `tokenizer.json` to add
 a suspect (e.g. `tok/mynewmodel.json`). tiktoken's `o200k_base` is always
-included automatically.
+included automatically. Vendors that publish only `tiktoken.model` (e.g.
+Moonshot Kimi) can be built with tiktoken directly — see the reproduce
+section of the space-bunny case.
 
-## Case study
+## Case studies
 
-Full worked example (GLM-5 vocab identification, ~1M context, Flash-class
-image+video, +24 stealth wrapper vs named `glm-5.3-flash`):
-[docs/case-omen-alpha.md](docs/case-omen-alpha.md) ·
-[中文](docs/case-omen-alpha.zh-CN.md)
+Three worked cases, all reproduced end-to-end with this toolkit:
+
+- **space-bunny-free → MiniMax** (2026-09-24): 24/24 vocab (Kimi 13/24, GLM
+  7/24), same-gateway delta identity with `minimax-m3`/`m2.5`, ctx ≥1M rules
+  out the m2.5 generation, +143 wrapper zero-drift, adapter-class vision,
+  homogeneous pool, improvised ChatGPT self-report.
+  [docs/case-space-bunny.md](docs/case-space-bunny.md) ·
+  [中文](docs/case-space-bunny.zh-CN.md)
+- **omen-alpha → GLM-5.3-Flash** (2026-09-04): GLM-5 vocab 24/24, ~1M
+  context, Flash-class image+video, +24 stealth wrapper vs named
+  `glm-5.3-flash`, Rust serving stack.
+  [docs/case-omen-alpha.md](docs/case-omen-alpha.md) ·
+  [中文](docs/case-omen-alpha.zh-CN.md)
+- **union-alpha → Unbiased Pareto** (2026-09-16): OpenRouter free preview
+  unmasked at EOL by its own 404; successor fingerprint-continuous
+  (B-channel delta pairs exact), billing counter masquerading as an
+  unproducible mystery counter.
+  [docs/case-union-alpha.md](docs/case-union-alpha.md) ·
+  [中文](docs/case-union-alpha.zh-CN.md)
 
 ## Prior art
 
