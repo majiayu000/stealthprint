@@ -1,0 +1,330 @@
+{
+ "session": "2026-09-24, opencode zen Go gateway https://opencode.ai/zen/go/v1, model id space-bunny-free (Go subscription required; public-line free tier is client-gated 403). ~290 calls total; L1 probes max_tokens:1.",
+ "note": "transcribed from session tool output; /tmp scripts reproduce all numbers. Local minimax tokenizer = MiniMaxAI/MiniMax-M1 tokenizer.json (vocab shared across MiniMax generations). Kimi candidate constructed from moonshotai/Kimi-K2-Instruct tiktoken.model + tokenization_kimi.py pat_str via tiktoken.Encoding.",
+ "l1_tokenizer_differential": {
+  "base_text": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n",
+  "api_base_pt": {
+   "space-bunny-free": 159,
+   "kimi-k3": 101,
+   "kimi-k2.7-code": 23,
+   "kimi-k2.6": 23,
+   "minimax-m3": 192,
+   "minimax-m2.5": 57
+  },
+  "api_delta": {
+   "space-bunny-free": {
+    "en_pangram": 10,
+    "zh_long": 13,
+    "code": 18,
+    "emoji_zwj": 20,
+    "rare_uni": 17,
+    "digits": 17,
+    "ja": 6,
+    "ko": 4,
+    "code_indent": 14,
+    "url_sym": 18,
+    "cjk_rare": 18,
+    "long_words": 14,
+    "ws": 4,
+    "zh_num": 12,
+    "punct": 9,
+    "hex_bin": 16,
+    "fr": 9,
+    "ru": 15,
+    "mixed_code_zh": 24,
+    "emoji_flags": 23,
+    "thai": 18,
+    "floats": 17,
+    "html": 15,
+    "quotes2": 10
+   },
+   "kimi-k3": {
+    "en_pangram": 10,
+    "zh_long": 14,
+    "code": 18,
+    "emoji_zwj": 23,
+    "rare_uni": 15,
+    "digits": 17,
+    "ja": 11,
+    "ko": 8,
+    "code_indent": 14,
+    "url_sym": 18,
+    "cjk_rare": 18,
+    "long_words": 16,
+    "ws": 4,
+    "zh_num": 14,
+    "punct": 12,
+    "hex_bin": 16,
+    "fr": 17,
+    "ru": 20,
+    "mixed_code_zh": 24,
+    "emoji_flags": 23,
+    "thai": 14,
+    "floats": 20,
+    "html": 15,
+    "quotes2": 10
+   },
+   "kimi-k2.7-code": {
+    "en_pangram": 10,
+    "zh_long": 14,
+    "code": 18,
+    "emoji_zwj": 23,
+    "rare_uni": 15,
+    "digits": 17,
+    "ja": 11,
+    "ko": 8,
+    "code_indent": 14,
+    "url_sym": 18,
+    "cjk_rare": 18,
+    "long_words": 16,
+    "ws": 4,
+    "zh_num": 14,
+    "punct": 12,
+    "hex_bin": 16,
+    "fr": 17,
+    "ru": 20,
+    "mixed_code_zh": 24,
+    "emoji_flags": 23,
+    "thai": 14,
+    "floats": 17,
+    "html": 15,
+    "quotes2": 10
+   },
+   "kimi-k2.6": {
+    "en_pangram": 10,
+    "zh_long": 14,
+    "code": 18,
+    "emoji_zwj": 23,
+    "rare_uni": 15,
+    "digits": 17,
+    "ja": 11,
+    "ko": 8,
+    "code_indent": 14,
+    "url_sym": 18,
+    "cjk_rare": 18,
+    "long_words": 16,
+    "ws": 4,
+    "zh_num": 14,
+    "punct": 12,
+    "hex_bin": 16,
+    "fr": 17,
+    "ru": 20,
+    "mixed_code_zh": 24,
+    "emoji_flags": 23,
+    "thai": 14,
+    "floats": 17,
+    "html": 15,
+    "quotes2": 10
+   }
+  },
+  "api_delta_minimax": {
+   "minimax-m3": {
+    "en_pangram": 10,
+    "zh_long": 13,
+    "code": 18,
+    "emoji_zwj": 20,
+    "rare_uni": 17,
+    "digits": 17,
+    "ja": 6,
+    "ko": 4,
+    "code_indent": 14,
+    "url_sym": 18,
+    "cjk_rare": 18,
+    "long_words": 14,
+    "ws": 4,
+    "zh_num": 12,
+    "punct": 9,
+    "hex_bin": 16,
+    "fr": 9,
+    "ru": 15,
+    "mixed_code_zh": 24,
+    "emoji_flags": 23,
+    "thai": 18,
+    "floats": 17,
+    "html": 15,
+    "quotes2": 10
+   },
+   "minimax-m2.5": {
+    "en_pangram": 10,
+    "zh_long": 13,
+    "code": 18,
+    "emoji_zwj": 20,
+    "rare_uni": 17,
+    "digits": 17,
+    "ja": 6,
+    "ko": 4,
+    "code_indent": 14,
+    "url_sym": 18,
+    "cjk_rare": 18,
+    "long_words": 14,
+    "ws": 4,
+    "zh_num": 12,
+    "punct": 9,
+    "hex_bin": 16,
+    "fr": 9,
+    "ru": 15,
+    "mixed_code_zh": 24,
+    "emoji_flags": 23,
+    "thai": 18,
+    "floats": 17,
+    "html": 15,
+    "quotes2": 10
+   }
+  },
+  "same_gateway_ab": "space-bunny-free == minimax-m3 == minimax-m2.5 on all 24 probes (vector-identical). kimi-k3/k2.7-code/k2.6 mutually identical but different from space-bunny on 14/24 probes.",
+  "local_ranking_vs_space_bunny": {
+   "minimax": "24/24 exact, MAE 0.00",
+   "llama4": "13/24, MAE 1.58",
+   "kimi-k2": "13/24, MAE 1.62",
+   "o200k_base": "11/24, MAE 1.33",
+   "deepseek": "11/24, MAE 1.62",
+   "qwen3/mimo-v2.5/dots3": "11/24, MAE 2.83",
+   "llama3": "10/24, MAE 2.67",
+   "glm5/glm53": "7/24, MAE 1.83"
+  },
+  "cross_validation": "kimi-k3 API deltas vs locally constructed Kimi K2 tiktoken: 23/24 exact, MAE 0.12 (only floats 20 vs 17) - pipeline validated.",
+  "unavailable": {
+   "kimi-k2.5": "400 Model is unavailable",
+   "minimax-m2.7": "503 Endpoint is unavailable"
+  }
+ },
+ "l2_wrapper": {
+  "k_constant": {
+   "base_scale": 143,
+   "100K": 143,
+   "200K": 143,
+   "204.6K": 143,
+   "450K": 143,
+   "1M": 143,
+   "810K_needle": 157
+  },
+  "note": "K = usage.prompt_tokens - local minimax count(user content). +143 fixed chat template, zero drift across 10^1..10^6 tokens; 810K +14 outlier attributed to BPE boundary merging in concatenated filler segments.",
+  "base_pt_comparison": {
+   "space-bunny-free": 159,
+   "minimax-m3": 192,
+   "minimax-m2.5": 57
+  }
+ },
+ "l3_context": {
+  "ladder_local_tokens": [
+   {
+    "local_t": 100000,
+    "elapsed": 9.2,
+    "err": null,
+    "pt": 100143,
+    "K": 143
+   },
+   {
+    "local_t": 204600,
+    "elapsed": 5.4,
+    "err": null,
+    "pt": 204743,
+    "K": 143
+   },
+   {
+    "local_t": 450000,
+    "elapsed": 9.4,
+    "err": null,
+    "pt": 450143,
+    "K": 143
+   },
+   {
+    "local_t": 1000000,
+    "elapsed": 18.4,
+    "err": null,
+    "pt": 1000143,
+    "K": 143
+   }
+  ],
+  "limit_between": [
+   1000000,
+   null
+  ],
+  "note": "1,000,000 local tokens all 200 OK with pt=local+143 -> context >= 1M, rules out m2.5-generation (its endpoint errors above 204800). Body sizes ~1.4MB Chinese UTF-8, well under the 4.5MiB gateway limit.",
+  "needle_200K_distinct": {
+   "depth_local_t": 200044,
+   "pt": 200187,
+   "content": "N695116,N200357,N376601",
+   "needles": [
+    " retrieval-code=N695116 ",
+    " retrieval-code=N200357 ",
+    " retrieval-code=N376601 "
+   ],
+   "found_manual": "3/3 character-exact, in order (script's automated 'found' check compared wrong substring shape)"
+  },
+  "needle_810K": {
+   "note": "all three needles identical due to same-second timestamp bug (weak evidence); model still read the code from 810K depth",
+   "depth_local_t": 810021,
+   "pt": 810178,
+   "content": "NX80849,NX80849,NX80849"
+  }
+ },
+ "l4_error_envelope": {
+  "space-bunny-free": "all four malformed payloads -> uniform 400 {invalid_request_error: 'Upstream request failed: [invalid_request_error] invalid request'} - normalized, leaks nothing",
+  "minimax-m3": "leaks MiniMax native codes: 'invalid params, invalid role: bogus (2013)', 'model[MiniMax-M3] does not support max tokens > 524288 (2013)'",
+  "minimax-m2.5": "different translation layer: '[400] temperature: Invalid input: expected number...', 'Input required: specify prompt or messages', max ctx error quotes 204800",
+  "kimi-k3": "pydantic style: 'temperature: Input should be a valid number'; accepts bogus role (200)",
+  "conclusion": "four distinct upstream stacks; space-bunny's is shielded/normalized"
+ },
+ "l6_vision": {
+  "space-bunny-free": {
+   "text_ctrl_pt": 161,
+   "image_pt": 195,
+   "overhead": "+34 constant regardless of resolution (1x1 == 64x64)",
+   "1x1red_n4": [
+    "Red",
+    "Black",
+    "Red",
+    "Red"
+   ],
+   "64red_n4": [
+    "Red",
+    "Red",
+    "Red",
+    "Red"
+   ],
+   "64blue_n4": [
+    "Blue",
+    "Blue",
+    "Blue",
+    "Blue"
+   ],
+   "note": "resolution-independent overhead = adapter/fixed-cost vision (same fake-ViT signature class as omen's +18); degenerate 1x1 hallucinates 1/4"
+  },
+  "minimax-m3": {
+   "text_ctrl_pt": 194,
+   "image_pt_1x1": 193,
+   "image_pt_64": 201,
+   "note": "different adapter signature (-1/+7); accepts images; answers inline <think> style"
+  },
+  "minimax-m2.5": {
+   "note": "image requests -> 404 'Cannot find any route' (no vision route); text works"
+  },
+  "pool_homogeneity": {
+   "payloads": "7x identical text (temperature=2.0) + 7x identical 64x64 red image",
+   "result": "14/14 HTTP 200, pt identical within class (146 text / 195 image), msg shape identical (content,name,reasoning_content,role), name='Space Bunny' on every response",
+   "conclusion": "no heterogeneous backend pool detected (contrast: omen-alpha 50/50 serde split)"
+  }
+ },
+ "identity_behavior": {
+  "self_report": "claims 'I'm ChatGPT, made by OpenAI' (EN+ZH); thinking leaks 'Need adhere system/developer. We have no model identity provi[ded]' - the stealth template provides NO identity, model improvised ChatGPT",
+  "name_field": "'Space Bunny' on every message (unique to this model on the gateway)",
+  "reasoning": "reasoning_content channel; telegram-style M2-family clipped thinking ('We need respond exactly OK. Final OK.')",
+  "knowledge_ladder": {
+   "DeepSeek-R1 2025-01": "exact date 2025-01-20 (also m2.5, m3)",
+   "GPT-5 2025-08": "exact date 2025-08-07 (m3 yes, m2.5 no - 'rumored... as of my cutoff June 2024')",
+   "Claude Opus 4.5 2025-11": "'November 2025' (m3 does NOT know it)",
+   "mid-2026 models (Opus 5.5/Fable 5/Kimi K3/GLM-5.3)": "unknown to both space-bunny and m3",
+   "conclusion": "effective knowledge >= 2025-11, fresher than m3's realized coverage; below mid-2026"
+  },
+  "cutoff_claim": "self-claimed 'June 2024' - improvised, contradicted by actual knowledge"
+ },
+ "verdict": {
+  "species": "MiniMax - L1 24/24 MAE 0.00 + same-gateway delta-vector identity with minimax-m3/m2.5 (high confidence)",
+  "generation": "NOT m2.5-generation (ctx >= 1M vs 204.8K cap; knows GPT-5/Opus 4.5). Post-m3 or m3-refresh stealth preview - inference, medium confidence",
+  "not_kimi": "13/24 vocab match; kimi signature (kimi-k3 deltas) differs on 14/24 probes",
+  "not_glm": "7/24 (worst candidate)",
+  "openrouter": "absent from OpenRouter /api/v1/models (456 models checked 2026-09-23/24)"
+ },
+ "catalog_note": "zen go line also lists: jev-1.13-free, deepseek-v4-flash-free, muse-spark-*-contributor-free, mimo-*-free, ling-3.0-flash-fin-free, nemotron-*-free (public line), omen-alpha"
+}
