@@ -74,6 +74,24 @@ class TokenizerRepeatsTests(unittest.TestCase):
                                                repeats=2, workers=2, verbose=False)
         self.assertFalse(r["mixed_backends"])
 
+    def test_repeats_ranks_cl100k_without_extra_api_calls(self):
+        class FakeEncoding:
+            def encode(self, text):
+                return list(text)
+
+        fake_tokenizers = SimpleNamespace(Tokenizer=object)
+        fake_tiktoken = SimpleNamespace(get_encoding=lambda name: FakeEncoding())
+        client = self._client()
+        with mock.patch.dict("sys.modules", {"tokenizers": fake_tokenizers,
+                                              "tiktoken": fake_tiktoken}):
+            r = probes_extra.tokenizer_repeats(
+                client, probes=self.PROBES, tokenizers_dir="nonexistent-tokenizers",
+                repeats=3, workers=3, verbose=False)
+        self.assertEqual(r["base_api_prompt_tokens"], 33)
+        self.assertEqual(r["api_delta"], {"p1": 12, "p2": 5})
+        self.assertIn("cl100k_base", r["ranking"])
+        self.assertEqual(len(client.chat_calls), 9)
+
     def test_dead_base_raises(self):
         class Dead:
             def chat(self, *a, **k):

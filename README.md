@@ -114,8 +114,10 @@ models, self-descriptions are frequently bait. See the case study for why.
 ```
 
 Candidates are just files in a directory — drop in any `tokenizer.json` to add
-a suspect (e.g. `tok/mynewmodel.json`). tiktoken's `o200k_base` is always
-included automatically. Vendors that publish only `tiktoken.model` (e.g.
+a suspect (e.g. `tok/mynewmodel.json`). The fetch script includes Mistral-Nemo's
+published `tokenizer.json`, checked against its Tekken file on bundled probes;
+tiktoken's `o200k_base` and `cl100k_base`
+are included automatically. Vendors that publish only `tiktoken.model` (e.g.
 Moonshot Kimi) can be built with tiktoken directly — see the reproduce
 section of the space-bunny case.
 

@@ -4,7 +4,7 @@
 
 Fingerprint analysis of `stealth/union-alpha`, the anonymous free-preview model listed on OpenRouter on 2026-09-16 (price 0), performed end-to-end with this toolkit (`stealthprint`). OpenCode Zen (public and Go lines both list `union-alpha`) returned HTTP 500 for inference throughout the measurement window, so every datapoint below comes from the OpenRouter entry.
 
-> **TL;DR:** `stealth/union-alpha` uses the **Llama-3 tokenizer (128K)** (15 discriminating probes × 12 repeats, zero deviation; reconfirmed by a mixed-backend-aware rerun) behind a **+16~17 token fixed template** (the constant drifts ±1 across sessions). It has a **real vision encoder whose billing formula is reverse-engineered**: `prompt_tokens = max(22, ceil(H/28)² + 6)` fits 11/11 size points with zero error — the Qwen2-VL-family tower shape, **cross-lineage** with the llama3 text vocab (a LLaVA-style assembly); red/blue ground truth passes (red 5/6, blue 3/4). Knowledge cutoff ≥ 2025-02 (continued training beyond official 3.1/3.3). **No native video**. Needle recall at 187K tokens is 3/3 exact. **Tool-calling fingerprint**: `tool_choice="none"` is completely ignored; parallel calls are the default. A **fusion-router-style front layer** sits in front of a single llama3-family backend, splitting requests across **counting/billing channels** (the secondary path's counts are producible by no known vocab and its behavior is identical to the majority path's — not a second model; channel weights drift over time and have **measurably flipped whole-epoch within hours** — during the B-channel takeover the generation-side ct modes 14/14/21 and echo fidelity stayed identical, so the model did not change), all reported by OpenRouter as `provider: "Stealth"`. Excluded: every GLM, Qwen3, DeepSeek, dots3, MiniMax, o200k, Llama 4 (new 201K vocab), **Xiaomi MiMo-V2.5 (≡Qwen vocab, transitive exclusion)**, and **Meta's Muse family (muse-glimmer-30b measured = llama4 vocab 24/24, family-level inference)**. Of the community guesses, MiniMax M3.1 is directly excluded by tokenizer. **Epilogue (09-18): the preview ended and the deployer revealed the model as *Unbiased's Pareto* (self-described maker Circuit & Chisel); the paid successor `unbiased/pareto` is fingerprint-continuous — B-channel deltas 15/14/33/33 exact, ct mode 14, exact echo.**
+> **TL;DR:** `stealth/union-alpha` uses the **Llama-3 tokenizer (128K)** (15 discriminating probes × 12 repeats, zero deviation; reconfirmed by a mixed-backend-aware rerun) behind a **+16~17 token fixed template** (the constant drifts ±1 across sessions). It has a **real vision encoder whose billing formula is reverse-engineered**: `prompt_tokens = max(22, ceil(H/28)² + 6)` fits 11/11 size points with zero error — the Qwen2-VL-family tower shape, **cross-lineage** with the llama3 text vocab (a LLaVA-style assembly); red/blue ground truth passes (red 5/6, blue 3/4). Knowledge cutoff ≥ 2025-02 (continued training beyond official 3.1/3.3). **No native video**. Needle recall at 187K tokens is 3/3 exact. **Tool-calling fingerprint**: `tool_choice="none"` is completely ignored; parallel calls are the default. A **fusion-router-style front layer** sits in front of a single llama3-family backend, splitting requests across **counting/billing channels** (the secondary path's counts are producible by no known vocab and its behavior is identical to the majority path's — not a second model; channel weights drift over time and have **measurably flipped whole-epoch within hours** — during the B-channel takeover the generation-side ct modes 14/14/21 and echo fidelity stayed identical, so the model did not change), all reported by OpenRouter as `provider: "Stealth"`. Excluded: every GLM, Qwen3, DeepSeek, dots3, MiniMax, o200k, cl100k, Mistral-Nemo Tekken, Llama 4 (new 201K vocab), **Xiaomi MiMo-V2.5 (≡Qwen vocab, transitive exclusion)**, and **Meta's Muse family (muse-glimmer-30b measured = llama4 vocab 24/24, family-level inference)**. Of the community guesses, MiniMax M3.1 is directly excluded by tokenizer. **Epilogue (09-18): the preview ended and the deployer revealed the model as *Unbiased's Pareto* (self-described maker Circuit & Chisel); the paid successor `unbiased/pareto` is fingerprint-continuous — B-channel deltas 15/14/33/33 exact, ct mode 14, exact echo.**
 
 ---
 
@@ -41,17 +41,19 @@ The secondary (low) path's counts are **unstable across rounds** (fr probe 19→
 
 ### Discriminating probes (majority-path deltas vs vocabs)
 
-| probe | API Δ | llama3 | glm5 | o200k | qwen3 | minimax | llama4 | mimo-v2.5 |
-|---|---|---|---|---|---|---|---|---|
-| emoji_zwj | **28** | 28 | 16 | 21 | 20 | 20 | 36 | ≠ |
-| zh_long | **21** | 21 | 14 | 18 | 15 | 13 | 31 | ≠ |
-| digits | **17** | 17 | 19 | 17 | 32 | 17 | 32 | ≠ |
-| fr | **16** | 16 | 14 | 10 | 15 | 9 | 28 | ≠ |
-| ru | **16** | 16 | 11 | 13 | 16 | 15 | 27 | ≠ |
-| ja | **7** | 7 | 7 | 7 | 6 | 6 | 26 | ≠ |
-| ko | **4** | 4 | 7 | 4 | 5 | 4 | — | ≠ |
+| probe | API Δ | llama3 | glm5 | o200k | cl100k | Nemo Tekken | qwen3 | minimax | llama4 | mimo-v2.5 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| emoji_zwj | **28** | 28 | 16 | 21 | 32 | 37 | 20 | 20 | 36 | ≠ |
+| zh_long | **21** | 21 | 14 | 18 | 34 | 27 | 15 | 13 | 31 | ≠ |
+| digits | **17** | 17 | 19 | 17 | 17 | 32 | 32 | 17 | 32 | ≠ |
+| fr | **16** | 16 | 14 | 10 | 16 | 10 | 15 | 9 | 28 | ≠ |
+| ru | **16** | 16 | 11 | 13 | 25 | 14 | 16 | 15 | 27 | ≠ |
+| ja | **7** | 7 | 7 | 7 | 9 | 7 | 6 | 6 | 26 | ≠ |
+| ko | **4** | 4 | 7 | 4 | 10 | 6 | 5 | 4 | — | ≠ |
 
 (llama4 column measured from Llama-4-Scout, vocab 201,135. mimo-v2.5's vocab equals qwen3 row-for-row, not repeated.)
+
+The additional local replay uses `cl100k_base` from tiktoken and [Mistral-Nemo-Instruct-2407's published tokenizer files](https://huggingface.co/mistralai/Mistral-Nemo-Instruct-2407/tree/04d8a90549d23fc6bd7f642064003592df51e9b3). The Hugging Face `tokenizer.json` and Mistral's `tekken.json` returned identical counts for the base, all 24 bundled probes, and their 24 base-prefixed forms (49 strings). Against the 10 API deltas archived in the measurements JSON, cl100k matches **3/10** and Nemo Tekken **2/10**; llama3 matches **9/10** (the en_pangram row predates clustering). These exclude those *specific vocabularies*, not every Mistral release. All three count the base prompt as 16 tokens, so its +17 wrapper alone cannot separate them.
 
 ### Community guesses and further candidates
 
@@ -77,6 +79,8 @@ Public post-trainings (Hermes, Tülu, Llama-Nemotron) all sit on Llama 3.1/3.3 b
 | meta-llama/llama-3.1-8b-instruct | usage polluted by prompt cache (deltas shifted +23~24, non-uniform) | anchor unavailable | OpenRouter's official-llama usage semantics unreliable (same cause as the llama-3.3-70b case) |
 
 The surviving explanation (matching the community analysis): an **undisclosed internal derivative** of Llama 3.1-70B/3.3-70B/405B with a vision adapter and a 262K window extension — post-training shops have this pipeline ready-made, but no public catalog SKU fits.
+
+Offline `apply_chat_template` results characterize a published prompt format, but the hosted +16/17 value is an API usage count minus raw text, not the backend's serialized prompt. It also drifted between sessions. Without the gateway's exact serialization, matching a local constant cannot identify an individual Llama-3 derivative. [Cogito](https://huggingface.co/deepcogito/cogito-v1-preview-llama-70B) and [Hermes 4](https://huggingface.co/NousResearch/Hermes-4-70B) publish different reasoning-mode triggers; union-alpha's hidden-token billing alone does not establish either one. The Pareto reveal resolved the identity question before a controlled trigger experiment could be run on the delisted preview endpoint.
 
 ### Epilogue: the deployer revealed itself (2026-09-18)
 

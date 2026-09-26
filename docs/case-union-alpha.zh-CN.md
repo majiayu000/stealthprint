@@ -4,7 +4,7 @@
 
 对 OpenRouter 免费预览的匿名模型 `stealth/union-alpha`（2026-09-16 上线，价格 0）做的指纹分析，全程使用本库（`stealthprint`）方法论。OpenCode Zen 线（公开线与 Go 线目录均含 `union-alpha`）截至本文写作时推理持续 HTTP 500，全部测量在 OpenRouter 入口完成。
 
-> **TL;DR：** `stealth/union-alpha` 使用 **Llama-3 词表（128K）**（15 判别探针 × 12 次重复零偏离 + 混挂感知复测再确认），带 **+16~17 token 固定模板**（会话间存在 ±1 漂移）。**真视觉编码器，计费公式已逆向**：`max(22, ceil(H/28)² + 6)` 拟合 11/11 尺寸点零误差——Qwen2-VL 家族视觉塔形状，与 llama3 文本词表**跨血统**（LLaVA 式缝合）；红/蓝颜色真值通过（红 5/6、蓝 3/4）。知识截止 ≥ 2025-02（必有 2025+ 数据继续训练）。**无原生视频**。187K token 埋针 3/3 精确召回。**工具调用指纹**：`tool_choice="none"` 被完全无视，默认并行双调用。**fusion-router 式前置层**：单一 llama3 系后端 + 计数/计费通道分流（次路径计数无任何词表可产生、行为与主路径完全同构——非第二模型；通道占比随时间漂移，**已实测数小时内整段翻转**——B 计数通道接管时段生成侧 ct 众数 14/14/21 与 echo 保真完全不变，模型未换），OpenRouter 对各路径统一标 `provider: "Stealth"`。排除 GLM 全系、Qwen3、DeepSeek、dots3、MiniMax、o200k、Llama 4（201K 新词表）、**小米 MiMo-V2.5（≡Qwen 词表，传递排除）**、**Meta Muse 家族（muse-glimmer-30b 实测 = llama4 词表 24/24，家族推断排除）**。社区猜测 MiniMax M3.1 / Kimi K3.1 中前者被词表直接排除。**收官（09-18）：预览结束、部署方自揭真身——*Unbiased 的 Pareto*（自述厂商 Circuit & Chisel）；付费转正的 `unbiased/pareto` 指纹连续——B 通道 delta 15/14/33/33 精确复现、ct 众数 14、echo 保真。**
+> **TL;DR：** `stealth/union-alpha` 使用 **Llama-3 词表（128K）**（15 判别探针 × 12 次重复零偏离 + 混挂感知复测再确认），带 **+16~17 token 固定模板**（会话间存在 ±1 漂移）。**真视觉编码器，计费公式已逆向**：`max(22, ceil(H/28)² + 6)` 拟合 11/11 尺寸点零误差——Qwen2-VL 家族视觉塔形状，与 llama3 文本词表**跨血统**（LLaVA 式缝合）；红/蓝颜色真值通过（红 5/6、蓝 3/4）。知识截止 ≥ 2025-02（必有 2025+ 数据继续训练）。**无原生视频**。187K token 埋针 3/3 精确召回。**工具调用指纹**：`tool_choice="none"` 被完全无视，默认并行双调用。**fusion-router 式前置层**：单一 llama3 系后端 + 计数/计费通道分流（次路径计数无任何词表可产生、行为与主路径完全同构——非第二模型；通道占比随时间漂移，**已实测数小时内整段翻转**——B 计数通道接管时段生成侧 ct 众数 14/14/21 与 echo 保真完全不变，模型未换），OpenRouter 对各路径统一标 `provider: "Stealth"`。排除 GLM 全系、Qwen3、DeepSeek、dots3、MiniMax、o200k、cl100k、Mistral-Nemo Tekken、Llama 4（201K 新词表）、**小米 MiMo-V2.5（≡Qwen 词表，传递排除）**、**Meta Muse 家族（muse-glimmer-30b 实测 = llama4 词表 24/24，家族推断排除）**。社区猜测 MiniMax M3.1 / Kimi K3.1 中前者被词表直接排除。**收官（09-18）：预览结束、部署方自揭真身——*Unbiased 的 Pareto*（自述厂商 Circuit & Chisel）；付费转正的 `unbiased/pareto` 指纹连续——B 通道 delta 15/14/33/33 精确复现、ct 众数 14、echo 保真。**
 
 ---
 
@@ -41,17 +41,19 @@
 
 ### 关键判别探针（主路径 Δ vs 各词表）
 
-| probe | API Δ | llama3 | glm5 | o200k | qwen3 | minimax | llama4 | mimo-v2.5 |
-|---|---|---|---|---|---|---|---|---|
-| emoji_zwj | **28** | 28 | 16 | 21 | 20 | 20 | 36 | ≠ |
-| zh_long | **21** | 21 | 14 | 18 | 15 | 13 | 31 | ≠ |
-| digits | **17** | 17 | 19 | 17 | 32 | 17 | 32 | ≠ |
-| fr | **16** | 16 | 14 | 10 | 15 | 9 | 28 | ≠ |
-| ru | **16** | 16 | 11 | 13 | 16 | 15 | 27 | ≠ |
-| ja | **7** | 7 | 7 | 7 | 6 | 6 | 26 | ≠ |
-| ko | **4** | 4 | 7 | 4 | 5 | 4 | — | ≠ |
+| probe | API Δ | llama3 | glm5 | o200k | cl100k | Nemo Tekken | qwen3 | minimax | llama4 | mimo-v2.5 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| emoji_zwj | **28** | 28 | 16 | 21 | 32 | 37 | 20 | 20 | 36 | ≠ |
+| zh_long | **21** | 21 | 14 | 18 | 34 | 27 | 15 | 13 | 31 | ≠ |
+| digits | **17** | 17 | 19 | 17 | 17 | 32 | 32 | 17 | 32 | ≠ |
+| fr | **16** | 16 | 14 | 10 | 16 | 10 | 15 | 9 | 28 | ≠ |
+| ru | **16** | 16 | 11 | 13 | 25 | 14 | 16 | 15 | 27 | ≠ |
+| ja | **7** | 7 | 7 | 7 | 9 | 7 | 6 | 6 | 26 | ≠ |
+| ko | **4** | 4 | 7 | 4 | 10 | 6 | 5 | 4 | — | ≠ |
 
 （llama4 列为 Llama-4-Scout 词表实测，201,135 vocab；mimo-v2.5 词表与 qwen3 逐行相等，不单列。union 是 llama3 血统而非 llama4。）
+
+新增本地复算使用 tiktoken 的 `cl100k_base`，以及 [Mistral-Nemo-Instruct-2407 发布的词表文件](https://huggingface.co/mistralai/Mistral-Nemo-Instruct-2407/tree/04d8a90549d23fc6bd7f642064003592df51e9b3)。Hugging Face `tokenizer.json` 与 Mistral `tekken.json` 对 base、24 个内置探针及其 24 个带 base 前缀的版本（共 49 段文本）计数完全相同。对 measurements JSON 留存的 10 个 API 差分，cl100k 命中 **3/10**、Nemo Tekken 命中 **2/10**，llama3 命中 **9/10**（en_pangram 是聚类前的异常点）。这排除的是上述**具体词表**，不能据此排除所有 Mistral 版本。三者对 base 都计数 16，因此单靠 +17 wrapper 无法区分。
 
 ### 与社区猜测对照
 
@@ -77,6 +79,8 @@ Hermes/Tülu/Llama-Nemotron 一类公开后训练全部挂在 Llama 3.1/3.3 底�
 | meta-llama/llama-3.1-8b-instruct | usage 被 prompt cache 污染（Δ 系统性 +23~24、不均匀） | 锚点不可得 | OpenRouter 的 llama 官方模型 usage 语义不可靠（与 llama-3.3-70b 那次同因） |
 
 圈内剩余解释（与社区分析一致）：Llama 3.1-70B/3.3-70B/405B 做视觉适配 + 扩窗到 262K 的**内部未公开衍生**——这类流水线在后训练厂手里最现成，但公开目录无现货 SKU 对得上。
+
+本地 `apply_chat_template` 能描述已发布的提示格式，但托管端 +16/17 是 API 用量计数减去原始文本计数，不能视作后端实际序列化后的提示；该数值还曾跨会话漂移。未知网关的准确序列化方式时，某个本地模板常数相同也不足以识别具体 Llama-3 衍生模型。[Cogito](https://huggingface.co/deepcogito/cogito-v1-preview-llama-70B) 与 [Hermes 4](https://huggingface.co/NousResearch/Hermes-4-70B) 公布了不同的思考模式触发方式；union-alpha 的隐藏 token 计费本身无法证明属于其中任一模型。预览入口下架前未做受控触发实验，之后 Pareto 揭晓了身份。
 
 ### 收官：部署方自揭真身（2026-09-18）
 

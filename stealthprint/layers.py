@@ -86,9 +86,10 @@ def _classify_multimodal(err, answer="", reasoning=""):
 
 
 # ------------------------------------------------------------------ L1 + L2
-def tokenizer_differential(client, probes=None, tokenizers_dir="tok", verbose=True):
+def tokenizer_differential(client, probes=None, tokenizers_dir="tok", verbose=True,
+                           base_api=None, api_delta=None):
     """L1: delta = T(base+probe) - T(base) from usage.prompt_tokens, compared
-    against local open tokenizer.json files + tiktoken o200k."""
+    against local open tokenizer.json files + tiktoken encodings."""
     try:
         from tokenizers import Tokenizer
         import tiktoken
@@ -102,22 +103,23 @@ def tokenizer_differential(client, probes=None, tokenizers_dir="tok", verbose=Tr
     base = probes["base"]
     items = probes["probes"]
 
-    if verbose:
-        print(t("tok.querying", n=len(items)))
-    base_api, err = client.prompt_tokens([{"role": "user", "content": base}])
-    if err:
-        raise RuntimeError("base request failed: %s" % err)
-
-    api_delta = {}
-    for name, text in items:
-        pt, e = client.prompt_tokens([{"role": "user", "content": base + text}])
-        if e:
-            if verbose:
-                print(t("tok.failed", name=name, err=e))
-            continue
-        api_delta[name] = pt - base_api
+    if api_delta is None:
         if verbose:
-            print("  %-14s prompt=%-6d delta=%d" % (name, pt, pt - base_api))
+            print(t("tok.querying", n=len(items)))
+        base_api, err = client.prompt_tokens([{"role": "user", "content": base}])
+        if err:
+            raise RuntimeError("base request failed: %s" % err)
+
+        api_delta = {}
+        for name, text in items:
+            pt, e = client.prompt_tokens([{"role": "user", "content": base + text}])
+            if e:
+                if verbose:
+                    print(t("tok.failed", name=name, err=e))
+                continue
+            api_delta[name] = pt - base_api
+            if verbose:
+                print("  %-14s prompt=%-6d delta=%d" % (name, pt, pt - base_api))
 
     local = {}
     if os.path.isdir(tokenizers_dir):
@@ -129,9 +131,10 @@ def tokenizer_differential(client, probes=None, tokenizers_dir="tok", verbose=Tr
                     if verbose:
                         print(t("tok.skip", name=f, err=e))
     local["o200k_base"] = tiktoken.get_encoding("o200k_base")
+    local["cl100k_base"] = tiktoken.get_encoding("cl100k_base")
 
     def ntok(name, tk, s):
-        if name == "o200k_base":
+        if name in ("o200k_base", "cl100k_base"):
             return len(tk.encode(s))
         return len(tk.encode(s, add_special_tokens=False).ids)
 
