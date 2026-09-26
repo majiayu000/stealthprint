@@ -1,0 +1,2810 @@
+{
+  "updated_date": "2026-09-27",
+  "target": "stealth/pixel-canary",
+  "peer": "cline-free/gemini-3.8-flash",
+  "status": "completed short fingerprint comparison; identity unknown",
+  "cumulative_local_tokenizer_candidates": 21,
+  "cumulative_live_peer_models": 5,
+  "client": {
+    "name": "Cline CLI",
+    "version": "3.0.65",
+    "source_package": "@cline/cli-darwin-arm64",
+    "npm_integrity": "sha512-fgHAh/XbPGjUuDJcfXL/yqjZ17ZsDGYFbWfddJnwWQhxoSe63/wdgR9gJMUDK/MBvP89+2hBj9mswIwycAGaNQ==",
+    "provider": "cline",
+    "mode": "plan",
+    "autoApprove": false,
+    "thinking": "none"
+  },
+  "method": {
+    "count": "run_result.usage.inputTokens; already includes cache portions, do not add cache again",
+    "source": "https://github.com/cline/cline/blob/main/sdk/packages/core/src/services/usage.ts",
+    "anchor": "Nonempty zh_long prompt repeated for both models",
+    "eligibility": "finishReason completed, one iteration, zero tool calls, inputTokens > 0",
+    "why_anchor_changed": "The two Gemini empty baselines triggered a follow-up question and finished aborted despite exit code 0; excluded from final comparison."
+  },
+  "analysis": {
+    "anchor": "zh_long",
+    "models": {
+      "cline-free/gemini-3.8-flash": {
+        "completed_samples": 5,
+        "anchor_values": [
+          3775,
+          3775
+        ],
+        "anchor_stable": true,
+        "relative_deltas": {
+          "emoji_zwj": -2,
+          "digits": 16,
+          "thai": -10
+        },
+        "empty_baseline_runs": [
+          {
+            "label": "base_start",
+            "prompt_tokens": 3758,
+            "finishReason": "aborted",
+            "tool_calls": 1
+          },
+          {
+            "label": "base_end",
+            "prompt_tokens": 3758,
+            "finishReason": "aborted",
+            "tool_calls": 1
+          }
+        ]
+      },
+      "stealth/pixel-canary": {
+        "completed_samples": 7,
+        "anchor_values": [
+          5986,
+          5986
+        ],
+        "anchor_stable": true,
+        "relative_deltas": {
+          "emoji_zwj": 18,
+          "digits": 18,
+          "thai": -9
+        },
+        "empty_baseline_runs": [
+          {
+            "label": "base_start",
+            "prompt_tokens": 5971,
+            "finishReason": "completed",
+            "tool_calls": 0
+          },
+          {
+            "label": "base_end",
+            "prompt_tokens": 5971,
+            "finishReason": "completed",
+            "tool_calls": 0
+          }
+        ]
+      }
+    }
+  },
+  "experiment": {
+    "runs": [
+      {
+        "model": "cline-free/gemini-3.8-flash",
+        "label": "base_start",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n",
+        "started": 1790437731385,
+        "code": 0,
+        "elapsed_seconds": 21.083,
+        "events": [
+          {
+            "ts": "2026-09-26T15:48:58.085Z",
+            "type": "hook_event",
+            "hookEventName": "agent_start"
+          },
+          {
+            "ts": "2026-09-26T15:48:58.087Z",
+            "type": "agent_event",
+            "event": {
+              "type": "iteration_start",
+              "iteration": 1
+            }
+          },
+          {
+            "ts": "2026-09-26T15:49:05.336Z",
+            "type": "agent_event",
+            "event": {
+              "type": "usage",
+              "inputTokens": 3758,
+              "outputTokens": 777,
+              "totalInputTokens": 3758,
+              "totalOutputTokens": 777,
+              "totalCost": 0
+            }
+          },
+          {
+            "ts": "2026-09-26T15:49:05.345Z",
+            "type": "hook_event",
+            "hookEventName": "tool_call"
+          },
+          {
+            "ts": "2026-09-26T15:49:05.370Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "tool",
+              "toolName": "run_commands",
+              "toolCallId": "call_2116636",
+              "input": {
+                "commands": [
+                  "ls -la /tmp/stealthprint-pixel-20260926/google-check"
+                ]
+              }
+            }
+          },
+          {
+            "ts": "2026-09-26T15:49:05.370Z",
+            "type": "hook_event",
+            "hookEventName": "tool_result"
+          },
+          {
+            "ts": "2026-09-26T15:49:05.370Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_end",
+              "contentType": "tool",
+              "toolName": "run_commands",
+              "toolCallId": "call_2116636",
+              "output": {
+                "error": "Tool \"run_commands\" requires approval in a TTY session -- NOT a tool or system failure. Clarify with user before proceeding."
+              },
+              "error": "{\"error\":\"Tool \\\"run_commands\\\" requires approval in a TTY session -- NOT a tool or system failure. Clarify with user before proceeding.\"}",
+              "durationMs": 0
+            }
+          },
+          {
+            "ts": "2026-09-26T15:49:05.371Z",
+            "type": "agent_event",
+            "event": {
+              "type": "iteration_end",
+              "iteration": 1,
+              "hadToolCalls": true,
+              "toolCallCount": 1
+            }
+          },
+          {
+            "ts": "2026-09-26T15:49:05.371Z",
+            "type": "agent_event",
+            "event": {
+              "type": "error",
+              "error": {
+                "name": "Error",
+                "message": "1 tool call(s) failed: [run_commands] {\"error\":\"Tool \\\"run_commands\\\" requires approval in a TTY session -- NOT a tool or system failure. Clarify with user before proceeding.\"}",
+                "stack": "Error: 1 tool call(s) failed: [run_commands] {\"error\":\"Tool \\\"run_commands\\\" requires approval in a TTY session -- NOT a tool or system failure. Clarify with user before proceeding.\"}\n    at record (/$bunfs/root/chunk-v45ynnaz.js:411:26752)\n    at <anonymous> (/$bunfs/root/chunk-v45ynnaz.js:417:15774)\n    at processTicksAndRejections (native:7:39)"
+              },
+              "recoverable": true,
+              "iteration": 1
+            }
+          },
+          {
+            "ts": "2026-09-26T15:49:05.373Z",
+            "type": "hook_event",
+            "hookEventName": "agent_error"
+          },
+          {
+            "ts": "2026-09-26T15:49:05.374Z",
+            "type": "agent_event",
+            "event": {
+              "type": "done",
+              "reason": "aborted",
+              "text": "",
+              "iterations": 1,
+              "usage": {
+                "inputTokens": 3758,
+                "outputTokens": 777,
+                "totalCost": 0
+              }
+            }
+          },
+          {
+            "ts": "2026-09-26T15:49:05.516Z",
+            "type": "run_result",
+            "finishReason": "aborted",
+            "iterations": 1,
+            "usage": {
+              "inputTokens": 3758,
+              "outputTokens": 777,
+              "cacheReadTokens": 0,
+              "cacheWriteTokens": 0,
+              "totalCost": 0
+            },
+            "aggregateUsage": {
+              "inputTokens": 3758,
+              "outputTokens": 777,
+              "cacheReadTokens": 0,
+              "cacheWriteTokens": 0,
+              "totalCost": 0
+            },
+            "durationMs": 7297,
+            "text": "",
+            "model": {
+              "provider": "cline"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:49:05.516Z",
+            "type": "run_aborted",
+            "reason": "external_abort",
+            "message": "aborted by another client"
+          }
+        ],
+        "stderr": "",
+        "result": {
+          "ts": "2026-09-26T15:49:05.516Z",
+          "type": "run_result",
+          "finishReason": "aborted",
+          "iterations": 1,
+          "usage": {
+            "inputTokens": 3758,
+            "outputTokens": 777,
+            "cacheReadTokens": 0,
+            "cacheWriteTokens": 0,
+            "totalCost": 0
+          },
+          "aggregateUsage": {
+            "inputTokens": 3758,
+            "outputTokens": 777,
+            "cacheReadTokens": 0,
+            "cacheWriteTokens": 0,
+            "totalCost": 0
+          },
+          "durationMs": 7297,
+          "text": "",
+          "model": {
+            "provider": "cline"
+          }
+        },
+        "usage": {
+          "inputTokens": 3758,
+          "outputTokens": 777,
+          "cacheReadTokens": 0,
+          "cacheWriteTokens": 0,
+          "totalCost": 0
+        },
+        "prompt_tokens": 3758,
+        "text": "",
+        "iterations": 1,
+        "tool_calls": 1
+      },
+      {
+        "model": "cline-free/gemini-3.8-flash",
+        "label": "zh_long",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。",
+        "started": 1790437752469,
+        "code": 0,
+        "elapsed_seconds": 11.691,
+        "events": [
+          {
+            "ts": "2026-09-26T15:49:18.263Z",
+            "type": "hook_event",
+            "hookEventName": "agent_start"
+          },
+          {
+            "ts": "2026-09-26T15:49:18.266Z",
+            "type": "agent_event",
+            "event": {
+              "type": "iteration_start",
+              "iteration": 1
+            }
+          },
+          {
+            "ts": "2026-09-26T15:49:21.864Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": "人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。",
+              "accumulated": "人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:49:22.314Z",
+            "type": "agent_event",
+            "event": {
+              "type": "usage",
+              "inputTokens": 3775,
+              "outputTokens": 175,
+              "totalInputTokens": 3775,
+              "totalOutputTokens": 175,
+              "totalCost": 0
+            }
+          },
+          {
+            "ts": "2026-09-26T15:49:22.318Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_end",
+              "contentType": "text",
+              "text": "人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:49:22.319Z",
+            "type": "agent_event",
+            "event": {
+              "type": "iteration_end",
+              "iteration": 1,
+              "hadToolCalls": false,
+              "toolCallCount": 0
+            }
+          },
+          {
+            "ts": "2026-09-26T15:49:22.320Z",
+            "type": "hook_event",
+            "hookEventName": "agent_end"
+          },
+          {
+            "ts": "2026-09-26T15:49:22.320Z",
+            "type": "agent_event",
+            "event": {
+              "type": "done",
+              "reason": "completed",
+              "text": "人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。",
+              "iterations": 1,
+              "usage": {
+                "inputTokens": 3775,
+                "outputTokens": 175,
+                "totalCost": 0
+              }
+            }
+          },
+          {
+            "ts": "2026-09-26T15:49:22.409Z",
+            "type": "run_result",
+            "finishReason": "completed",
+            "iterations": 1,
+            "usage": {
+              "inputTokens": 3775,
+              "outputTokens": 175,
+              "cacheReadTokens": 0,
+              "cacheWriteTokens": 0,
+              "totalCost": 0
+            },
+            "aggregateUsage": {
+              "inputTokens": 3775,
+              "outputTokens": 175,
+              "cacheReadTokens": 0,
+              "cacheWriteTokens": 0,
+              "totalCost": 0
+            },
+            "durationMs": 4062,
+            "text": "人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。",
+            "model": {
+              "provider": "cline"
+            }
+          }
+        ],
+        "stderr": "",
+        "result": {
+          "ts": "2026-09-26T15:49:22.409Z",
+          "type": "run_result",
+          "finishReason": "completed",
+          "iterations": 1,
+          "usage": {
+            "inputTokens": 3775,
+            "outputTokens": 175,
+            "cacheReadTokens": 0,
+            "cacheWriteTokens": 0,
+            "totalCost": 0
+          },
+          "aggregateUsage": {
+            "inputTokens": 3775,
+            "outputTokens": 175,
+            "cacheReadTokens": 0,
+            "cacheWriteTokens": 0,
+            "totalCost": 0
+          },
+          "durationMs": 4062,
+          "text": "人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。",
+          "model": {
+            "provider": "cline"
+          }
+        },
+        "usage": {
+          "inputTokens": 3775,
+          "outputTokens": 175,
+          "cacheReadTokens": 0,
+          "cacheWriteTokens": 0,
+          "totalCost": 0
+        },
+        "prompt_tokens": 3775,
+        "text": "人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。",
+        "iterations": 1,
+        "tool_calls": 0
+      },
+      {
+        "model": "cline-free/gemini-3.8-flash",
+        "label": "emoji_zwj",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n👨‍👩‍👧‍👦 🏳️‍🌈 👍🏽",
+        "started": 1790437764161,
+        "code": 0,
+        "elapsed_seconds": 11.863,
+        "events": [
+          {
+            "ts": "2026-09-26T15:49:26.927Z",
+            "type": "hook_event",
+            "hookEventName": "agent_start"
+          },
+          {
+            "ts": "2026-09-26T15:49:26.929Z",
+            "type": "agent_event",
+            "event": {
+              "type": "iteration_start",
+              "iteration": 1
+            }
+          },
+          {
+            "ts": "2026-09-26T15:49:32.052Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": "👨‍👩‍👧‍👦 🏳️‍🌈 👍",
+              "accumulated": "👨‍👩‍👧‍👦 🏳️‍🌈 👍"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:49:32.053Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": "🏽",
+              "accumulated": "👨‍👩‍👧‍👦 🏳️‍🌈 👍🏽"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:49:32.310Z",
+            "type": "agent_event",
+            "event": {
+              "type": "usage",
+              "inputTokens": 3773,
+              "outputTokens": 225,
+              "totalInputTokens": 3773,
+              "totalOutputTokens": 225,
+              "totalCost": 0
+            }
+          },
+          {
+            "ts": "2026-09-26T15:49:32.319Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_end",
+              "contentType": "text",
+              "text": "👨‍👩‍👧‍👦 🏳️‍🌈 👍🏽"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:49:32.320Z",
+            "type": "agent_event",
+            "event": {
+              "type": "iteration_end",
+              "iteration": 1,
+              "hadToolCalls": false,
+              "toolCallCount": 0
+            }
+          },
+          {
+            "ts": "2026-09-26T15:49:32.321Z",
+            "type": "hook_event",
+            "hookEventName": "agent_end"
+          },
+          {
+            "ts": "2026-09-26T15:49:32.321Z",
+            "type": "agent_event",
+            "event": {
+              "type": "done",
+              "reason": "completed",
+              "text": "👨‍👩‍👧‍👦 🏳️‍🌈 👍🏽",
+              "iterations": 1,
+              "usage": {
+                "inputTokens": 3773,
+                "outputTokens": 225,
+                "totalCost": 0
+              }
+            }
+          },
+          {
+            "ts": "2026-09-26T15:49:32.381Z",
+            "type": "run_result",
+            "finishReason": "completed",
+            "iterations": 1,
+            "usage": {
+              "inputTokens": 3773,
+              "outputTokens": 225,
+              "cacheReadTokens": 0,
+              "cacheWriteTokens": 0,
+              "totalCost": 0
+            },
+            "aggregateUsage": {
+              "inputTokens": 3773,
+              "outputTokens": 225,
+              "cacheReadTokens": 0,
+              "cacheWriteTokens": 0,
+              "totalCost": 0
+            },
+            "durationMs": 5405,
+            "text": "👨‍👩‍👧‍👦 🏳️‍🌈 👍🏽",
+            "model": {
+              "provider": "cline"
+            }
+          }
+        ],
+        "stderr": "",
+        "result": {
+          "ts": "2026-09-26T15:49:32.381Z",
+          "type": "run_result",
+          "finishReason": "completed",
+          "iterations": 1,
+          "usage": {
+            "inputTokens": 3773,
+            "outputTokens": 225,
+            "cacheReadTokens": 0,
+            "cacheWriteTokens": 0,
+            "totalCost": 0
+          },
+          "aggregateUsage": {
+            "inputTokens": 3773,
+            "outputTokens": 225,
+            "cacheReadTokens": 0,
+            "cacheWriteTokens": 0,
+            "totalCost": 0
+          },
+          "durationMs": 5405,
+          "text": "👨‍👩‍👧‍👦 🏳️‍🌈 👍🏽",
+          "model": {
+            "provider": "cline"
+          }
+        },
+        "usage": {
+          "inputTokens": 3773,
+          "outputTokens": 225,
+          "cacheReadTokens": 0,
+          "cacheWriteTokens": 0,
+          "totalCost": 0
+        },
+        "prompt_tokens": 3773,
+        "text": "👨‍👩‍👧‍👦 🏳️‍🌈 👍🏽",
+        "iterations": 1,
+        "tool_calls": 0
+      },
+      {
+        "model": "cline-free/gemini-3.8-flash",
+        "label": "digits",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n1234567890 007 3.14159 1,000,000",
+        "started": 1790437776025,
+        "code": 0,
+        "elapsed_seconds": 14.373,
+        "events": [
+          {
+            "ts": "2026-09-26T15:49:39.556Z",
+            "type": "hook_event",
+            "hookEventName": "agent_start"
+          },
+          {
+            "ts": "2026-09-26T15:49:39.557Z",
+            "type": "agent_event",
+            "event": {
+              "type": "iteration_start",
+              "iteration": 1
+            }
+          },
+          {
+            "ts": "2026-09-26T15:49:44.803Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": "1234567890 007 3.14159 ",
+              "accumulated": "1234567890 007 3.14159 "
+            }
+          },
+          {
+            "ts": "2026-09-26T15:49:44.836Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": "1,000,000",
+              "accumulated": "1234567890 007 3.14159 1,000,000"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:49:45.478Z",
+            "type": "agent_event",
+            "event": {
+              "type": "usage",
+              "inputTokens": 3791,
+              "outputTokens": 452,
+              "totalInputTokens": 3791,
+              "totalOutputTokens": 452,
+              "totalCost": 0
+            }
+          },
+          {
+            "ts": "2026-09-26T15:49:45.480Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_end",
+              "contentType": "text",
+              "text": "1234567890 007 3.14159 1,000,000"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:49:45.482Z",
+            "type": "agent_event",
+            "event": {
+              "type": "iteration_end",
+              "iteration": 1,
+              "hadToolCalls": false,
+              "toolCallCount": 0
+            }
+          },
+          {
+            "ts": "2026-09-26T15:49:45.483Z",
+            "type": "hook_event",
+            "hookEventName": "agent_end"
+          },
+          {
+            "ts": "2026-09-26T15:49:45.484Z",
+            "type": "agent_event",
+            "event": {
+              "type": "done",
+              "reason": "completed",
+              "text": "1234567890 007 3.14159 1,000,000",
+              "iterations": 1,
+              "usage": {
+                "inputTokens": 3791,
+                "outputTokens": 452,
+                "totalCost": 0
+              }
+            }
+          },
+          {
+            "ts": "2026-09-26T15:49:45.563Z",
+            "type": "run_result",
+            "finishReason": "completed",
+            "iterations": 1,
+            "usage": {
+              "inputTokens": 3791,
+              "outputTokens": 452,
+              "cacheReadTokens": 0,
+              "cacheWriteTokens": 0,
+              "totalCost": 0
+            },
+            "aggregateUsage": {
+              "inputTokens": 3791,
+              "outputTokens": 452,
+              "cacheReadTokens": 0,
+              "cacheWriteTokens": 0,
+              "totalCost": 0
+            },
+            "durationMs": 5934,
+            "text": "1234567890 007 3.14159 1,000,000",
+            "model": {
+              "provider": "cline"
+            }
+          }
+        ],
+        "stderr": "",
+        "result": {
+          "ts": "2026-09-26T15:49:45.563Z",
+          "type": "run_result",
+          "finishReason": "completed",
+          "iterations": 1,
+          "usage": {
+            "inputTokens": 3791,
+            "outputTokens": 452,
+            "cacheReadTokens": 0,
+            "cacheWriteTokens": 0,
+            "totalCost": 0
+          },
+          "aggregateUsage": {
+            "inputTokens": 3791,
+            "outputTokens": 452,
+            "cacheReadTokens": 0,
+            "cacheWriteTokens": 0,
+            "totalCost": 0
+          },
+          "durationMs": 5934,
+          "text": "1234567890 007 3.14159 1,000,000",
+          "model": {
+            "provider": "cline"
+          }
+        },
+        "usage": {
+          "inputTokens": 3791,
+          "outputTokens": 452,
+          "cacheReadTokens": 0,
+          "cacheWriteTokens": 0,
+          "totalCost": 0
+        },
+        "prompt_tokens": 3791,
+        "text": "1234567890 007 3.14159 1,000,000",
+        "iterations": 1,
+        "tool_calls": 0
+      },
+      {
+        "model": "cline-free/gemini-3.8-flash",
+        "label": "thai",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\nกรุงเทพมหานคร ครับ",
+        "started": 1790437790399,
+        "code": 0,
+        "elapsed_seconds": 13.25,
+        "events": [
+          {
+            "ts": "2026-09-26T15:49:55.963Z",
+            "type": "hook_event",
+            "hookEventName": "agent_start"
+          },
+          {
+            "ts": "2026-09-26T15:49:55.966Z",
+            "type": "agent_event",
+            "event": {
+              "type": "iteration_start",
+              "iteration": 1
+            }
+          },
+          {
+            "ts": "2026-09-26T15:50:00.129Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": "กรุงเทพมหานคร ครับ",
+              "accumulated": "กรุงเทพมหานคร ครับ"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:50:00.295Z",
+            "type": "agent_event",
+            "event": {
+              "type": "usage",
+              "inputTokens": 3765,
+              "outputTokens": 211,
+              "totalInputTokens": 3765,
+              "totalOutputTokens": 211,
+              "totalCost": 0
+            }
+          },
+          {
+            "ts": "2026-09-26T15:50:00.297Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_end",
+              "contentType": "text",
+              "text": "กรุงเทพมหานคร ครับ"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:50:00.299Z",
+            "type": "agent_event",
+            "event": {
+              "type": "iteration_end",
+              "iteration": 1,
+              "hadToolCalls": false,
+              "toolCallCount": 0
+            }
+          },
+          {
+            "ts": "2026-09-26T15:50:00.300Z",
+            "type": "hook_event",
+            "hookEventName": "agent_end"
+          },
+          {
+            "ts": "2026-09-26T15:50:00.300Z",
+            "type": "agent_event",
+            "event": {
+              "type": "done",
+              "reason": "completed",
+              "text": "กรุงเทพมหานคร ครับ",
+              "iterations": 1,
+              "usage": {
+                "inputTokens": 3765,
+                "outputTokens": 211,
+                "totalCost": 0
+              }
+            }
+          },
+          {
+            "ts": "2026-09-26T15:50:00.359Z",
+            "type": "run_result",
+            "finishReason": "completed",
+            "iterations": 1,
+            "usage": {
+              "inputTokens": 3765,
+              "outputTokens": 211,
+              "cacheReadTokens": 0,
+              "cacheWriteTokens": 0,
+              "totalCost": 0
+            },
+            "aggregateUsage": {
+              "inputTokens": 3765,
+              "outputTokens": 211,
+              "cacheReadTokens": 0,
+              "cacheWriteTokens": 0,
+              "totalCost": 0
+            },
+            "durationMs": 4347,
+            "text": "กรุงเทพมหานคร ครับ",
+            "model": {
+              "provider": "cline"
+            }
+          }
+        ],
+        "stderr": "",
+        "result": {
+          "ts": "2026-09-26T15:50:00.359Z",
+          "type": "run_result",
+          "finishReason": "completed",
+          "iterations": 1,
+          "usage": {
+            "inputTokens": 3765,
+            "outputTokens": 211,
+            "cacheReadTokens": 0,
+            "cacheWriteTokens": 0,
+            "totalCost": 0
+          },
+          "aggregateUsage": {
+            "inputTokens": 3765,
+            "outputTokens": 211,
+            "cacheReadTokens": 0,
+            "cacheWriteTokens": 0,
+            "totalCost": 0
+          },
+          "durationMs": 4347,
+          "text": "กรุงเทพมหานคร ครับ",
+          "model": {
+            "provider": "cline"
+          }
+        },
+        "usage": {
+          "inputTokens": 3765,
+          "outputTokens": 211,
+          "cacheReadTokens": 0,
+          "cacheWriteTokens": 0,
+          "totalCost": 0
+        },
+        "prompt_tokens": 3765,
+        "text": "กรุงเทพมหานคร ครับ",
+        "iterations": 1,
+        "tool_calls": 0
+      },
+      {
+        "model": "cline-free/gemini-3.8-flash",
+        "label": "base_end",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n",
+        "started": 1790437803650,
+        "code": 0,
+        "elapsed_seconds": 20.846,
+        "events": [
+          {
+            "ts": "2026-09-26T15:50:06.825Z",
+            "type": "hook_event",
+            "hookEventName": "agent_start"
+          },
+          {
+            "ts": "2026-09-26T15:50:06.829Z",
+            "type": "agent_event",
+            "event": {
+              "type": "iteration_start",
+              "iteration": 1
+            }
+          },
+          {
+            "ts": "2026-09-26T15:50:22.074Z",
+            "type": "agent_event",
+            "event": {
+              "type": "usage",
+              "inputTokens": 3758,
+              "outputTokens": 1618,
+              "totalInputTokens": 3758,
+              "totalOutputTokens": 1618,
+              "totalCost": 0
+            }
+          },
+          {
+            "ts": "2026-09-26T15:50:22.078Z",
+            "type": "hook_event",
+            "hookEventName": "tool_call"
+          },
+          {
+            "ts": "2026-09-26T15:50:22.083Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "tool",
+              "toolName": "run_commands",
+              "toolCallId": "call_1735993",
+              "input": {
+                "commands": [
+                  "ls -la"
+                ]
+              }
+            }
+          },
+          {
+            "ts": "2026-09-26T15:50:22.083Z",
+            "type": "hook_event",
+            "hookEventName": "tool_result"
+          },
+          {
+            "ts": "2026-09-26T15:50:22.084Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_end",
+              "contentType": "tool",
+              "toolName": "run_commands",
+              "toolCallId": "call_1735993",
+              "output": {
+                "error": "Tool \"run_commands\" requires approval in a TTY session -- NOT a tool or system failure. Clarify with user before proceeding."
+              },
+              "error": "{\"error\":\"Tool \\\"run_commands\\\" requires approval in a TTY session -- NOT a tool or system failure. Clarify with user before proceeding.\"}",
+              "durationMs": 1
+            }
+          },
+          {
+            "ts": "2026-09-26T15:50:22.084Z",
+            "type": "agent_event",
+            "event": {
+              "type": "iteration_end",
+              "iteration": 1,
+              "hadToolCalls": true,
+              "toolCallCount": 1
+            }
+          },
+          {
+            "ts": "2026-09-26T15:50:22.084Z",
+            "type": "agent_event",
+            "event": {
+              "type": "error",
+              "error": {
+                "name": "Error",
+                "message": "1 tool call(s) failed: [run_commands] {\"error\":\"Tool \\\"run_commands\\\" requires approval in a TTY session -- NOT a tool or system failure. Clarify with user before proceeding.\"}",
+                "stack": "Error: 1 tool call(s) failed: [run_commands] {\"error\":\"Tool \\\"run_commands\\\" requires approval in a TTY session -- NOT a tool or system failure. Clarify with user before proceeding.\"}\n    at record (/$bunfs/root/chunk-v45ynnaz.js:411:26752)\n    at <anonymous> (/$bunfs/root/chunk-v45ynnaz.js:417:15774)\n    at processTicksAndRejections (native:7:39)"
+              },
+              "recoverable": true,
+              "iteration": 1
+            }
+          },
+          {
+            "ts": "2026-09-26T15:50:22.088Z",
+            "type": "hook_event",
+            "hookEventName": "agent_error"
+          },
+          {
+            "ts": "2026-09-26T15:50:22.088Z",
+            "type": "agent_event",
+            "event": {
+              "type": "done",
+              "reason": "aborted",
+              "text": "",
+              "iterations": 1,
+              "usage": {
+                "inputTokens": 3758,
+                "outputTokens": 1618,
+                "totalCost": 0
+              }
+            }
+          },
+          {
+            "ts": "2026-09-26T15:50:22.163Z",
+            "type": "run_result",
+            "finishReason": "aborted",
+            "iterations": 1,
+            "usage": {
+              "inputTokens": 3758,
+              "outputTokens": 1618,
+              "cacheReadTokens": 0,
+              "cacheWriteTokens": 0,
+              "totalCost": 0
+            },
+            "aggregateUsage": {
+              "inputTokens": 3758,
+              "outputTokens": 1618,
+              "cacheReadTokens": 0,
+              "cacheWriteTokens": 0,
+              "totalCost": 0
+            },
+            "durationMs": 15272,
+            "text": "",
+            "model": {
+              "provider": "cline"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:50:22.163Z",
+            "type": "run_aborted",
+            "reason": "external_abort",
+            "message": "aborted by another client"
+          }
+        ],
+        "stderr": "",
+        "result": {
+          "ts": "2026-09-26T15:50:22.163Z",
+          "type": "run_result",
+          "finishReason": "aborted",
+          "iterations": 1,
+          "usage": {
+            "inputTokens": 3758,
+            "outputTokens": 1618,
+            "cacheReadTokens": 0,
+            "cacheWriteTokens": 0,
+            "totalCost": 0
+          },
+          "aggregateUsage": {
+            "inputTokens": 3758,
+            "outputTokens": 1618,
+            "cacheReadTokens": 0,
+            "cacheWriteTokens": 0,
+            "totalCost": 0
+          },
+          "durationMs": 15272,
+          "text": "",
+          "model": {
+            "provider": "cline"
+          }
+        },
+        "usage": {
+          "inputTokens": 3758,
+          "outputTokens": 1618,
+          "cacheReadTokens": 0,
+          "cacheWriteTokens": 0,
+          "totalCost": 0
+        },
+        "prompt_tokens": 3758,
+        "text": "",
+        "iterations": 1,
+        "tool_calls": 1
+      },
+      {
+        "model": "stealth/pixel-canary",
+        "label": "base_start",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n",
+        "started": 1790437824498,
+        "code": 0,
+        "elapsed_seconds": 49.559,
+        "events": [
+          {
+            "ts": "2026-09-26T15:50:29.911Z",
+            "type": "hook_event",
+            "hookEventName": "agent_start"
+          },
+          {
+            "ts": "2026-09-26T15:50:29.912Z",
+            "type": "agent_event",
+            "event": {
+              "type": "iteration_start",
+              "iteration": 1
+            }
+          },
+          {
+            "ts": "2026-09-26T15:51:07.991Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": "What",
+              "accumulated": "What"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:51:08.398Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": " is ",
+              "accumulated": "What is "
+            }
+          },
+          {
+            "ts": "2026-09-26T15:51:08.772Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": "1",
+              "accumulated": "What is 1"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:51:09.249Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": "2 times",
+              "accumulated": "What is 12 times"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:51:09.600Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": " 7",
+              "accumulated": "What is 12 times 7"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:51:10.038Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": "?",
+              "accumulated": "What is 12 times 7?"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:51:10.381Z",
+            "type": "agent_event",
+            "event": {
+              "type": "usage",
+              "inputTokens": 5971,
+              "outputTokens": 10,
+              "totalInputTokens": 5971,
+              "totalOutputTokens": 10,
+              "totalCost": 0
+            }
+          },
+          {
+            "ts": "2026-09-26T15:51:10.388Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_end",
+              "contentType": "text",
+              "text": "What is 12 times 7?"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:51:10.391Z",
+            "type": "agent_event",
+            "event": {
+              "type": "iteration_end",
+              "iteration": 1,
+              "hadToolCalls": false,
+              "toolCallCount": 0
+            }
+          },
+          {
+            "ts": "2026-09-26T15:51:10.391Z",
+            "type": "hook_event",
+            "hookEventName": "agent_end"
+          },
+          {
+            "ts": "2026-09-26T15:51:10.394Z",
+            "type": "agent_event",
+            "event": {
+              "type": "done",
+              "reason": "completed",
+              "text": "What is 12 times 7?",
+              "iterations": 1,
+              "usage": {
+                "inputTokens": 5971,
+                "outputTokens": 10,
+                "totalCost": 0
+              }
+            }
+          },
+          {
+            "ts": "2026-09-26T15:51:10.673Z",
+            "type": "run_result",
+            "finishReason": "completed",
+            "iterations": 1,
+            "usage": {
+              "inputTokens": 5971,
+              "outputTokens": 10,
+              "cacheReadTokens": 0,
+              "cacheWriteTokens": 0,
+              "totalCost": 0
+            },
+            "aggregateUsage": {
+              "inputTokens": 5971,
+              "outputTokens": 10,
+              "cacheReadTokens": 0,
+              "cacheWriteTokens": 0,
+              "totalCost": 0
+            },
+            "durationMs": 40494,
+            "text": "What is 12 times 7?",
+            "model": {
+              "provider": "cline"
+            }
+          }
+        ],
+        "stderr": "",
+        "result": {
+          "ts": "2026-09-26T15:51:10.673Z",
+          "type": "run_result",
+          "finishReason": "completed",
+          "iterations": 1,
+          "usage": {
+            "inputTokens": 5971,
+            "outputTokens": 10,
+            "cacheReadTokens": 0,
+            "cacheWriteTokens": 0,
+            "totalCost": 0
+          },
+          "aggregateUsage": {
+            "inputTokens": 5971,
+            "outputTokens": 10,
+            "cacheReadTokens": 0,
+            "cacheWriteTokens": 0,
+            "totalCost": 0
+          },
+          "durationMs": 40494,
+          "text": "What is 12 times 7?",
+          "model": {
+            "provider": "cline"
+          }
+        },
+        "usage": {
+          "inputTokens": 5971,
+          "outputTokens": 10,
+          "cacheReadTokens": 0,
+          "cacheWriteTokens": 0,
+          "totalCost": 0
+        },
+        "prompt_tokens": 5971,
+        "text": "What is 12 times 7?",
+        "iterations": 1,
+        "tool_calls": 0
+      },
+      {
+        "model": "stealth/pixel-canary",
+        "label": "zh_long",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。",
+        "started": 1790437874060,
+        "code": 0,
+        "elapsed_seconds": 46.663,
+        "events": [
+          {
+            "ts": "2026-09-26T15:51:18.101Z",
+            "type": "hook_event",
+            "hookEventName": "agent_start"
+          },
+          {
+            "ts": "2026-09-26T15:51:18.103Z",
+            "type": "agent_event",
+            "event": {
+              "type": "iteration_start",
+              "iteration": 1
+            }
+          },
+          {
+            "ts": "2026-09-26T15:51:57.487Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": "人工智能",
+              "accumulated": "人工智能"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:51:57.776Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": "的快速发展正在改变",
+              "accumulated": "人工智能的快速发展正在改变"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:51:58.127Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": "我们与技术互动的方式",
+              "accumulated": "人工智能的快速发展正在改变我们与技术互动的方式"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:51:58.545Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": "，这令人兴奋",
+              "accumulated": "人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:51:58.881Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": "。",
+              "accumulated": "人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:51:58.887Z",
+            "type": "agent_event",
+            "event": {
+              "type": "usage",
+              "inputTokens": 5986,
+              "outputTokens": 15,
+              "cacheReadTokens": 3200,
+              "totalInputTokens": 5986,
+              "totalOutputTokens": 15,
+              "totalCacheReadTokens": 3200,
+              "totalCost": 0
+            }
+          },
+          {
+            "ts": "2026-09-26T15:51:58.889Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_end",
+              "contentType": "text",
+              "text": "人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:51:58.893Z",
+            "type": "agent_event",
+            "event": {
+              "type": "iteration_end",
+              "iteration": 1,
+              "hadToolCalls": false,
+              "toolCallCount": 0
+            }
+          },
+          {
+            "ts": "2026-09-26T15:51:58.894Z",
+            "type": "hook_event",
+            "hookEventName": "agent_end"
+          },
+          {
+            "ts": "2026-09-26T15:51:58.894Z",
+            "type": "agent_event",
+            "event": {
+              "type": "done",
+              "reason": "completed",
+              "text": "人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。",
+              "iterations": 1,
+              "usage": {
+                "inputTokens": 5986,
+                "outputTokens": 15,
+                "cacheReadTokens": 3200,
+                "totalCost": 0
+              }
+            }
+          },
+          {
+            "ts": "2026-09-26T15:51:58.977Z",
+            "type": "run_result",
+            "finishReason": "completed",
+            "iterations": 1,
+            "usage": {
+              "inputTokens": 5986,
+              "outputTokens": 15,
+              "cacheReadTokens": 3200,
+              "cacheWriteTokens": 0,
+              "totalCost": 0
+            },
+            "aggregateUsage": {
+              "inputTokens": 5986,
+              "outputTokens": 15,
+              "cacheReadTokens": 3200,
+              "cacheWriteTokens": 0,
+              "totalCost": 0
+            },
+            "durationMs": 40799,
+            "text": "人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。",
+            "model": {
+              "provider": "cline"
+            }
+          }
+        ],
+        "stderr": "",
+        "result": {
+          "ts": "2026-09-26T15:51:58.977Z",
+          "type": "run_result",
+          "finishReason": "completed",
+          "iterations": 1,
+          "usage": {
+            "inputTokens": 5986,
+            "outputTokens": 15,
+            "cacheReadTokens": 3200,
+            "cacheWriteTokens": 0,
+            "totalCost": 0
+          },
+          "aggregateUsage": {
+            "inputTokens": 5986,
+            "outputTokens": 15,
+            "cacheReadTokens": 3200,
+            "cacheWriteTokens": 0,
+            "totalCost": 0
+          },
+          "durationMs": 40799,
+          "text": "人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。",
+          "model": {
+            "provider": "cline"
+          }
+        },
+        "usage": {
+          "inputTokens": 5986,
+          "outputTokens": 15,
+          "cacheReadTokens": 3200,
+          "cacheWriteTokens": 0,
+          "totalCost": 0
+        },
+        "prompt_tokens": 5986,
+        "text": "人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。",
+        "iterations": 1,
+        "tool_calls": 0
+      },
+      {
+        "model": "stealth/pixel-canary",
+        "label": "emoji_zwj",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n👨‍👩‍👧‍👦 🏳️‍🌈 👍🏽",
+        "started": 1790437920729,
+        "code": 0,
+        "elapsed_seconds": 50.645,
+        "events": [
+          {
+            "ts": "2026-09-26T15:52:04.522Z",
+            "type": "hook_event",
+            "hookEventName": "agent_start"
+          },
+          {
+            "ts": "2026-09-26T15:52:04.525Z",
+            "type": "agent_event",
+            "event": {
+              "type": "iteration_start",
+              "iteration": 1
+            }
+          },
+          {
+            "ts": "2026-09-26T15:52:46.105Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": "👨‍",
+              "accumulated": "👨‍"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:52:46.538Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": "👩",
+              "accumulated": "👨‍👩"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:52:46.987Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": "‍👧",
+              "accumulated": "👨‍👩‍👧"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:52:47.432Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": "‍",
+              "accumulated": "👨‍👩‍👧‍"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:52:47.879Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": "👦 🏳",
+              "accumulated": "👨‍👩‍👧‍👦 🏳"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:52:49.278Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": "️‍",
+              "accumulated": "👨‍👩‍👧‍👦 🏳️‍"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:52:49.283Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": "🌈 👍",
+              "accumulated": "👨‍👩‍👧‍👦 🏳️‍🌈 👍"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:52:49.285Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": "🏽",
+              "accumulated": "👨‍👩‍👧‍👦 🏳️‍🌈 👍🏽"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:52:49.326Z",
+            "type": "agent_event",
+            "event": {
+              "type": "usage",
+              "inputTokens": 6004,
+              "outputTokens": 33,
+              "totalInputTokens": 6004,
+              "totalOutputTokens": 33,
+              "totalCost": 0
+            }
+          },
+          {
+            "ts": "2026-09-26T15:52:49.330Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_end",
+              "contentType": "text",
+              "text": "👨‍👩‍👧‍👦 🏳️‍🌈 👍🏽"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:52:49.334Z",
+            "type": "agent_event",
+            "event": {
+              "type": "iteration_end",
+              "iteration": 1,
+              "hadToolCalls": false,
+              "toolCallCount": 0
+            }
+          },
+          {
+            "ts": "2026-09-26T15:52:49.337Z",
+            "type": "hook_event",
+            "hookEventName": "agent_end"
+          },
+          {
+            "ts": "2026-09-26T15:52:49.337Z",
+            "type": "agent_event",
+            "event": {
+              "type": "done",
+              "reason": "completed",
+              "text": "👨‍👩‍👧‍👦 🏳️‍🌈 👍🏽",
+              "iterations": 1,
+              "usage": {
+                "inputTokens": 6004,
+                "outputTokens": 33,
+                "totalCost": 0
+              }
+            }
+          },
+          {
+            "ts": "2026-09-26T15:52:49.443Z",
+            "type": "run_result",
+            "finishReason": "completed",
+            "iterations": 1,
+            "usage": {
+              "inputTokens": 6004,
+              "outputTokens": 33,
+              "cacheReadTokens": 0,
+              "cacheWriteTokens": 0,
+              "totalCost": 0
+            },
+            "aggregateUsage": {
+              "inputTokens": 6004,
+              "outputTokens": 33,
+              "cacheReadTokens": 0,
+              "cacheWriteTokens": 0,
+              "totalCost": 0
+            },
+            "durationMs": 44820,
+            "text": "👨‍👩‍👧‍👦 🏳️‍🌈 👍🏽",
+            "model": {
+              "provider": "cline"
+            }
+          }
+        ],
+        "stderr": "",
+        "result": {
+          "ts": "2026-09-26T15:52:49.443Z",
+          "type": "run_result",
+          "finishReason": "completed",
+          "iterations": 1,
+          "usage": {
+            "inputTokens": 6004,
+            "outputTokens": 33,
+            "cacheReadTokens": 0,
+            "cacheWriteTokens": 0,
+            "totalCost": 0
+          },
+          "aggregateUsage": {
+            "inputTokens": 6004,
+            "outputTokens": 33,
+            "cacheReadTokens": 0,
+            "cacheWriteTokens": 0,
+            "totalCost": 0
+          },
+          "durationMs": 44820,
+          "text": "👨‍👩‍👧‍👦 🏳️‍🌈 👍🏽",
+          "model": {
+            "provider": "cline"
+          }
+        },
+        "usage": {
+          "inputTokens": 6004,
+          "outputTokens": 33,
+          "cacheReadTokens": 0,
+          "cacheWriteTokens": 0,
+          "totalCost": 0
+        },
+        "prompt_tokens": 6004,
+        "text": "👨‍👩‍👧‍👦 🏳️‍🌈 👍🏽",
+        "iterations": 1,
+        "tool_calls": 0
+      },
+      {
+        "model": "stealth/pixel-canary",
+        "label": "digits",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n1234567890 007 3.14159 1,000,000",
+        "started": 1790437971380,
+        "code": 0,
+        "elapsed_seconds": 74.118,
+        "events": [
+          {
+            "ts": "2026-09-26T15:52:55.785Z",
+            "type": "hook_event",
+            "hookEventName": "agent_start"
+          },
+          {
+            "ts": "2026-09-26T15:52:55.787Z",
+            "type": "agent_event",
+            "event": {
+              "type": "iteration_start",
+              "iteration": 1
+            }
+          },
+          {
+            "ts": "2026-09-26T15:54:00.683Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": "1",
+              "accumulated": "1"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:54:01.095Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": "2345",
+              "accumulated": "12345"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:54:01.504Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": "6789",
+              "accumulated": "123456789"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:54:01.850Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": "0 00",
+              "accumulated": "1234567890 00"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:54:02.282Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": "7 3.",
+              "accumulated": "1234567890 007 3."
+            }
+          },
+          {
+            "ts": "2026-09-26T15:54:03.404Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": "1415",
+              "accumulated": "1234567890 007 3.1415"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:54:03.404Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": "9 1,",
+              "accumulated": "1234567890 007 3.14159 1,"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:54:03.404Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": "000,",
+              "accumulated": "1234567890 007 3.14159 1,000,"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:54:03.625Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": "000",
+              "accumulated": "1234567890 007 3.14159 1,000,000"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:54:03.638Z",
+            "type": "agent_event",
+            "event": {
+              "type": "usage",
+              "inputTokens": 6004,
+              "outputTokens": 33,
+              "totalInputTokens": 6004,
+              "totalOutputTokens": 33,
+              "totalCost": 0
+            }
+          },
+          {
+            "ts": "2026-09-26T15:54:03.640Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_end",
+              "contentType": "text",
+              "text": "1234567890 007 3.14159 1,000,000"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:54:03.641Z",
+            "type": "agent_event",
+            "event": {
+              "type": "iteration_end",
+              "iteration": 1,
+              "hadToolCalls": false,
+              "toolCallCount": 0
+            }
+          },
+          {
+            "ts": "2026-09-26T15:54:03.642Z",
+            "type": "hook_event",
+            "hookEventName": "agent_end"
+          },
+          {
+            "ts": "2026-09-26T15:54:03.642Z",
+            "type": "agent_event",
+            "event": {
+              "type": "done",
+              "reason": "completed",
+              "text": "1234567890 007 3.14159 1,000,000",
+              "iterations": 1,
+              "usage": {
+                "inputTokens": 6004,
+                "outputTokens": 33,
+                "totalCost": 0
+              }
+            }
+          },
+          {
+            "ts": "2026-09-26T15:54:03.732Z",
+            "type": "run_result",
+            "finishReason": "completed",
+            "iterations": 1,
+            "usage": {
+              "inputTokens": 6004,
+              "outputTokens": 33,
+              "cacheReadTokens": 0,
+              "cacheWriteTokens": 0,
+              "totalCost": 0
+            },
+            "aggregateUsage": {
+              "inputTokens": 6004,
+              "outputTokens": 33,
+              "cacheReadTokens": 0,
+              "cacheWriteTokens": 0,
+              "totalCost": 0
+            },
+            "durationMs": 67863,
+            "text": "1234567890 007 3.14159 1,000,000",
+            "model": {
+              "provider": "cline"
+            }
+          }
+        ],
+        "stderr": "",
+        "result": {
+          "ts": "2026-09-26T15:54:03.732Z",
+          "type": "run_result",
+          "finishReason": "completed",
+          "iterations": 1,
+          "usage": {
+            "inputTokens": 6004,
+            "outputTokens": 33,
+            "cacheReadTokens": 0,
+            "cacheWriteTokens": 0,
+            "totalCost": 0
+          },
+          "aggregateUsage": {
+            "inputTokens": 6004,
+            "outputTokens": 33,
+            "cacheReadTokens": 0,
+            "cacheWriteTokens": 0,
+            "totalCost": 0
+          },
+          "durationMs": 67863,
+          "text": "1234567890 007 3.14159 1,000,000",
+          "model": {
+            "provider": "cline"
+          }
+        },
+        "usage": {
+          "inputTokens": 6004,
+          "outputTokens": 33,
+          "cacheReadTokens": 0,
+          "cacheWriteTokens": 0,
+          "totalCost": 0
+        },
+        "prompt_tokens": 6004,
+        "text": "1234567890 007 3.14159 1,000,000",
+        "iterations": 1,
+        "tool_calls": 0
+      },
+      {
+        "model": "stealth/pixel-canary",
+        "label": "thai",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\nกรุงเทพมหานคร ครับ",
+        "started": 1790438045499,
+        "code": 0,
+        "elapsed_seconds": 48.306,
+        "events": [
+          {
+            "ts": "2026-09-26T15:54:08.405Z",
+            "type": "hook_event",
+            "hookEventName": "agent_start"
+          },
+          {
+            "ts": "2026-09-26T15:54:08.406Z",
+            "type": "agent_event",
+            "event": {
+              "type": "iteration_start",
+              "iteration": 1
+            }
+          },
+          {
+            "ts": "2026-09-26T15:54:51.343Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": "กร",
+              "accumulated": "กร"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:54:51.687Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": "ุงเทพมหานคร คร",
+              "accumulated": "กรุงเทพมหานคร คร"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:54:52.139Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": "ับ",
+              "accumulated": "กรุงเทพมหานคร ครับ"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:54:52.144Z",
+            "type": "agent_event",
+            "event": {
+              "type": "usage",
+              "inputTokens": 5977,
+              "outputTokens": 6,
+              "totalInputTokens": 5977,
+              "totalOutputTokens": 6,
+              "totalCost": 0
+            }
+          },
+          {
+            "ts": "2026-09-26T15:54:52.146Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_end",
+              "contentType": "text",
+              "text": "กรุงเทพมหานคร ครับ"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:54:52.147Z",
+            "type": "agent_event",
+            "event": {
+              "type": "iteration_end",
+              "iteration": 1,
+              "hadToolCalls": false,
+              "toolCallCount": 0
+            }
+          },
+          {
+            "ts": "2026-09-26T15:54:52.147Z",
+            "type": "hook_event",
+            "hookEventName": "agent_end"
+          },
+          {
+            "ts": "2026-09-26T15:54:52.148Z",
+            "type": "agent_event",
+            "event": {
+              "type": "done",
+              "reason": "completed",
+              "text": "กรุงเทพมหานคร ครับ",
+              "iterations": 1,
+              "usage": {
+                "inputTokens": 5977,
+                "outputTokens": 6,
+                "totalCost": 0
+              }
+            }
+          },
+          {
+            "ts": "2026-09-26T15:54:52.199Z",
+            "type": "run_result",
+            "finishReason": "completed",
+            "iterations": 1,
+            "usage": {
+              "inputTokens": 5977,
+              "outputTokens": 6,
+              "cacheReadTokens": 0,
+              "cacheWriteTokens": 0,
+              "totalCost": 0
+            },
+            "aggregateUsage": {
+              "inputTokens": 5977,
+              "outputTokens": 6,
+              "cacheReadTokens": 0,
+              "cacheWriteTokens": 0,
+              "totalCost": 0
+            },
+            "durationMs": 43750,
+            "text": "กรุงเทพมหานคร ครับ",
+            "model": {
+              "provider": "cline"
+            }
+          }
+        ],
+        "stderr": "",
+        "result": {
+          "ts": "2026-09-26T15:54:52.199Z",
+          "type": "run_result",
+          "finishReason": "completed",
+          "iterations": 1,
+          "usage": {
+            "inputTokens": 5977,
+            "outputTokens": 6,
+            "cacheReadTokens": 0,
+            "cacheWriteTokens": 0,
+            "totalCost": 0
+          },
+          "aggregateUsage": {
+            "inputTokens": 5977,
+            "outputTokens": 6,
+            "cacheReadTokens": 0,
+            "cacheWriteTokens": 0,
+            "totalCost": 0
+          },
+          "durationMs": 43750,
+          "text": "กรุงเทพมหานคร ครับ",
+          "model": {
+            "provider": "cline"
+          }
+        },
+        "usage": {
+          "inputTokens": 5977,
+          "outputTokens": 6,
+          "cacheReadTokens": 0,
+          "cacheWriteTokens": 0,
+          "totalCost": 0
+        },
+        "prompt_tokens": 5977,
+        "text": "กรุงเทพมหานคร ครับ",
+        "iterations": 1,
+        "tool_calls": 0
+      },
+      {
+        "model": "stealth/pixel-canary",
+        "label": "base_end",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n",
+        "started": 1790438093806,
+        "code": 0,
+        "elapsed_seconds": 160.617,
+        "events": [
+          {
+            "ts": "2026-09-26T15:54:56.261Z",
+            "type": "hook_event",
+            "hookEventName": "agent_start"
+          },
+          {
+            "ts": "2026-09-26T15:54:56.262Z",
+            "type": "agent_event",
+            "event": {
+              "type": "iteration_start",
+              "iteration": 1
+            }
+          },
+          {
+            "ts": "2026-09-26T15:57:24.131Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": "It",
+              "accumulated": "It"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:57:24.132Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": " looks like your message",
+              "accumulated": "It looks like your message"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:57:24.344Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": " didn't include the",
+              "accumulated": "It looks like your message didn't include the"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:57:24.766Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": " text you want",
+              "accumulated": "It looks like your message didn't include the text you want"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:57:25.175Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": " me to repeat —",
+              "accumulated": "It looks like your message didn't include the text you want me to repeat —"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:57:25.671Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": " the instructions",
+              "accumulated": "It looks like your message didn't include the text you want me to repeat — the instructions"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:57:26.010Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": " and",
+              "accumulated": "It looks like your message didn't include the text you want me to repeat — the instructions and"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:57:27.479Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": " the target",
+              "accumulated": "It looks like your message didn't include the text you want me to repeat — the instructions and the target"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:57:27.481Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": " text appear",
+              "accumulated": "It looks like your message didn't include the text you want me to repeat — the instructions and the target text appear"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:57:27.481Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": " to be missing",
+              "accumulated": "It looks like your message didn't include the text you want me to repeat — the instructions and the target text appear to be missing"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:57:27.768Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": " after",
+              "accumulated": "It looks like your message didn't include the text you want me to repeat — the instructions and the target text appear to be missing after"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:57:28.059Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": " \"",
+              "accumulated": "It looks like your message didn't include the text you want me to repeat — the instructions and the target text appear to be missing after \""
+            }
+          },
+          {
+            "ts": "2026-09-26T15:57:28.537Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": "add nothing else:\".",
+              "accumulated": "It looks like your message didn't include the text you want me to repeat — the instructions and the target text appear to be missing after \"add nothing else:\"."
+            }
+          },
+          {
+            "ts": "2026-09-26T15:57:28.537Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": " Could",
+              "accumulated": "It looks like your message didn't include the text you want me to repeat — the instructions and the target text appear to be missing after \"add nothing else:\". Could"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:57:28.615Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": " you paste",
+              "accumulated": "It looks like your message didn't include the text you want me to repeat — the instructions and the target text appear to be missing after \"add nothing else:\". Could you paste"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:57:29.060Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": " the text you'd",
+              "accumulated": "It looks like your message didn't include the text you want me to repeat — the instructions and the target text appear to be missing after \"add nothing else:\". Could you paste the text you'd"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:57:29.453Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": " like me to repeat",
+              "accumulated": "It looks like your message didn't include the text you want me to repeat — the instructions and the target text appear to be missing after \"add nothing else:\". Could you paste the text you'd like me to repeat"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:57:29.866Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": "?",
+              "accumulated": "It looks like your message didn't include the text you want me to repeat — the instructions and the target text appear to be missing after \"add nothing else:\". Could you paste the text you'd like me to repeat?"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:57:30.611Z",
+            "type": "agent_event",
+            "event": {
+              "type": "usage",
+              "inputTokens": 5971,
+              "outputTokens": 45,
+              "totalInputTokens": 5971,
+              "totalOutputTokens": 45,
+              "totalCost": 0
+            }
+          },
+          {
+            "ts": "2026-09-26T15:57:30.612Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_end",
+              "contentType": "text",
+              "text": "It looks like your message didn't include the text you want me to repeat — the instructions and the target text appear to be missing after \"add nothing else:\". Could you paste the text you'd like me to repeat?"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:57:30.614Z",
+            "type": "agent_event",
+            "event": {
+              "type": "iteration_end",
+              "iteration": 1,
+              "hadToolCalls": false,
+              "toolCallCount": 0
+            }
+          },
+          {
+            "ts": "2026-09-26T15:57:30.615Z",
+            "type": "hook_event",
+            "hookEventName": "agent_end"
+          },
+          {
+            "ts": "2026-09-26T15:57:30.615Z",
+            "type": "agent_event",
+            "event": {
+              "type": "done",
+              "reason": "completed",
+              "text": "It looks like your message didn't include the text you want me to repeat — the instructions and the target text appear to be missing after \"add nothing else:\". Could you paste the text you'd like me to repeat?",
+              "iterations": 1,
+              "usage": {
+                "inputTokens": 5971,
+                "outputTokens": 45,
+                "totalCost": 0
+              }
+            }
+          },
+          {
+            "ts": "2026-09-26T15:57:30.667Z",
+            "type": "run_result",
+            "finishReason": "completed",
+            "iterations": 1,
+            "usage": {
+              "inputTokens": 5971,
+              "outputTokens": 45,
+              "cacheReadTokens": 0,
+              "cacheWriteTokens": 0,
+              "totalCost": 0
+            },
+            "aggregateUsage": {
+              "inputTokens": 5971,
+              "outputTokens": 45,
+              "cacheReadTokens": 0,
+              "cacheWriteTokens": 0,
+              "totalCost": 0
+            },
+            "durationMs": 154360,
+            "text": "It looks like your message didn't include the text you want me to repeat — the instructions and the target text appear to be missing after \"add nothing else:\". Could you paste the text you'd like me to repeat?",
+            "model": {
+              "provider": "cline"
+            }
+          }
+        ],
+        "stderr": "",
+        "result": {
+          "ts": "2026-09-26T15:57:30.667Z",
+          "type": "run_result",
+          "finishReason": "completed",
+          "iterations": 1,
+          "usage": {
+            "inputTokens": 5971,
+            "outputTokens": 45,
+            "cacheReadTokens": 0,
+            "cacheWriteTokens": 0,
+            "totalCost": 0
+          },
+          "aggregateUsage": {
+            "inputTokens": 5971,
+            "outputTokens": 45,
+            "cacheReadTokens": 0,
+            "cacheWriteTokens": 0,
+            "totalCost": 0
+          },
+          "durationMs": 154360,
+          "text": "It looks like your message didn't include the text you want me to repeat — the instructions and the target text appear to be missing after \"add nothing else:\". Could you paste the text you'd like me to repeat?",
+          "model": {
+            "provider": "cline"
+          }
+        },
+        "usage": {
+          "inputTokens": 5971,
+          "outputTokens": 45,
+          "cacheReadTokens": 0,
+          "cacheWriteTokens": 0,
+          "totalCost": 0
+        },
+        "prompt_tokens": 5971,
+        "text": "It looks like your message didn't include the text you want me to repeat — the instructions and the target text appear to be missing after \"add nothing else:\". Could you paste the text you'd like me to repeat?",
+        "iterations": 1,
+        "tool_calls": 0
+      },
+      {
+        "model": "cline-free/gemini-3.8-flash",
+        "label": "zh_repeat",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。",
+        "started": 1790438254425,
+        "code": 0,
+        "elapsed_seconds": 12.611,
+        "events": [
+          {
+            "ts": "2026-09-26T15:57:37.294Z",
+            "type": "hook_event",
+            "hookEventName": "agent_start"
+          },
+          {
+            "ts": "2026-09-26T15:57:37.295Z",
+            "type": "agent_event",
+            "event": {
+              "type": "iteration_start",
+              "iteration": 1
+            }
+          },
+          {
+            "ts": "2026-09-26T15:57:41.795Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": "人工智能的快速发展正在改变",
+              "accumulated": "人工智能的快速发展正在改变"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:57:41.863Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": "我们与技术互动的方式，这令人兴奋。",
+              "accumulated": "人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:57:42.186Z",
+            "type": "agent_event",
+            "event": {
+              "type": "usage",
+              "inputTokens": 3775,
+              "outputTokens": 234,
+              "totalInputTokens": 3775,
+              "totalOutputTokens": 234,
+              "totalCost": 0
+            }
+          },
+          {
+            "ts": "2026-09-26T15:57:42.191Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_end",
+              "contentType": "text",
+              "text": "人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:57:42.194Z",
+            "type": "agent_event",
+            "event": {
+              "type": "iteration_end",
+              "iteration": 1,
+              "hadToolCalls": false,
+              "toolCallCount": 0
+            }
+          },
+          {
+            "ts": "2026-09-26T15:57:42.195Z",
+            "type": "hook_event",
+            "hookEventName": "agent_end"
+          },
+          {
+            "ts": "2026-09-26T15:57:42.195Z",
+            "type": "agent_event",
+            "event": {
+              "type": "done",
+              "reason": "completed",
+              "text": "人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。",
+              "iterations": 1,
+              "usage": {
+                "inputTokens": 3775,
+                "outputTokens": 234,
+                "totalCost": 0
+              }
+            }
+          },
+          {
+            "ts": "2026-09-26T15:57:42.242Z",
+            "type": "run_result",
+            "finishReason": "completed",
+            "iterations": 1,
+            "usage": {
+              "inputTokens": 3775,
+              "outputTokens": 234,
+              "cacheReadTokens": 0,
+              "cacheWriteTokens": 0,
+              "totalCost": 0
+            },
+            "aggregateUsage": {
+              "inputTokens": 3775,
+              "outputTokens": 234,
+              "cacheReadTokens": 0,
+              "cacheWriteTokens": 0,
+              "totalCost": 0
+            },
+            "durationMs": 4906,
+            "text": "人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。",
+            "model": {
+              "provider": "cline"
+            }
+          }
+        ],
+        "stderr": "",
+        "result": {
+          "ts": "2026-09-26T15:57:42.242Z",
+          "type": "run_result",
+          "finishReason": "completed",
+          "iterations": 1,
+          "usage": {
+            "inputTokens": 3775,
+            "outputTokens": 234,
+            "cacheReadTokens": 0,
+            "cacheWriteTokens": 0,
+            "totalCost": 0
+          },
+          "aggregateUsage": {
+            "inputTokens": 3775,
+            "outputTokens": 234,
+            "cacheReadTokens": 0,
+            "cacheWriteTokens": 0,
+            "totalCost": 0
+          },
+          "durationMs": 4906,
+          "text": "人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。",
+          "model": {
+            "provider": "cline"
+          }
+        },
+        "usage": {
+          "inputTokens": 3775,
+          "outputTokens": 234,
+          "cacheReadTokens": 0,
+          "cacheWriteTokens": 0,
+          "totalCost": 0
+        },
+        "prompt_tokens": 3775,
+        "text": "人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。",
+        "iterations": 1,
+        "tool_calls": 0
+      },
+      {
+        "model": "stealth/pixel-canary",
+        "label": "zh_repeat",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。",
+        "started": 1790438267037,
+        "code": 0,
+        "elapsed_seconds": 59.403,
+        "events": [
+          {
+            "ts": "2026-09-26T15:57:54.815Z",
+            "type": "hook_event",
+            "hookEventName": "agent_start"
+          },
+          {
+            "ts": "2026-09-26T15:57:54.816Z",
+            "type": "agent_event",
+            "event": {
+              "type": "iteration_start",
+              "iteration": 1
+            }
+          },
+          {
+            "ts": "2026-09-26T15:58:37.441Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": "人工智能",
+              "accumulated": "人工智能"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:58:37.744Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": "的快速发展正在改变",
+              "accumulated": "人工智能的快速发展正在改变"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:58:39.297Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": "我们与技术互动的方式",
+              "accumulated": "人工智能的快速发展正在改变我们与技术互动的方式"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:58:39.297Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": "，这令人兴奋",
+              "accumulated": "人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:58:39.300Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_start",
+              "contentType": "text",
+              "text": "。",
+              "accumulated": "人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:58:40.138Z",
+            "type": "agent_event",
+            "event": {
+              "type": "usage",
+              "inputTokens": 5986,
+              "outputTokens": 15,
+              "totalInputTokens": 5986,
+              "totalOutputTokens": 15,
+              "totalCost": 0
+            }
+          },
+          {
+            "ts": "2026-09-26T15:58:40.141Z",
+            "type": "agent_event",
+            "event": {
+              "type": "content_end",
+              "contentType": "text",
+              "text": "人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。"
+            }
+          },
+          {
+            "ts": "2026-09-26T15:58:40.142Z",
+            "type": "agent_event",
+            "event": {
+              "type": "iteration_end",
+              "iteration": 1,
+              "hadToolCalls": false,
+              "toolCallCount": 0
+            }
+          },
+          {
+            "ts": "2026-09-26T15:58:40.143Z",
+            "type": "hook_event",
+            "hookEventName": "agent_end"
+          },
+          {
+            "ts": "2026-09-26T15:58:40.143Z",
+            "type": "agent_event",
+            "event": {
+              "type": "done",
+              "reason": "completed",
+              "text": "人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。",
+              "iterations": 1,
+              "usage": {
+                "inputTokens": 5986,
+                "outputTokens": 15,
+                "totalCost": 0
+              }
+            }
+          },
+          {
+            "ts": "2026-09-26T15:58:40.212Z",
+            "type": "run_result",
+            "finishReason": "completed",
+            "iterations": 1,
+            "usage": {
+              "inputTokens": 5986,
+              "outputTokens": 15,
+              "cacheReadTokens": 0,
+              "cacheWriteTokens": 0,
+              "totalCost": 0
+            },
+            "aggregateUsage": {
+              "inputTokens": 5986,
+              "outputTokens": 15,
+              "cacheReadTokens": 0,
+              "cacheWriteTokens": 0,
+              "totalCost": 0
+            },
+            "durationMs": 45333,
+            "text": "人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。",
+            "model": {
+              "provider": "cline"
+            }
+          }
+        ],
+        "stderr": "",
+        "result": {
+          "ts": "2026-09-26T15:58:40.212Z",
+          "type": "run_result",
+          "finishReason": "completed",
+          "iterations": 1,
+          "usage": {
+            "inputTokens": 5986,
+            "outputTokens": 15,
+            "cacheReadTokens": 0,
+            "cacheWriteTokens": 0,
+            "totalCost": 0
+          },
+          "aggregateUsage": {
+            "inputTokens": 5986,
+            "outputTokens": 15,
+            "cacheReadTokens": 0,
+            "cacheWriteTokens": 0,
+            "totalCost": 0
+          },
+          "durationMs": 45333,
+          "text": "人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。",
+          "model": {
+            "provider": "cline"
+          }
+        },
+        "usage": {
+          "inputTokens": 5986,
+          "outputTokens": 15,
+          "cacheReadTokens": 0,
+          "cacheWriteTokens": 0,
+          "totalCost": 0
+        },
+        "prompt_tokens": 5986,
+        "text": "人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。",
+        "iterations": 1,
+        "tool_calls": 0
+      }
+    ],
+    "done": true,
+    "settings": {
+      "cli_version": "3.0.65",
+      "provider": "cline",
+      "mode": "plan",
+      "auto_approve": false,
+      "thinking": "none",
+      "concurrency": 1,
+      "probes": [
+        [
+          "zh_long",
+          "人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。"
+        ],
+        [
+          "emoji_zwj",
+          "👨‍👩‍👧‍👦 🏳️‍🌈 👍🏽"
+        ],
+        [
+          "digits",
+          "1234567890 007 3.14159 1,000,000"
+        ],
+        [
+          "thai",
+          "กรุงเทพมหานคร ครับ"
+        ]
+      ]
+    },
+    "analysis": {
+      "anchor": "zh_long",
+      "models": {
+        "cline-free/gemini-3.8-flash": {
+          "completed_samples": 5,
+          "anchor_values": [
+            3775,
+            3775
+          ],
+          "anchor_stable": true,
+          "relative_deltas": {
+            "emoji_zwj": -2,
+            "digits": 16,
+            "thai": -10
+          },
+          "empty_baseline_runs": [
+            {
+              "label": "base_start",
+              "prompt_tokens": 3758,
+              "finishReason": "aborted",
+              "tool_calls": 1
+            },
+            {
+              "label": "base_end",
+              "prompt_tokens": 3758,
+              "finishReason": "aborted",
+              "tool_calls": 1
+            }
+          ]
+        },
+        "stealth/pixel-canary": {
+          "completed_samples": 7,
+          "anchor_values": [
+            5986,
+            5986
+          ],
+          "anchor_stable": true,
+          "relative_deltas": {
+            "emoji_zwj": 18,
+            "digits": 18,
+            "thai": -9
+          },
+          "empty_baseline_runs": [
+            {
+              "label": "base_start",
+              "prompt_tokens": 5971,
+              "finishReason": "completed",
+              "tool_calls": 0
+            },
+            {
+              "label": "base_end",
+              "prompt_tokens": 5971,
+              "finishReason": "completed",
+              "tool_calls": 0
+            }
+          ]
+        }
+      }
+    }
+  },
+  "limitations": [
+    "Four distinct text probes plus repeated Chinese anchor, not a complete 24-probe Gemini fingerprint.",
+    "Same Cline client and gateway reduces, but does not eliminate, model-specific preprocessing/accounting differences.",
+    "This does not identify a checkpoint or rule out all Google models.",
+    "Google native CLI did not finish reauthentication and did not produce a model response; it is not counted as a tested model.",
+    "Original public-tokenizer comparison remains 21 candidates."
+  ]
+}

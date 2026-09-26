@@ -1,0 +1,2755 @@
+{
+  "date": "2026-09-26",
+  "target": "stealth/pixel-canary",
+  "target_source": "case-pixel-canary-measurements.json",
+  "identity_status": "unknown",
+  "local_tokenizer_candidates_completed": 21,
+  "live_peer_models_completed": 4,
+  "live_probes_per_model": 4,
+  "cli_version": "1.18.32",
+  "permission_resolution": {
+    "before": "deny permissions stripped tools; authentic CLI received FreeTierError HTTP 403",
+    "after": "default build agent; tools require confirmation, external directory access denied; successful requests",
+    "causal_status": "Configuration change restores access in this experiment; exact server-side validation mechanism not inspected.",
+    "related_issue": "https://github.com/anomalyco/opencode/issues/50081",
+    "login": "No new key or login was added; earlier assumption that credentials were necessarily the immediate blocker was not supported."
+  },
+  "counter_method": "OpenCode step_finish.tokens.input + cache.read + cache.write. Only exit 0, one-step, zero-tool-event probes are eligible. Require at least two identical baseline totals for each peer.",
+  "clean_experiment": {
+    "settings": {
+      "cli_version": "1.18.32",
+      "environment": [
+        "XDG_CONFIG_HOME=/tmp/stealthprint-pixel-20260926/opencode-check/config",
+        "XDG_DATA_HOME=/tmp/stealthprint-pixel-20260926/opencode-check/data",
+        "XDG_CACHE_HOME=/tmp/stealthprint-pixel-20260926/opencode-check/cache",
+        "OPENCODE_DISABLE_CLAUDE_CODE=true",
+        "OPENCODE_DISABLE_CLAUDE_CODE_SKILLS=true",
+        "OPENCODE_DISABLE_CLAUDE_CODE_PROMPT=true"
+      ],
+      "permission": "ask; external_directory deny",
+      "token_count": "input + cache.read + cache.write",
+      "probes": [
+        [
+          "zh_long",
+          "人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。"
+        ],
+        [
+          "emoji_zwj",
+          "👨‍👩‍👧‍👦 🏳️‍🌈 👍🏽"
+        ],
+        [
+          "digits",
+          "1234567890 007 3.14159 1,000,000"
+        ],
+        [
+          "thai",
+          "กรุงเทพมหานคร ครับ"
+        ]
+      ],
+      "global_claude_disabled": true
+    },
+    "runs": [
+      {
+        "model": "longcat-2.5-preview-free",
+        "label": "base_start",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n",
+        "started": 1790435208003,
+        "code": 0,
+        "elapsed_seconds": 61.071,
+        "events": [
+          {
+            "type": "step_start",
+            "timestamp": 1790435267365,
+            "part": {
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1790435268965,
+            "part": {
+              "type": "text",
+              "text": "\"",
+              "time": {
+                "start": 1790435268586,
+                "end": 1790435268943
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1790435268965,
+            "part": {
+              "reason": "stop",
+              "type": "step-finish",
+              "tokens": {
+                "total": 7949,
+                "input": 724,
+                "output": 4,
+                "reasoning": 53,
+                "cache": {
+                  "write": 0,
+                  "read": 7168
+                }
+              },
+              "cost": 0
+            }
+          }
+        ],
+        "step_count": 1,
+        "tool_events": 0,
+        "text": "\"",
+        "tokens": {
+          "total": 7949,
+          "input": 724,
+          "output": 4,
+          "reasoning": 53,
+          "cache": {
+            "write": 0,
+            "read": 7168
+          }
+        },
+        "cost": 0,
+        "prompt_tokens": 7892
+      },
+      {
+        "model": "longcat-2.5-preview-free",
+        "label": "zh_long",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。",
+        "started": 1790435269074,
+        "code": 0,
+        "elapsed_seconds": 13.482,
+        "events": [
+          {
+            "type": "step_start",
+            "timestamp": 1790435281309,
+            "part": {
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1790435282503,
+            "part": {
+              "type": "text",
+              "text": "人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。\"",
+              "time": {
+                "start": 1790435281803,
+                "end": 1790435282481
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1790435282503,
+            "part": {
+              "reason": "stop",
+              "type": "step-finish",
+              "tokens": {
+                "total": 7942,
+                "input": 7906,
+                "output": 18,
+                "reasoning": 18,
+                "cache": {
+                  "write": 0,
+                  "read": 0
+                }
+              },
+              "cost": 0
+            }
+          }
+        ],
+        "step_count": 1,
+        "tool_events": 0,
+        "text": "人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。\"",
+        "tokens": {
+          "total": 7942,
+          "input": 7906,
+          "output": 18,
+          "reasoning": 18,
+          "cache": {
+            "write": 0,
+            "read": 0
+          }
+        },
+        "cost": 0,
+        "prompt_tokens": 7906
+      },
+      {
+        "model": "longcat-2.5-preview-free",
+        "label": "base_end",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n",
+        "started": 1790435282556,
+        "code": 0,
+        "elapsed_seconds": 11.832,
+        "events": [
+          {
+            "type": "step_start",
+            "timestamp": 1790435292810,
+            "part": {
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1790435294321,
+            "part": {
+              "type": "text",
+              "text": "No text provided. Please provide the text you'd like me to repeat.",
+              "time": {
+                "start": 1790435293770,
+                "end": 1790435294301
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1790435294321,
+            "part": {
+              "reason": "stop",
+              "type": "step-finish",
+              "tokens": {
+                "total": 7956,
+                "input": 84,
+                "output": 18,
+                "reasoning": 46,
+                "cache": {
+                  "write": 0,
+                  "read": 7808
+                }
+              },
+              "cost": 0
+            }
+          }
+        ],
+        "step_count": 1,
+        "tool_events": 0,
+        "text": "No text provided. Please provide the text you'd like me to repeat.",
+        "tokens": {
+          "total": 7956,
+          "input": 84,
+          "output": 18,
+          "reasoning": 46,
+          "cache": {
+            "write": 0,
+            "read": 7808
+          }
+        },
+        "cost": 0,
+        "prompt_tokens": 7892
+      },
+      {
+        "model": "longcat-2.5-preview-free",
+        "label": "emoji_zwj",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n👨‍👩‍👧‍👦 🏳️‍🌈 👍🏽",
+        "started": 1790435333938,
+        "code": 0,
+        "elapsed_seconds": 13.974,
+        "events": [
+          {
+            "type": "step_start",
+            "timestamp": 1790435346543,
+            "part": {
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1790435347864,
+            "part": {
+              "type": "text",
+              "text": "👨‍👩‍👧‍👦 🏳️‍🌈 👍🏽",
+              "time": {
+                "start": 1790435347768,
+                "end": 1790435347844
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1790435347864,
+            "part": {
+              "reason": "stop",
+              "type": "step-finish",
+              "tokens": {
+                "total": 7963,
+                "input": 7912,
+                "output": 23,
+                "reasoning": 28,
+                "cache": {
+                  "write": 0,
+                  "read": 0
+                }
+              },
+              "cost": 0
+            }
+          }
+        ],
+        "step_count": 1,
+        "tool_events": 0,
+        "text": "👨‍👩‍👧‍👦 🏳️‍🌈 👍🏽",
+        "tokens": {
+          "total": 7963,
+          "input": 7912,
+          "output": 23,
+          "reasoning": 28,
+          "cache": {
+            "write": 0,
+            "read": 0
+          }
+        },
+        "cost": 0,
+        "prompt_tokens": 7912
+      },
+      {
+        "model": "longcat-2.5-preview-free",
+        "label": "digits",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n1234567890 007 3.14159 1,000,000",
+        "started": 1790435347913,
+        "code": 0,
+        "elapsed_seconds": 25.636,
+        "events": [
+          {
+            "type": "step_start",
+            "timestamp": 1790435372570,
+            "part": {
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1790435373494,
+            "part": {
+              "type": "text",
+              "text": "1234567890 007 3.14159 1,000,000",
+              "time": {
+                "start": 1790435373410,
+                "end": 1790435373481
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1790435373494,
+            "part": {
+              "reason": "stop",
+              "type": "step-finish",
+              "tokens": {
+                "total": 7990,
+                "input": 7924,
+                "output": 35,
+                "reasoning": 31,
+                "cache": {
+                  "write": 0,
+                  "read": 0
+                }
+              },
+              "cost": 0
+            }
+          }
+        ],
+        "step_count": 1,
+        "tool_events": 0,
+        "text": "1234567890 007 3.14159 1,000,000",
+        "tokens": {
+          "total": 7990,
+          "input": 7924,
+          "output": 35,
+          "reasoning": 31,
+          "cache": {
+            "write": 0,
+            "read": 0
+          }
+        },
+        "cost": 0,
+        "prompt_tokens": 7924
+      },
+      {
+        "model": "longcat-2.5-preview-free",
+        "label": "thai",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\nกรุงเทพมหานคร ครับ",
+        "started": 1790435373550,
+        "code": 0,
+        "elapsed_seconds": 11.545,
+        "events": [
+          {
+            "type": "step_start",
+            "timestamp": 1790435384217,
+            "part": {
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1790435385038,
+            "part": {
+              "type": "text",
+              "text": "กรุงเทพมหานคร ครับ",
+              "time": {
+                "start": 1790435385002,
+                "end": 1790435385011
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1790435385038,
+            "part": {
+              "reason": "stop",
+              "type": "step-finish",
+              "tokens": {
+                "total": 7962,
+                "input": 7910,
+                "output": 21,
+                "reasoning": 31,
+                "cache": {
+                  "write": 0,
+                  "read": 0
+                }
+              },
+              "cost": 0
+            }
+          }
+        ],
+        "step_count": 1,
+        "tool_events": 0,
+        "text": "กรุงเทพมหานคร ครับ",
+        "tokens": {
+          "total": 7962,
+          "input": 7910,
+          "output": 21,
+          "reasoning": 31,
+          "cache": {
+            "write": 0,
+            "read": 0
+          }
+        },
+        "cost": 0,
+        "prompt_tokens": 7910
+      },
+      {
+        "model": "longcat-2.5-preview-free",
+        "label": "base_final",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n",
+        "started": 1790435385096,
+        "code": 0,
+        "elapsed_seconds": 13.987,
+        "events": [
+          {
+            "type": "step_start",
+            "timestamp": 1790435397870,
+            "part": {
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1790435399037,
+            "part": {
+              "type": "text",
+              "text": "\"",
+              "time": {
+                "start": 1790435398923,
+                "end": 1790435399020
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1790435399037,
+            "part": {
+              "reason": "stop",
+              "type": "step-finish",
+              "tokens": {
+                "total": 7925,
+                "input": 84,
+                "output": 4,
+                "reasoning": 29,
+                "cache": {
+                  "write": 0,
+                  "read": 7808
+                }
+              },
+              "cost": 0
+            }
+          }
+        ],
+        "step_count": 1,
+        "tool_events": 0,
+        "text": "\"",
+        "tokens": {
+          "total": 7925,
+          "input": 84,
+          "output": 4,
+          "reasoning": 29,
+          "cache": {
+            "write": 0,
+            "read": 7808
+          }
+        },
+        "cost": 0,
+        "prompt_tokens": 7892
+      },
+      {
+        "model": "nemotron-3-ultra-free",
+        "label": "base_start",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n",
+        "started": 1790435399084,
+        "code": 0,
+        "elapsed_seconds": 20.42,
+        "events": [
+          {
+            "type": "step_start",
+            "timestamp": 1790435411778,
+            "part": {
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1790435419412,
+            "part": {
+              "type": "text",
+              "text": "Please provide the text you'd like me to repeat.",
+              "time": {
+                "start": 1790435419386,
+                "end": 1790435419395
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1790435419412,
+            "part": {
+              "reason": "stop",
+              "type": "step-finish",
+              "tokens": {
+                "total": 8668,
+                "input": 8621,
+                "output": 7,
+                "reasoning": 40,
+                "cache": {
+                  "write": 0,
+                  "read": 0
+                }
+              },
+              "cost": 0
+            }
+          }
+        ],
+        "step_count": 1,
+        "tool_events": 0,
+        "text": "Please provide the text you'd like me to repeat.",
+        "tokens": {
+          "total": 8668,
+          "input": 8621,
+          "output": 7,
+          "reasoning": 40,
+          "cache": {
+            "write": 0,
+            "read": 0
+          }
+        },
+        "cost": 0,
+        "prompt_tokens": 8621
+      },
+      {
+        "model": "nemotron-3-ultra-free",
+        "label": "zh_long",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。",
+        "started": 1790435419504,
+        "code": 0,
+        "elapsed_seconds": 13.083,
+        "events": [
+          {
+            "type": "step_start",
+            "timestamp": 1790435431732,
+            "part": {
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1790435432547,
+            "part": {
+              "type": "text",
+              "text": "人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。",
+              "time": {
+                "start": 1790435432527,
+                "end": 1790435432532
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1790435432548,
+            "part": {
+              "reason": "stop",
+              "type": "step-finish",
+              "tokens": {
+                "total": 8708,
+                "input": 8648,
+                "output": 20,
+                "reasoning": 40,
+                "cache": {
+                  "write": 0,
+                  "read": 0
+                }
+              },
+              "cost": 0
+            }
+          }
+        ],
+        "step_count": 1,
+        "tool_events": 0,
+        "text": "人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。",
+        "tokens": {
+          "total": 8708,
+          "input": 8648,
+          "output": 20,
+          "reasoning": 40,
+          "cache": {
+            "write": 0,
+            "read": 0
+          }
+        },
+        "cost": 0,
+        "prompt_tokens": 8648
+      },
+      {
+        "model": "ling-3.0-flash-fin-free",
+        "label": "base_start",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n",
+        "started": 1790435333939,
+        "code": 0,
+        "elapsed_seconds": 98.872,
+        "events": [
+          {
+            "type": "step_start",
+            "timestamp": 1790435432324,
+            "part": {
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1790435432752,
+            "part": {
+              "type": "text",
+              "text": "You are a helpful assistant. Repeat the following text exactly and add nothing else:",
+              "time": {
+                "start": 1790435432390,
+                "end": 1790435432732
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1790435432752,
+            "part": {
+              "reason": "stop",
+              "type": "step-finish",
+              "tokens": {
+                "total": 8595,
+                "input": 6620,
+                "output": 10,
+                "reasoning": 45,
+                "cache": {
+                  "write": 0,
+                  "read": 1920
+                }
+              },
+              "cost": 0
+            }
+          }
+        ],
+        "step_count": 1,
+        "tool_events": 0,
+        "text": "You are a helpful assistant. Repeat the following text exactly and add nothing else:",
+        "tokens": {
+          "total": 8595,
+          "input": 6620,
+          "output": 10,
+          "reasoning": 45,
+          "cache": {
+            "write": 0,
+            "read": 1920
+          }
+        },
+        "cost": 0,
+        "prompt_tokens": 8540
+      },
+      {
+        "model": "nemotron-3-ultra-free",
+        "label": "emoji_zwj",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n👨‍👩‍👧‍👦 🏳️‍🌈 👍🏽",
+        "started": 1790435432587,
+        "code": 1,
+        "elapsed_seconds": 20.1,
+        "events": [
+          {
+            "type": "log",
+            "text": "\u001b[91m\u001b[1mError: \u001b[0mUnexpected error"
+          },
+          {
+            "type": "log",
+            "text": "database is locked"
+          }
+        ],
+        "step_count": 0,
+        "tool_events": 0,
+        "text": ""
+      },
+      {
+        "model": "ling-3.0-flash-fin-free",
+        "label": "zh_long",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。",
+        "started": 1790435432812,
+        "code": 0,
+        "elapsed_seconds": 30.898,
+        "events": [
+          {
+            "type": "step_start",
+            "timestamp": 1790435462643,
+            "part": {
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1790435463668,
+            "part": {
+              "type": "text",
+              "text": "人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。",
+              "time": {
+                "start": 1790435463648,
+                "end": 1790435463652
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1790435463668,
+            "part": {
+              "reason": "stop",
+              "type": "step-finish",
+              "tokens": {
+                "total": 8630,
+                "input": 8552,
+                "output": 0,
+                "reasoning": 84,
+                "cache": {
+                  "write": 0,
+                  "read": 0
+                }
+              },
+              "cost": 0
+            }
+          }
+        ],
+        "step_count": 1,
+        "tool_events": 0,
+        "text": "人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。",
+        "tokens": {
+          "total": 8630,
+          "input": 8552,
+          "output": 0,
+          "reasoning": 84,
+          "cache": {
+            "write": 0,
+            "read": 0
+          }
+        },
+        "cost": 0,
+        "prompt_tokens": 8552
+      },
+      {
+        "model": "nemotron-3-ultra-free",
+        "label": "digits",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n1234567890 007 3.14159 1,000,000",
+        "started": 1790435452693,
+        "code": 0,
+        "elapsed_seconds": 17.87,
+        "events": [
+          {
+            "type": "step_start",
+            "timestamp": 1790435465877,
+            "part": {
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1790435470517,
+            "part": {
+              "type": "text",
+              "text": "1234567890 007 3.14159 1,000,000",
+              "time": {
+                "start": 1790435470481,
+                "end": 1790435470487
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1790435470517,
+            "part": {
+              "reason": "stop",
+              "type": "step-finish",
+              "tokens": {
+                "total": 8715,
+                "input": 8653,
+                "output": 29,
+                "reasoning": 33,
+                "cache": {
+                  "write": 0,
+                  "read": 0
+                }
+              },
+              "cost": 0
+            }
+          }
+        ],
+        "step_count": 1,
+        "tool_events": 0,
+        "text": "1234567890 007 3.14159 1,000,000",
+        "tokens": {
+          "total": 8715,
+          "input": 8653,
+          "output": 29,
+          "reasoning": 33,
+          "cache": {
+            "write": 0,
+            "read": 0
+          }
+        },
+        "cost": 0,
+        "prompt_tokens": 8653
+      },
+      {
+        "model": "ling-3.0-flash-fin-free",
+        "label": "emoji_zwj",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n👨‍👩‍👧‍👦 🏳️‍🌈 👍🏽",
+        "started": 1790435463711,
+        "code": 0,
+        "elapsed_seconds": 17.01,
+        "events": [
+          {
+            "type": "step_start",
+            "timestamp": 1790435479543,
+            "part": {
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1790435480679,
+            "part": {
+              "type": "text",
+              "text": "👨‍👩‍👧‍👦 🏳️‍🌈 👍🏽",
+              "time": {
+                "start": 1790435479625,
+                "end": 1790435480644
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1790435480679,
+            "part": {
+              "reason": "stop",
+              "type": "step-finish",
+              "tokens": {
+                "total": 8611,
+                "input": 50,
+                "output": 18,
+                "reasoning": 31,
+                "cache": {
+                  "write": 0,
+                  "read": 8512
+                }
+              },
+              "cost": 0
+            }
+          }
+        ],
+        "step_count": 1,
+        "tool_events": 0,
+        "text": "👨‍👩‍👧‍👦 🏳️‍🌈 👍🏽",
+        "tokens": {
+          "total": 8611,
+          "input": 50,
+          "output": 18,
+          "reasoning": 31,
+          "cache": {
+            "write": 0,
+            "read": 8512
+          }
+        },
+        "cost": 0,
+        "prompt_tokens": 8562
+      },
+      {
+        "model": "ling-3.0-flash-fin-free",
+        "label": "digits",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n1234567890 007 3.14159 1,000,000",
+        "started": 1790435480722,
+        "code": 0,
+        "elapsed_seconds": 10.603,
+        "events": [
+          {
+            "type": "step_start",
+            "timestamp": 1790435491282,
+            "part": {
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1790435491282,
+            "part": {
+              "type": "text",
+              "text": "1234567890 007 3.14159 1,000,000",
+              "time": {
+                "start": 1790435491260,
+                "end": 1790435491270
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1790435491282,
+            "part": {
+              "reason": "stop",
+              "type": "step-finish",
+              "tokens": {
+                "total": 8622,
+                "input": 60,
+                "output": 30,
+                "reasoning": 20,
+                "cache": {
+                  "write": 0,
+                  "read": 8512
+                }
+              },
+              "cost": 0
+            }
+          }
+        ],
+        "step_count": 1,
+        "tool_events": 0,
+        "text": "1234567890 007 3.14159 1,000,000",
+        "tokens": {
+          "total": 8622,
+          "input": 60,
+          "output": 30,
+          "reasoning": 20,
+          "cache": {
+            "write": 0,
+            "read": 8512
+          }
+        },
+        "cost": 0,
+        "prompt_tokens": 8572
+      },
+      {
+        "model": "ling-3.0-flash-fin-free",
+        "label": "thai",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\nกรุงเทพมหานคร ครับ",
+        "started": 1790435491326,
+        "code": 0,
+        "elapsed_seconds": 8.414,
+        "events": [
+          {
+            "type": "step_start",
+            "timestamp": 1790435498894,
+            "part": {
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1790435499682,
+            "part": {
+              "type": "text",
+              "text": "กรุงเทพมหานคร ครับ",
+              "time": {
+                "start": 1790435499484,
+                "end": 1790435499666
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1790435499682,
+            "part": {
+              "reason": "stop",
+              "type": "step-finish",
+              "tokens": {
+                "total": 8609,
+                "input": 36,
+                "output": 1,
+                "reasoning": 60,
+                "cache": {
+                  "write": 0,
+                  "read": 8512
+                }
+              },
+              "cost": 0
+            }
+          }
+        ],
+        "step_count": 1,
+        "tool_events": 0,
+        "text": "กรุงเทพมหานคร ครับ",
+        "tokens": {
+          "total": 8609,
+          "input": 36,
+          "output": 1,
+          "reasoning": 60,
+          "cache": {
+            "write": 0,
+            "read": 8512
+          }
+        },
+        "cost": 0,
+        "prompt_tokens": 8548
+      },
+      {
+        "model": "nemotron-3-ultra-free",
+        "label": "thai",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\nกรุงเทพมหานคร ครับ",
+        "started": 1790435470564,
+        "code": 0,
+        "elapsed_seconds": 29.391,
+        "events": [
+          {
+            "type": "step_start",
+            "timestamp": 1790435499053,
+            "part": {
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1790435499909,
+            "part": {
+              "type": "text",
+              "text": "กรุงเทพมหานคร ครับ",
+              "time": {
+                "start": 1790435499885,
+                "end": 1790435499888
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1790435499910,
+            "part": {
+              "reason": "stop",
+              "type": "step-finish",
+              "tokens": {
+                "total": 8664,
+                "input": 8629,
+                "output": 5,
+                "reasoning": 30,
+                "cache": {
+                  "write": 0,
+                  "read": 0
+                }
+              },
+              "cost": 0
+            }
+          }
+        ],
+        "step_count": 1,
+        "tool_events": 0,
+        "text": "กรุงเทพมหานคร ครับ",
+        "tokens": {
+          "total": 8664,
+          "input": 8629,
+          "output": 5,
+          "reasoning": 30,
+          "cache": {
+            "write": 0,
+            "read": 0
+          }
+        },
+        "cost": 0,
+        "prompt_tokens": 8629
+      },
+      {
+        "model": "ling-3.0-flash-fin-free",
+        "label": "base_end",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n",
+        "started": 1790435499741,
+        "code": 0,
+        "elapsed_seconds": 11.712,
+        "events": [
+          {
+            "type": "step_start",
+            "timestamp": 1790435508633,
+            "part": {
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1790435511401,
+            "part": {
+              "type": "text",
+              "text": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n\"",
+              "time": {
+                "start": 1790435511385,
+                "end": 1790435511388
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1790435511401,
+            "part": {
+              "reason": "stop",
+              "type": "step-finish",
+              "tokens": {
+                "total": 9541,
+                "input": 28,
+                "output": 0,
+                "reasoning": 1129,
+                "cache": {
+                  "write": 0,
+                  "read": 8512
+                }
+              },
+              "cost": 0
+            }
+          }
+        ],
+        "step_count": 1,
+        "tool_events": 0,
+        "text": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n\"",
+        "tokens": {
+          "total": 9541,
+          "input": 28,
+          "output": 0,
+          "reasoning": 1129,
+          "cache": {
+            "write": 0,
+            "read": 8512
+          }
+        },
+        "cost": 0,
+        "prompt_tokens": 8540
+      },
+      {
+        "model": "nemotron-3-ultra-free",
+        "label": "base_end",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n",
+        "started": 1790435499955,
+        "code": 0,
+        "elapsed_seconds": 18.837,
+        "events": [
+          {
+            "type": "step_start",
+            "timestamp": 1790435517025,
+            "part": {
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1790435518747,
+            "part": {
+              "type": "text",
+              "text": "There's no text to repeat - your message ends with an empty quote. What would you like me to repeat?",
+              "time": {
+                "start": 1790435518214,
+                "end": 1790435518727
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1790435518747,
+            "part": {
+              "reason": "stop",
+              "type": "step-finish",
+              "tokens": {
+                "total": 8696,
+                "input": 8621,
+                "output": 15,
+                "reasoning": 60,
+                "cache": {
+                  "write": 0,
+                  "read": 0
+                }
+              },
+              "cost": 0
+            }
+          }
+        ],
+        "step_count": 1,
+        "tool_events": 0,
+        "text": "There's no text to repeat - your message ends with an empty quote. What would you like me to repeat?",
+        "tokens": {
+          "total": 8696,
+          "input": 8621,
+          "output": 15,
+          "reasoning": 60,
+          "cache": {
+            "write": 0,
+            "read": 0
+          }
+        },
+        "cost": 0,
+        "prompt_tokens": 8621
+      },
+      {
+        "model": "muse-spark-1.3-contributor-free",
+        "label": "base_start",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n",
+        "started": 1790435511454,
+        "code": 0,
+        "elapsed_seconds": 38.456,
+        "events": [
+          {
+            "type": "step_start",
+            "timestamp": 1790435539910,
+            "part": {
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1790435549802,
+            "part": {
+              "reason": "stop",
+              "type": "step-finish",
+              "tokens": {
+                "total": 8727,
+                "input": 8076,
+                "output": 10,
+                "reasoning": 528,
+                "cache": {
+                  "write": 0,
+                  "read": 113
+                }
+              },
+              "cost": 0
+            }
+          }
+        ],
+        "step_count": 1,
+        "tool_events": 0,
+        "text": "",
+        "tokens": {
+          "total": 8727,
+          "input": 8076,
+          "output": 10,
+          "reasoning": 528,
+          "cache": {
+            "write": 0,
+            "read": 113
+          }
+        },
+        "cost": 0,
+        "prompt_tokens": 8189
+      },
+      {
+        "model": "muse-spark-1.3-contributor-free",
+        "label": "zh_long",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。",
+        "started": 1790435549926,
+        "code": 0,
+        "elapsed_seconds": 30.205,
+        "events": [
+          {
+            "type": "step_start",
+            "timestamp": 1790435579974,
+            "part": {
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1790435579975,
+            "part": {
+              "type": "text",
+              "text": "人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。",
+              "time": {
+                "start": 1790435579964,
+                "end": 1790435579969
+              },
+              "metadata": {
+                "openai": {
+                  "itemId": "msg_01a0de46d7e27152a22e05bc78c6f6ea"
+                }
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1790435580070,
+            "part": {
+              "reason": "stop",
+              "type": "step-finish",
+              "tokens": {
+                "total": 8255,
+                "input": 8090,
+                "output": 25,
+                "reasoning": 27,
+                "cache": {
+                  "write": 0,
+                  "read": 113
+                }
+              },
+              "cost": 0
+            }
+          }
+        ],
+        "step_count": 1,
+        "tool_events": 0,
+        "text": "人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。",
+        "tokens": {
+          "total": 8255,
+          "input": 8090,
+          "output": 25,
+          "reasoning": 27,
+          "cache": {
+            "write": 0,
+            "read": 113
+          }
+        },
+        "cost": 0,
+        "prompt_tokens": 8203
+      },
+      {
+        "model": "muse-spark-1.3-contributor-free",
+        "label": "emoji_zwj",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n👨‍👩‍👧‍👦 🏳️‍🌈 👍🏽",
+        "started": 1790435580133,
+        "code": 0,
+        "elapsed_seconds": 21.024,
+        "events": [
+          {
+            "type": "step_start",
+            "timestamp": 1790435599735,
+            "part": {
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1790435599735,
+            "part": {
+              "type": "text",
+              "text": "👨‍👩‍👧‍👦 🏳️‍🌈 👍🏽",
+              "time": {
+                "start": 1790435599726,
+                "end": 1790435599729
+              },
+              "metadata": {
+                "openai": {
+                  "itemId": "msg_01a0de47264475039344ea9fcff6f772"
+                }
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1790435600933,
+            "part": {
+              "reason": "stop",
+              "type": "step-finish",
+              "tokens": {
+                "total": 8278,
+                "input": 7968,
+                "output": 30,
+                "reasoning": 39,
+                "cache": {
+                  "write": 0,
+                  "read": 241
+                }
+              },
+              "cost": 0
+            }
+          }
+        ],
+        "step_count": 1,
+        "tool_events": 0,
+        "text": "👨‍👩‍👧‍👦 🏳️‍🌈 👍🏽",
+        "tokens": {
+          "total": 8278,
+          "input": 7968,
+          "output": 30,
+          "reasoning": 39,
+          "cache": {
+            "write": 0,
+            "read": 241
+          }
+        },
+        "cost": 0,
+        "prompt_tokens": 8209
+      },
+      {
+        "model": "muse-spark-1.3-contributor-free",
+        "label": "digits",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n1234567890 007 3.14159 1,000,000",
+        "started": 1790435601162,
+        "code": 0,
+        "elapsed_seconds": 25.734,
+        "events": [
+          {
+            "type": "step_start",
+            "timestamp": 1790435626077,
+            "part": {
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1790435626749,
+            "part": {
+              "type": "text",
+              "text": "1234567890 007 3.14159 1,000,000",
+              "time": {
+                "start": 1790435626688,
+                "end": 1790435626701
+              },
+              "metadata": {
+                "openai": {
+                  "itemId": "msg_01a0de478e4170569d1f0621cf8e67ce"
+                }
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1790435626749,
+            "part": {
+              "reason": "stop",
+              "type": "step-finish",
+              "tokens": {
+                "total": 8308,
+                "input": 7965,
+                "output": 27,
+                "reasoning": 75,
+                "cache": {
+                  "write": 0,
+                  "read": 241
+                }
+              },
+              "cost": 0
+            }
+          }
+        ],
+        "step_count": 1,
+        "tool_events": 0,
+        "text": "1234567890 007 3.14159 1,000,000",
+        "tokens": {
+          "total": 8308,
+          "input": 7965,
+          "output": 27,
+          "reasoning": 75,
+          "cache": {
+            "write": 0,
+            "read": 241
+          }
+        },
+        "cost": 0,
+        "prompt_tokens": 8206
+      },
+      {
+        "model": "muse-spark-1.3-contributor-free",
+        "label": "thai",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\nกรุงเทพมหานคร ครับ",
+        "started": 1790435626899,
+        "code": 0,
+        "elapsed_seconds": 43.977,
+        "events": [
+          {
+            "type": "step_start",
+            "timestamp": 1790435668433,
+            "part": {
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1790435669276,
+            "part": {
+              "type": "text",
+              "text": "กรุงเทพมหานคร ครับ",
+              "time": {
+                "start": 1790435669249,
+                "end": 1790435669271
+              },
+              "metadata": {
+                "openai": {
+                  "itemId": "msg_01a0de4836ce74a0858fad4451336450"
+                }
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1790435670595,
+            "part": {
+              "reason": "stop",
+              "type": "step-finish",
+              "tokens": {
+                "total": 8366,
+                "input": 8082,
+                "output": 16,
+                "reasoning": 155,
+                "cache": {
+                  "write": 0,
+                  "read": 113
+                }
+              },
+              "cost": 0
+            }
+          }
+        ],
+        "step_count": 1,
+        "tool_events": 0,
+        "text": "กรุงเทพมหานคร ครับ",
+        "tokens": {
+          "total": 8366,
+          "input": 8082,
+          "output": 16,
+          "reasoning": 155,
+          "cache": {
+            "write": 0,
+            "read": 113
+          }
+        },
+        "cost": 0,
+        "prompt_tokens": 8195
+      },
+      {
+        "model": "muse-spark-1.3-contributor-free",
+        "label": "base_end",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n",
+        "started": 1790435670879,
+        "code": 0,
+        "elapsed_seconds": 41.061,
+        "events": [
+          {
+            "type": "step_start",
+            "timestamp": 1790435700655,
+            "part": {
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1790435711793,
+            "part": {
+              "reason": "stop",
+              "type": "step-finish",
+              "tokens": {
+                "total": 8818,
+                "input": 12,
+                "output": 10,
+                "reasoning": 619,
+                "cache": {
+                  "write": 0,
+                  "read": 8177
+                }
+              },
+              "cost": 0
+            }
+          }
+        ],
+        "step_count": 1,
+        "tool_events": 0,
+        "text": "",
+        "tokens": {
+          "total": 8818,
+          "input": 12,
+          "output": 10,
+          "reasoning": 619,
+          "cache": {
+            "write": 0,
+            "read": 8177
+          }
+        },
+        "cost": 0,
+        "prompt_tokens": 8189
+      },
+      {
+        "model": "nemotron-3-ultra-free",
+        "label": "emoji_zwj",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n👨‍👩‍👧‍👦 🏳️‍🌈 👍🏽",
+        "started": 1790435711961,
+        "code": 0,
+        "elapsed_seconds": 25.877,
+        "events": [
+          {
+            "type": "step_start",
+            "timestamp": 1790435734674,
+            "part": {
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1790435737771,
+            "part": {
+              "type": "text",
+              "text": "👨‍👩‍👧‍👦 🏳️‍🌈 👍🏽",
+              "time": {
+                "start": 1790435736438,
+                "end": 1790435737743
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1790435737772,
+            "part": {
+              "reason": "stop",
+              "type": "step-finish",
+              "tokens": {
+                "total": 8773,
+                "input": 8658,
+                "output": 49,
+                "reasoning": 66,
+                "cache": {
+                  "write": 0,
+                  "read": 0
+                }
+              },
+              "cost": 0
+            }
+          }
+        ],
+        "step_count": 1,
+        "tool_events": 0,
+        "text": "👨‍👩‍👧‍👦 🏳️‍🌈 👍🏽",
+        "tokens": {
+          "total": 8773,
+          "input": 8658,
+          "output": 49,
+          "reasoning": 66,
+          "cache": {
+            "write": 0,
+            "read": 0
+          }
+        },
+        "cost": 0,
+        "prompt_tokens": 8658,
+        "retry_of_failed_probe": true
+      }
+    ],
+    "models": {},
+    "done": true,
+    "analysis": {
+      "target_deltas": {
+        "zh_long": 15,
+        "emoji_zwj": 33,
+        "digits": 33,
+        "thai": 6
+      },
+      "peers": {
+        "longcat-2.5-preview-free": {
+          "baseline_values": [
+            7892,
+            7892,
+            7892
+          ],
+          "baseline_stable": true,
+          "valid_probe_count": 4,
+          "deltas": {
+            "zh_long": 14,
+            "emoji_zwj": 20,
+            "digits": 32,
+            "thai": 18
+          },
+          "exact_matches": 0,
+          "requested_probe_count": 4,
+          "successful_requests": 7
+        },
+        "ling-3.0-flash-fin-free": {
+          "baseline_values": [
+            8540,
+            8540
+          ],
+          "baseline_stable": true,
+          "valid_probe_count": 4,
+          "deltas": {
+            "zh_long": 12,
+            "emoji_zwj": 22,
+            "digits": 32,
+            "thai": 8
+          },
+          "exact_matches": 0,
+          "requested_probe_count": 4,
+          "successful_requests": 6
+        },
+        "nemotron-3-ultra-free": {
+          "baseline_values": [
+            8621,
+            8621
+          ],
+          "baseline_stable": true,
+          "valid_probe_count": 4,
+          "deltas": {
+            "zh_long": 27,
+            "emoji_zwj": 37,
+            "digits": 32,
+            "thai": 8
+          },
+          "exact_matches": 0,
+          "requested_probe_count": 4,
+          "successful_requests": 6
+        },
+        "muse-spark-1.3-contributor-free": {
+          "baseline_values": [
+            8189,
+            8189
+          ],
+          "baseline_stable": true,
+          "valid_probe_count": 4,
+          "deltas": {
+            "zh_long": 14,
+            "emoji_zwj": 20,
+            "digits": 17,
+            "thai": 6
+          },
+          "exact_matches": 1,
+          "requested_probe_count": 4,
+          "successful_requests": 6
+        }
+      }
+    }
+  },
+  "excluded_diagnostic_batch": {
+    "reason": "Auto-loaded global instructions/skills produced unstable baseline totals. Excluded from fingerprint ranking.",
+    "runs": [
+      {
+        "model": "longcat-2.5-preview-free",
+        "label": "zh_long",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。",
+        "code": 0,
+        "elapsed_seconds": 57.792,
+        "events": [
+          {
+            "type": "step_start",
+            "timestamp": 1790435054910,
+            "part": {
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1790435056584,
+            "part": {
+              "type": "text",
+              "text": "人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。\"",
+              "time": {
+                "start": 1790435056405,
+                "end": 1790435056563
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1790435056584,
+            "part": {
+              "reason": "stop",
+              "type": "step-finish",
+              "tokens": {
+                "total": 28216,
+                "input": 28168,
+                "output": 18,
+                "reasoning": 30,
+                "cache": {
+                  "write": 0,
+                  "read": 0
+                }
+              },
+              "cost": 0
+            }
+          }
+        ],
+        "text": "人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。\"",
+        "tool_events": 0,
+        "tokens": {
+          "total": 28216,
+          "input": 28168,
+          "output": 18,
+          "reasoning": 30,
+          "cache": {
+            "write": 0,
+            "read": 0
+          }
+        },
+        "cost": 0,
+        "prompt_tokens": 28168,
+        "total_consistency": true
+      },
+      {
+        "model": "longcat-2.5-preview-free",
+        "label": "base_start",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n",
+        "code": 0,
+        "elapsed_seconds": 67.44,
+        "events": [
+          {
+            "type": "step_start",
+            "timestamp": 1790435065058,
+            "part": {
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1790435066070,
+            "part": {
+              "type": "text",
+              "text": "没有提供需要复制的文本。",
+              "time": {
+                "start": 1790435065804,
+                "end": 1790435066046
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1790435066070,
+            "part": {
+              "reason": "stop",
+              "type": "step-finish",
+              "tokens": {
+                "total": 28240,
+                "input": 28195,
+                "output": 10,
+                "reasoning": 35,
+                "cache": {
+                  "write": 0,
+                  "read": 0
+                }
+              },
+              "cost": 0
+            }
+          }
+        ],
+        "text": "没有提供需要复制的文本。",
+        "tool_events": 0,
+        "tokens": {
+          "total": 28240,
+          "input": 28195,
+          "output": 10,
+          "reasoning": 35,
+          "cache": {
+            "write": 0,
+            "read": 0
+          }
+        },
+        "cost": 0,
+        "prompt_tokens": 28195,
+        "total_consistency": true
+      },
+      {
+        "model": "longcat-2.5-preview-free",
+        "label": "emoji_zwj",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n👨‍👩‍👧‍👦 🏳️‍🌈 👍🏽",
+        "code": 0,
+        "elapsed_seconds": 27.852,
+        "events": [
+          {
+            "type": "step_start",
+            "timestamp": 1790435081646,
+            "part": {
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1790435084162,
+            "part": {
+              "type": "text",
+              "text": "👨‍👩‍👧‍👦 🏳️‍🌈 👍🏽",
+              "time": {
+                "start": 1790435082282,
+                "end": 1790435084116
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1790435084163,
+            "part": {
+              "reason": "stop",
+              "type": "step-finish",
+              "tokens": {
+                "total": 28248,
+                "input": 22833,
+                "output": 23,
+                "reasoning": 16,
+                "cache": {
+                  "write": 0,
+                  "read": 5376
+                }
+              },
+              "cost": 0
+            }
+          }
+        ],
+        "text": "👨‍👩‍👧‍👦 🏳️‍🌈 👍🏽",
+        "tool_events": 0,
+        "tokens": {
+          "total": 28248,
+          "input": 22833,
+          "output": 23,
+          "reasoning": 16,
+          "cache": {
+            "write": 0,
+            "read": 5376
+          }
+        },
+        "cost": 0,
+        "prompt_tokens": 28209,
+        "total_consistency": true
+      },
+      {
+        "model": "longcat-2.5-preview-free",
+        "label": "digits",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n1234567890 007 3.14159 1,000,000",
+        "code": 0,
+        "elapsed_seconds": 28.511,
+        "events": [
+          {
+            "type": "step_start",
+            "timestamp": 1790435093719,
+            "part": {
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1790435094790,
+            "part": {
+              "type": "text",
+              "text": "1234567890 007 3.14159 1,000,000",
+              "time": {
+                "start": 1790435094604,
+                "end": 1790435094751
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1790435094791,
+            "part": {
+              "reason": "stop",
+              "type": "step-finish",
+              "tokens": {
+                "total": 28294,
+                "input": 28227,
+                "output": 35,
+                "reasoning": 32,
+                "cache": {
+                  "write": 0,
+                  "read": 0
+                }
+              },
+              "cost": 0
+            }
+          }
+        ],
+        "text": "1234567890 007 3.14159 1,000,000",
+        "tool_events": 0,
+        "tokens": {
+          "total": 28294,
+          "input": 28227,
+          "output": 35,
+          "reasoning": 32,
+          "cache": {
+            "write": 0,
+            "read": 0
+          }
+        },
+        "cost": 0,
+        "prompt_tokens": 28227,
+        "total_consistency": true
+      },
+      {
+        "model": "longcat-2.5-preview-free",
+        "label": "thai",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\nกรุงเทพมหานคร ครับ",
+        "code": 0,
+        "elapsed_seconds": 26.952,
+        "events": [
+          {
+            "type": "step_start",
+            "timestamp": 1790435109515,
+            "part": {
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1790435111479,
+            "part": {
+              "type": "text",
+              "text": "กรุงเทพมหานคร ครับ",
+              "time": {
+                "start": 1790435110462,
+                "end": 1790435111446
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1790435111479,
+            "part": {
+              "reason": "stop",
+              "type": "step-finish",
+              "tokens": {
+                "total": 28267,
+                "input": 28217,
+                "output": 21,
+                "reasoning": 29,
+                "cache": {
+                  "write": 0,
+                  "read": 0
+                }
+              },
+              "cost": 0
+            }
+          }
+        ],
+        "text": "กรุงเทพมหานคร ครับ",
+        "tool_events": 0,
+        "tokens": {
+          "total": 28267,
+          "input": 28217,
+          "output": 21,
+          "reasoning": 29,
+          "cache": {
+            "write": 0,
+            "read": 0
+          }
+        },
+        "cost": 0,
+        "prompt_tokens": 28217,
+        "total_consistency": true
+      },
+      {
+        "model": "longcat-2.5-preview-free",
+        "label": "base_end",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n",
+        "code": 0,
+        "elapsed_seconds": 30.252,
+        "events": [
+          {
+            "type": "step_start",
+            "timestamp": 1790435123536,
+            "part": {
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1790435125016,
+            "part": {
+              "type": "text",
+              "text": "The text to repeat is missing from your message. Please provide it and I'll repeat it exactly.",
+              "time": {
+                "start": 1790435124589,
+                "end": 1790435124963
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1790435125016,
+            "part": {
+              "reason": "stop",
+              "type": "step-finish",
+              "tokens": {
+                "total": 28264,
+                "input": 28199,
+                "output": 23,
+                "reasoning": 42,
+                "cache": {
+                  "write": 0,
+                  "read": 0
+                }
+              },
+              "cost": 0
+            }
+          }
+        ],
+        "text": "The text to repeat is missing from your message. Please provide it and I'll repeat it exactly.",
+        "tool_events": 0,
+        "tokens": {
+          "total": 28264,
+          "input": 28199,
+          "output": 23,
+          "reasoning": 42,
+          "cache": {
+            "write": 0,
+            "read": 0
+          }
+        },
+        "cost": 0,
+        "prompt_tokens": 28199,
+        "total_consistency": true
+      },
+      {
+        "model": "ling-3.0-flash-fin-free",
+        "label": "base_start",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n",
+        "code": 0,
+        "elapsed_seconds": 22.026,
+        "events": [
+          {
+            "type": "step_start",
+            "timestamp": 1790435131275,
+            "part": {
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1790435133507,
+            "part": {
+              "reason": "stop",
+              "type": "step-finish",
+              "tokens": {
+                "total": 30104,
+                "input": 27880,
+                "output": 0,
+                "reasoning": 340,
+                "cache": {
+                  "write": 0,
+                  "read": 1920
+                }
+              },
+              "cost": 0
+            }
+          }
+        ],
+        "text": "",
+        "tool_events": 0,
+        "tokens": {
+          "total": 30104,
+          "input": 27880,
+          "output": 0,
+          "reasoning": 340,
+          "cache": {
+            "write": 0,
+            "read": 1920
+          }
+        },
+        "cost": 0,
+        "prompt_tokens": 29800,
+        "total_consistency": false
+      },
+      {
+        "model": "ling-3.0-flash-fin-free",
+        "label": "zh_long",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。",
+        "code": 0,
+        "elapsed_seconds": 13.745,
+        "events": [
+          {
+            "type": "step_start",
+            "timestamp": 1790435138256,
+            "part": {
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1790435138827,
+            "part": {
+              "type": "text",
+              "text": "人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。",
+              "time": {
+                "start": 1790435138809,
+                "end": 1790435138812
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1790435138827,
+            "part": {
+              "reason": "stop",
+              "type": "step-finish",
+              "tokens": {
+                "total": 29842,
+                "input": 27874,
+                "output": 8,
+                "reasoning": 40,
+                "cache": {
+                  "write": 0,
+                  "read": 1920
+                }
+              },
+              "cost": 0
+            }
+          }
+        ],
+        "text": "人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。",
+        "tool_events": 0,
+        "tokens": {
+          "total": 29842,
+          "input": 27874,
+          "output": 8,
+          "reasoning": 40,
+          "cache": {
+            "write": 0,
+            "read": 1920
+          }
+        },
+        "cost": 0,
+        "prompt_tokens": 29794,
+        "total_consistency": true
+      },
+      {
+        "model": "ling-3.0-flash-fin-free",
+        "label": "emoji_zwj",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n👨‍👩‍👧‍👦 🏳️‍🌈 👍🏽",
+        "code": 0,
+        "elapsed_seconds": 12.531,
+        "events": [
+          {
+            "type": "step_start",
+            "timestamp": 1790435145891,
+            "part": {
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1790435145895,
+            "part": {
+              "type": "text",
+              "text": "👨‍👩‍👧‍👦 🏳️‍🌈 👍🏽",
+              "time": {
+                "start": 1790435145807,
+                "end": 1790435145836
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1790435145895,
+            "part": {
+              "reason": "stop",
+              "type": "step-finish",
+              "tokens": {
+                "total": 29854,
+                "input": 27953,
+                "output": 21,
+                "reasoning": 24,
+                "cache": {
+                  "write": 0,
+                  "read": 1856
+                }
+              },
+              "cost": 0
+            }
+          }
+        ],
+        "text": "👨‍👩‍👧‍👦 🏳️‍🌈 👍🏽",
+        "tool_events": 0,
+        "tokens": {
+          "total": 29854,
+          "input": 27953,
+          "output": 21,
+          "reasoning": 24,
+          "cache": {
+            "write": 0,
+            "read": 1856
+          }
+        },
+        "cost": 0,
+        "prompt_tokens": 29809,
+        "total_consistency": true
+      },
+      {
+        "model": "ling-3.0-flash-fin-free",
+        "label": "digits",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n1234567890 007 3.14159 1,000,000",
+        "code": 0,
+        "elapsed_seconds": 14.67,
+        "events": [
+          {
+            "type": "step_start",
+            "timestamp": 1790435153032,
+            "part": {
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1790435153471,
+            "part": {
+              "type": "text",
+              "text": "1234567890 007 3.14159 1,000,000",
+              "time": {
+                "start": 1790435153388,
+                "end": 1790435153419
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1790435153471,
+            "part": {
+              "reason": "stop",
+              "type": "step-finish",
+              "tokens": {
+                "total": 29852,
+                "input": 24874,
+                "output": 31,
+                "reasoning": 19,
+                "cache": {
+                  "write": 0,
+                  "read": 4928
+                }
+              },
+              "cost": 0
+            }
+          }
+        ],
+        "text": "1234567890 007 3.14159 1,000,000",
+        "tool_events": 0,
+        "tokens": {
+          "total": 29852,
+          "input": 24874,
+          "output": 31,
+          "reasoning": 19,
+          "cache": {
+            "write": 0,
+            "read": 4928
+          }
+        },
+        "cost": 0,
+        "prompt_tokens": 29802,
+        "total_consistency": true
+      },
+      {
+        "model": "ling-3.0-flash-fin-free",
+        "label": "base_end",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n",
+        "code": 0,
+        "elapsed_seconds": 14.272,
+        "events": [
+          {
+            "type": "step_start",
+            "timestamp": 1790435165703,
+            "part": {
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1790435167768,
+            "part": {
+              "reason": "stop",
+              "type": "step-finish",
+              "tokens": {
+                "total": 30480,
+                "input": 27879,
+                "output": 0,
+                "reasoning": 763,
+                "cache": {
+                  "write": 0,
+                  "read": 1920
+                }
+              },
+              "cost": 0
+            }
+          }
+        ],
+        "text": "",
+        "tool_events": 0,
+        "tokens": {
+          "total": 30480,
+          "input": 27879,
+          "output": 0,
+          "reasoning": 763,
+          "cache": {
+            "write": 0,
+            "read": 1920
+          }
+        },
+        "cost": 0,
+        "prompt_tokens": 29799,
+        "total_consistency": false
+      },
+      {
+        "model": "ling-3.0-flash-fin-free",
+        "label": "thai",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\nกรุงเทพมหานคร ครับ",
+        "code": 0,
+        "elapsed_seconds": 29.835,
+        "events": [
+          {
+            "type": "step_start",
+            "timestamp": 1790435174092,
+            "part": {
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1790435175811,
+            "part": {
+              "type": "text",
+              "text": "กรุงเทพมหานคร ครับ",
+              "time": {
+                "start": 1790435175023,
+                "end": 1790435175792
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1790435175811,
+            "part": {
+              "reason": "stop",
+              "type": "step-finish",
+              "tokens": {
+                "total": 29876,
+                "input": 24876,
+                "output": 0,
+                "reasoning": 74,
+                "cache": {
+                  "write": 0,
+                  "read": 4928
+                }
+              },
+              "cost": 0
+            }
+          }
+        ],
+        "text": "กรุงเทพมหานคร ครับ",
+        "tool_events": 0,
+        "tokens": {
+          "total": 29876,
+          "input": 24876,
+          "output": 0,
+          "reasoning": 74,
+          "cache": {
+            "write": 0,
+            "read": 4928
+          }
+        },
+        "cost": 0,
+        "prompt_tokens": 29804,
+        "total_consistency": false
+      },
+      {
+        "model": "nemotron-3-ultra-free",
+        "label": "zh_long",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。",
+        "code": 0,
+        "elapsed_seconds": 15.709,
+        "events": [
+          {
+            "type": "step_start",
+            "timestamp": 1790435189589,
+            "part": {
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1790435191569,
+            "part": {
+              "type": "text",
+              "text": "人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。",
+              "time": {
+                "start": 1790435191395,
+                "end": 1790435191539
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1790435191569,
+            "part": {
+              "reason": "stop",
+              "type": "step-finish",
+              "tokens": {
+                "total": 31162,
+                "input": 31101,
+                "output": 19,
+                "reasoning": 42,
+                "cache": {
+                  "write": 0,
+                  "read": 0
+                }
+              },
+              "cost": 0
+            }
+          }
+        ],
+        "text": "人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。",
+        "tool_events": 0,
+        "tokens": {
+          "total": 31162,
+          "input": 31101,
+          "output": 19,
+          "reasoning": 42,
+          "cache": {
+            "write": 0,
+            "read": 0
+          }
+        },
+        "cost": 0,
+        "prompt_tokens": 31101,
+        "total_consistency": true
+      },
+      {
+        "model": "nemotron-3-ultra-free",
+        "label": "base_start",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n",
+        "code": 0,
+        "elapsed_seconds": 32.502,
+        "events": [
+          {
+            "type": "step_start",
+            "timestamp": 1790435196489,
+            "part": {
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1790435199685,
+            "part": {
+              "type": "text",
+              "text": "What text would you like me to repeat? You ended with a colon but didn't provide the text to repeat.",
+              "time": {
+                "start": 1790435198211,
+                "end": 1790435199204
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1790435199685,
+            "part": {
+              "reason": "stop",
+              "type": "step-finish",
+              "tokens": {
+                "total": 31156,
+                "input": 31083,
+                "output": 18,
+                "reasoning": 55,
+                "cache": {
+                  "write": 0,
+                  "read": 0
+                }
+              },
+              "cost": 0
+            }
+          }
+        ],
+        "text": "What text would you like me to repeat? You ended with a colon but didn't provide the text to repeat.",
+        "tool_events": 0,
+        "tokens": {
+          "total": 31156,
+          "input": 31083,
+          "output": 18,
+          "reasoning": 55,
+          "cache": {
+            "write": 0,
+            "read": 0
+          }
+        },
+        "cost": 0,
+        "prompt_tokens": 31083,
+        "total_consistency": true
+      },
+      {
+        "model": "nemotron-3-ultra-free",
+        "label": "emoji_zwj",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n👨‍👩‍👧‍👦 🏳️‍🌈 👍🏽",
+        "code": 0,
+        "elapsed_seconds": 30.654,
+        "events": [
+          {
+            "type": "step_start",
+            "timestamp": 1790435215378,
+            "part": {
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1790435222089,
+            "part": {
+              "type": "text",
+              "text": "👨‍👩‍👧‍👦 🏳️‍🌈 👍🏽",
+              "time": {
+                "start": 1790435219480,
+                "end": 1790435221949
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1790435222089,
+            "part": {
+              "reason": "stop",
+              "type": "step-finish",
+              "tokens": {
+                "total": 31255,
+                "input": 31127,
+                "output": 22,
+                "reasoning": 106,
+                "cache": {
+                  "write": 0,
+                  "read": 0
+                }
+              },
+              "cost": 0
+            }
+          }
+        ],
+        "text": "👨‍👩‍👧‍👦 🏳️‍🌈 👍🏽",
+        "tool_events": 0,
+        "tokens": {
+          "total": 31255,
+          "input": 31127,
+          "output": 22,
+          "reasoning": 106,
+          "cache": {
+            "write": 0,
+            "read": 0
+          }
+        },
+        "cost": 0,
+        "prompt_tokens": 31127,
+        "total_consistency": true
+      },
+      {
+        "model": "nemotron-3-ultra-free",
+        "label": "digits",
+        "prompt": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n1234567890 007 3.14159 1,000,000",
+        "code": 0,
+        "elapsed_seconds": 23.291,
+        "events": [
+          {
+            "type": "step_start",
+            "timestamp": 1790435220564,
+            "part": {
+              "type": "step-start"
+            }
+          },
+          {
+            "type": "text",
+            "timestamp": 1790435223574,
+            "part": {
+              "type": "text",
+              "text": "1234567890 007 3.14159 1,000,000",
+              "time": {
+                "start": 1790435223137,
+                "end": 1790435223554
+              }
+            }
+          },
+          {
+            "type": "step_finish",
+            "timestamp": 1790435223574,
+            "part": {
+              "reason": "stop",
+              "type": "step-finish",
+              "tokens": {
+                "total": 31244,
+                "input": 31122,
+                "output": 46,
+                "reasoning": 76,
+                "cache": {
+                  "write": 0,
+                  "read": 0
+                }
+              },
+              "cost": 0
+            }
+          }
+        ],
+        "text": "1234567890 007 3.14159 1,000,000",
+        "tool_events": 0,
+        "tokens": {
+          "total": 31244,
+          "input": 31122,
+          "output": 46,
+          "reasoning": 76,
+          "cache": {
+            "write": 0,
+            "read": 0
+          }
+        },
+        "cost": 0,
+        "prompt_tokens": 31122,
+        "total_consistency": true
+      }
+    ]
+  },
+  "connectivity_smoke": {
+    "done": true,
+    "started": 1790434908113,
+    "code": 0,
+    "elapsed": 20.859,
+    "events": [
+      {
+        "type": "step_start",
+        "timestamp": 1790434926909,
+        "part": {
+          "type": "step-start"
+        }
+      },
+      {
+        "type": "text",
+        "timestamp": 1790434928897,
+        "part": {
+          "type": "text",
+          "text": "5",
+          "time": {
+            "start": 1790434928056,
+            "end": 1790434928832
+          }
+        }
+      },
+      {
+        "type": "step_finish",
+        "timestamp": 1790434928897,
+        "part": {
+          "reason": "stop",
+          "type": "step-finish",
+          "tokens": {
+            "total": 28261,
+            "input": 28191,
+            "output": 4,
+            "reasoning": 66,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0
+        }
+      }
+    ]
+  },
+  "limitations": [
+    "Only four discriminating live probes per peer, not a 24-probe identification of each model.",
+    "Pixel Canary target data was collected earlier via Cline; peers were measured via OpenCode Zen. Cross-gateway preprocessing/accounting differences cannot be fully excluded.",
+    "Stable baselines constrain additive overhead but do not prove counters are native model tokenizers.",
+    "Some Ling generation-side counters were inconsistent with visible output; generation-side identity conclusions are not used.",
+    "Gemini, Claude and GPT live endpoint comparisons remain uncompleted.",
+    "cost fields are OpenCode client-reported/calculated values, not a billing audit."
+  ]
+}
