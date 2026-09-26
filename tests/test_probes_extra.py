@@ -108,10 +108,14 @@ class TokenizerRepeatsTests(unittest.TestCase):
                     return {"usage": {"prompt_tokens": 33}}, None
                 return {}, {"http": 429, "body": "rate limited"}
 
-        with self.assertRaisesRegex(RuntimeError, "no successful tokenizer probe counts"):
-            probes_extra.tokenizer_repeats(
-                ProbeFailures(), probes=self.PROBES, repeats=2,
-                workers=2, verbose=False)
+        fake_tokenizers = SimpleNamespace(Tokenizer=object)
+        fake_tiktoken = SimpleNamespace(get_encoding=lambda name: None)
+        with mock.patch.dict("sys.modules", {"tokenizers": fake_tokenizers,
+                                              "tiktoken": fake_tiktoken}):
+            with self.assertRaisesRegex(RuntimeError, "no successful tokenizer probe counts"):
+                probes_extra.tokenizer_repeats(
+                    ProbeFailures(), probes=self.PROBES, repeats=2,
+                    workers=2, verbose=False)
 
 
 class _CharTok:
