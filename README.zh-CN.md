@@ -97,7 +97,7 @@ CATALOGS["ja"] = {"cli.tok": "L1 トークナイザ差分 ...", ...}
 ./fetch_tokenizers.sh            # 下载开源 tokenizer.json 候选到 tok/
 ```
 
-候选就是目录里的文件——把任何 `tokenizer.json` 丢进去即可新增嫌疑词表（如 `tok/mynewmodel.json`）。tiktoken 的 `o200k_base` 自动包含。只发布 `tiktoken.model` 的厂商（如月之暗面 Kimi）可用 tiktoken 直接构造词表——见 space-bunny 案例的复现章节。
+候选就是目录里的文件——把任何 `tokenizer.json` 丢进去即可新增嫌疑词表（如 `tok/mynewmodel.json`）。拉取脚本包含 Mistral-Nemo 发布的 `tokenizer.json`，已用内置探针核对其与 Tekken 文件的计数；tiktoken 的 `o200k_base` 和 `cl100k_base` 自动包含。只发布 `tiktoken.model` 的厂商（如月之暗面 Kimi）可用 tiktoken 直接构造词表——见 space-bunny 案例的复现章节。
 
 ## 案例报告
 

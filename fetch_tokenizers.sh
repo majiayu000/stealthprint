@@ -17,6 +17,7 @@ deepseek-ai/DeepSeek-V3:deepseek
 dots-studio/dots3-note-prev:dots3
 MiniMaxAI/MiniMax-M1:minimax
 NousResearch/Meta-Llama-3.1-8B-Instruct:llama3
+mistralai/Mistral-Nemo-Instruct-2407:mistral-nemo-tekken
 XiaomiMiMo/MiMo-V2.5:mimo-v2.5
 meta-llama/Llama-4-Scout-17B-16E-Instruct:llama4
 moonshotai/Kimi-K2-Instruct:kimi-k2

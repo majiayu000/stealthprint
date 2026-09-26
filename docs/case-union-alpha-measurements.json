@@ -28,7 +28,7 @@
       "fr": {"api": 16, "llama3": 16}
     },
     "verdict": "llama3 vocab (128256), 15 discriminating probes exact, zero deviation across 12-repeat runs",
-    "excluded": ["glm5", "glm53", "qwen3", "deepseek", "dots3", "minimax", "o200k_base", "llama4 (201135 vocab, all probes differ)", "xiaomi mimo-v2.5 (tokenizer identical to qwen3: vocab 151643, deltas equal on every probe; transitive exclusion)"]
+    "excluded": ["glm5", "glm53", "qwen3", "deepseek", "dots3", "minimax", "o200k_base", "cl100k_base (3/10 archived probe deltas)", "Mistral-Nemo-Instruct-2407 Tekken (2/10 archived probe deltas)", "llama4 (201135 vocab, all probes differ)", "xiaomi mimo-v2.5 (tokenizer identical to qwen3: vocab 151643, deltas equal on every probe; transitive exclusion)"]
   },
   "l1b_completion_side": {
     "echo_exact": "7/8 probes repeated character-exact",
