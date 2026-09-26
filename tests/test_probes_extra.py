@@ -101,6 +101,18 @@ class TokenizerRepeatsTests(unittest.TestCase):
             probes_extra.tokenizer_repeats(Dead(), probes=self.PROBES,
                                            repeats=1, workers=1, verbose=False)
 
+    def test_all_probes_failed_raises_clear_error(self):
+        class ProbeFailures:
+            def chat(self, messages, **kwargs):
+                if messages[0]["content"] == "hello ":
+                    return {"usage": {"prompt_tokens": 33}}, None
+                return {}, {"http": 429, "body": "rate limited"}
+
+        with self.assertRaisesRegex(RuntimeError, "no successful tokenizer probe counts"):
+            probes_extra.tokenizer_repeats(
+                ProbeFailures(), probes=self.PROBES, repeats=2,
+                workers=2, verbose=False)
+
 
 class _CharTok:
     """Fake HF-style tokenizer: 1 token per character."""
