@@ -202,7 +202,8 @@ def wrapper_constant(client, texts=None, verbose=True):
 # ------------------------------------------------------------------ L3
 def context_search(client, max_bytes=4_500_000, min_step=30_000, task=None, verbose=True):
     """L3: binary-search max working input size (capped by gateway body limit).
-    Returns verified max in chars + prompt_tokens at that point."""
+    Returns verified max in chars + prompt_tokens at that point, or null
+    metrics and the original error if the initial or final probe fails."""
     task = task or "Answer with the single word OK and nothing else."
 
     def ok_at(chars):
@@ -214,6 +215,12 @@ def context_search(client, max_bytes=4_500_000, min_step=30_000, task=None, verb
         print(t("ctx.header"))
     lo, hi = 10_000, max_bytes
     history = []
+    good, pt, e = ok_at(lo)
+    if not good:
+        if verbose:
+            print(t("ctx.failed", err=e))
+        return {"max_verified_chars": None, "max_verified_prompt_tokens": None,
+                "history": history, "error": e}
     while hi - lo > min_step:
         mid = (lo + hi) // 2
         good, pt, e = ok_at(mid)
@@ -224,7 +231,12 @@ def context_search(client, max_bytes=4_500_000, min_step=30_000, task=None, verb
             lo = mid
         else:
             hi = mid
-    good, pt, _ = ok_at(lo)
+    good, pt, e = ok_at(lo)
+    if not good:
+        if verbose:
+            print(t("ctx.failed", err=e))
+        return {"max_verified_chars": None, "max_verified_prompt_tokens": None,
+                "history": history, "error": e}
     if verbose:
         print(t("ctx.max", chars=format(lo, ","), tokens=pt or 0))
     return {"max_verified_chars": lo, "max_verified_prompt_tokens": pt, "history": history}
