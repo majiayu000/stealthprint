@@ -170,6 +170,49 @@ class EchoVerifyTests(unittest.TestCase):
 
 
 class ToolsProbeTests(unittest.TestCase):
+    def _schema_client(self, baseline, tools):
+        client = mock.Mock()
+        client.prompt_tokens.return_value = baseline
+        client.chat.side_effect = [tools] + [
+            ({"choices": [{"message": {"content": "OK"}, "finish_reason": "stop"}]}, None)
+        ] * 3
+        return client
+
+    def test_failed_baseline_preserves_error_and_tool_choices(self):
+        for err in ({"http": 500, "body": "upstream failed"},
+                    {"http": 429, "body": "rate limited"},
+                    {"http": None, "body": "timed out"}):
+            with self.subTest(err=err):
+                client = self._schema_client(
+                    (None, err), ({"usage": {"prompt_tokens": 400}}, None))
+                r = probes_extra.tools_probe(client, verbose=False)
+                self.assertIsNone(r["schema_overhead"])
+                self.assertEqual(r["baseline_error"], err)
+                for choice in ("none", "auto", "required"):
+                    self.assertEqual(r["tool_choice_" + choice]["finish"], "stop")
+                self.assertEqual(client.chat.call_count, 4)
+
+    def test_missing_baseline_count_is_not_zero(self):
+        client = self._schema_client(
+            (None, None), ({"usage": {"prompt_tokens": 400}}, None))
+        r = probes_extra.tools_probe(client, verbose=False)
+        self.assertIsNone(r["schema_overhead"])
+
+    def test_zero_baseline_count_is_valid(self):
+        client = self._schema_client(
+            (0, None), ({"usage": {"prompt_tokens": 400}}, None))
+        r = probes_extra.tools_probe(client, verbose=False)
+        self.assertEqual(r["schema_overhead"], 400)
+        self.assertNotIn("baseline_error", r)
+
+    def test_unavailable_tools_count_is_not_subtracted(self):
+        for tools in ((None, {"http": 503, "body": "unavailable"}),
+                      ({}, None), ({"usage": {"prompt_tokens": None}}, None)):
+            with self.subTest(tools=tools):
+                client = self._schema_client((10, None), tools)
+                r = probes_extra.tools_probe(client, verbose=False)
+                self.assertIsNone(r["schema_overhead"])
+
     def test_schema_overhead_and_calls(self):
         class ToolClient:
             def __init__(self):
