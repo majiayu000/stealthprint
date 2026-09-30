@@ -74,7 +74,10 @@ class ChatClient:
                            timeout=timeout, model=model)
         if err:
             return None, err
-        return d["usage"]["prompt_tokens"], None
+        pt = (d.get("usage") or {}).get("prompt_tokens")
+        if pt is None:
+            return None, {"http": 200, "body": "no prompt_tokens in usage"}
+        return pt, None
 
     def list_models(self, timeout=None):
         d, err = self.request("GET", "/models", timeout=timeout)
