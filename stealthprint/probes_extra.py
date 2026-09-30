@@ -185,12 +185,13 @@ def tools_probe(client, verbose=True):
 
 def wrapper_turns(client, turns=4, verbose=True):
     """L2+: prompt_tokens as user/assistant turns accumulate. The per-turn
-    delta is the chat-template turn overhead (role headers + eot)."""
+    delta includes the same message bodies each turn, plus chat-template
+    turn overhead (role headers + eot)."""
     out = {"turns": []}
     messages = []
     prev = None
     for i in range(turns):
-        messages.append({"role": "user", "content": "Say OK." if i % 2 == 0 else "OK"})
+        messages.append({"role": "user", "content": "Say OK."})
         pt, err = client.prompt_tokens(messages, max_tokens=1)
         row = {"turn": i + 1, "prompt_tokens": pt,
                "delta": (pt - prev) if (pt is not None and prev is not None) else None}
