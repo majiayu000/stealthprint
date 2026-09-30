@@ -14,7 +14,7 @@ class ChatClient:
     def __init__(self, model, base_url=None, api_key=None, timeout=180, session_id=None):
         self.model = model
         self.base_url = (base_url or os.environ.get("STEALTHPRINT_BASE_URL") or "").rstrip("/")
-        self.api_key = api_key or os.environ.get("STEALTHPRINT_API_KEY") or self._opencode_fallback_key()
+        self.api_key = api_key or os.environ.get("STEALTHPRINT_API_KEY")
         if not self.base_url:
             raise ValueError("no base_url (pass base_url= or set STEALTHPRINT_BASE_URL)")
         if not self.api_key:
@@ -23,22 +23,6 @@ class ChatClient:
         # carrying a client session id; other servers ignore the header.
         self.session_id = session_id or str(uuid.uuid4())
         self.timeout = timeout
-
-    @staticmethod
-    def _opencode_fallback_key():
-        """Convenience: reuse an existing opencode login if present (optional)."""
-        path = os.path.expanduser("~/.local/share/opencode/auth.json")
-        if not os.path.exists(path):
-            return None
-        try:
-            data = json.load(open(path))
-        except Exception:
-            return None
-        for provider in ("opencode-go", "opencode"):
-            entry = data.get(provider)
-            if isinstance(entry, dict) and entry.get("key"):
-                return entry["key"]
-        return None
 
     def _headers(self):
         return {"Authorization": "Bearer " + self.api_key,

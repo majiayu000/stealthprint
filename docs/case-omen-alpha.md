@@ -93,7 +93,7 @@ pip install "stealthprint @ git+https://github.com/majiayu000/stealthprint.git#e
 
 export STEALTHPRINT_BASE_URL="https://opencode.ai/zen/go/v1"
 export STEALTHPRINT_MODEL="omen-alpha"
-export STEALTHPRINT_API_KEY="sk-..."    # or in ~/.local/share/opencode/auth.json
+export STEALTHPRINT_API_KEY="sk-..."    # explicitly provide the key for this endpoint
 
 ./fetch_tokenizers.sh                   # local comparison vocabs (HF open files, zero API cost)
 
