@@ -232,6 +232,21 @@ class WrapperTurnsTests(unittest.TestCase):
         self.assertEqual([row["delta"] for row in r["turns"]], [None, 33, 57, 81])
         self.assertFalse(r["per_turn_constant"])
 
+    def test_first_delta_is_compared(self):
+        for turns in (3, 4):
+            with self.subTest(turns=turns):
+                client = self.TurnClient(lambda n: 3 * n + (5 if n > 1 else 0))
+                r = probes_extra.wrapper_turns(client, turns=turns, verbose=False)
+                self.assertEqual([row["delta"] for row in r["turns"]],
+                                 [None, 20] + [15] * (turns - 2))
+                self.assertIs(r["per_turn_constant"], False)
+
+    def test_three_turns_provide_two_comparable_deltas(self):
+        r = probes_extra.wrapper_turns(self.TurnClient(lambda n: 3 * n),
+                                       turns=3, verbose=False)
+        self.assertEqual([row["delta"] for row in r["turns"]], [None, 15, 15])
+        self.assertIs(r["per_turn_constant"], True)
+
     def test_too_few_turns_is_none(self):
         r = probes_extra.wrapper_turns(self.TurnClient(lambda n: 3 * n),
                                        turns=2, verbose=False)

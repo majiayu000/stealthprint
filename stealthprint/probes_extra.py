@@ -203,5 +203,5 @@ def wrapper_turns(client, turns=4, verbose=True):
         prev = pt
         messages.append({"role": "assistant", "content": "OK"})
     deltas = [r["delta"] for r in out["turns"] if r["delta"] is not None]
-    out["per_turn_constant"] = len(set(deltas[1:])) == 1 if len(deltas) > 2 else None
+    out["per_turn_constant"] = len(set(deltas)) == 1 if len(deltas) >= 2 else None
     return out
