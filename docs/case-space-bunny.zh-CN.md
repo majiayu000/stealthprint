@@ -1,5 +1,7 @@
 # 案例报告：space-bunny-free
 
+[首次调查与证据边界](../README.zh-CN.md#第一次调查先比较分词器再选择大探针) · [其他案例](../README.zh-CN.md#案例报告)
+
 [English](case-space-bunny.md) · [中文](case-space-bunny.zh-CN.md)
 
 对 opencode zen 网关上的匿名 `-free` 模型 `space-bunny-free`（公共线

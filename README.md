@@ -162,7 +162,7 @@ section of the space-bunny case.
 
 ## Case studies
 
-Three worked cases, all reproduced end-to-end with this toolkit:
+Worked cases and an unresolved investigation, with measurement details:
 
 - **space-bunny-free → MiniMax** (2026-09-24): 24/24 vocab (Kimi 13/24, GLM
   7/24), same-gateway delta identity with `minimax-m3`/`m2.5`, ctx ≥1M rules
@@ -181,6 +181,8 @@ Three worked cases, all reproduced end-to-end with this toolkit:
   unproducible mystery counter.
   [docs/case-union-alpha.md](docs/case-union-alpha.md) ·
   [中文](docs/case-union-alpha.zh-CN.md)
+
+- **pixel-canary — identity unresolved** (2026-09-26): candidate-tokenizer and named-model comparisons did not establish identity. See the [Chinese investigation and measurement links](docs/case-pixel-canary.zh-CN.md) for limits and unsuccessful comparisons.
 
 ## Prior art
 

@@ -1,5 +1,7 @@
 # Case study: space-bunny-free
 
+[First investigation and evidence limits](../README.md#first-investigation-compare-tokenizers-before-larger-probes) · [Other cases](../README.md#case-studies)
+
 [English](case-space-bunny.md) · [中文](case-space-bunny.zh-CN.md)
 
 Fingerprint analysis of `space-bunny-free`, an anonymous `-free` model listed
