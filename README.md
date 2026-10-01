@@ -7,6 +7,8 @@ any OpenAI-compatible endpoint. The library is **bound to no model name** —
 endpoint, model id, and API key are always passed explicitly; switching to a
 new model means changing two parameters and rerunning the same playbook.
 
+[First investigation](#first-investigation-compare-tokenizers-before-larger-probes) · [Layer reference](#layer-reference) · [Case studies](#case-studies)
+
 ## Install
 
 ```bash
@@ -41,6 +43,43 @@ Every identity parameter can also be passed per command:
 `stealthprint --base-url ... --model ... --api-key ... tokenizer`.
 Global flags work before or after the subcommand. Add `--json` for
 machine-readable output alongside the human summary.
+
+## First investigation: compare tokenizers before larger probes
+
+1. Install the fingerprint dependencies (`stealthprint[all]`) and fetch the
+   [candidate tokenizer files](#fetching-comparison-tokenizers). Set the endpoint,
+   model and API-key environment variables shown above.
+2. Inspect `stealthprint tokenizer --help`, then run
+   `stealthprint tokenizer --tokenizers tok/ --json`. Target API calls may be
+   billable; comparing the returned counts with local candidates adds no model
+   requests. Repeats and additional layers create more requests.
+3. Read each candidate's `exact`, `total` and `mae`. An exact match means matching
+   token-count deltas on the successful probes, not proof of the model's weights,
+   architecture, training data or vendor. Failed probes reduce `total`; compare
+   the same successful set before interpreting a ranking.
+4. Check a second signal with `stealthprint wrapper`, or use
+   `stealthprint tokenizer --tokenizers tok/ --repeats 3` if repeated counts vary.
+   Preserve endpoint, model ID, time, probe set and failures with the result.
+5. Choose further layers for a specific unanswered question. The
+   [layer reference](#layer-reference) and [worked cases](#case-studies) show how
+   tokenizer, wrapper, context and modality evidence fit together.
+
+### How to interpret an inconclusive result
+
+- **No candidate matches?** Your tokenizer directory may omit the right vocab;
+  a gateway can also alter counting or route requests between backends. Add a
+  relevant published candidate and inspect repeat behavior before attributing
+  identity.
+- **Missing dependencies?** The tokenizer layer requires both `tokenizers` and
+  `tiktoken`; use the fingerprint dependency installation above.
+- **Does a failed large prompt prove a context limit?** No. The context search
+  treats request failures as unsuccessful sizes. Rate limits, timeouts and HTTP
+  body-size limits can affect it. Report verified successful input sizes and
+  failures, rather than inferring a model's architectural maximum.
+- **Is survey free or capped in dollars?** `--max-models` limits model count, not
+  API spend. For a small, resumable catalog sample use
+  `stealthprint survey --max-models 2 --out census.jsonl`; inspect provider pricing
+  before running it. Existing JSONL entries are skipped when resuming.
 
 ## Python API
 
