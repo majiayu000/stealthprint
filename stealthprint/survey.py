@@ -3,8 +3,8 @@
 Classify every catalog model by reachability first — a visible catalog entry
 is not a usable model (62/71 entries were 401 credit-walled) — then run the
 L1 tokenizer differential on the reachable ones and score against the local
-vocab candidates. Models whose /chat/completions fails get one /responses
-attempt (the Muse line only speaks the Responses API).
+vocab candidates. Models whose /chat/completions fails fall back to /responses
+with the same retry budget (the Muse line only speaks the Responses API).
 """
 
 import json
@@ -47,15 +47,20 @@ def _pt_chat(client, text, retries, delay):
     return None, err
 
 
-def _pt_responses(client, model, text):
-    d, err = client.request("POST", "/responses",
-                            body={"model": model, "input": text, "max_output_tokens": 16})
-    if err:
-        return None, err
-    usage = d.get("usage") or {}
-    if "input_tokens" not in usage:
-        return None, {"http": 200, "body": "no input_tokens in usage"}
-    return usage["input_tokens"], None
+def _pt_responses(client, model, text, retries, delay):
+    err = {"http": None, "body": "not called"}
+    for _ in range(retries + 1):
+        d, err = client.request("POST", "/responses",
+                                body={"model": model, "input": text, "max_output_tokens": 16})
+        if not err:
+            usage = d.get("usage") or {}
+            if usage.get("input_tokens") is None:
+                err = {"http": 200, "body": "no input_tokens in usage"}
+            else:
+                return usage["input_tokens"], None
+        if delay:
+            time.sleep(delay)
+    return None, err
 
 
 def _score(deltas, local_deltas, base_pt, local_base):
@@ -74,9 +79,16 @@ def _measure(client_factory, model, base_text, probe_texts, retries, delay):
     base_pt, err = _pt_chat(client, base_text, retries, delay)
     mode = "chat"
     if base_pt is None:
-        base_pt, err2 = _pt_responses(client, model, base_text)
+        base_pt, err2 = _pt_responses(client, model, base_text, retries, delay)
         if base_pt is None:
-            return None, classify_error(err), {"chat": err, "responses": err2}
+            classes = (classify_error(err), classify_error(err2))
+            if "paid_401" in classes:
+                cls = "paid_401"
+            elif "rate_limited_429" in classes:
+                cls = "rate_limited_429"
+            else:
+                cls = classes[0]
+            return None, cls, {"chat": err, "responses": err2}
         mode = "responses"
 
     deltas, fails = {}, 0
@@ -85,12 +97,7 @@ def _measure(client_factory, model, base_text, probe_texts, retries, delay):
         if mode == "chat":
             pt, _ = _pt_chat(client, text, retries, delay)
         else:
-            for _ in range(retries + 1):
-                pt, e = _pt_responses(client, model, text)
-                if pt is not None:
-                    break
-                if delay:
-                    time.sleep(delay)
+            pt, _ = _pt_responses(client, model, text, retries, delay)
         if pt is None:
             fails += 1
             continue
