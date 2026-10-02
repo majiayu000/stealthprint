@@ -74,8 +74,11 @@ class ContextSearchTests(unittest.TestCase):
         error = {"http": 413, "body": "input too large"}
         with mock.patch.object(self.client, "chat", side_effect=[
                 response(2500), response(7500), (None, error), response(7600)]) as chat:
-            result = layers.context_search(self.client, max_bytes=50_000,
-                                           min_step=10_000, verbose=False)
+            with contextlib.redirect_stdout(io.StringIO()) as output:
+                result = layers.context_search(self.client, max_bytes=50_000,
+                                               min_step=10_000)
+        self.assertIn("30,000 chars: OK pt=7,500", output.getvalue())
+        self.assertIn("40,000 chars: FAIL", output.getvalue())
         self.assertEqual(chat.call_count, 4)
         self.assertEqual(result, {
             "max_verified_chars": 30_000, "max_verified_prompt_tokens": 7600,

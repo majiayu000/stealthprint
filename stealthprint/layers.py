@@ -226,7 +226,7 @@ def context_search(client, max_bytes=4_500_000, min_step=30_000, task=None, verb
         good, pt, e = ok_at(mid)
         history.append({"chars": mid, "ok": good, "prompt_tokens": pt})
         if verbose:
-            print("  %,d chars: %s" % (mid, ("OK pt=" + format(pt, ",")) if good else "FAIL " + str(e)[:160]), flush=True)
+            print("  %s chars: %s" % (format(mid, ","), ("OK pt=" + format(pt, ",")) if good else "FAIL " + str(e)[:160]), flush=True)
         if good:
             lo = mid
         else:
