@@ -215,24 +215,52 @@ class WrapperTurnsTests(unittest.TestCase):
             self.fn = fn
 
         def prompt_tokens(self, messages, max_tokens=1, extra=None, timeout=None, model=None):
-            return self.fn(len(messages)), None
+            content_tokens = sum(len(message["content"]) for message in messages)
+            return content_tokens + self.fn(len(messages)), None
 
     def test_constant_per_turn(self):
-        r = probes_extra.wrapper_turns(self.TurnClient(lambda n: 22 + 8 * n),
+        r = probes_extra.wrapper_turns(self.TurnClient(lambda n: 3 * n),
                                        turns=4, verbose=False)
         # turn 1 has no predecessor delta; each later turn adds user+assistant
-        self.assertEqual([row["delta"] for row in r["turns"]], [None, 16, 16, 16])
+        self.assertEqual([row["prompt_tokens"] for row in r["turns"]], [10, 25, 40, 55])
+        self.assertEqual([row["delta"] for row in r["turns"]], [None, 15, 15, 15])
         self.assertTrue(r["per_turn_constant"])
 
     def test_non_constant_per_turn(self):
-        r = probes_extra.wrapper_turns(self.TurnClient(lambda n: 22 + 4 * n * n),
+        r = probes_extra.wrapper_turns(self.TurnClient(lambda n: 3 * n * n),
                                        turns=4, verbose=False)
+        self.assertEqual([row["delta"] for row in r["turns"]], [None, 33, 57, 81])
         self.assertFalse(r["per_turn_constant"])
 
+    def test_first_delta_is_compared(self):
+        for turns in (3, 4):
+            with self.subTest(turns=turns):
+                client = self.TurnClient(lambda n: 3 * n + (5 if n > 1 else 0))
+                r = probes_extra.wrapper_turns(client, turns=turns, verbose=False)
+                self.assertEqual([row["delta"] for row in r["turns"]],
+                                 [None, 20] + [15] * (turns - 2))
+                self.assertIs(r["per_turn_constant"], False)
+
+    def test_three_turns_provide_two_comparable_deltas(self):
+        r = probes_extra.wrapper_turns(self.TurnClient(lambda n: 3 * n),
+                                       turns=3, verbose=False)
+        self.assertEqual([row["delta"] for row in r["turns"]], [None, 15, 15])
+        self.assertIs(r["per_turn_constant"], True)
+
     def test_too_few_turns_is_none(self):
-        r = probes_extra.wrapper_turns(self.TurnClient(lambda n: 22 + 8 * n),
+        r = probes_extra.wrapper_turns(self.TurnClient(lambda n: 3 * n),
                                        turns=2, verbose=False)
         self.assertIsNone(r["per_turn_constant"])
+
+    def test_failed_turn_stops_without_a_delta(self):
+        client = mock.Mock()
+        client.prompt_tokens.side_effect = [(10, None), (None, {"http": 503, "body": "busy"})]
+        r = probes_extra.wrapper_turns(client, turns=4, verbose=False)
+        self.assertEqual(r, {"turns": [
+            {"turn": 1, "prompt_tokens": 10, "delta": None},
+            {"turn": 2, "prompt_tokens": None, "delta": None},
+        ], "per_turn_constant": None})
+        self.assertEqual(client.prompt_tokens.call_count, 2)
 
 
 if __name__ == "__main__":
