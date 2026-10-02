@@ -122,6 +122,16 @@ class MeasureResponsesTests(unittest.TestCase):
         self.assertEqual(row["base_api"], 0)
         self.assertEqual(row["deltas"], {"p1": 2})
 
+    def test_null_usage_exhaustion_retains_responses_error(self):
+        client = self.make_client({"http": 500, "body": "chat unavailable"})
+        client.request.return_value = ({"usage": {"input_tokens": None}}, None)
+        row, cls, detail = self.measure(client, retries=1)
+        self.assertIsNone(row)
+        self.assertEqual(cls, "upstream_5xx")
+        self.assertEqual(detail["responses"],
+                         {"http": 200, "body": "no input_tokens in usage"})
+        self.assertEqual(client.request.call_count, 2)
+
     def test_responses_probe_keeps_retries_and_delay(self):
         client = self.make_client()
         client.request.side_effect = [

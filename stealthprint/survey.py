@@ -54,9 +54,9 @@ def _pt_responses(client, model, text, retries, delay):
                                 body={"model": model, "input": text, "max_output_tokens": 16})
         if not err:
             usage = d.get("usage") or {}
-            if "input_tokens" not in usage:
+            if usage.get("input_tokens") is None:
                 err = {"http": 200, "body": "no input_tokens in usage"}
-            elif usage["input_tokens"] is not None:
+            else:
                 return usage["input_tokens"], None
         if delay:
             time.sleep(delay)
