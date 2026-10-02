@@ -156,11 +156,13 @@ def tools_probe(client, verbose=True):
     """L5: schema token overhead, tool_choice handling, real/parallel calls."""
     out = {}
     plain, err = client.prompt_tokens([{"role": "user", "content": "hi"}])
+    if err:
+        out["baseline_error"] = err
     with_tools, _ = client.chat([{"role": "user", "content": "hi"}],
                                 max_tokens=1, extra={"tools": _TOOL_SCHEMA})
-    if with_tools and (with_tools.get("usage") or {}).get("prompt_tokens") is not None:
+    if plain is not None and with_tools and (with_tools.get("usage") or {}).get("prompt_tokens") is not None:
         pt_tools = with_tools["usage"]["prompt_tokens"]
-        out["schema_overhead"] = pt_tools - (plain if plain is not None else 0)
+        out["schema_overhead"] = pt_tools - plain
     else:
         out["schema_overhead"] = None
 
