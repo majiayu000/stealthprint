@@ -310,8 +310,10 @@ def vision_truth(client, colors=None, verbose=True):
         print(t("vision.hint"))
     colors = colors or [((255, 0, 0), "red"), ((0, 0, 255), "blue")]
 
-    pt_noimg, _ = client.prompt_tokens(
+    pt_noimg, err = client.prompt_tokens(
         [{"role": "user", "content": "Is this image red or blue? Answer one word."}])
+    if err:
+        raise RuntimeError("no-image control request failed: %s" % err)
     if verbose:
         print(t("vision.control", pt=pt_noimg))
 
