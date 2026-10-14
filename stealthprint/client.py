@@ -11,8 +11,10 @@ class ChatClient:
     All identity is explicit: model + base_url + api_key. No model is baked in.
     """
 
-    def __init__(self, model, base_url=None, api_key=None, timeout=180, session_id=None):
+    def __init__(self, model, base_url=None, api_key=None, timeout=180, session_id=None,
+                 transport="openai"):
         self.model = model
+        self.transport = transport  # "openai" (/chat/completions) | "anthropic" (/messages)
         self.base_url = (base_url or os.environ.get("STEALTHPRINT_BASE_URL") or "").rstrip("/")
         self.api_key = api_key or os.environ.get("STEALTHPRINT_API_KEY")
         if not self.base_url:
@@ -25,10 +27,14 @@ class ChatClient:
         self.timeout = timeout
 
     def _headers(self):
-        return {"Authorization": "Bearer " + self.api_key,
-                "Content-Type": "application/json",
-                "x-session-id": self.session_id,
-                "User-Agent": "curl/8.7.1", "Accept": "*/*"}
+        h = {"Authorization": "Bearer " + self.api_key,
+             "Content-Type": "application/json",
+             "x-session-id": self.session_id,
+             "User-Agent": "curl/8.7.1", "Accept": "*/*"}
+        if self.transport == "anthropic":
+            h["x-api-key"] = self.api_key
+            h["anthropic-version"] = "2023-06-01"
+        return h
 
     def request(self, method, path, body=None, timeout=None):
         """Raw HTTP to base_url+path. Returns (parsed_json_or_None, err_dict_or_None)."""
@@ -51,16 +57,18 @@ class ChatClient:
         body = {"model": model or self.model, "messages": messages, "max_tokens": max_tokens}
         if extra:
             body.update(extra)
-        return self.request("POST", "/chat/completions", body=body, timeout=timeout)
+        path = "/messages" if self.transport == "anthropic" else "/chat/completions"
+        return self.request("POST", path, body=body, timeout=timeout)
 
     def prompt_tokens(self, messages, max_tokens=1, extra=None, timeout=None, model=None):
         d, err = self.chat(messages, max_tokens=max_tokens, extra=extra,
                            timeout=timeout, model=model)
         if err:
             return None, err
-        pt = (d.get("usage") or {}).get("prompt_tokens")
+        key = "input_tokens" if self.transport == "anthropic" else "prompt_tokens"
+        pt = (d.get("usage") or {}).get(key)
         if pt is None:
-            return None, {"http": 200, "body": "no prompt_tokens in usage"}
+            return None, {"http": 200, "body": "no %s in usage" % key}
         return pt, None
 
     def list_models(self, timeout=None):
