@@ -1,0 +1,170 @@
+{
+ "session": "2026-10-13/14, opencode zen Go line /zen/go/v1, model cat-jam-free. ~120 calls. All probes single-turn unless noted.",
+ "note": "Go subscription line; headers x-opencode-session + x-opencode-client required. Identity claims from the model itself are unreliable (3 prior cases); self-reported 'CatJam by LitterBox AI' is wrapper-template improv, not evidence.",
+ "l1_tokenizer_differential": {
+  "ranking": {
+   "deepseek": {
+    "exact": 6,
+    "total": 24,
+    "mae": 2.96
+   },
+   "dots3": {
+    "exact": 24,
+    "total": 24,
+    "mae": 0.0
+   },
+   "glm5": {
+    "exact": 8,
+    "total": 24,
+    "mae": 2.92
+   },
+   "glm53": {
+    "exact": 8,
+    "total": 24,
+    "mae": 2.92
+   },
+   "llama3": {
+    "exact": 10,
+    "total": 24,
+    "mae": 3.25
+   },
+   "llama4": {
+    "exact": 10,
+    "total": 24,
+    "mae": 2.83
+   },
+   "mimo-v2.5": {
+    "exact": 24,
+    "total": 24,
+    "mae": 0.0
+   },
+   "minimax": {
+    "exact": 11,
+    "total": 24,
+    "mae": 2.83
+   },
+   "qwen3": {
+    "exact": 24,
+    "total": 24,
+    "mae": 0.0
+   },
+   "o200k_base": {
+    "exact": 7,
+    "total": 24,
+    "mae": 2.67
+   },
+   "cl100k_base": {
+    "exact": 8,
+    "total": 24,
+    "mae": 4.88
+   }
+  },
+  "api_delta": {
+   "en_pangram": 10,
+   "zh_long": 15,
+   "code": 18,
+   "emoji_zwj": 20,
+   "rare_uni": 17,
+   "digits": 32,
+   "ja": 6,
+   "ko": 5,
+   "code_indent": 14,
+   "url_sym": 18,
+   "cjk_rare": 13,
+   "long_words": 16,
+   "ws": 4,
+   "zh_num": 17,
+   "punct": 12,
+   "hex_bin": 17,
+   "fr": 15,
+   "ru": 16,
+   "mixed_code_zh": 24,
+   "emoji_flags": 18,
+   "thai": 10,
+   "floats": 31,
+   "html": 15,
+   "quotes2": 10
+  },
+  "note": "qwen3 / mimo-v2.5 / dots3 local tokenizers share vocab_size 151643 (Qwen lineage); all three hit 24/24 MAE 0.00 — file-level match is family-level only.",
+  "special_token_adjudication": {
+   "probe": "family-exclusive added_tokens",
+   "mimo": {
+    "<|mimo_audio_start|>": "8 tokens (MiMo vocab would count 1) -> excluded"
+   },
+   "dots": {
+    "<no_think>/<dots_function_call>/<|alttext|>": "multi-token -> excluded"
+   },
+   "qwen3": {
+    "<tool_call>/<|fim_middle|>": "single-token hit -> pure Qwen3 vocab"
+   }
+  },
+  "catalog_ab": {
+   "qwen3.8-flash": "new vocab, 2/24, delta vector far from cat-jam -> excluded",
+   "qwen3.6-plus": "new vocab, 2/24, delta vector far -> excluded",
+   "mimo-v2.6-flash-free": "upstream 'Model is unavailable', A/B not completed (does not affect family verdict)"
+  }
+ },
+ "l2_wrapper": {
+  "constant": 509,
+  "peers": {
+   "qwen3.8": 61,
+   "qwen3.6": 10,
+   "neighbor_free_models": "8-20"
+  },
+  "reading": "upstream ships its own large template (reasoning instructions + persona)"
+ },
+ "l3_context": {
+  "method": "needle-in-haystack, head/mid/tail codes",
+  "ladder_prompt_tokens": [
+   243000,
+   281000,
+   430000,
+   561000,
+   842000
+  ],
+  "result": "all 5 tiers 3/3 hits -> >=842K, 1M class; excludes qwen3 standard 262,144 and qwen3-next 512K"
+ },
+ "l4_error_envelope": {
+  "style": "pydantic [invalid_type]/[invalid_value]",
+  "stack": "vLLM",
+  "extras": "developer role 200; temperature out-of-range not rejected; reasoning_effort validated (unsupported_value) -> reasoning model"
+ },
+ "l6_vision": {
+  "result": "image content blocks rejected at upstream validation ([invalid_value]) -> text-only, excludes VL lineage"
+ },
+ "knowledge_ladder": {
+  "method": "dated events, all anchor dates web-verified; single event per turn",
+  "knows": {
+   "DeepSeek-R1": "2025-01",
+   "Llama4": "2025-04",
+   "Qwen3": "2025-04",
+   "Kimi K2 open-weights": "2025-07-11 (month-level, stable on re-ask)"
+  },
+  "does_not_know": {
+   "Meta MSL": "2025-06-30",
+   "Grok 4": "2025-07-09",
+   "GLM-4.5": "2025-07-28",
+   "Qwen3-Coder month": "2025-07-22",
+   "GPT-5": "2025-08-07",
+   "Claude Opus 4.1": "2025-08",
+   "Nano Banana": "2025-08-26",
+   "Sonnet 4.5": "2025-09",
+   "Opus 4.5": "2025-11"
+  },
+  "soft_edge": "gpt-oss (08-05) answered 'August (uncertain)' secondhand fragment; knows Kimi K2 (07-11) but not earlier Grok 4 (07-09)/Meta MSL (06-30) -> corpus-type weighting, not a hard wall; consistent with Qwen-lineage pretraining corpus",
+  "cutoff_window": "[2025-07-11, 2025-07-22]",
+  "self_reported": "refused ('not publicly disclosed')"
+ },
+ "tools": {
+  "tool_choice": "none/auto/required all correct",
+  "parallel": "two parallel tool calls in one turn"
+ },
+ "identity_behavior": {
+  "self_reported": "CatJam by LitterBox AI (template improv, unreliable)"
+ },
+ "verdict": {
+  "family": "Qwen (high confidence)",
+  "model_guess": "qwen3-max-class 1M flagship or undisclosed qwen3.5-preview (medium confidence)",
+  "tokenizer_files": "pure Qwen3 vocab via special tokens"
+ }
+}

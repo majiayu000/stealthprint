@@ -118,8 +118,17 @@ CATALOGS["ja"] = {"cli.tok": "L1 トークナイザ差分 ...", ...}
 
 ## 案例报告
 
-三个完整案例，全部用本工具库端到端复现：
+五个完整案例，全部用本工具库端到端复现：
 
+- **cat-jam-free → Qwen 家族**（2026-10-13）：纯 Qwen3 词表（24/24 + 特异
+  token 裁决出 mimo/dots），1M 级上下文（842K needle 五档全中），cutoff
+  [2025-07-11, 07-22] 周级精测，+509 大模板，疑 qwen3-max 级旗舰（中置信）。
+  [docs/case-cat-jam.zh-CN.md](docs/case-cat-jam.zh-CN.md)
+- **deepseek-v4.1-flash 满血体检**（2026-10-15，两网关）：具名模型完整性
+  检查——词表 24/24 真身，commandcode 线 1,028,571 token needle 满档；
+  量化判定双方法（logprob 对照 median 9.5e-7 / 30 探针一致性 23/30）；
+  `fast` 变体 = 同权重高吞吐部署。
+  [docs/case-deepseek-v41-flash.zh-CN.md](docs/case-deepseek-v41-flash.zh-CN.md)
 - **space-bunny-free → MiniMax**（2026-09-24）：词表 24/24（Kimi 13/24、
   GLM 7/24），同网关与 `minimax-m3`/`m2.5` delta 全等，上下文 ≥1M 排除
   m2.5 代，+143 wrapper 零漂移，适配层视觉，同构单栈，即兴自报 ChatGPT。

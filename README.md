@@ -164,6 +164,17 @@ section of the space-bunny case.
 
 Worked cases and an unresolved investigation, with measurement details:
 
+- **cat-jam-free → Qwen family** (2026-10-13): pure Qwen3 vocab (24/24 plus
+  special-token adjudication against mimo/dots), 1M-class context (842K needle
+  ladder 5/5), week-level cutoff [2025-07-11, 07-22], +509 large template;
+  likely a qwen3-max-class flagship (medium confidence).
+  [中文](docs/case-cat-jam.zh-CN.md)
+- **deepseek-v4.1-flash integrity check** (2026-10-15, two gateways):
+  named-model anti-impersonation/anti-downgrade — vocab 24/24, commandcode
+  line 1,028,571-token needle at full window; dual-method quantization
+  verdict (logprob A/B median 9.5e-7 / 30-probe consistency 23/30); the
+  `fast` variant is the same weights on a higher-throughput deployment.
+  [中文](docs/case-deepseek-v41-flash.zh-CN.md)
 - **space-bunny-free → MiniMax** (2026-09-24): 24/24 vocab (Kimi 13/24, GLM
   7/24), same-gateway delta identity with `minimax-m3`/`m2.5`, ctx ≥1M rules
   out the m2.5 generation, +143 wrapper zero-drift, adapter-class vision,

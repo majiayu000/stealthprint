@@ -1,0 +1,268 @@
+{
+ "session": "2026-10-13 (opencode zen Go line) + 2026-10-15 (commandcode.ai via local commandcode-proxy on /alpha/generate), models deepseek-v4.1-flash / deepseek-v4.1-flash-fast. ~190 calls total.",
+ "note": "Named-model integrity check (anti-impersonation / anti-downgrade), not a stealth case. CC standard API endpoints /provider/v1/* require Provider+ plan (Go plan 403); measurements taken through the official CLI private protocol /alpha/generate (CC envelope) via open-source commandcode-proxy. CC protocol carries usage but no logprobs.",
+ "l1_tokenizer_differential": {
+  "opencode": {
+   "exact": "24/24",
+   "mae": 0.0,
+   "winner": "deepseek",
+   "runner_up": "minimax 11/24"
+  },
+  "cc_std": {
+   "ranking": {
+    "deepseek": {
+     "exact": 24,
+     "total": 24,
+     "mae": 0.0
+    },
+    "dots3": {
+     "exact": 6,
+     "total": 24,
+     "mae": 2.96
+    },
+    "glm5": {
+     "exact": 8,
+     "total": 24,
+     "mae": 1.88
+    },
+    "glm53": {
+     "exact": 8,
+     "total": 24,
+     "mae": 1.88
+    },
+    "llama3": {
+     "exact": 8,
+     "total": 24,
+     "mae": 2.29
+    },
+    "llama4": {
+     "exact": 10,
+     "total": 24,
+     "mae": 1.12
+    },
+    "mimo-v2.5": {
+     "exact": 6,
+     "total": 24,
+     "mae": 2.96
+    },
+    "minimax": {
+     "exact": 11,
+     "total": 24,
+     "mae": 1.62
+    },
+    "qwen3": {
+     "exact": 6,
+     "total": 24,
+     "mae": 2.96
+    },
+    "o200k_base": {
+     "exact": 8,
+     "total": 24,
+     "mae": 1.46
+    },
+    "cl100k_base": {
+     "exact": 8,
+     "total": 24,
+     "mae": 3.75
+    }
+   },
+   "api_delta": {
+    "en_pangram": 10,
+    "zh_long": 14,
+    "code": 19,
+    "emoji_zwj": 20,
+    "rare_uni": 15,
+    "digits": 17,
+    "ja": 10,
+    "ko": 7,
+    "code_indent": 14,
+    "url_sym": 21,
+    "cjk_rare": 18,
+    "long_words": 14,
+    "ws": 5,
+    "zh_num": 14,
+    "punct": 9,
+    "hex_bin": 14,
+    "fr": 16,
+    "ru": 13,
+    "mixed_code_zh": 24,
+    "emoji_flags": 24,
+    "thai": 8,
+    "floats": 17,
+    "html": 15,
+    "quotes2": 10
+   }
+  },
+  "cc_fast": {
+   "ranking": {
+    "deepseek": {
+     "exact": 24,
+     "total": 24,
+     "mae": 0.0
+    },
+    "dots3": {
+     "exact": 6,
+     "total": 24,
+     "mae": 2.96
+    },
+    "glm5": {
+     "exact": 8,
+     "total": 24,
+     "mae": 1.88
+    },
+    "glm53": {
+     "exact": 8,
+     "total": 24,
+     "mae": 1.88
+    },
+    "llama3": {
+     "exact": 8,
+     "total": 24,
+     "mae": 2.29
+    },
+    "llama4": {
+     "exact": 10,
+     "total": 24,
+     "mae": 1.12
+    },
+    "mimo-v2.5": {
+     "exact": 6,
+     "total": 24,
+     "mae": 2.96
+    },
+    "minimax": {
+     "exact": 11,
+     "total": 24,
+     "mae": 1.62
+    },
+    "qwen3": {
+     "exact": 6,
+     "total": 24,
+     "mae": 2.96
+    },
+    "o200k_base": {
+     "exact": 8,
+     "total": 24,
+     "mae": 1.46
+    },
+    "cl100k_base": {
+     "exact": 8,
+     "total": 24,
+     "mae": 3.75
+    }
+   },
+   "api_delta": {
+    "en_pangram": 10,
+    "zh_long": 14,
+    "code": 19,
+    "emoji_zwj": 20,
+    "rare_uni": 15,
+    "digits": 17,
+    "ja": 10,
+    "ko": 7,
+    "code_indent": 14,
+    "url_sym": 21,
+    "cjk_rare": 18,
+    "long_words": 14,
+    "ws": 5,
+    "zh_num": 14,
+    "punct": 9,
+    "hex_bin": 14,
+    "fr": 16,
+    "ru": 13,
+    "mixed_code_zh": 24,
+    "emoji_flags": 24,
+    "thai": 8,
+    "floats": 17,
+    "html": 15,
+    "quotes2": 10
+   }
+  },
+  "fast_vs_std": "delta vectors identical item-by-item"
+ },
+ "l2_wrapper": {
+  "opencode": 30,
+  "cc": 31,
+  "reading": "thin wrappers, named models, no persona template (contrast cat-jam +509)"
+ },
+ "l3_context": {
+  "opencode": {
+   "needle_tiers": "243K-916K all 3/3 hits",
+   "ceiling": "916K (Cloudflare request-body limit, connection dropped; not a model 400)"
+  },
+  "cc": {
+   "needle_prompt_tokens": [
+    561071,
+    841571,
+    981821,
+    1028571
+   ],
+   "result": "all 4 tiers 3/3 hits",
+   "reading": "1.028M measured, catalog declares 1,000,000; higher than opencode line's transport ceiling"
+  },
+  "go_plan": "tier gates endpoint access (403 upgrade_required on /provider/v1/*), not context window"
+ },
+ "output_limits": {
+  "max_tokens_accepted": [
+   393216,
+   400000
+  ],
+  "reading": "393K output tier per official spec"
+ },
+ "l6_vision": {
+  "opencode": {
+   "colors": "64x64 red/blue and 256x256 multi-color all correct",
+   "trap": "image prompt_tokens constant 227 regardless of resolution -> gateway fixed counting, unusable for metering probes"
+  }
+ },
+ "quantization": {
+  "opencode_logprob_ab": {
+   "method": "same prompt temperature=0 seed=42, opencode vs OpenRouter provider:DeepSeek official; top-token logprob per-position diff",
+   "median_drift": 9.5e-07,
+   "rounds": 2,
+   "n_tokens": [
+    147,
+    126
+   ],
+   "quantized_expectation": "1e-2 to 1e-1",
+   "identical_samples": "P1 both rounds fully identical incl. reasoning 28/28; P4 identical lp<=0.03",
+   "divergences": "reproducible at same low-margin style point (P3 char 187, both rounds)",
+   "verdict": "same weights as official, not quantized (~90%)"
+  },
+  "cc_consistency_ab": {
+   "why": "CC protocol has no logprobs; batch consistency is the strongest available probe",
+   "method": "30 diverse probes, temperature=0, cc std vs opencode (logprob-verified baseline)",
+   "identical": "23/30 verbatim (incl. curly quotes, H2O subscript)",
+   "divergences_7": [
+    "tr2/tr6 translation phrasing (synonyms)",
+    "kn1 one trailing period",
+    "st3 letter case",
+    "cd4 markdown fence only, command identical",
+    "cd3 assignment form, core code verbatim",
+    "ml2 Japanese synonym (mottomo ookina vs saidai no)"
+   ],
+   "fact_or_logic_divergences": 0,
+   "quantized_expectation": "agreement would collapse (<50%) with factual errors",
+   "chain": "CC == opencode (23/30) ; opencode == official (logprob 9.5e-7) -> CC == official",
+   "verdict": "not quantized (~90%, chained evidence)"
+  }
+ },
+ "fast_variant": {
+  "tokenizer": "24/24 deepseek, delta identical to std",
+  "behavior": {
+   "translate": "83/83 verbatim identical to std (incl. curly quote)",
+   "knowledge": "first 117 chars verbatim identical, facts all correct",
+   "throughput_tok_s": {
+    "knowledge": {
+     "std": 92,
+     "fast": 132
+    },
+    "code": {
+     "std": 67,
+     "fast": 79
+    }
+   }
+  },
+  "verdict": "same weights, higher-throughput deployment config (larger batches / aggressive scheduling, possibly speculative decoding); not a quantized or distilled model"
+ }
+}
