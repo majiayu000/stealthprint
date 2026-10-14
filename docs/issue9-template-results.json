@@ -1,0 +1,593 @@
+{
+  "kind": "offline_template_counts_not_hosted_model_identification",
+  "versions": {
+    "transformers": "4.56.2",
+    "tokenizers": "0.22.2",
+    "jinja2": "3.1.6"
+  },
+  "fixed_template_date": "26 Jul 2024",
+  "fixtures": {
+    "base": [
+      {
+        "role": "user",
+        "content": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n"
+      }
+    ],
+    "base_zh": [
+      {
+        "role": "user",
+        "content": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。"
+      }
+    ],
+    "base_trimmed": [
+      {
+        "role": "user",
+        "content": "You are a helpful assistant. Repeat the following text exactly and add nothing else:"
+      }
+    ],
+    "explicit_system": [
+      {
+        "role": "system",
+        "content": "You are a helpful assistant."
+      },
+      {
+        "role": "user",
+        "content": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n"
+      }
+    ],
+    "two_turns": [
+      {
+        "role": "user",
+        "content": "You are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n"
+      },
+      {
+        "role": "assistant",
+        "content": "Hello."
+      },
+      {
+        "role": "user",
+        "content": "Repeat that."
+      }
+    ]
+  },
+  "unavailable_official_tokenizers": [
+    {
+      "repo": "meta-llama/Llama-3.1-8B-Instruct",
+      "http": 401
+    },
+    {
+      "repo": "meta-llama/Llama-3.3-70B-Instruct",
+      "http": 401
+    }
+  ],
+  "models": [
+    {
+      "repo": "deepcogito/cogito-v1-preview-llama-70B",
+      "revision": "1d624e2293b5b35f9cfd2349f8e02c7ebf32ca83",
+      "sha256": {
+        "special_tokens_map.json": "94e708c3f5e64acf85bbe5ad01467a1248faadb73e83b41793087ecced586e8f",
+        "tokenizer.json": "6b9e4e7fb171f92fd137b777cc2714bf87d11576700a1dcd7a399e7bbe39537b",
+        "tokenizer_config.json": "b770527d19b92bdba51a1e6b3817bc4a058bfddf777c21ea2e9e3ce519ead936"
+      },
+      "variants": {
+        "default": {
+          "base": {
+            "status": "ok",
+            "raw_content_tokens": 16,
+            "template_tokens": 26,
+            "overhead": 10,
+            "generation_prompt_tokens": 4,
+            "rendered": "<|begin_of_text|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          },
+          "base_zh": {
+            "status": "ok",
+            "raw_content_tokens": 37,
+            "template_tokens": 47,
+            "overhead": 10,
+            "generation_prompt_tokens": 4,
+            "rendered": "<|begin_of_text|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          },
+          "base_trimmed": {
+            "status": "ok",
+            "raw_content_tokens": 16,
+            "template_tokens": 26,
+            "overhead": 10,
+            "generation_prompt_tokens": 4,
+            "rendered": "<|begin_of_text|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          },
+          "explicit_system": {
+            "status": "ok",
+            "raw_content_tokens": 22,
+            "template_tokens": 37,
+            "overhead": 15,
+            "generation_prompt_tokens": 4,
+            "rendered": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nYou are a helpful assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          },
+          "two_turns": {
+            "status": "ok",
+            "raw_content_tokens": 21,
+            "template_tokens": 41,
+            "overhead": 20,
+            "generation_prompt_tokens": 4,
+            "rendered": "<|begin_of_text|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\nHello.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nRepeat that.<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          }
+        },
+        "enable_thinking": {
+          "base": {
+            "status": "ok",
+            "raw_content_tokens": 16,
+            "template_tokens": 36,
+            "overhead": 20,
+            "generation_prompt_tokens": 4,
+            "rendered": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nEnable deep thinking subroutine.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          },
+          "base_zh": {
+            "status": "ok",
+            "raw_content_tokens": 37,
+            "template_tokens": 57,
+            "overhead": 20,
+            "generation_prompt_tokens": 4,
+            "rendered": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nEnable deep thinking subroutine.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          },
+          "base_trimmed": {
+            "status": "ok",
+            "raw_content_tokens": 16,
+            "template_tokens": 36,
+            "overhead": 20,
+            "generation_prompt_tokens": 4,
+            "rendered": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nEnable deep thinking subroutine.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          },
+          "explicit_system": {
+            "status": "ok",
+            "raw_content_tokens": 22,
+            "template_tokens": 42,
+            "overhead": 20,
+            "generation_prompt_tokens": 4,
+            "rendered": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nEnable deep thinking subroutine.\n\nYou are a helpful assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          },
+          "two_turns": {
+            "status": "ok",
+            "raw_content_tokens": 21,
+            "template_tokens": 51,
+            "overhead": 30,
+            "generation_prompt_tokens": 4,
+            "rendered": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nEnable deep thinking subroutine.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\nHello.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nRepeat that.<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          }
+        }
+      }
+    },
+    {
+      "repo": "NousResearch/Hermes-4-70B",
+      "revision": "d5dec2bd6b3930a09ddefd0b7fc6523fe0720d09",
+      "sha256": {
+        "chat_template.jinja": "89116c1ac22ce005afdf1772cb40644c1529af6a91300cf655566d10274d4175",
+        "special_tokens_map.json": "7a6d7fa83a01e8192333cd7b848541159709c4b206739071980432612f807807",
+        "tokenizer.json": "39e4573a56ca97b0233ddc2dd63f634aeee35b84f352d2ce2aaa5992735cfcad",
+        "tokenizer_config.json": "e762225dd4d977d169cbe9623a101b6514373ec9ce6c196bebf6ae54c67bc8e2"
+      },
+      "variants": {
+        "default": {
+          "base": {
+            "status": "ok",
+            "raw_content_tokens": 16,
+            "template_tokens": 40,
+            "overhead": 24,
+            "generation_prompt_tokens": 4,
+            "rendered": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nYou are Hermes, created by Nous Research.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          },
+          "base_zh": {
+            "status": "ok",
+            "raw_content_tokens": 37,
+            "template_tokens": 61,
+            "overhead": 24,
+            "generation_prompt_tokens": 4,
+            "rendered": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nYou are Hermes, created by Nous Research.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          },
+          "base_trimmed": {
+            "status": "ok",
+            "raw_content_tokens": 16,
+            "template_tokens": 40,
+            "overhead": 24,
+            "generation_prompt_tokens": 4,
+            "rendered": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nYou are Hermes, created by Nous Research.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          },
+          "explicit_system": {
+            "status": "ok",
+            "raw_content_tokens": 22,
+            "template_tokens": 37,
+            "overhead": 15,
+            "generation_prompt_tokens": 4,
+            "rendered": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nYou are a helpful assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          },
+          "two_turns": {
+            "status": "ok",
+            "raw_content_tokens": 21,
+            "template_tokens": 55,
+            "overhead": 34,
+            "generation_prompt_tokens": 4,
+            "rendered": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nYou are Hermes, created by Nous Research.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\nHello.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nRepeat that.<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          }
+        },
+        "thinking": {
+          "base": {
+            "status": "ok",
+            "raw_content_tokens": 16,
+            "template_tokens": 98,
+            "overhead": 82,
+            "generation_prompt_tokens": 4,
+            "rendered": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nYou are a deep thinking AI, you may use extremely long chains of thought to deeply consider the problem and deliberate with yourself via systematic reasoning processes to help come to a correct solution prior to answering. You should enclose your thoughts and internal monologue inside <think> </think> tags, and then provide your solution or response to the problem.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          },
+          "base_zh": {
+            "status": "ok",
+            "raw_content_tokens": 37,
+            "template_tokens": 119,
+            "overhead": 82,
+            "generation_prompt_tokens": 4,
+            "rendered": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nYou are a deep thinking AI, you may use extremely long chains of thought to deeply consider the problem and deliberate with yourself via systematic reasoning processes to help come to a correct solution prior to answering. You should enclose your thoughts and internal monologue inside <think> </think> tags, and then provide your solution or response to the problem.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          },
+          "base_trimmed": {
+            "status": "ok",
+            "raw_content_tokens": 16,
+            "template_tokens": 98,
+            "overhead": 82,
+            "generation_prompt_tokens": 4,
+            "rendered": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nYou are a deep thinking AI, you may use extremely long chains of thought to deeply consider the problem and deliberate with yourself via systematic reasoning processes to help come to a correct solution prior to answering. You should enclose your thoughts and internal monologue inside <think> </think> tags, and then provide your solution or response to the problem.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          },
+          "explicit_system": {
+            "status": "ok",
+            "raw_content_tokens": 22,
+            "template_tokens": 37,
+            "overhead": 15,
+            "generation_prompt_tokens": 4,
+            "rendered": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nYou are a helpful assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          },
+          "two_turns": {
+            "status": "template_error",
+            "type": "UndefinedError",
+            "message": "list object has no element 1"
+          }
+        },
+        "thinking_keep_cots": {
+          "base": {
+            "status": "ok",
+            "raw_content_tokens": 16,
+            "template_tokens": 98,
+            "overhead": 82,
+            "generation_prompt_tokens": 4,
+            "rendered": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nYou are a deep thinking AI, you may use extremely long chains of thought to deeply consider the problem and deliberate with yourself via systematic reasoning processes to help come to a correct solution prior to answering. You should enclose your thoughts and internal monologue inside <think> </think> tags, and then provide your solution or response to the problem.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          },
+          "base_zh": {
+            "status": "ok",
+            "raw_content_tokens": 37,
+            "template_tokens": 119,
+            "overhead": 82,
+            "generation_prompt_tokens": 4,
+            "rendered": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nYou are a deep thinking AI, you may use extremely long chains of thought to deeply consider the problem and deliberate with yourself via systematic reasoning processes to help come to a correct solution prior to answering. You should enclose your thoughts and internal monologue inside <think> </think> tags, and then provide your solution or response to the problem.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          },
+          "base_trimmed": {
+            "status": "ok",
+            "raw_content_tokens": 16,
+            "template_tokens": 98,
+            "overhead": 82,
+            "generation_prompt_tokens": 4,
+            "rendered": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nYou are a deep thinking AI, you may use extremely long chains of thought to deeply consider the problem and deliberate with yourself via systematic reasoning processes to help come to a correct solution prior to answering. You should enclose your thoughts and internal monologue inside <think> </think> tags, and then provide your solution or response to the problem.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          },
+          "explicit_system": {
+            "status": "ok",
+            "raw_content_tokens": 22,
+            "template_tokens": 37,
+            "overhead": 15,
+            "generation_prompt_tokens": 4,
+            "rendered": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nYou are a helpful assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          },
+          "two_turns": {
+            "status": "ok",
+            "raw_content_tokens": 21,
+            "template_tokens": 113,
+            "overhead": 92,
+            "generation_prompt_tokens": 4,
+            "rendered": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nYou are a deep thinking AI, you may use extremely long chains of thought to deeply consider the problem and deliberate with yourself via systematic reasoning processes to help come to a correct solution prior to answering. You should enclose your thoughts and internal monologue inside <think> </think> tags, and then provide your solution or response to the problem.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\nHello.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nRepeat that.<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          }
+        }
+      }
+    },
+    {
+      "repo": "NousResearch/Hermes-4-405B",
+      "revision": "88e3dce03c4a5535e2f4a2bcc08e939a2b302f82",
+      "sha256": {
+        "chat_template.jinja": "89116c1ac22ce005afdf1772cb40644c1529af6a91300cf655566d10274d4175",
+        "special_tokens_map.json": "7a6d7fa83a01e8192333cd7b848541159709c4b206739071980432612f807807",
+        "tokenizer.json": "39e4573a56ca97b0233ddc2dd63f634aeee35b84f352d2ce2aaa5992735cfcad",
+        "tokenizer_config.json": "beb2e35eeb32be25c3bc8c7c9ad765ebe2a1a48cfffc3e06cf6e6d5525309fca"
+      },
+      "variants": {
+        "default": {
+          "base": {
+            "status": "ok",
+            "raw_content_tokens": 16,
+            "template_tokens": 40,
+            "overhead": 24,
+            "generation_prompt_tokens": 4,
+            "rendered": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nYou are Hermes, created by Nous Research.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          },
+          "base_zh": {
+            "status": "ok",
+            "raw_content_tokens": 37,
+            "template_tokens": 61,
+            "overhead": 24,
+            "generation_prompt_tokens": 4,
+            "rendered": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nYou are Hermes, created by Nous Research.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          },
+          "base_trimmed": {
+            "status": "ok",
+            "raw_content_tokens": 16,
+            "template_tokens": 40,
+            "overhead": 24,
+            "generation_prompt_tokens": 4,
+            "rendered": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nYou are Hermes, created by Nous Research.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          },
+          "explicit_system": {
+            "status": "ok",
+            "raw_content_tokens": 22,
+            "template_tokens": 37,
+            "overhead": 15,
+            "generation_prompt_tokens": 4,
+            "rendered": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nYou are a helpful assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          },
+          "two_turns": {
+            "status": "ok",
+            "raw_content_tokens": 21,
+            "template_tokens": 55,
+            "overhead": 34,
+            "generation_prompt_tokens": 4,
+            "rendered": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nYou are Hermes, created by Nous Research.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\nHello.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nRepeat that.<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          }
+        },
+        "thinking": {
+          "base": {
+            "status": "ok",
+            "raw_content_tokens": 16,
+            "template_tokens": 98,
+            "overhead": 82,
+            "generation_prompt_tokens": 4,
+            "rendered": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nYou are a deep thinking AI, you may use extremely long chains of thought to deeply consider the problem and deliberate with yourself via systematic reasoning processes to help come to a correct solution prior to answering. You should enclose your thoughts and internal monologue inside <think> </think> tags, and then provide your solution or response to the problem.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          },
+          "base_zh": {
+            "status": "ok",
+            "raw_content_tokens": 37,
+            "template_tokens": 119,
+            "overhead": 82,
+            "generation_prompt_tokens": 4,
+            "rendered": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nYou are a deep thinking AI, you may use extremely long chains of thought to deeply consider the problem and deliberate with yourself via systematic reasoning processes to help come to a correct solution prior to answering. You should enclose your thoughts and internal monologue inside <think> </think> tags, and then provide your solution or response to the problem.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          },
+          "base_trimmed": {
+            "status": "ok",
+            "raw_content_tokens": 16,
+            "template_tokens": 98,
+            "overhead": 82,
+            "generation_prompt_tokens": 4,
+            "rendered": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nYou are a deep thinking AI, you may use extremely long chains of thought to deeply consider the problem and deliberate with yourself via systematic reasoning processes to help come to a correct solution prior to answering. You should enclose your thoughts and internal monologue inside <think> </think> tags, and then provide your solution or response to the problem.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          },
+          "explicit_system": {
+            "status": "ok",
+            "raw_content_tokens": 22,
+            "template_tokens": 37,
+            "overhead": 15,
+            "generation_prompt_tokens": 4,
+            "rendered": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nYou are a helpful assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          },
+          "two_turns": {
+            "status": "template_error",
+            "type": "UndefinedError",
+            "message": "list object has no element 1"
+          }
+        },
+        "thinking_keep_cots": {
+          "base": {
+            "status": "ok",
+            "raw_content_tokens": 16,
+            "template_tokens": 98,
+            "overhead": 82,
+            "generation_prompt_tokens": 4,
+            "rendered": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nYou are a deep thinking AI, you may use extremely long chains of thought to deeply consider the problem and deliberate with yourself via systematic reasoning processes to help come to a correct solution prior to answering. You should enclose your thoughts and internal monologue inside <think> </think> tags, and then provide your solution or response to the problem.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          },
+          "base_zh": {
+            "status": "ok",
+            "raw_content_tokens": 37,
+            "template_tokens": 119,
+            "overhead": 82,
+            "generation_prompt_tokens": 4,
+            "rendered": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nYou are a deep thinking AI, you may use extremely long chains of thought to deeply consider the problem and deliberate with yourself via systematic reasoning processes to help come to a correct solution prior to answering. You should enclose your thoughts and internal monologue inside <think> </think> tags, and then provide your solution or response to the problem.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          },
+          "base_trimmed": {
+            "status": "ok",
+            "raw_content_tokens": 16,
+            "template_tokens": 98,
+            "overhead": 82,
+            "generation_prompt_tokens": 4,
+            "rendered": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nYou are a deep thinking AI, you may use extremely long chains of thought to deeply consider the problem and deliberate with yourself via systematic reasoning processes to help come to a correct solution prior to answering. You should enclose your thoughts and internal monologue inside <think> </think> tags, and then provide your solution or response to the problem.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          },
+          "explicit_system": {
+            "status": "ok",
+            "raw_content_tokens": 22,
+            "template_tokens": 37,
+            "overhead": 15,
+            "generation_prompt_tokens": 4,
+            "rendered": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nYou are a helpful assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          },
+          "two_turns": {
+            "status": "ok",
+            "raw_content_tokens": 21,
+            "template_tokens": 113,
+            "overhead": 92,
+            "generation_prompt_tokens": 4,
+            "rendered": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nYou are a deep thinking AI, you may use extremely long chains of thought to deeply consider the problem and deliberate with yourself via systematic reasoning processes to help come to a correct solution prior to answering. You should enclose your thoughts and internal monologue inside <think> </think> tags, and then provide your solution or response to the problem.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\nHello.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nRepeat that.<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          }
+        }
+      }
+    },
+    {
+      "repo": "nvidia/Llama-3_1-Nemotron-Ultra-253B-v1",
+      "revision": "5b47def5b8957142d82faeb44bfad9349d02840d",
+      "sha256": {
+        "special_tokens_map.json": "6f38c73729248f6c127296386e3cdde96e254636cc58b4169d3fd32328d9a8ec",
+        "tokenizer.json": "6b9e4e7fb171f92fd137b777cc2714bf87d11576700a1dcd7a399e7bbe39537b",
+        "tokenizer_config.json": "d6010e3e9e5691248f2a5e06b6724bbb6e54d5df2dce68af70a4b8509cda76f9"
+      },
+      "variants": {
+        "default": {
+          "base": {
+            "status": "ok",
+            "raw_content_tokens": 16,
+            "template_tokens": 35,
+            "overhead": 19,
+            "generation_prompt_tokens": 4,
+            "rendered": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\ndetailed thinking on<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          },
+          "base_zh": {
+            "status": "ok",
+            "raw_content_tokens": 37,
+            "template_tokens": 56,
+            "overhead": 19,
+            "generation_prompt_tokens": 4,
+            "rendered": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\ndetailed thinking on<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          },
+          "base_trimmed": {
+            "status": "ok",
+            "raw_content_tokens": 16,
+            "template_tokens": 35,
+            "overhead": 19,
+            "generation_prompt_tokens": 4,
+            "rendered": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\ndetailed thinking on<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          },
+          "explicit_system": {
+            "status": "ok",
+            "raw_content_tokens": 22,
+            "template_tokens": 37,
+            "overhead": 15,
+            "generation_prompt_tokens": 4,
+            "rendered": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nYou are a helpful assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          },
+          "two_turns": {
+            "status": "ok",
+            "raw_content_tokens": 21,
+            "template_tokens": 50,
+            "overhead": 29,
+            "generation_prompt_tokens": 4,
+            "rendered": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\ndetailed thinking on<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\nHello.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nRepeat that.<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          }
+        }
+      }
+    },
+    {
+      "repo": "arcee-ai/Llama-3.1-SuperNova-Lite",
+      "revision": "2469efed9632c061cb4082755ead1109cd2a90cd",
+      "sha256": {
+        "special_tokens_map.json": "6f38c73729248f6c127296386e3cdde96e254636cc58b4169d3fd32328d9a8ec",
+        "tokenizer.json": "bbc1904d35169c542dffbe1f7589a5994ec7426d9e5b609d07bab876f32e97ab",
+        "tokenizer_config.json": "24e8a6dc2547164b7002e3125f10b415105644fcf02bf9ad8b674c87b1eaaed6"
+      },
+      "variants": {
+        "default": {
+          "base": {
+            "status": "ok",
+            "raw_content_tokens": 16,
+            "template_tokens": 26,
+            "overhead": 10,
+            "generation_prompt_tokens": 0,
+            "rendered": "<|begin_of_text|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          },
+          "base_zh": {
+            "status": "ok",
+            "raw_content_tokens": 37,
+            "template_tokens": 47,
+            "overhead": 10,
+            "generation_prompt_tokens": 0,
+            "rendered": "<|begin_of_text|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          },
+          "base_trimmed": {
+            "status": "ok",
+            "raw_content_tokens": 16,
+            "template_tokens": 26,
+            "overhead": 10,
+            "generation_prompt_tokens": 0,
+            "rendered": "<|begin_of_text|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          },
+          "explicit_system": {
+            "status": "ok",
+            "raw_content_tokens": 22,
+            "template_tokens": 37,
+            "overhead": 15,
+            "generation_prompt_tokens": 0,
+            "rendered": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nYou are a helpful assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          },
+          "two_turns": {
+            "status": "ok",
+            "raw_content_tokens": 21,
+            "template_tokens": 41,
+            "overhead": 20,
+            "generation_prompt_tokens": 0,
+            "rendered": "<|begin_of_text|><|start_header_id|>user<|end_header_id|>\n\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\nHello.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nRepeat that.<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+          }
+        }
+      }
+    },
+    {
+      "repo": "allenai/Llama-3.1-Tulu-3-70B",
+      "revision": "cfc1d855e534a0b9b82a9cea6bf9e8dda30b10d7",
+      "sha256": {
+        "special_tokens_map.json": "2c732a19d798dfa2591e920df4c34d0c801f2c55bc5b0ba119594e836ba97eaf",
+        "tokenizer.json": "a62e4ccfd19daf6c53aeca2c0f4474cb7d784bf1ee999f0214715615f46c802c",
+        "tokenizer_config.json": "23345dedb8c151b92b97f4f92a7bbe2116abdebfd1f7c9ff0c1459f4e044a457"
+      },
+      "variants": {
+        "default": {
+          "base": {
+            "status": "ok",
+            "raw_content_tokens": 16,
+            "template_tokens": 26,
+            "overhead": 10,
+            "generation_prompt_tokens": 5,
+            "rendered": "<|user|>\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n\n<|assistant|>\n"
+          },
+          "base_zh": {
+            "status": "ok",
+            "raw_content_tokens": 37,
+            "template_tokens": 47,
+            "overhead": 10,
+            "generation_prompt_tokens": 5,
+            "rendered": "<|user|>\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n人工智能的快速发展正在改变我们与技术互动的方式，这令人兴奋。\n<|assistant|>\n"
+          },
+          "base_trimmed": {
+            "status": "ok",
+            "raw_content_tokens": 16,
+            "template_tokens": 26,
+            "overhead": 10,
+            "generation_prompt_tokens": 5,
+            "rendered": "<|user|>\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:\n<|assistant|>\n"
+          },
+          "explicit_system": {
+            "status": "ok",
+            "raw_content_tokens": 22,
+            "template_tokens": 37,
+            "overhead": 15,
+            "generation_prompt_tokens": 5,
+            "rendered": "<|system|>\nYou are a helpful assistant.\n<|user|>\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n\n<|assistant|>\n"
+          },
+          "two_turns": {
+            "status": "ok",
+            "raw_content_tokens": 21,
+            "template_tokens": 43,
+            "overhead": 22,
+            "generation_prompt_tokens": 5,
+            "rendered": "<|user|>\nYou are a helpful assistant. Repeat the following text exactly and add nothing else:\n\n\n<|assistant|>\nHello.<|end_of_text|>\n<|user|>\nRepeat that.\n<|assistant|>\n"
+          }
+        }
+      }
+    }
+  ],
+  "reasoning_inference": {
+    "status": "not_run",
+    "reason": "No configured credential for the Pareto endpoint."
+  }
+}

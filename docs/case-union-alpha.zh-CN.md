@@ -73,7 +73,7 @@ Hermes/Tülu/Llama-Nemotron 一类公开后训练全部挂在 Llama 3.1/3.3 底�
 | 对照模型 | 词表 | wrapper | 结论 |
 |---|---|---|---|
 | union-alpha | llama3 | **+16/17** | — |
-| hermes-3-llama-3.1-405b | llama3（24/24） | +10（ChatML） | **非 Hermes 模板家族** |
+| hermes-3-llama-3.1-405b | llama3（24/24） | +10（ChatML） | 观测到的 wrapper 不同；不能排除整个 Hermes 家族或 Hermes 4 |
 | muse-glimmer-30b / muse-spark-1.3 | llama4（24/24×2） | +56 / — | 词表圈外 |
 | nemotron-3-nano-30b | 自研（无候选匹配，无赢家形状） | +16 | NVIDIA 2026 主力线与 union 无关 |
 | meta-llama/llama-3.1-8b-instruct | usage 被 prompt cache 污染（Δ 系统性 +23~24、不均匀） | 锚点不可得 | OpenRouter 的 llama 官方模型 usage 语义不可靠（与 llama-3.3-70b 那次同因） |
@@ -81,6 +81,8 @@ Hermes/Tülu/Llama-Nemotron 一类公开后训练全部挂在 Llama 3.1/3.3 底�
 圈内剩余解释（与社区分析一致）：Llama 3.1-70B/3.3-70B/405B 做视觉适配 + 扩窗到 262K 的**内部未公开衍生**——这类流水线在后训练厂手里最现成，但公开目录无现货 SKU 对得上。
 
 本地 `apply_chat_template` 能描述已发布的提示格式，但托管端 +16/17 是 API 用量计数减去原始文本计数，不能视作后端实际序列化后的提示；该数值还曾跨会话漂移。未知网关的准确序列化方式时，某个本地模板常数相同也不足以识别具体 Llama-3 衍生模型。[Cogito](https://huggingface.co/deepcogito/cogito-v1-preview-llama-70B) 与 [Hermes 4](https://huggingface.co/NousResearch/Hermes-4-70B) 公布了不同的思考模式触发方式；union-alpha 的隐藏 token 计费本身无法证明属于其中任一模型。预览入口下架前未做受控触发实验，之后 Pareto 揭晓了身份。
+
+**本地补测（2026-09-29，Issue #9）**：固定六个公开 tokenizer 的 revision，测试五种消息输入。使用相同显式系统提示时，六者开销全部为 **+15**；Hermes 4 的 70B/405B 在全部成功样本中计数相同。单用户默认开销分别为 Cogito +10、Hermes 4 +24、Nemotron Ultra +19、Arcee SuperNova Lite +10、Tülu 3 +10。这些是本地序列化计数，不是托管 API 用量。55 个组合中 53 个成功渲染；两份 Hermes 4 思考模板在历史 assistant 回复缺少思考结束标签时返回了已记录的异常。Meta 官方 3.1/3.3 tokenizer 下载返回 401；缺少可用 Pareto 凭据，尚未执行实时推理实验。见[原始结果](issue9-template-results.json)、[复现脚本](../scripts/issue9_templates.py)和[后续实验说明](issue9-followup.md)。原文从 Hermes 3 的 ChatML wrapper 推及整个家族的排除已收窄，Hermes 4 使用 Llama 格式的角色头。
 
 ### 收官：部署方自揭真身（2026-09-18）
 
@@ -97,9 +99,9 @@ Hermes/Tülu/Llama-Nemotron 一类公开后训练全部挂在 Llama 3.1/3.3 底�
 3. **"context-compression plugin" 是 OpenRouter 网关文案**，不是上游栈指纹；其引用的 262,144 是 OpenRouter 侧配置，模型真实上限须以埋针实测为准。
 4. **HTTP 200 包错误对象**：OpenRouter 对上游 5xx 返回 HTTP 200 + `{"error":{"code":502,"metadata":{"error_type":"provider_unavailable"}}}`——错误信封分析必须解析 body 而非只看状态码。
 5. **年龄 attestation 是模型级路由 gate**：`meta/muse-spark-*` 全系（含 contributor 变体）在 OpenRouter 要求账户先完成 18+ 确认（`missing_attestation_types: ["age_18plus"]`），否则 403——对照实验设计需把 attestation 状态当作前置条件；同一模型可换网关绕过（OpenCode 免费档无此 gate）。
-6. **wrapper 常数会漂移**：同探针同词表两轮测量 +17 → +16。模板常数适合做「同家族」判断，不适合做跨会话的精确身份断言。
+6. **wrapper 常数会漂移**：同探针同词表两轮测量 +17 → +16。该常数可以描述入口计数差异，但不能单独用作模型家族或跨会话精确身份的断言。
 7. **OpenCode 的 Muse 系走 Responses API**：`/zen/v1/chat/completions` 对 Muse 全 500，正确入口是 `/zen/v1/responses`（`usage.input_tokens`）；且网关按 User-Agent 过滤——`Python-urllib/*` 直接 403，须伪装成 `curl/*`；免费档实际并发约 1（并发 4 即 403）。
-8. **llama3 圈内判别靠模板常数，不靠词表**：hermes-3（llama3 词表 24/24）wrapper +10 vs union +16/17——同词表家族内部，模板常数成为可用判别器；但 llama 官方模型在 OpenRouter 的 usage 被 prompt cache 污染（Δ 系统性偏移 +23~24），官方模板锚点在该网关不可得。
+8. **llama3 圈内可比较模板，但不能把模板当成模型身份**：hermes-3（llama3 词表 24/24）观测 wrapper +10，union 为 +16/17；托管计数与本地序列化并不相同。本地补测发现六个候选在显式 system 输入下的模板开销相同，因此该常数不能唯一识别衍生模型。官方 llama 模型在 OpenRouter 的 usage 还出现了缓存形状的偏移（Δ 系统性 +23~24、不均匀），无法得到可靠的托管模板锚点。
 9. **min_pixels 下限是可测的视觉塔签名**：DeepSeek V4.1-Flash（开源权重）对任何低于 ~544×544 的图恒收 **+184**——与 config 里 `min_pixels=295,936` 的上采样下限精确对账（(544/14)²/9 ≈ 168 + 开销），且与其公开 `vision_config` 互证。两种「小图恒价」都是真编码器，但**高恒价**（V4.1-Flash：184，下限强制）与**无下限恒价**（union：24，1×1 也 24）能区分「恒 vs 斜率」单一测试会混为一谈的塔。
 10. **OpenCode 免费线是「付费目录 + 极少量免费样本」**（2026-09-17 全量普查）：目录 71 个模型中 62 个返回 401 CreditsError，真正免费可测仅 4 个（5.6%）——`muse-spark-1.2/1.3-contributor-free`（均 llama4 12/12，家族排除扩展覆盖到 v1.2）、`ling-3.0-flash-fin-free` 与 `nemotron-3.5-lightning-free`（均为自研词表无赢家形状）。union-alpha 持续 500（上游故障自 09-16 起）；`deepseek-v4-flash-free` 返回 400「Model is unavailable」（V4.1-Flash 发布后免费版被撤）。错误信封显示上游 provider 名为「Console」。
 11. **计费曲线公式拟合是视觉塔家族判别器**：union 的 11 点尺寸曲线精确拟合 `max(22, ceil(H/28)²+6)`（Qwen2-VL 家族 28px/token + 16 token 下限 + 6 开销），官方 Llama 3.2 Vision 每 tile 1600 patch 直进 cross-attention、DeepSeek V4.1-Flash 是 min_pixels 高地板恒价——三种塔形状互不相同，把「flat vs slope」粗分类升级为**公式族判别**，塔家族及其定制参数（min_pixels 等）可被逆向。

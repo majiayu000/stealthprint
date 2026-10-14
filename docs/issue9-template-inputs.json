@@ -1,0 +1,85 @@
+{
+  "download_base": "https://huggingface.co",
+  "fixed_template_date": "26 Jul 2024",
+  "models": [
+    {
+      "repo": "deepcogito/cogito-v1-preview-llama-70B",
+      "revision": "1d624e2293b5b35f9cfd2349f8e02c7ebf32ca83",
+      "files": [
+        "special_tokens_map.json",
+        "tokenizer.json",
+        "tokenizer_config.json"
+      ],
+      "chat_template_type": "str",
+      "gated": false
+    },
+    {
+      "repo": "NousResearch/Hermes-4-70B",
+      "revision": "d5dec2bd6b3930a09ddefd0b7fc6523fe0720d09",
+      "files": [
+        "chat_template.jinja",
+        "special_tokens_map.json",
+        "tokenizer.json",
+        "tokenizer_config.json"
+      ],
+      "chat_template_type": "NoneType",
+      "gated": false
+    },
+    {
+      "repo": "NousResearch/Hermes-4-405B",
+      "revision": "88e3dce03c4a5535e2f4a2bcc08e939a2b302f82",
+      "files": [
+        "chat_template.jinja",
+        "special_tokens_map.json",
+        "tokenizer.json",
+        "tokenizer_config.json"
+      ],
+      "chat_template_type": "NoneType",
+      "gated": false
+    },
+    {
+      "repo": "nvidia/Llama-3_1-Nemotron-Ultra-253B-v1",
+      "revision": "5b47def5b8957142d82faeb44bfad9349d02840d",
+      "files": [
+        "special_tokens_map.json",
+        "tokenizer.json",
+        "tokenizer_config.json",
+        "tokenizer_name.txt"
+      ],
+      "chat_template_type": "str",
+      "gated": false
+    },
+    {
+      "repo": "arcee-ai/Llama-3.1-SuperNova-Lite",
+      "revision": "2469efed9632c061cb4082755ead1109cd2a90cd",
+      "files": [
+        "special_tokens_map.json",
+        "tokenizer.json",
+        "tokenizer_config.json"
+      ],
+      "chat_template_type": "str",
+      "gated": false
+    },
+    {
+      "repo": "allenai/Llama-3.1-Tulu-3-70B",
+      "revision": "cfc1d855e534a0b9b82a9cea6bf9e8dda30b10d7",
+      "files": [
+        "special_tokens_map.json",
+        "tokenizer.json",
+        "tokenizer_config.json"
+      ],
+      "chat_template_type": "str",
+      "gated": false
+    }
+  ],
+  "unavailable": [
+    {
+      "repo": "meta-llama/Llama-3.1-8B-Instruct",
+      "http": 401
+    },
+    {
+      "repo": "meta-llama/Llama-3.3-70B-Instruct",
+      "http": 401
+    }
+  ]
+}
