@@ -1,5 +1,7 @@
 # Case study: union-alpha
 
+> **Interpretation update, 2026-10-15:** The historical report is preserved below. Matching token counts do not prove weights or generation identity. Fixed image counts do not identify a visual architecture. Stable repeats do not establish a homogeneous backend pool; varying counts do not prove multiple models. Successful input sizes are lower bounds, and gateway rejections are not architectural limits. Read historical exclusion and architecture claims within these limits.
+
 [English](case-union-alpha.md) · [中文](case-union-alpha.zh-CN.md)
 
 Fingerprint analysis of `stealth/union-alpha`, the anonymous free-preview model listed on OpenRouter on 2026-09-16 (price 0), performed end-to-end with this toolkit (`stealthprint`). OpenCode Zen (public and Go lines both list `union-alpha`) returned HTTP 500 for inference throughout the measurement window, so every datapoint below comes from the OpenRouter entry.

@@ -46,76 +46,41 @@ class ModeAndDistTests(unittest.TestCase):
 class TokenizerRepeatsTests(unittest.TestCase):
     PROBES = {"base": "hello ", "probes": [["p1", "world"], ["p2", "foo"]]}
 
-    def _client(self):
-        return FakeClient(
-            modes={"hello ": 33, "hello world": 45, "hello foo": 38},
-            outliers={"hello ": 21, "hello world": 99},
-        )
+    def test_unstable_samples_do_not_reach_ranking(self):
+        client = FakeClient({"hello ":33,"hello world":45,"hello foo":38}, {"hello ":21})
+        with mock.patch.object(probes_extra, "load_local_tokenizers", return_value={}), mock.patch("stealthprint.layers.tokenizer_differential") as diff:
+            r = probes_extra.tokenizer_repeats(client, probes=self.PROBES, repeats=3, verbose=False)
+        diff.assert_not_called()
+        self.assertEqual(r["distribution"]["base"], {21:1,33:2})
+        self.assertTrue(r["count_variation"])
+        self.assertEqual(r["ranking"], {})
 
-    def test_pairs_within_majority_path(self):
-        client = self._client()
-        with mock.patch("stealthprint.layers.tokenizer_differential",
-                        return_value={"verdict": "stub"}) as diff:
-            r = probes_extra.tokenizer_repeats(client, probes=self.PROBES,
-                                               repeats=3, workers=3, verbose=False)
-        self.assertEqual(r["base_mode"], 33)
-        self.assertTrue(r["mixed_backends"])
-        self.assertEqual(r["distribution"]["base"], {21: 1, 33: 2})
-        # the differential must receive majority-path values, not outliers
-        _, kwargs = diff.call_args
-        self.assertEqual(kwargs["base_api"], 33)
-        self.assertEqual(kwargs["api_delta"], {"p1": 12, "p2": 5})
+    def test_stable_samples_are_interleaved_and_ranked(self):
+        client = FakeClient({"hello ":33,"hello world":45,"hello foo":38})
+        with mock.patch.object(probes_extra, "load_local_tokenizers", return_value={}), mock.patch("stealthprint.layers.tokenizer_differential", return_value={"ranking":{"test":{}}}) as diff:
+            r = probes_extra.tokenizer_repeats(client, probes=self.PROBES, repeats=2, verbose=False)
+        self.assertFalse(r["count_variation"])
+        self.assertEqual(diff.call_args.kwargs["api_delta"], {"p1":12,"p2":5})
+        self.assertEqual([call[0][0]["content"] for call in client.chat_calls], ["hello ","hello world","hello foo"] * 2)
+        self.assertEqual(r["status"], "stable_sample")
 
-    def test_single_path_not_flagged_mixed(self):
-        client = FakeClient(modes={"hello ": 33, "hello world": 45, "hello foo": 38})
-        with mock.patch("stealthprint.layers.tokenizer_differential",
-                        return_value={"verdict": "stub"}):
-            r = probes_extra.tokenizer_repeats(client, probes=self.PROBES,
-                                               repeats=2, workers=2, verbose=False)
-        self.assertFalse(r["mixed_backends"])
+    def test_dependency_failure_precedes_requests(self):
+        client = mock.Mock()
+        with mock.patch.object(probes_extra, "load_local_tokenizers", side_effect=RuntimeError("missing dependency")):
+            with self.assertRaises(RuntimeError):
+                probes_extra.tokenizer_repeats(client, probes=self.PROBES)
+        client.prompt_tokens.assert_not_called()
 
-    def test_repeats_ranks_cl100k_without_extra_api_calls(self):
-        class FakeEncoding:
-            def encode(self, text):
-                return list(text)
-
-        fake_tokenizers = SimpleNamespace(Tokenizer=object)
-        fake_tiktoken = SimpleNamespace(get_encoding=lambda name: FakeEncoding())
-        client = self._client()
-        with mock.patch.dict("sys.modules", {"tokenizers": fake_tokenizers,
-                                              "tiktoken": fake_tiktoken}):
-            r = probes_extra.tokenizer_repeats(
-                client, probes=self.PROBES, tokenizers_dir="nonexistent-tokenizers",
-                repeats=3, workers=3, verbose=False)
-        self.assertEqual(r["base_api_prompt_tokens"], 33)
-        self.assertEqual(r["api_delta"], {"p1": 12, "p2": 5})
-        self.assertIn("cl100k_base", r["ranking"])
-        self.assertEqual(len(client.chat_calls), 9)
-
-    def test_dead_base_raises(self):
-        class Dead:
-            def chat(self, *a, **k):
-                return {}, {"http": 500, "body": "x"}
-
-        with self.assertRaises(RuntimeError):
-            probes_extra.tokenizer_repeats(Dead(), probes=self.PROBES,
-                                           repeats=1, workers=1, verbose=False)
-
-    def test_all_probes_failed_raises_clear_error(self):
-        class ProbeFailures:
-            def chat(self, messages, **kwargs):
-                if messages[0]["content"] == "hello ":
-                    return {"usage": {"prompt_tokens": 33}}, None
-                return {}, {"http": 429, "body": "rate limited"}
-
-        fake_tokenizers = SimpleNamespace(Tokenizer=object)
-        fake_tiktoken = SimpleNamespace(get_encoding=lambda name: None)
-        with mock.patch.dict("sys.modules", {"tokenizers": fake_tokenizers,
-                                              "tiktoken": fake_tiktoken}):
-            with self.assertRaisesRegex(RuntimeError, "no successful tokenizer probe counts"):
-                probes_extra.tokenizer_repeats(
-                    ProbeFailures(), probes=self.PROBES, repeats=2,
-                    workers=2, verbose=False)
+    def test_failed_samples_preserve_each_error(self):
+        client = mock.Mock()
+        error = {"http":429,"body":"busy"}
+        client.prompt_tokens.return_value = None, error
+        with mock.patch.object(probes_extra, "load_local_tokenizers", return_value={}):
+            r = probes_extra.tokenizer_repeats(client, probes=self.PROBES, repeats=2, verbose=False)
+        self.assertEqual(len(r["failures"]), 6)
+        self.assertEqual(r["failures"][0]["error"], error)
+        self.assertEqual(r["status"], "incomplete")
+        self.assertEqual(r["ranking"], {})
 
 
 class _CharTok:
@@ -128,7 +93,7 @@ class _CharTok:
 class EncodeLenTests(unittest.TestCase):
     def test_tiktoken_branch_selected_by_name_suffix(self):
         class FakeTik:
-            def encode(self, s):  # tiktoken API: no add_special_tokens kwarg
+            def encode(self, s, disallowed_special=()):  # tiktoken API
                 return [0] * len(s)
 
         self.assertEqual(probes_extra.encode_len("cl100k_base", FakeTik(), "abc"), 3)
@@ -301,7 +266,7 @@ class WrapperTurnsTests(unittest.TestCase):
         r = probes_extra.wrapper_turns(client, turns=4, verbose=False)
         self.assertEqual(r, {"turns": [
             {"turn": 1, "prompt_tokens": 10, "delta": None},
-            {"turn": 2, "prompt_tokens": None, "delta": None},
+            {"turn": 2, "prompt_tokens": None, "delta": None, "error": {"http":503,"body":"busy"}},
         ], "per_turn_constant": None})
         self.assertEqual(client.prompt_tokens.call_count, 2)
 

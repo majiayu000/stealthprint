@@ -25,6 +25,8 @@ class FakeModelClient:
     dead: both paths fail."""
 
     def __init__(self, spec):
+        self.base_url = "https://test.invalid/v1"
+        self.transport = "openai"
         self.spec = spec  # dict: kind, pad, err
 
     def chat(self, messages, max_tokens=1, extra=None, timeout=None, model=None):
@@ -59,7 +61,7 @@ def patch_env():
 
 class ClassifyErrorTests(unittest.TestCase):
     def test_classes(self):
-        self.assertEqual(survey.classify_error({"http": 401, "body": "x"}), "paid_401")
+        self.assertEqual(survey.classify_error({"http": 401, "body": "x"}), "authentication_401")
         self.assertEqual(survey.classify_error({"http": 403, "body": "CreditsError"}), "paid_401")
         self.assertEqual(survey.classify_error({"http": 429, "body": "x"}), "rate_limited_429")
         self.assertEqual(survey.classify_error({"http": 500, "body": "x"}), "upstream_5xx")
@@ -91,8 +93,8 @@ class MeasureResponsesTests(unittest.TestCase):
         self.assertIsNone(cls)
         self.assertIsNone(detail)
         self.assertEqual(row, {"mode": "responses", "base_api": 10,
-                               "deltas": {"p1": 2}, "fails": 0})
-        self.assertEqual(client.prompt_tokens.call_count, 4)
+                               "deltas": {"p1": 2}, "fails": 0, "errors": {}})
+        self.assertEqual(client.prompt_tokens.call_count, 1)
         self.assertEqual([call.kwargs["body"]["input"]
                           for call in client.request.call_args_list],
                          ["b ", "b ", "b x"])
@@ -109,18 +111,13 @@ class MeasureResponsesTests(unittest.TestCase):
                 self.assertEqual(detail["responses"], error)
                 self.assertEqual(client.request.call_count, retries + 1)
 
-    def test_responses_baseline_retries_missing_usage_and_accepts_zero(self):
+    def test_responses_accepts_zero_baseline(self):
         client = self.make_client()
-        client.request.side_effect = [
-            ({"usage": {}}, None),
-            ({"usage": {"input_tokens": 0}}, None),
-            ({"usage": {"input_tokens": 2}}, None),
-        ]
+        client.request.side_effect = [({"usage":{"input_tokens":0}},None), ({"usage":{"input_tokens":2}},None)]
         row, cls, detail = self.measure(client, retries=1)
         self.assertIsNone(cls)
-        self.assertIsNone(detail)
         self.assertEqual(row["base_api"], 0)
-        self.assertEqual(row["deltas"], {"p1": 2})
+        self.assertEqual(row["deltas"], {"p1":2})
 
     def test_null_usage_exhaustion_retains_responses_error(self):
         client = self.make_client({"http": 500, "body": "chat unavailable"})
@@ -130,7 +127,7 @@ class MeasureResponsesTests(unittest.TestCase):
         self.assertEqual(cls, "upstream_5xx")
         self.assertEqual(detail["responses"],
                          {"http": 200, "body": "no input_tokens in usage"})
-        self.assertEqual(client.request.call_count, 2)
+        self.assertEqual(client.request.call_count, 1)
 
     def test_responses_probe_keeps_retries_and_delay(self):
         client = self.make_client()
@@ -145,7 +142,7 @@ class MeasureResponsesTests(unittest.TestCase):
         self.assertEqual(row["fails"], 0)
         self.assertIsNone(cls)
         self.assertIsNone(detail)
-        self.assertEqual(sleep.call_args_list, [mock.call(0.25)] * 3)
+        self.assertEqual(sleep.call_args_list, [mock.call(0.25)])
         self.assertEqual(client.request.call_count, 3)
 
     def test_both_endpoint_errors_choose_credit_or_rate_limit(self):
@@ -214,7 +211,7 @@ class RunSurveyTests(unittest.TestCase):
         self.assertEqual(muse["deltas"], {"p1": 1, "p2": 2})
 
     def test_responses_credit_wall_is_counted_and_written(self):
-        client = mock.Mock()
+        client = mock.Mock(base_url="https://test.invalid/v1", transport="openai")
         chat_error = {"http": 500, "body": "chat down"}
         responses_error = {"http": 401, "body": "CreditsError"}
         client.prompt_tokens.return_value = (None, chat_error)
@@ -230,9 +227,9 @@ class RunSurveyTests(unittest.TestCase):
                 payload = json.load(f)
         self.assertEqual(result["classes"], {"paid_401": ["m-paid"]})
         self.assertEqual(result["measured"], {})
-        self.assertEqual(payload, {"model": "m-paid", "class": "paid_401",
-                                   "error_detail": {"chat": chat_error,
-                                                    "responses": responses_error}})
+        self.assertEqual(payload["class"], "paid_401")
+        self.assertFalse(payload["complete"])
+        self.assertEqual(payload["error_detail"], {"chat": chat_error, "responses": responses_error})
         printed.assert_any_call(survey.t("survey.summary", catalog=1,
                                         measured=0, paid=1))
 
@@ -253,25 +250,45 @@ class RunSurveyTests(unittest.TestCase):
                 survey.run_survey(make_factory(self.specs), self.models,
                                   probe_names=["nope"], delay=0, verbose=False)
 
-    def test_resume_skips_done_models(self):
-        with tempfile.TemporaryDirectory() as d:
-            out = os.path.join(d, "results.jsonl")
-            with open(out, "w", encoding="utf-8") as f:
-                f.write(json.dumps({"model": "m-ok", "class": None}) + "\n")
+    def test_resume_skips_complete_but_retries_failed_models(self):
+        with tempfile.TemporaryDirectory() as directory:
+            out = os.path.join(directory, "results.jsonl")
+            self.run_survey(out_path=out)
             r = self.run_survey(out_path=out)
-            self.assertNotIn("m-ok", r["measured"])
-            self.assertEqual(r["surveyed"], 2)
-            lines = [json.loads(line) for line in open(out, encoding="utf-8")]
-            self.assertEqual(len(lines), 3)  # 1 preexisting + 2 new
+        self.assertEqual(r["surveyed"], 1)
+        self.assertEqual(r["classes"], {"paid_401":["m-paid"]})
+
+    def test_resume_rejects_changed_endpoint_before_requests(self):
+        with tempfile.TemporaryDirectory() as directory:
+            out = os.path.join(directory, "results.jsonl")
+            self.run_survey(out_path=out)
+            with open(out, encoding="utf-8") as stream:
+                rows = [json.loads(line) for line in stream]
+            rows[0]["experiment"]["base_url"] = "https://different.invalid"
+            with open(out, "w", encoding="utf-8") as stream:
+                stream.write("\n".join(json.dumps(row) for row in rows) + "\n")
+            with self.assertRaisesRegex(ValueError, "configuration differs"):
+                self.run_survey(out_path=out)
+
+    def test_resume_rejects_truncated_tail(self):
+        with tempfile.TemporaryDirectory() as directory:
+            out = os.path.join(directory, "results.jsonl")
+            with open(out, "w", encoding="utf-8") as stream:
+                stream.write('{"model":')
+            with self.assertRaisesRegex(ValueError, "Invalid survey JSON"):
+                self.run_survey(out_path=out)
+            with open(out, encoding="utf-8") as stream:
+                self.assertEqual(stream.read(), '{"model":')
 
     def test_out_jsonl_records_classes_too(self):
         with tempfile.TemporaryDirectory() as d:
             out = os.path.join(d, "results.jsonl")
             self.run_survey(out_path=out)
             rows = {}
-            for line in open(out, encoding="utf-8"):
-                rec = json.loads(line)
-                rows[rec["model"]] = rec
+            with open(out, encoding="utf-8") as stream:
+                for line in stream:
+                    rec = json.loads(line)
+                    rows[rec["model"]] = rec
             self.assertEqual(rows["m-paid"]["class"], "paid_401")
             self.assertIn("error_detail", rows["m-paid"])
             self.assertIsNone(rows["m-ok"]["class"])

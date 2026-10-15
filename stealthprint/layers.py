@@ -3,11 +3,13 @@ prints a human-readable summary via i18n.t()."""
 
 import base64
 import json
+import hashlib
 import os
 import struct
 import zlib
 
 from .i18n import t
+from .client import require_openai
 
 FILL = "The quiet harbor town woke slowly under a gray sky, and fishermen checked their nets. "
 EMOJI_ZWJ = "👨‍👩‍👧‍👦 🏳️‍🌈 👍🏽"
@@ -77,24 +79,60 @@ def _classify_multimodal(err, answer="", reasoning=""):
     if any(p in blob for p in _COLOR_REFUSAL):
         return "no_visible_image", (ans or rea)[:120]
     if not ans:
-        return "thinking_truncated", rea[:120]
-    if "red" in compact and "blue" not in compact:
-        return "ok_red", ans[:120]
-    if "blue" in compact and "red" not in compact:
-        return "ok_blue", ans[:120]
+        return "empty_output", rea[:120]
     return "ok_other", ans[:120]
+
+
+def encode_len(name, tk, text):
+    if name in ("o200k_base", "cl100k_base"):
+        return len(tk.encode(text, disallowed_special=()))
+    return len(tk.encode(text, add_special_tokens=False).ids)
+
+
+def load_local_tokenizers(tokenizers_dir="tok"):
+    try:
+        from tokenizers import Tokenizer
+        import tiktoken
+    except ImportError as error:
+        raise RuntimeError(t("err.missing_dep", dep=error.name, pkgs="tokenizers tiktoken")) from error
+    local = {}
+    if os.path.isdir(tokenizers_dir):
+        for filename in sorted(os.listdir(tokenizers_dir)):
+            if filename.endswith(".json"):
+                local[filename[:-5]] = Tokenizer.from_file(os.path.join(tokenizers_dir, filename))
+    local["o200k_base"] = tiktoken.get_encoding("o200k_base")
+    local["cl100k_base"] = tiktoken.get_encoding("cl100k_base")
+    return local
+
+
+def tokenizer_sources(directory, local):
+    from importlib.metadata import version
+    sources = {}
+    manifest = os.path.join(directory, "sources.lock")
+    published = {}
+    if os.path.isfile(manifest):
+        with open(manifest, encoding="utf-8") as stream:
+            published = json.load(stream)
+    for name in local:
+        filename = os.path.join(directory, name + ".json")
+        if name in ("o200k_base", "cl100k_base"):
+            sources[name] = {"encoding": name, "tiktoken_version": version("tiktoken")}
+        elif os.path.isfile(filename):
+            with open(filename, "rb") as stream:
+                sources[name] = {"sha256": hashlib.sha256(stream.read()).hexdigest()}
+            source = published.get(name)
+            if source and source.get("sha256") == sources[name]["sha256"]:
+                sources[name].update(repo=source["repo"], revision=source["revision"])
+    return sources
 
 
 # ------------------------------------------------------------------ L1 + L2
 def tokenizer_differential(client, probes=None, tokenizers_dir="tok", verbose=True,
-                           base_api=None, api_delta=None):
+                           base_api=None, api_delta=None, local=None):
     """L1: delta = T(base+probe) - T(base) from usage.prompt_tokens, compared
     against local open tokenizer.json files + tiktoken encodings."""
-    try:
-        from tokenizers import Tokenizer
-        import tiktoken
-    except ImportError as e:
-        raise RuntimeError(t("err.missing_dep", dep=e.name, pkgs="tokenizers tiktoken")) from e
+    local = load_local_tokenizers(tokenizers_dir) if local is None else local
+    failures = {}
 
     if probes is None:
         from .i18n import load_probes
@@ -102,6 +140,16 @@ def tokenizer_differential(client, probes=None, tokenizers_dir="tok", verbose=Tr
 
     base = probes["base"]
     items = probes["probes"]
+
+    def ntok(name, tk, text):
+        return encode_len(name, tk, text)
+
+    local_base = {n: ntok(n, tk, base) for n, tk in local.items()}
+    def delta(name, tk, text):
+        return ntok(name, tk, base + text) - local_base[name]
+
+    sources = tokenizer_sources(tokenizers_dir, local)
+    local_deltas = {n: {name: delta(n, tk, text) for name, text in items} for n, tk in local.items()}
 
     if api_delta is None:
         if verbose:
@@ -114,6 +162,7 @@ def tokenizer_differential(client, probes=None, tokenizers_dir="tok", verbose=Tr
         for name, text in items:
             pt, e = client.prompt_tokens([{"role": "user", "content": base + text}])
             if e:
+                failures[name] = e
                 if verbose:
                     print(t("tok.failed", name=name, err=e))
                 continue
@@ -124,30 +173,13 @@ def tokenizer_differential(client, probes=None, tokenizers_dir="tok", verbose=Tr
     if not api_delta:
         raise RuntimeError("no successful tokenizer probe counts")
 
-    local = {}
-    if os.path.isdir(tokenizers_dir):
-        for f in sorted(os.listdir(tokenizers_dir)):
-            if f.endswith(".json"):
-                try:
-                    local[f[:-5]] = Tokenizer.from_file(os.path.join(tokenizers_dir, f))
-                except Exception as e:
-                    if verbose:
-                        print(t("tok.skip", name=f, err=e))
-    local["o200k_base"] = tiktoken.get_encoding("o200k_base")
-    local["cl100k_base"] = tiktoken.get_encoding("cl100k_base")
-
-    def ntok(name, tk, s):
-        if name in ("o200k_base", "cl100k_base"):
-            return len(tk.encode(s))
-        return len(tk.encode(s, add_special_tokens=False).ids)
-
     if verbose:
         print()
         print(t("tok.table"))
         for name, _ in items:
             if name not in api_delta:
                 continue
-            vals = [ntok(n, tk, _) for n, tk in local.items()]
+            vals = [local_deltas[n][name] for n in local]
             print("%-14s | %s | %d" % (name, " ".join("%-8d" % v for v in vals), api_delta[name]))
         print()
         print(t("tok.ranking"))
@@ -156,7 +188,7 @@ def tokenizer_differential(client, probes=None, tokenizers_dir="tok", verbose=Tr
     targets = [api_delta[n] for n, _ in items if n in api_delta]
     ranking = {}
     for n in names:
-        vals = [ntok(n, local[n], text) for pname, text in items if pname in api_delta]
+        vals = [local_deltas[n][pname] for pname, _ in items if pname in api_delta]
         exact = sum(1 for v, d in zip(vals, targets) if v == d)
         mae = sum(abs(v - d) for v, d in zip(vals, targets)) / len(targets)
         ranking[n] = {"exact": exact, "total": len(targets), "mae": round(mae, 2)}
@@ -174,12 +206,12 @@ def tokenizer_differential(client, probes=None, tokenizers_dir="tok", verbose=Tr
             print("%-14s wrapper=%+d" % (n, wrapper[n]))
 
     return {"api_delta": api_delta, "ranking": ranking, "wrapper": wrapper,
-            "base_api_prompt_tokens": base_api}
+            "base_api_prompt_tokens": base_api, "failures": failures,
+            "probes": probes, "tokenizers": sources}
 
 
 def wrapper_constant(client, texts=None, verbose=True):
-    """L2: prompt_tokens across prompt lengths; constant api-minus-local delta
-    means a fixed chat template."""
+    """Sample prompt counts across lengths; no tokenizer or constant is inferred."""
     texts = texts or ["hi", "hello", "Say OK.",
                       "Please answer with a single word: yes or no, thanks."]
     if verbose:
@@ -200,50 +232,44 @@ def wrapper_constant(client, texts=None, verbose=True):
 
 
 # ------------------------------------------------------------------ L3
-def context_search(client, max_bytes=4_500_000, min_step=30_000, task=None, verbose=True):
-    """L3: binary-search max working input size (capped by gateway body limit).
-    Returns verified max in chars + prompt_tokens at that point, or null
-    metrics and the original error if the initial or final probe fails."""
+def context_search(client, max_chars=4_500_000, min_step=30_000, task=None, verbose=True):
+    """Measure successful input lengths in characters; failures never prove a limit.
+
+    Stop on the first error, retaining the successful lower bound and the exact
+    failure. This avoids treating rate limits or timeouts as monotonic capacity.
+    """
     task = task or "Answer with the single word OK and nothing else."
-
-    def ok_at(chars):
-        text = task + "\n\n" + FILL * (chars // len(FILL))
-        pt, e = client.prompt_tokens([{"role": "user", "content": text}], timeout=300)
-        return (True, pt, None) if e is None else (False, None, e)
-
+    prefix = task + "\n\n"
+    if max_chars < len(prefix) or min_step <= 0:
+        raise ValueError("max_chars must fit the task and min_step must be positive")
+    history = []
+    result = {"max_verified_chars": None, "max_verified_prompt_tokens": None,
+              "history": history}
+    size = min(10_000, max_chars)
     if verbose:
         print(t("ctx.header"))
-    lo, hi = 10_000, max_bytes
-    history = []
-    good, pt, e = ok_at(lo)
-    if not good:
+    while True:
+        remaining = size - len(prefix)
+        text = prefix + (FILL * (remaining // len(FILL) + 1))[:remaining]
+        pt, error = client.prompt_tokens([{"role": "user", "content": text}], timeout=300)
+        history.append({"chars": len(text), "utf8_bytes": len(text.encode()),
+                        "ok": error is None, "prompt_tokens": pt, "error": error})
+        if error:
+            result["error"] = error
+            if verbose:
+                print(t("ctx.failed", err=error))
+            return result
+        result.update(max_verified_chars=len(text), max_verified_prompt_tokens=pt)
         if verbose:
-            print(t("ctx.failed", err=e))
-        return {"max_verified_chars": None, "max_verified_prompt_tokens": None,
-                "history": history, "error": e}
-    while hi - lo > min_step:
-        mid = (lo + hi) // 2
-        good, pt, e = ok_at(mid)
-        history.append({"chars": mid, "ok": good, "prompt_tokens": pt})
-        if verbose:
-            print("  %s chars: %s" % (format(mid, ","), ("OK pt=" + format(pt, ",")) if good else "FAIL " + str(e)[:160]), flush=True)
-        if good:
-            lo = mid
-        else:
-            hi = mid
-    good, pt, e = ok_at(lo)
-    if not good:
-        if verbose:
-            print(t("ctx.failed", err=e))
-        return {"max_verified_chars": None, "max_verified_prompt_tokens": None,
-                "history": history, "error": e}
-    if verbose:
-        print(t("ctx.max", chars=format(lo, ","), tokens=pt or 0))
-    return {"max_verified_chars": lo, "max_verified_prompt_tokens": pt, "history": history}
+            print(t("ctx.max", chars=format(len(text), ","), tokens=pt))
+        if size == max_chars:
+            return result
+        size = min(max_chars, max(size * 2, size + min_step))
 
 
 def needle_test(client, prompt_tokens_size=500_000, needles=None, max_tokens=3000, verbose=True):
     """L3: hide three codes at head/mid/tail of a haystack sized ~prompt_tokens_size."""
+    require_openai(client)
     needles = needles or [
         (0.05, "ALPHA", "48219"), (0.5, "BRAVO", "70553"), (0.95, "CHARLIE", "91024")]
     units = max(1, int(prompt_tokens_size / (len(FILL) / 4.73)))
@@ -255,8 +281,8 @@ def needle_test(client, prompt_tokens_size=500_000, needles=None, max_tokens=300
             parts.append("\nREMEMBER THIS EXACTLY: the vault code at checkpoint %s is %s. \n" % (lab, code))
         else:
             parts.append(FILL)
-    q = ("Each of the three vault codes below is hidden in the text. Reply with only the "
-         "three codes in order, comma separated.\n\n" + "".join(parts))
+    q = ("Each of the vault codes below is hidden in the text. Reply with only the "
+         "codes in order, comma separated.\n\n" + "".join(parts))
     if verbose:
         print()
         print(t("ctx.needle"))
@@ -268,27 +294,30 @@ def needle_test(client, prompt_tokens_size=500_000, needles=None, max_tokens=300
     m = d["choices"][0]["message"]
     answer = (m.get("content") or "").strip()
     expected = ", ".join(code for _, _, code in needles)
-    recovered = sum(1 for code in expected.split(", ") if code in answer)
+    actual = [part.strip() for part in answer.split(",")]
+    expected_codes = [code for _, _, code in needles]
+    recovered = sum(a == b for a, b in zip(actual, expected_codes))
     if verbose:
-        print("prompt_tokens=%d finish=%s" % (d["usage"]["prompt_tokens"], d["choices"][0]["finish_reason"]))
+        print("prompt_tokens=%d finish=%s" % (d["usage"]["prompt_tokens"], d["choices"][0].get("finish_reason")))
         print("answer: %r" % answer)
         print(t("ctx.expected", codes=expected))
     return {"prompt_tokens": d["usage"]["prompt_tokens"], "answer": answer,
-            "expected": expected, "recovered": "%d/%d" % (recovered, len(needles))}
+            "expected": expected, "recovered": "%d/%d" % (recovered, len(needles)),
+            "exact": actual == expected_codes, "finish_reason": d["choices"][0].get("finish_reason")}
 
 
 # ------------------------------------------------------------------ L4
 def error_family(client, verbose=True):
     """L4: malformed parameters -> error envelope (codes, language, stack style)."""
+    require_openai(client)
     if verbose:
         print(t("errf.header"))
     probes = [
-        ("temperature_out_of_range", {"temperature": 2.0}, None, 1),
+        ("temperature_out_of_range", {"temperature": 3.0}, None, 1),
         ("temperature_wrong_type", {"temperature": "hot"}, None, 1),
         ("reasoning_effort_invalid", {"reasoning_effort": "none"}, None, 1),
         ("bad_role", None, [{"role": "wizard", "content": "hi"}], 1),
         ("developer_role_openai_style", None, [{"role": "developer", "content": "say hi"}], 5),
-        ("huge_max_tokens", None, [{"role": "user", "content": "Count from 1 upward."}], 999999),
     ]
     out = {}
     for name, extra, messages, mx in probes:
@@ -300,10 +329,10 @@ def error_family(client, verbose=True):
                 print("%-30s => HTTP %s %s" % (name, e["http"], e["body"][:170]))
         else:
             out[name] = {"http": 200, "prompt_tokens": d["usage"]["prompt_tokens"],
-                         "finish_reason": d["choices"][0]["finish_reason"]}
+                         "finish_reason": d["choices"][0].get("finish_reason")}
             if verbose:
                 print("%-30s => 200 OK pt=%d finish=%s" % (
-                    name, d["usage"]["prompt_tokens"], d["choices"][0]["finish_reason"]))
+                    name, d["usage"]["prompt_tokens"], d["choices"][0].get("finish_reason")))
     return out
 
 
@@ -317,6 +346,7 @@ def _image_message(b64, prompt="Is this image red or blue? Answer one word."):
 def vision_truth(client, colors=None, verbose=True):
     """L6: color ground truth + token-overhead slope across image sizes.
     Retries each probe (heterogeneous backends may 400 array content)."""
+    require_openai(client)
     if verbose:
         print(t("vision.header"))
         print(t("vision.hint"))
@@ -329,11 +359,13 @@ def vision_truth(client, colors=None, verbose=True):
     if verbose:
         print(t("vision.control", pt=pt_noimg))
 
-    out = {"no_image_control_prompt_tokens": pt_noimg, "probes": [], "failures": []}
+    out = {"no_image_control_prompt_tokens": pt_noimg, "probes": [], "failures": [],
+           "planned": 2 * len(colors), "attempted": 0}
     for size in [(64, 64), (256, 256)]:
         for rgb, color in colors:
             last_err = None
             for attempt in range(3):
+                out["attempted"] += 1
                 d, e = client.chat(_image_message(png_b64(size, rgb)), max_tokens=300)
                 if e:
                     last_err = e
@@ -346,7 +378,8 @@ def vision_truth(client, colors=None, verbose=True):
                 row = {"size": "%dx%d" % size, "true_color": color,
                        "answer": (m.get("content") or "").strip(),
                        "prompt_tokens": d["usage"]["prompt_tokens"],
-                       "delta": d["usage"]["prompt_tokens"] - pt_noimg, "attempts": attempt + 1}
+                       "delta": d["usage"]["prompt_tokens"] - pt_noimg, "attempts": attempt + 1,
+                       "finish_reason": d["choices"][0].get("finish_reason")}
                 out["probes"].append(row)
                 if verbose:
                     print("%-10s %-4s => %-8r (+%d tokens, tries=%d)" % (
@@ -355,7 +388,9 @@ def vision_truth(client, colors=None, verbose=True):
                 break
             if last_err and verbose:
                 print("%-10s %-4s => FAIL %s" % ("%dx%d" % size, color, _err_text(last_err)[:120]))
-    correct = sum(1 for p in out["probes"] if p["true_color"] in p["answer"].lower())
+    correct = sum(1 for p in out["probes"] if p["answer"].lower().strip().rstrip(".! ") == p["true_color"])
+    out["valid"] = len(out["probes"])
+    out["correct"] = correct
     out["color_correct"] = "%d/%d" % (correct, len(out["probes"]))
     if verbose:
         print("color correct: %s" % out["color_correct"])
@@ -364,6 +399,7 @@ def vision_truth(client, colors=None, verbose=True):
 
 def vision_repeat(client, n=24, size=(64, 64), rgb=(255, 0, 0), max_tokens=48, verbose=True):
     """Repeated identical vision probe to quantify heterogeneous-backend mix."""
+    require_openai(client)
     if verbose:
         print(t("vision.repeat", n=n, size="%dx%d" % size))
     b64 = png_b64(size, rgb)
@@ -396,6 +432,7 @@ def vision_repeat(client, n=24, size=(64, 64), rgb=(255, 0, 0), max_tokens=48, v
 
 def video_probe(client, path=None, verbose=True):
     """Try common video content-block shapes. Generates a tiny mp4 via ffmpeg if needed."""
+    require_openai(client)
     if verbose:
         print(t("video.header"))
     if path is None:
@@ -409,7 +446,8 @@ def video_probe(client, path=None, verbose=True):
                     check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             except (OSError, subprocess.CalledProcessError) as e:
                 raise RuntimeError(t("err.missing_dep", dep="ffmpeg", pkgs="ffmpeg")) from e
-    raw = open(path, "rb").read()
+    with open(path, "rb") as stream:
+        raw = stream.read()
     data_uri = "data:video/mp4;base64," + base64.b64encode(raw).decode()
     q = "Is this video mostly red or blue? One word."
     shapes = {
@@ -458,8 +496,11 @@ def _sku_card(client, model, verbose=True):
     card["hi_error"] = None if not e else {"http": e.get("http"), "body": _err_text(e)[:200]}
     b, _e_base = pt([{"role": "user", "content": base}])
     be, _e_emoji = pt([{"role": "user", "content": base + EMOJI_ZWJ}])
+    card["base_error"] = _e_base
+    card["emoji_error"] = _e_emoji
     card["emoji_delta"] = None if (b is None or be is None) else be - b
     sp, _e_sp = pt([{"role": "user", "content": "hi" + SPECIAL_IMAGE}])
+    card["special_image_error"] = _e_sp
     card["special_image_delta"] = None if (hi is None or sp is None) else sp - hi
     d, e_none = client.chat([{"role": "user", "content": "hi"}], extra={"reasoning_effort": "none"},
                             model=model)
@@ -494,7 +535,8 @@ def catalog_ab(client, peers=None, family=None, verbose=True):
     peers: explicit id list. family: substring filter on catalog ids (e.g. 'glm').
     Always includes client.model. Wrapper offset is hi_pt(target) - hi_pt(peer).
     """
-    ids, err = client.list_models()
+    require_openai(client)
+    ids, err = client.list_models() if family or not peers else ([], None)
     if err:
         raise RuntimeError("GET /models failed: %s" % err)
     if verbose:

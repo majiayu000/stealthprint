@@ -1,0 +1,25 @@
+name: checks
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ['3.9', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: python -m pip install '.[tokenizer,site]' build
+      - run: python -m unittest discover -s tests -v
+      - run: python scripts/build_site.py
+      - run: python -m build
+      - name: Verify installed wheel outside the checkout
+        run: |
+          python -m venv /tmp/wheel-check
+          /tmp/wheel-check/bin/pip install dist/*.whl
+          cd /tmp
+          /tmp/wheel-check/bin/python -c 'from stealthprint.i18n import load_probes; assert len(load_probes()["probes"]) == 24'

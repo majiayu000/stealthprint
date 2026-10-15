@@ -1,31 +1,21 @@
-"""Extra fingerprint probes beyond layers.py.
+"""Additional measurements using the same client and local token counting.
 
-- tokenizer_repeats: mixed-backend aware L1 (repeat -> cluster -> pair within
-  the majority path), reusing layers.tokenizer_differential for local diffs.
+- tokenizer_repeats: count-stability-aware L1 (interleaved repeated measurements), reusing layers.tokenizer_differential for local diffs.
 - echo_verify: L1b completion-side vocab check (model repeats probe text;
   API completion_tokens vs local tokenizer encode of the same text).
 - tools_probe: L5 tool-calling behavior (schema overhead, tool_choice,
   real call, parallel calls).
 - wrapper_turns: L2+ per-turn template accumulation curve.
 
-These live in their own module to keep layers.py stable and to avoid
-colliding with concurrent edits there.
+All probes retain counting observations separately from identity interpretations.
 """
 
 from collections import Counter
-from concurrent.futures import ThreadPoolExecutor
 
 from . import layers
+from .client import require_openai
+from .layers import encode_len, load_local_tokenizers
 from .i18n import t, load_probes
-
-
-def _pt(client, text, retries=2):
-    """prompt_tokens with light retry; None on persistent failure."""
-    for _ in range(retries + 1):
-        d, err = client.chat([{"role": "user", "content": text}], max_tokens=1)
-        if d and isinstance(d.get("usage"), dict) and "prompt_tokens" in d["usage"]:
-            return d["usage"]["prompt_tokens"]
-    return None
 
 
 def _mode_and_dist(vals):
@@ -35,80 +25,59 @@ def _mode_and_dist(vals):
     return Counter(ok).most_common(1)[0][0], dict(sorted(Counter(ok).items()))
 
 
-def tokenizer_repeats(client, probes=None, tokenizers_dir="tok", repeats=4,
-                      workers=8, verbose=True):
-    """L1 with mixed-backend handling: sample every text N times, take the
-    majority value per text, pair deltas within that path, then reuse
-    layers.tokenizer_differential for the local comparison."""
-    if probes is None:
-        probes = load_probes()
-    base = probes["base"]
-    texts = {"base": base}
-    for name, text in probes["probes"]:
-        texts[name] = base + text
+def tokenizer_repeats(client, probes=None, tokenizers_dir="tok", repeats=4, verbose=True):
+    """Interleave repeated texts; rank only when all observed counts are stable.
 
-    jobs = [(k, t) for k, t in texts.items() for _ in range(repeats)]
-    with ThreadPoolExecutor(workers) as ex:
-        futs = {ex.submit(_pt, client, t): k for k, t in jobs}
-        sampled = {}
-        for f, k in futs.items():
-            sampled.setdefault(k, []).append(f.result())
-
-    distribution, modes, mixed = {}, {}, False
-    for k, vals in sampled.items():
-        mode, dist = _mode_and_dist(vals)
-        modes[k] = mode
-        distribution[k] = dist
-        mixed = mixed or len(dist) > 1
+    Count variation is an observation, not proof of multiple model backends.
+    No cross-request path pairing is inferred from independent modes.
+    """
+    if repeats < 1:
+        raise ValueError("repeats must be positive")
+    probes = load_probes() if probes is None else probes
+    local = load_local_tokenizers(tokenizers_dir)
+    sources = layers.tokenizer_sources(tokenizers_dir, local)
+    # Exercise local encoding before remote sampling.
+    for name, tk in local.items():
+        for text in [probes["base"]] + [probes["base"] + text for _, text in probes["probes"]]:
+            encode_len(name, tk, text)
+    texts = [("base", probes["base"])] + [(name, probes["base"] + text) for name, text in probes["probes"]]
+    samples = {name: [] for name, _ in texts}
+    failures = []
+    for repeat in range(repeats):
+        for name, text in texts:
+            count, error = client.prompt_tokens([{"role": "user", "content": text}])
+            samples[name].append(count)
+            if error:
+                failures.append({"probe": name, "repeat": repeat + 1, "error": error})
+    distribution = {name: _mode_and_dist(values)[1] for name, values in samples.items()}
+    varying = any(len(values) > 1 for values in distribution.values())
+    result = {"distribution": distribution, "samples": samples, "failures": failures,
+              "count_variation": varying, "api_delta": {}, "ranking": {}, "wrapper": {},
+              "probes": probes, "tokenizers": sources}
+    if varying or any(value is None for values in samples.values() for value in values):
+        result["status"] = "unstable_counts" if varying else "incomplete"
         if verbose:
-            print("  %-14s n=%d dist=%s mode=%s" % (k, len(dist) and repeats, dist, mode))
-
-    if modes.get("base") is None:
-        raise RuntimeError("base sampling failed entirely: %s" % distribution.get("base"))
-    api_delta = {k: modes[k] - modes["base"] for k, v in modes.items()
-                 if k != "base" and v is not None}
-    result = layers.tokenizer_differential(
+            print(t("xrep.mixed"))
+            print(distribution)
+        return result
+    base = samples["base"][0]
+    delta = {name: values[0] - base for name, values in samples.items() if name != "base"}
+    result.update(layers.tokenizer_differential(
         client, probes=probes, tokenizers_dir=tokenizers_dir, verbose=verbose,
-        base_api=modes["base"], api_delta=api_delta)
-    result["distribution"] = distribution
-    result["mixed_backends"] = mixed
-    result["base_mode"] = modes["base"]
-    if verbose and mixed:
-        print(t("xrep.mixed"))
+        base_api=base, api_delta=delta, local=local))
+    result["failures"] = failures
+    result["status"] = "stable_sample"
     return result
 
 
 _ECHO_PROMPT = "Repeat the following text exactly, character for character, with no commentary:\n\n"
 
 
-def encode_len(name, tk, s):
-    """Token count for tokenizer name/obj pair (*_base are tiktoken, rest HF)."""
-    if name.endswith("_base"):
-        return len(tk.encode(s))
-    return len(tk.encode(s, add_special_tokens=False).ids)
-
-
-def load_local_tokenizers(tokenizers_dir="tok"):
-    import os
-    try:
-        from tokenizers import Tokenizer
-        import tiktoken
-    except ImportError as e:
-        raise RuntimeError(t("err.missing_dep", dep=e.name, pkgs="tokenizers tiktoken")) from e
-    local = {}
-    if os.path.isdir(tokenizers_dir):
-        for f in sorted(os.listdir(tokenizers_dir)):
-            if f.endswith(".json"):
-                local[f[:-5]] = Tokenizer.from_file(os.path.join(tokenizers_dir, f))
-    local["o200k_base"] = tiktoken.get_encoding("o200k_base")
-    local["cl100k_base"] = tiktoken.get_encoding("cl100k_base")
-    return local
-
-
 def echo_verify(client, probes=None, tokenizers_dir="tok", verbose=True):
     """L1b: completion-side vocab check. The model echoes a probe; API
     completion_tokens is compared against local tokenizations of the echoed
-    text. A constant offset per vocab = generation-side template tail."""
+    visible text. Offsets are observations, not inferred hidden reasoning."""
+    require_openai(client)
     if probes is None:
         probes = load_probes()
     local = load_local_tokenizers(tokenizers_dir)
@@ -122,11 +91,11 @@ def echo_verify(client, probes=None, tokenizers_dir="tok", verbose=True):
             continue
         content = (d["choices"][0].get("message") or {}).get("content") or ""
         comp = d["usage"]["completion_tokens"]
-        echoed_ok = content.strip() == text
+        echoed_ok = content == text
         row = {"completion_tokens": comp, "echo_exact": echoed_ok,
-               "content_prefix": content.strip()[:24]}
-        if echoed_ok:
-            row["offsets"] = {n: comp - encode_len(n, tk, text) for n, tk in local.items()}
+               "content": content, "finish_reason": d["choices"][0].get("finish_reason"),
+               "completion_tokens_details": d["usage"].get("completion_tokens_details")}
+        row["offsets"] = {n: comp - encode_len(n, tk, content) for n, tk in local.items()}
         out["echoes"][name] = row
         if verbose:
             extra = " offsets=%s" % row["offsets"] if echoed_ok else ""
@@ -154,12 +123,15 @@ _TOOL_SCHEMA = [{
 
 def tools_probe(client, verbose=True):
     """L5: schema token overhead, tool_choice handling, real/parallel calls."""
+    require_openai(client)
     out = {}
     plain, err = client.prompt_tokens([{"role": "user", "content": "hi"}])
     if err:
         out["baseline_error"] = err
-    with_tools, _ = client.chat([{"role": "user", "content": "hi"}],
+    with_tools, tools_error = client.chat([{"role": "user", "content": "hi"}],
                                 max_tokens=1, extra={"tools": _TOOL_SCHEMA})
+    if tools_error:
+        out["schema_error"] = tools_error
     if plain is not None and with_tools and (with_tools.get("usage") or {}).get("prompt_tokens") is not None:
         pt_tools = with_tools["usage"]["prompt_tokens"]
         out["schema_overhead"] = pt_tools - plain
@@ -197,6 +169,8 @@ def wrapper_turns(client, turns=4, verbose=True):
         pt, err = client.prompt_tokens(messages, max_tokens=1)
         row = {"turn": i + 1, "prompt_tokens": pt,
                "delta": (pt - prev) if (pt is not None and prev is not None) else None}
+        if err:
+            row["error"] = err
         out["turns"].append(row)
         if verbose:
             print("  turn %d: pt=%s delta=%s" % (i + 1, pt, row["delta"]))

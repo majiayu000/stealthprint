@@ -10,9 +10,11 @@ with the same retry budget (the Muse line only speaks the Responses API).
 import json
 import os
 import time
+from datetime import datetime, timezone
 
 from .i18n import t, load_probes
-from .probes_extra import encode_len, load_local_tokenizers
+from .layers import encode_len, load_local_tokenizers, tokenizer_sources
+from .client import retryable, require_openai
 
 # 12-probe discriminating subset used by the 2026-09-17 census.
 SURVEY_PROBES = ["zh_long", "emoji_zwj", "digits", "ja", "ko", "fr", "ru", "thai",
@@ -23,8 +25,10 @@ def classify_error(err):
     """Map a client error dict to a census class name."""
     http = (err or {}).get("http")
     body = str((err or {}).get("body", "")).lower()
-    if http == 401 or "creditserror" in body:
+    if "creditserror" in body:
         return "paid_401"
+    if http == 401:
+        return "authentication_401"
     if http == 429:
         return "rate_limited_429"
     if http in (500, 502, 503):
@@ -38,10 +42,12 @@ def classify_error(err):
 
 def _pt_chat(client, text, retries, delay):
     err = {"http": None, "body": "not called"}
-    for _ in range(retries + 1):
+    for attempt in range(retries + 1):
         pt, err = client.prompt_tokens([{"role": "user", "content": text}], max_tokens=16)
         if pt is not None:
             return pt, None
+        if not retryable(err) or attempt == retries:
+            break
         if delay:
             time.sleep(delay)
     return None, err
@@ -49,7 +55,7 @@ def _pt_chat(client, text, retries, delay):
 
 def _pt_responses(client, model, text, retries, delay):
     err = {"http": None, "body": "not called"}
-    for _ in range(retries + 1):
+    for attempt in range(retries + 1):
         d, err = client.request("POST", "/responses",
                                 body={"model": model, "input": text, "max_output_tokens": 16})
         if not err:
@@ -58,6 +64,8 @@ def _pt_responses(client, model, text, retries, delay):
                 err = {"http": 200, "body": "no input_tokens in usage"}
             else:
                 return usage["input_tokens"], None
+        if not retryable(err) or attempt == retries:
+            break
         if delay:
             time.sleep(delay)
     return None, err
@@ -76,6 +84,7 @@ def _score(deltas, local_deltas, base_pt, local_base):
 def _measure(client_factory, model, base_text, probe_texts, retries, delay):
     """Probe one model. Returns (row_or_None, class_or_None, error_detail)."""
     client = client_factory(model)
+    require_openai(client)
     base_pt, err = _pt_chat(client, base_text, retries, delay)
     mode = "chat"
     if base_pt is None:
@@ -91,28 +100,35 @@ def _measure(client_factory, model, base_text, probe_texts, retries, delay):
             return None, cls, {"chat": err, "responses": err2}
         mode = "responses"
 
-    deltas, fails = {}, 0
+    deltas, fails, errors = {}, 0, {}
     for name, text in probe_texts:
         pt = None
         if mode == "chat":
-            pt, _ = _pt_chat(client, text, retries, delay)
+            pt, error = _pt_chat(client, text, retries, delay)
         else:
-            pt, _ = _pt_responses(client, model, text, retries, delay)
+            pt, error = _pt_responses(client, model, text, retries, delay)
         if pt is None:
+            errors[name] = error
             fails += 1
             continue
         deltas[name] = pt - base_pt
-    return {"mode": mode, "base_api": base_pt, "deltas": deltas, "fails": fails}, None, None
+    return {"mode": mode, "base_api": base_pt, "deltas": deltas, "fails": fails, "errors": errors}, None, None
 
 
-def _done_models(out_path):
+def _done_models(out_path, experiment):
     done = set()
-    with open(out_path, encoding="utf-8") as f:
-        for line in f:
+    with open(out_path, encoding="utf-8") as stream:
+        for number, line in enumerate(stream, 1):
             try:
-                done.add(json.loads(line)["model"])
-            except (ValueError, KeyError):
-                continue
+                row = json.loads(line)
+            except ValueError as error:
+                raise ValueError(f"Invalid survey JSON at line {number}; use a new output file or repair it") from error
+            if not line.endswith("\n"):
+                raise ValueError(f"Unterminated survey line {number}; repair it before appending")
+            if not isinstance(row, dict) or row.get("experiment") != experiment:
+                raise ValueError("Survey configuration differs; use a new output file")
+            if row.get("complete"):
+                done.add(row["model"])
     return done
 
 
@@ -121,6 +137,8 @@ def run_survey(client_factory, models, tokenizers_dir="tok", probe_names=None,
                retries=1, verbose=True):
     """Census the gateway catalog. client_factory(model_id) -> chat client;
     client_factory(None) is only used for catalog fetching by the CLI."""
+    if retries < 0 or delay < 0 or max_models < 0:
+        raise ValueError("retries, delay and max_models must be nonnegative")
     if probe_names is None:
         probe_names = SURVEY_PROBES
     pr = load_probes()
@@ -138,12 +156,27 @@ def run_survey(client_factory, models, tokenizers_dir="tok", probe_names=None,
         local_base[name] = b
         local_deltas[name] = {p: encode_len(name, tk, text) - b for p, text in probe_texts}
 
+    experiment = None
+    if out_path and models:
+        client = client_factory(models[0])
+        require_openai(client)
+        if not isinstance(client.base_url, str) or not client.base_url:
+            raise ValueError("A survey output requires an explicit client base_url")
+        experiment = {"base_url": client.base_url, "transport": getattr(client, "transport", "openai"),
+                      "base": base_text, "probes": probe_texts,
+                      "tokenizers": tokenizer_sources(tokenizers_dir, local),
+                      "retries": retries, "delay": delay}
+        # JSON normalizes tuple probe rows so comparison survives a round trip.
+        experiment = json.loads(json.dumps(experiment))
     todo = [m for m in models if not filter_sub or filter_sub in m]
     if out_path and os.path.exists(out_path):
-        done = _done_models(out_path)
+        done = _done_models(out_path, experiment)
         todo = [m for m in todo if m not in done]
         if done and verbose:
             print(t("survey.resume", n=len(done), path=out_path))
+    if out_path:
+        with open(out_path, "a", encoding="utf-8"):
+            pass
     if max_models > 0:
         todo = todo[:max_models]
 
@@ -173,7 +206,9 @@ def run_survey(client_factory, models, tokenizers_dir="tok", probe_names=None,
                         base=row["base_api"], best=row["best"] or "-",
                         exact=s.get("exact", 0), n=s.get("n", 0), mae=s.get("mae", "-")))
         if out_path:
-            payload = {"model": model, "class": cls}
+            payload = {"model": model, "class": cls, "experiment": experiment,
+                       "measured_at": datetime.now(timezone.utc).isoformat(),
+                       "complete": row is not None and row["fails"] == 0 and bool(row["deltas"])}
             payload.update(row or {})
             if detail:
                 payload["error_detail"] = detail
