@@ -1,5 +1,6 @@
 """Counterexamples from the design review; no model API calls."""
 import contextlib
+import http.client
 import io
 import json
 import tempfile
@@ -9,8 +10,8 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
 from unittest import mock
 
-from stealthprint.client import ChatClient
-from stealthprint import layers, probes_extra
+from stealthprint.client import ChatClient, retryable
+from stealthprint import layers, probes_extra, survey
 from stealthprint.cli import main
 
 
@@ -66,6 +67,23 @@ class IntegrityTests(unittest.TestCase):
         c = self.client(transport='anthropic')
         with mock.patch.object(c, 'chat', return_value=({'usage': {'input_tokens': 10, 'cache_read_input_tokens': 90, 'cache_creation_input_tokens': 20}}, None)):
             self.assertEqual(c.prompt_tokens([]), (120, None))
+
+    def test_malformed_usage_returns_error_instead_of_crashing_or_counting(self):
+        c = self.client(transport='anthropic')
+        for usage in ({'input_tokens': 10, 'cache_read_input_tokens': '90'},
+                      {'input_tokens': True}, {'input_tokens': -1}, {'input_tokens': 1.5}):
+            with self.subTest(usage=usage), mock.patch.object(c, 'request', return_value=({'usage': usage}, None)):
+                count, error = c.prompt_tokens([{'role': 'user', 'content': 'hi'}])
+                self.assertIsNone(count)
+                self.assertEqual(error['detail']['usage'], usage)
+
+    def test_responses_invalid_usage_is_not_a_count(self):
+        c = self.client()
+        for usage in (['unexpected'], {'input_tokens': '10'}, {'input_tokens': True}, {'input_tokens': -1}):
+            with self.subTest(usage=usage), mock.patch.object(c, 'request', return_value=({'usage': usage}, None)):
+                count, error = survey._pt_responses(c, 'test', 'hello', retries=0, delay=0)
+                self.assertIsNone(count)
+                self.assertEqual(error['detail']['usage'], usage)
 
     def test_unsupported_anthropic_probe_fails_before_request(self):
         c = self.client(transport='anthropic')
@@ -131,10 +149,11 @@ class DownloadTests(unittest.TestCase):
             urls.clear()
             self.run_script(directory, fetch)
             self.assertTrue(all('/resolve/revision-123/' in url for url in urls))
-            with self.assertRaises(SystemExit) as failure:
-                self.run_script(directory, lambda *args, **kwargs: (_ for _ in ()).throw(OSError('offline')))
-            self.assertEqual(failure.exception.code, 1)
-            self.assertEqual(saved, {p.name: p.read_bytes() for p in Path(directory).iterdir()})
+            for error in (OSError('offline'), http.client.IncompleteRead(b'partial', 100)):
+                with self.subTest(error=type(error).__name__), self.assertRaises(SystemExit) as failure:
+                    self.run_script(directory, lambda *args, **kwargs: (_ for _ in ()).throw(error))
+                self.assertEqual(failure.exception.code, 1)
+                self.assertEqual(saved, {p.name: p.read_bytes() for p in Path(directory).iterdir()})
 
     def test_pinned_content_change_is_rejected(self):
         def fetch(url, **kwargs):
@@ -156,6 +175,29 @@ class HTTPBoundaryTests(unittest.TestCase):
         self.addCleanup(thread.join)
         self.addCleanup(server.shutdown)
         return server
+
+    def test_truncated_responses_are_recorded_as_network_failures(self):
+        for status in (200, 502):
+            with self.subTest(status=status):
+                class Handler(BaseHTTPRequestHandler):
+                    def do_POST(self):
+                        self.send_response(status)
+                        self.send_header('Content-Length', '100')
+                        self.end_headers()
+                        self.wfile.write(b'{"partial":')
+                    def log_message(self, *args): pass
+                server = self.server(Handler)
+                with tempfile.TemporaryDirectory() as directory:
+                    record = Path(directory) / 'requests.jsonl'
+                    c = ChatClient('m', f'http://127.0.0.1:{server.server_port}', 'dummy', record_path=record)
+                    result, error = c.request('POST', '/chat/completions', {})
+                    self.assertIsNone(result)
+                    self.assertEqual(error['http'], status)
+                    self.assertIn('IncompleteRead', error['body'])
+                    self.assertTrue(retryable(error))
+                    row = json.loads(record.read_text())
+                    self.assertEqual(row['raw_response'], '{"partial":')
+                    self.assertEqual(row['error'], error)
 
     def test_redirect_cannot_forward_credentials(self):
         received = []
