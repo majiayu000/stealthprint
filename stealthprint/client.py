@@ -1,4 +1,5 @@
 import json
+import http.client
 import os
 import threading
 import time
@@ -22,7 +23,7 @@ def require_openai(client):
 def retryable(error):
     """Only retry transport failures, throttling and server failures."""
     status = (error or {}).get('http')
-    return status is None or status == 429 or (isinstance(status, int) and status >= 500)
+    return bool((error or {}).get('transport_error')) or status is None or status == 429 or (isinstance(status, int) and status >= 500)
 
 
 class ChatClient:
@@ -74,25 +75,29 @@ class ChatClient:
         parsed = error = status = None
         raw = ''
         try:
-            with self._opener.open(req, timeout=self.timeout if timeout is None else timeout) as response:
-                status = response.status
-                raw = response.read().decode('utf-8')
-            parsed = json.loads(raw)
-            if not isinstance(parsed, dict):
-                error = {'http': status, 'body': 'expected a JSON object', 'detail': parsed}
-            elif parsed.get('error') is not None:
-                error = {'http': status, 'body': raw, 'detail': parsed['error']}
-        except urllib.error.HTTPError as exc:
-            status = exc.code
             try:
-                raw = exc.read().decode('utf-8', errors='replace')
-            finally:
-                exc.close()
-            error = {'http': status, 'body': raw}
-            if exc.headers.get('Location'):
-                error['location'] = exc.headers['Location']
-        except (OSError, ValueError, urllib.error.URLError) as exc:
-            error = {'http': status, 'body': str(exc)}
+                response = self._opener.open(req, timeout=self.timeout if timeout is None else timeout)
+            except urllib.error.HTTPError as exc:
+                response = exc
+            with response:
+                status = response.status
+                raw = response.read().decode('utf-8', errors='replace')
+                if isinstance(response, urllib.error.HTTPError):
+                    error = {'http': status, 'body': raw}
+                    if response.headers.get('Location'):
+                        error['location'] = response.headers['Location']
+            if error is None:
+                parsed = json.loads(raw)
+                if not isinstance(parsed, dict):
+                    error = {'http': status, 'body': 'expected a JSON object', 'detail': parsed}
+                elif parsed.get('error') is not None:
+                    error = {'http': status, 'body': raw, 'detail': parsed['error']}
+        except (OSError, ValueError, http.client.HTTPException) as exc:
+            if isinstance(exc, http.client.IncompleteRead):
+                raw = exc.partial.decode('utf-8', errors='replace')
+            error = {'http': status, 'body': '%s: %s' % (type(exc).__name__, exc)}
+            if isinstance(exc, (OSError, http.client.HTTPException)):
+                error['transport_error'] = True
         if self.record_path:
             row = {'started_at': started, 'duration_seconds': time.monotonic() - clock,
                    'method': method, 'url': self.base_url + path, 'transport': self.transport,
@@ -116,8 +121,13 @@ class ChatClient:
             return None, error
         usage = d.get('usage')
         key = 'input_tokens' if self.transport == 'anthropic' else 'prompt_tokens'
-        if not isinstance(usage, dict) or not isinstance(usage.get(key), (int, float)):
-            return None, {'http': 200, 'body': 'no %s in usage' % key, 'detail': d}
+        if not isinstance(usage, dict) or type(usage.get(key)) is not int or usage[key] < 0:
+            return None, {'http': 200, 'body': 'invalid or missing %s in usage' % key, 'detail': d}
+        if self.transport == 'anthropic':
+            for field in ('cache_read_input_tokens', 'cache_creation_input_tokens'):
+                value = usage.get(field, 0)
+                if type(value) is not int or value < 0:
+                    return None, {'http': 200, 'body': 'invalid %s in usage' % field, 'detail': d}
         if self.transport == 'openai':
             choices = d.get('choices')
             if not isinstance(choices, list) or not choices or not isinstance(choices[0], dict) or not isinstance(choices[0].get('message'), dict):

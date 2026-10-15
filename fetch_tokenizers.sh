@@ -3,6 +3,7 @@
 set -euo pipefail
 exec python3 - "${1:-tok}" <<'PY'
 import hashlib
+import http.client
 import json
 from pathlib import Path
 import sys
@@ -52,7 +53,7 @@ for repo, name in candidates:
         pending = out / 'sources.lock.tmp'
         pending.write_text(json.dumps(sources, indent=2) + '\n')
         pending.replace(manifest)
-    except (OSError, ValueError, KeyError) as error:
+    except (OSError, ValueError, KeyError, http.client.HTTPException) as error:
         temporary.unlink(missing_ok=True)
         failed.append(name)
         print(f'FAILED {name}: {error}; existing candidate retained', file=sys.stderr)

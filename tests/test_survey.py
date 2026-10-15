@@ -126,7 +126,8 @@ class MeasureResponsesTests(unittest.TestCase):
         self.assertIsNone(row)
         self.assertEqual(cls, "upstream_5xx")
         self.assertEqual(detail["responses"],
-                         {"http": 200, "body": "no input_tokens in usage"})
+                         {"http": 200, "body": "invalid or missing input_tokens in usage",
+                          "detail": {"usage": {"input_tokens": None}}})
         self.assertEqual(client.request.call_count, 1)
 
     def test_responses_probe_keeps_retries_and_delay(self):

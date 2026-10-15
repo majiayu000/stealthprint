@@ -59,9 +59,9 @@ def _pt_responses(client, model, text, retries, delay):
         d, err = client.request("POST", "/responses",
                                 body={"model": model, "input": text, "max_output_tokens": 16})
         if not err:
-            usage = d.get("usage") or {}
-            if usage.get("input_tokens") is None:
-                err = {"http": 200, "body": "no input_tokens in usage"}
+            usage = d.get("usage")
+            if not isinstance(usage, dict) or type(usage.get("input_tokens")) is not int or usage["input_tokens"] < 0:
+                err = {"http": 200, "body": "invalid or missing input_tokens in usage", "detail": d}
             else:
                 return usage["input_tokens"], None
         if not retryable(err) or attempt == retries:
