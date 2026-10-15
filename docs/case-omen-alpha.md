@@ -1,5 +1,7 @@
 # Case study: omen-alpha
 
+> **Interpretation update, 2026-10-15:** The historical report is preserved below. Matching token counts do not prove weights or generation identity. Fixed image counts do not identify a visual architecture. Stable repeats do not establish a homogeneous backend pool; varying counts do not prove multiple models. Successful input sizes are lower bounds, and gateway rejections are not architectural limits. Read historical exclusion and architecture claims within these limits.
+
 [English](case-omen-alpha.md) · [中文](case-omen-alpha.zh-CN.md)
 
 A full fingerprint analysis of the anonymous model `omen-alpha` behind the

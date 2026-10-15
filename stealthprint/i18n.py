@@ -8,7 +8,7 @@ CATALOGS = {
         "cli.desc": "stealthprint — fingerprint an OpenAI-compatible model (tokenizer, context, errors, vision, catalog A/B)",
         "cli.tok": "L1 tokenizer differential vs local tokenizer.json files",
         "cli.wrap": "L2 template/wrapper overhead constant",
-        "cli.ctx": "L3 context limit (binary search) + needle retrieval",
+        "cli.ctx": "L3 successful input sizes + needle retrieval",
         "cli.err": "L4 error envelope family (malformed parameters)",
         "cli.vision": "L6 vision ground truth (color/size probes)",
         "cli.video": "L6 video modality probe (tiny mp4 content-block shapes)",
@@ -23,7 +23,7 @@ CATALOGS = {
         "echo.header": "== completion-side vocab check (echo probes) ==",
         "tools.header": "== tool-calling behavior ==",
         "wrap.turns": "== per-turn template accumulation ==",
-        "xrep.mixed": "multiple prompt_tokens paths detected -> deltas paired within majority path",
+        "xrep.mixed": "Counts vary or samples failed; retaining observations without a ranking",
         "err.no_key": "error: no API key (pass --api-key or set STEALTHPRINT_API_KEY)",
         "err.no_base": "error: no base URL (pass --base-url or set STEALTHPRINT_BASE_URL)",
         "err.no_model": "error: no model id (pass --model or set STEALTHPRINT_MODEL)",
@@ -36,8 +36,8 @@ CATALOGS = {
         "tok.match": "  <== MATCH",
         "tok.wrapper": "== wrapper constant (api - raw, per candidate) ==",
         "wrap.header": "== wrapper constant across lengths ==",
-        "wrap.hint": "constant api-vs-local delta across lengths => fixed chat template",
-        "ctx.header": "== context limit binary search (bounded by gateway body limit) ==",
+        "wrap.hint": "Raw API counts only; a wrapper residual requires an explicit local tokenizer",
+        "ctx.header": "== successful input lengths (stop on first error) ==",
         "ctx.max": "max verified: {chars} chars => {tokens} prompt_tokens",
         "ctx.failed": "context search FAILED: {err}",
         "ctx.needle": "== needle-in-haystack (head/mid/tail) ==",
@@ -46,7 +46,7 @@ CATALOGS = {
         "errf.header": "== error envelope family ==",
         "vision.header": "== vision ground-truth probes ==",
         "vision.control": "no-image control prompt_tokens={pt}",
-        "vision.hint": "compare (+delta) across sizes: size-dependent => real encoder; constant => placeholder",
+        "vision.hint": "Compare color answers and size-dependent counts; counts alone do not identify an encoder",
         "vision.repeat": "== vision repeats ({n}x {size} solid color) ==",
         "vision.repeat_counts": "counts: {counts}",
         "video.header": "== video content-block shapes ==",
@@ -58,7 +58,7 @@ CATALOGS = {
         "cli.desc": "stealthprint —— 对任意 OpenAI 兼容模型做指纹分析（分词器 / 上下文 / 错误 / 视觉 / 目录对照）",
         "cli.tok": "L1 分词器差分（对照本地 tokenizer.json 词表）",
         "cli.wrap": "L2 模板 / wrapper 常数开销",
-        "cli.ctx": "L3 上下文上限（二分）+ 针找回测试",
+        "cli.ctx": "L3 成功输入长度 + 针找回测试",
         "cli.err": "L4 错误信封家族（畸形参数）",
         "cli.vision": "L6 视觉真值测试（颜色 / 尺寸探针）",
         "cli.video": "L6 视频模态探针（小 mp4 的多种 content 形状）",
@@ -73,7 +73,7 @@ CATALOGS = {
         "echo.header": "== 生成侧词表校验（复述探针）==",
         "tools.header": "== 工具调用行为 ==",
         "wrap.turns": "== 每轮模板累积 ==",
-        "xrep.mixed": "检测到多条 prompt_tokens 路径 -> 差分在主路径内配对",
+        "xrep.mixed": "计数变化或样本失败：保留观测，不生成身份排名",
         "err.no_key": "错误：缺少 API key（用 --api-key 或设置 STEALTHPRINT_API_KEY）",
         "err.no_base": "错误：缺少 base URL（用 --base-url 或设置 STEALTHPRINT_BASE_URL）",
         "err.no_model": "错误：缺少模型 ID（用 --model 或设置 STEALTHPRINT_MODEL）",
@@ -86,8 +86,8 @@ CATALOGS = {
         "tok.match": "  <== 匹配",
         "tok.wrapper": "== wrapper 常数（API 减本地原始计数）==",
         "wrap.header": "== 各长度下的 wrapper 常数 ==",
-        "wrap.hint": "API 与本地差值恒定 => 固定聊天模板",
-        "ctx.header": "== 上下文上限二分（受网关 body 限制封顶）==",
+        "wrap.hint": "这里只采集 API 计数；模板差额需明确本地词表参照",
+        "ctx.header": "== 成功输入长度阶梯（遇错停止并保留成功点）==",
         "ctx.max": "已验证上限：{chars} 字符 => {tokens} prompt_tokens",
         "ctx.failed": "上下文搜索失败：{err}",
         "ctx.needle": "== 针测试（头 / 中 / 尾）==",
@@ -96,7 +96,7 @@ CATALOGS = {
         "errf.header": "== 错误信封家族 ==",
         "vision.header": "== 视觉真值探针 ==",
         "vision.control": "无图对照 prompt_tokens={pt}",
-        "vision.hint": "比较不同尺寸的 (+delta)：随尺寸增长 => 真编码器；恒定 => 占位符",
+        "vision.hint": "核对颜色答案与尺寸计数；固定开销或增长曲线均不能单独确认编码器",
         "vision.repeat": "== 视觉重复探针（{n} 次 {size} 纯色）==",
         "vision.repeat_counts": "计数：{counts}",
         "video.header": "== 视频 content 形状探针 ==",
@@ -131,7 +131,11 @@ def load_probes(path=None):
     """
     if path is None:
         path = os.path.join(os.path.dirname(__file__), "data", "probes.json")
-    data = json.load(open(path, encoding="utf-8"))
+    with open(path, encoding="utf-8") as stream:
+        data = json.load(stream)
     if "base" not in data or "probes" not in data:
         raise ValueError("probe file must contain 'base' and 'probes'")
+    names = [item[0] for item in data["probes"]]
+    if len(names) != len(set(names)) or "base" in names or not names:
+        raise ValueError("probe names must be unique, nonempty, and cannot use reserved name 'base'")
     return data

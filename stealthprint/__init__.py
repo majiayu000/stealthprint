@@ -28,3 +28,8 @@ __all__ = [
     "catalog_ab",
     "__version__",
 ]
+
+from .probes_extra import tokenizer_repeats, echo_verify, tools_probe, wrapper_turns
+from .survey import run_survey
+
+__all__ += ["tokenizer_repeats", "echo_verify", "tools_probe", "wrapper_turns", "run_survey"]

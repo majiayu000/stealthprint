@@ -1,5 +1,7 @@
 # Case study: space-bunny-free
 
+> **Interpretation update, 2026-10-15:** The historical report is preserved below. Matching token counts do not prove weights or generation identity. Fixed image counts do not identify a visual architecture. Stable repeats do not establish a homogeneous backend pool; varying counts do not prove multiple models. Successful input sizes are lower bounds, and gateway rejections are not architectural limits. Read historical exclusion and architecture claims within these limits.
+
 [First investigation and evidence limits](../README.md#first-investigation-compare-tokenizers-before-larger-probes) · [Other cases](../README.md#case-studies)
 
 [English](case-space-bunny.md) · [中文](case-space-bunny.zh-CN.md)

@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="$description">
+  <meta name="color-scheme" content="light dark">
+  <meta property="og:title" content="$title">
+  <meta property="og:description" content="$description">
+  <meta property="og:type" content="website">
+  <title>$title</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%2320382e'/%3E%3Ctext x='10' y='44' font-family='monospace' font-size='38' fill='%23e7eee8'%3Es.%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="$css">
+  <script defer src="$js"></script>
+</head>
+<body class="$body_class">
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="$home" aria-label="Stealthprint 首页">stealthprint<span>.</span></a>
+      <nav class="site-nav" aria-label="主导航">
+        <a href="$home#archive" $active_home>调查档案</a>
+        <a href="$guide" $active_guide>指纹怎么读</a>
+        <a href="$methods" $active_methods>使用与复现</a>
+      </nav>
+      <a class="repo-link" href="https://github.com/majiayu000/stealthprint" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+    </div>
+  </header>
+  <main id="main">$main</main>
+  <footer class="site-footer">
+    <div class="footer-inner"><span class="footer-brand">stealthprint.</span><span>公开证据 · 可复现实验 · 保留不确定性</span><a href="https://github.com/majiayu000/stealthprint/blob/main/LICENSE">MIT License</a></div>
+    <p>历史结果以测量日期与入口为准。<a href="$build_info">构建来源 $source_version</a></p>
+  </footer>
+</body>
+</html>

@@ -1,5 +1,7 @@
 # Case study: omen-alpha
 
+> **2026-10-15 解读修正：** 以下保留历史调查原文。词表吻合不证明权重或具体代际相同；固定图像计数不能确认视觉架构；有限重复样本的稳定性不能证明后端池同构；计数变化也不能直接证明多个模型。上下文成功给出下限，网关拒绝不等于模型架构上限。历史的“排除”“同构”“假 ViT”等强表述应按这些边界阅读。
+
 [English](case-omen-alpha.md) · [中文](case-omen-alpha.zh-CN.md)
 
 对 opencode zen 网关背后的匿名模型 `omen-alpha` 做的完整指纹分析，全程使用本库（`stealthprint`）的方法论复跑验证。案例数据：[case-omen-alpha-measurements.json](case-omen-alpha-measurements.json)。
