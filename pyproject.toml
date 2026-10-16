@@ -25,4 +25,4 @@ packages = ["stealthprint"]
 include-package-data = false
 
 [tool.setuptools.package-data]
-stealthprint = ["data/probes.json"]
+stealthprint = ["data/probes.json", "data/opencode_free_system.txt"]
