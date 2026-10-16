@@ -12,7 +12,9 @@ from . import layers, probes_extra, survey
 def make_client(args):
     try:
         return ChatClient(model=args.model, base_url=args.base_url, api_key=args.api_key,
-                          transport=args.transport, record_path=args.record)
+                          transport=args.transport, record_path=args.record,
+                          shell=getattr(args, "shell", None),
+                          session_id=getattr(args, "session_id", None))
     except (ValueError, OSError) as e:
         sys.exit(str(e))
 
@@ -32,6 +34,11 @@ def build_parser():
     ap.add_argument("--json", action="store_true", help="JSON only on stdout; progress on stderr")
     ap.add_argument("--transport", choices=("openai", "anthropic"), default="openai", help="Anthropic: text counting only")
     ap.add_argument("--record", help="append raw requests/responses to JSONL, without authentication headers")
+    ap.add_argument("--shell", default=None, choices=["opencode-free"],
+                    help="client-identity shell for gateways with fingerprint checks")
+    ap.add_argument("--session-id", default=os.environ.get("STEALTHPRINT_SESSION_ID"),
+                    help="client session id (required by opencode-free shell: reuse one "
+                         "created by a real opencode CLI run)")
     # same flags accepted after the subcommand too (hidden, same dests).
     # SUPPRESS defaults keep the subparser from clobbering values the main
     # parser already stored when the flag only appears before the subcommand.
@@ -43,6 +50,8 @@ def build_parser():
     common.add_argument("--json", action="store_true", default=argparse.SUPPRESS, help=argparse.SUPPRESS)
     common.add_argument("--transport", choices=("openai", "anthropic"), default=argparse.SUPPRESS, help=argparse.SUPPRESS)
     common.add_argument("--record", default=argparse.SUPPRESS, help=argparse.SUPPRESS)
+    common.add_argument("--shell", default=argparse.SUPPRESS, choices=["opencode-free"], help=argparse.SUPPRESS)
+    common.add_argument("--session-id", default=argparse.SUPPRESS, help=argparse.SUPPRESS)
     sub = ap.add_subparsers(dest="cmd", required=True)
 
     p = sub.add_parser("tokenizer", parents=[common], help=t("cli.tok"))

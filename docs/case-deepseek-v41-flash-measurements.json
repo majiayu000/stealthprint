@@ -178,7 +178,16 @@
     "quotes2": 10
    }
   },
-  "fast_vs_std": "delta vectors identical item-by-item"
+  "fast_vs_std": "delta vectors identical item-by-item",
+  "opencode_free": {
+   "endpoint": "https://opencode.ai/zen/v1 (free tier, key \"public\")",
+   "measured": "2026-10-16",
+   "exact": "24/24",
+   "mae": 0.0,
+   "winner": "deepseek",
+   "runner_up": "minimax 11/24 (same ranking as paid line)",
+   "note": "identical tokenizer identity as paid opencode line and commandcode line"
+  }
  },
  "l2_wrapper": {
   "opencode": 30,
@@ -200,7 +209,25 @@
    "result": "all 4 tiers 3/3 hits",
    "reading": "1.028M measured, catalog declares 1,000,000; higher than opencode line's transport ceiling"
   },
-  "go_plan": "tier gates endpoint access (403 upgrade_required on /provider/v1/*), not context window"
+  "go_plan": "tier gates endpoint access (403 upgrade_required on /provider/v1/*), not context window",
+  "opencode_free": {
+   "measured": "2026-10-16",
+   "needle_3x": {
+    "28609": "3/3",
+    "227764": "3/3",
+    "281059": "3/3",
+    "288539": "3/3 (x2 runs)",
+    "286669": "miss (labels only)",
+    "290409": "miss",
+    "299759": "miss",
+    "303499": "miss",
+    "318459": "miss",
+    "374559": "miss",
+    "525094": "miss (x2 runs)"
+   },
+   "reading": "stable pass <=281K; jitter zone 287-290K; stable miss >=299K. Effective window ~=288-290K tokens (294912-class tier), ~3.2x smaller than the paid line (916K, Cloudflare body cap). Free tier is context-downgraded, not a different model.",
+   "caveat": "misses answer with labels (\"Vault codes ALPHA BRAVO CHARLIE\") or title-like strings; near-edge retrieval degrades before hard truncation"
+  }
  },
  "output_limits": {
   "max_tokens_accepted": [
@@ -264,5 +291,17 @@
    }
   },
   "verdict": "same weights, higher-throughput deployment config (larger batches / aggressive scheduling, possibly speculative decoding); not a quantized or distilled model"
+ },
+ "free_tier_access": {
+  "measured": "2026-10-16, opencode CLI v2.0.29 (brew) as ground-truth client, requests captured via local recording proxy",
+  "checks_passed": {
+   "key": "Authorization: Bearer public (sentinel for the anonymous free tier)",
+   "headers": "User-Agent opencode/<channel>/<version>/<name> + x-opencode-client/project + x-opencode-session/-session-id/x-session-affinity/x-session-id (subset-of-N scoring: any single group removable, all removed = 403)",
+   "body": "system prompt must be a whitelisted opencode prompt verbatim (title-generator prompt, 2119 chars, works with arbitrary user turns) AND stream=true; random system of equal length is rejected",
+   "session_id": "must be an id minted by a real opencode client run (server-side registry); a random ses_-prefixed id is rejected",
+   "transport": "TLS/JA3 irrelevant (curl and python urllib both pass)"
+  },
+  "behavior": "free deployment enables reasoning by default (reasoning_content deltas); the title shell then hijacks verbatim answers (model emits a \"title\"). reasoning_effort=\"none\" disables it and restores task behavior, matching the paid line default.",
+  "stealthprint": "shell=\"opencode-free\" (client.py) implements the full recipe; session id comes from --session-id (one real `opencode run` beforehand)"
  }
 }

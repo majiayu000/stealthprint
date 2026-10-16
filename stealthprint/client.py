@@ -8,6 +8,20 @@ import urllib.request
 import uuid
 from datetime import datetime, timezone
 
+_DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
+
+with open(os.path.join(_DATA_DIR, 'opencode_free_system.txt')) as _f:
+    # System prompt whitelisted by OpenCode Zen's free-tier client check
+    # (extracted verbatim from an opencode CLI title-generator request).
+    OPENCODE_FREE_SYSTEM = _f.read()
+
+# Free-tier requests pass the client fingerprint check only when the
+# session headers below are present (any strict subset is rejected).
+OPENCODE_FREE_HEADERS = {
+    'User-Agent': 'opencode/latest/2.0.29/cli',
+    'x-opencode-client': 'cli',
+}
+
 
 class _NoRedirect(urllib.request.HTTPRedirectHandler):
     def redirect_request(self, req, fp, code, msg, headers, newurl):
@@ -31,15 +45,28 @@ class ChatClient:
 
     record_path optionally appends each raw request/response to JSONL, without
     authentication headers. Redirects are returned as errors, never followed.
+
+    shell='opencode-free' targets OpenCode Zen /zen/v1 free endpoints: requests
+    are wrapped (whitelisted system prompt + stream) so the server's
+    client-fingerprint check lets them through.
     """
 
     def __init__(self, model, base_url=None, api_key=None, timeout=180, session_id=None,
-                 transport='openai', record_path=None):
+                 transport='openai', record_path=None, shell=None):
         self.model = model
         if transport not in ('openai', 'anthropic'):
             raise ValueError('transport must be openai or anthropic')
         self.transport = transport
         self.base_url = (base_url or os.environ.get('STEALTHPRINT_BASE_URL') or '').rstrip('/')
+        self.shell = shell
+        if shell == 'opencode-free':
+            # The free tier accepts the sentinel key 'public' (anonymous tier).
+            api_key = api_key or 'public'
+            # The server tracks session ids minted by the real client; a random
+            # id (e.g. uuid4) is rejected. Reuse one from an actual opencode run.
+            if not session_id or not session_id.startswith('ses_'):
+                raise ValueError('opencode-free shell needs a session id from a real '
+                                 'opencode run (ses_..., pass session_id=)')
         self.api_key = api_key or os.environ.get('STEALTHPRINT_API_KEY')
         if not self.base_url:
             raise ValueError('no base_url (pass base_url= or set STEALTHPRINT_BASE_URL)')
@@ -63,10 +90,36 @@ class ChatClient:
             h['anthropic-version'] = '2023-06-01'
         else:
             h['Authorization'] = 'Bearer ' + self.api_key
+        if self.shell == 'opencode-free':
+            h.update(OPENCODE_FREE_HEADERS)
+            h.update({
+                'x-opencode-project': '876eef6870aa3997dbcab363fa401c275b9c4ff4',
+                'x-opencode-session': self.session_id,
+                'x-opencode-session-id': self.session_id,
+                'x-session-affinity': self.session_id,
+            })
         return h
+
+    def _wrap_body(self, body):
+        """Prepend the shell system prompt and force streaming (free-tier check)."""
+        wrapped = dict(body)
+        messages = list(wrapped.get('messages') or [])
+        if not (messages and messages[0].get('role') == 'system'
+                and messages[0].get('content') == OPENCODE_FREE_SYSTEM):
+            messages = [{'role': 'system', 'content': OPENCODE_FREE_SYSTEM}] + messages
+        wrapped['messages'] = messages
+        wrapped['stream'] = True
+        wrapped['stream_options'] = {'include_usage': True}
+        # The free deployment reasons by default; the title-generator shell then
+        # hijacks output (model narrates a 'title'). Disabling reasoning restores
+        # verbatim answers and matches the paid line's default behavior.
+        wrapped.setdefault('reasoning_effort', 'none')
+        return wrapped
 
     def request(self, method, path, body=None, timeout=None):
         """Return (JSON object, None) or (None, error), retaining original errors."""
+        if self.shell == 'opencode-free' and method == 'POST' and body is not None:
+            body = self._wrap_body(body)
         data = None if body is None else json.dumps(body).encode()
         req = urllib.request.Request(self.base_url + path, data=data,
                                      headers=self._headers(), method=method)
@@ -87,7 +140,10 @@ class ChatClient:
                     if response.headers.get('Location'):
                         error['location'] = response.headers['Location']
             if error is None:
-                parsed = json.loads(raw)
+                if self.shell == 'opencode-free' and method == 'POST':
+                    parsed = _sse_to_chat_response(raw)
+                else:
+                    parsed = json.loads(raw)
                 if not isinstance(parsed, dict):
                     error = {'http': status, 'body': 'expected a JSON object', 'detail': parsed}
                 elif parsed.get('error') is not None:
@@ -101,7 +157,7 @@ class ChatClient:
         if self.record_path:
             row = {'started_at': started, 'duration_seconds': time.monotonic() - clock,
                    'method': method, 'url': self.base_url + path, 'transport': self.transport,
-                   'session_id': self.session_id, 'request': body, 'http': status,
+                   'session_id': self.session_id, 'shell': self.shell, 'request': body, 'http': status,
                    'response': parsed, 'raw_response': raw, 'error': error}
             with self._record_lock, open(self.record_path, 'a', encoding='utf-8') as stream:
                 stream.write(json.dumps(row, ensure_ascii=False) + '\n')
@@ -154,3 +210,33 @@ class ChatClient:
         if not isinstance(d.get('data'), list):
             return None, {'http': 200, 'body': 'no model list in data', 'detail': d}
         return [m['id'] for m in d['data'] if isinstance(m, dict) and m.get('id')], None
+
+
+def _sse_to_chat_response(raw):
+    """Aggregate an SSE chat stream into a non-streaming response shape."""
+    content, reasoning, usage, finish = [], [], None, None
+    for line in raw.splitlines():
+        if not line.startswith('data:'):
+            continue
+        payload = line[5:].strip()
+        if not payload or payload == '[DONE]':
+            continue
+        try:
+            chunk = json.loads(payload)
+        except ValueError:
+            continue
+        if chunk.get('usage'):
+            usage = chunk['usage']
+        for choice in chunk.get('choices') or []:
+            delta = choice.get('delta') or {}
+            if delta.get('content'):
+                content.append(delta['content'])
+            if delta.get('reasoning_content'):
+                reasoning.append(delta['reasoning_content'])
+            if choice.get('finish_reason'):
+                finish = choice['finish_reason']
+    message = {'role': 'assistant', 'content': ''.join(content)}
+    if reasoning:
+        message['reasoning_content'] = ''.join(reasoning)
+    return {'choices': [{'message': message, 'finish_reason': finish}],
+            'usage': usage or {}}

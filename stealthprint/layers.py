@@ -436,7 +436,8 @@ def video_probe(client, path=None, verbose=True):
     if verbose:
         print(t("video.header"))
     if path is None:
-        import subprocess, tempfile
+        import subprocess
+        import tempfile
         path = os.path.join(tempfile.gettempdir(), "stealthprint-red16.mp4")
         if not os.path.exists(path) or os.path.getsize(path) < 100:
             try:
