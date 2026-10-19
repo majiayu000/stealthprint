@@ -42,6 +42,8 @@ def timestamp(value):
 
 
 def parse_time(value):
+    if not isinstance(value, str):
+        raise ValueError("Timestamp must be a string")
     result = datetime.fromisoformat(value.replace("Z", "+00:00"))
     if result.tzinfo is None:
         raise ValueError("Timestamp has no timezone")
@@ -76,6 +78,8 @@ def _fetch(url, headers):
 
 
 def _http_url(value):
+    if not isinstance(value, str):
+        raise ValueError("Source URL must be a string")
     parts = urlsplit(value)
     if parts.scheme not in ("http", "https") or not parts.netloc:
         raise ValueError("Source item must link to an HTTP(S) URL")
@@ -95,6 +99,8 @@ def _index(rows):
 
 
 def _normalize(kind, payload):
+    if not isinstance(payload, list if kind == "huggingface" else dict):
+        raise ValueError("Source response has an invalid top-level shape")
     if kind == "feed":
         rows = []
         for item in payload["items"]:
@@ -110,7 +116,10 @@ def _normalize(kind, payload):
                       "url": "https://live.aitracker.bot" + item["path"], "stage": item["stage"]})
                       for item in payload["pages"])
     if kind == "openrouter":
-        if payload.get("links", {}).get("next"):
+        links = payload.get("links", {})
+        if not isinstance(links, dict):
+            raise ValueError("OpenRouter pagination metadata is invalid")
+        if links.get("next"):
             raise ValueError("OpenRouter returned an incomplete paginated catalog")
         if payload.get("total_count", len(payload["data"])) != len(payload["data"]):
             raise ValueError("OpenRouter catalog count does not match total_count")
@@ -122,6 +131,8 @@ def _normalize(kind, payload):
                          else item.get(key) for key in fields}}) for item in payload["data"])
     if kind == "models-dev":
         models = payload["opencode"]["models"]
+        if not isinstance(models, dict):
+            raise ValueError("OpenCode catalog must be an object")
         fields = ("status", "limit", "modalities", "cost", "reasoning", "canonical_model_id")
         return _index((key, {"name": item["name"], "url": "https://models.dev/#opencode",
                       **{field: item.get(field) for field in fields}}) for key, item in models.items())

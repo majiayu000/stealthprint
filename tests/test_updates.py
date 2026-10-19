@@ -136,6 +136,23 @@ class UpdateTests(unittest.TestCase):
                 state['sources']['openrouter']['next_check_at'] = NOW.isoformat()
                 (self.directory / 'state.json').write_text(json.dumps(state))
 
+    def test_malformed_source_fields_are_isolated_at_the_parser_boundary(self):
+        invalid_date = feed('bad-date')
+        invalid_date['items'][0]['date_published'] = None
+        invalid_url = feed('bad-url')
+        invalid_url['items'][0]['url'] = 42
+        models_dev = next(s for s in SOURCES if s['id'] == 'models-dev')
+        cases = [(FEED, invalid_date), (FEED, invalid_url), (ROUTER, []),
+                 (ROUTER, {'data': [], 'links': []}), (models_dev, {'opencode': {'models': None}})]
+        for index, (source, payload) in enumerate(cases):
+            with self.subTest(source=source['id'], payload=payload):
+                other = ROUTER if source == FEED else FEED
+                good = catalog('ok') if other == ROUTER else feed('ok')
+                with patch('stealthprint.updates._fetch', side_effect=[response(payload), response(good)]):
+                    state = refresh_monitor(self.directory / str(index), sources=(source, other), now=NOW)
+                self.assertIsNotNone(state['sources'][source['id']]['error'])
+                self.assertIsNone(state['sources'][other['id']]['error'])
+
     def test_304_without_baseline_is_not_success(self):
         state, _ = self.run_refresh((304, {}, b''))
         self.assertNotIn('last_success_at', state['sources']['openrouter'])
