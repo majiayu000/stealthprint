@@ -5,6 +5,7 @@ import gzip
 import hashlib
 from http.client import IncompleteRead
 import json
+import io
 from pathlib import Path
 import tempfile
 import unittest
@@ -106,7 +107,7 @@ class UpdateTests(unittest.TestCase):
         self.assertEqual(len(state['events']), 1)
 
     def test_rate_limit_uses_retry_after_without_retrying_early(self):
-        error = HTTPError(ROUTER['url'], 429, 'slow down', {'Retry-After': '3600'}, None)
+        error = HTTPError(ROUTER['url'], 429, 'slow down', {'Retry-After': '3600'}, io.BytesIO())
         state, _ = self.run_refresh(error)
         self.assertEqual(state['sources']['openrouter']['next_check_at'], (NOW + timedelta(hours=1)).isoformat())
         state, fetch = self.run_refresh(minutes=30)
@@ -116,7 +117,7 @@ class UpdateTests(unittest.TestCase):
     def test_retry_after_http_date_and_bad_value(self):
         for retry, expected in [('Tue, 20 Oct 2026 01:00:00 GMT', 60), ('garbage', 5)]:
             with self.subTest(retry=retry):
-                error = HTTPError(ROUTER['url'], 503, 'busy', {'Retry-After': retry}, None)
+                error = HTTPError(ROUTER['url'], 503, 'busy', {'Retry-After': retry}, io.BytesIO())
                 with patch('stealthprint.updates._fetch', side_effect=error):
                     state = refresh_monitor(self.directory / retry[:3], sources=(ROUTER,), now=NOW)
                 self.assertEqual(state['sources']['openrouter']['next_check_at'], (NOW + timedelta(minutes=expected)).isoformat())
