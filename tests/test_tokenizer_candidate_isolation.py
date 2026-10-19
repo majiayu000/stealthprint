@@ -13,13 +13,16 @@ from stealthprint import layers, survey
 
 class CandidateIsolationTests(unittest.TestCase):
     def modules(self):
-        def load(path):
-            data = json.loads(Path(path).read_text())
+        def load(serialized):
+            data = json.loads(serialized)
             if data.get('unsupported'):
                 raise Exception('unsupported tokenizer model')
             return data
+        def load_file(path):
+            with open(path, encoding='utf-8') as stream:
+                return load(stream.read())
         return {
-            'tokenizers': types.SimpleNamespace(Tokenizer=types.SimpleNamespace(from_file=load)),
+            'tokenizers': types.SimpleNamespace(Tokenizer=types.SimpleNamespace(from_str=load, from_file=load_file)),
             'tiktoken': types.SimpleNamespace(get_encoding=lambda name: name),
         }
 
@@ -29,17 +32,68 @@ class CandidateIsolationTests(unittest.TestCase):
             (root / 'bad.json').write_text('{')
             (root / 'unsupported.json').write_text('{"unsupported": true}')
             (root / 'valid.json').write_text('{"model": "synthetic"}')
-            with mock.patch.dict('sys.modules', self.modules()), warnings.catch_warnings(record=True) as caught:
-                warnings.simplefilter('always')
+            with mock.patch.dict('sys.modules', self.modules()), self.assertLogs(layers.__name__, level='WARNING') as caught, warnings.catch_warnings():
+                warnings.simplefilter('error')
                 local = layers.load_local_tokenizers(directory)
             self.assertEqual(set(local), {'valid', 'o200k_base', 'cl100k_base'})
-            self.assertEqual(len(caught), 2)
-            self.assertTrue(any('bad.json' in str(w.message) for w in caught))
-            self.assertTrue(any('unsupported.json' in str(w.message) for w in caught))
+            self.assertEqual(len(caught.records), 2)
+            self.assertTrue(any('bad.json' in w.getMessage() for w in caught.records))
+            self.assertTrue(any('unsupported.json' in w.getMessage() for w in caught.records))
             with mock.patch('importlib.metadata.version', return_value='synthetic'):
                 sources = layers.tokenizer_sources(directory, local)
             self.assertEqual(set(sources), set(local))
             self.assertEqual(sources['valid']['sha256'], hashlib.sha256((root / 'valid.json').read_bytes()).hexdigest())
+
+    def test_file_access_failures_are_fatal(self):
+        for error in (PermissionError('unreadable'), FileNotFoundError('removed'),
+                      OSError('transient read failure')):
+            with self.subTest(error=type(error).__name__), tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                (root / 'locked.json').write_text('{}')
+                (root / 'sources.lock').write_text('{"locked": {"sha256": "expected"}}')
+                with mock.patch.dict('sys.modules', self.modules()), mock.patch(
+                        'builtins.open', side_effect=error):
+                    with self.assertRaises(type(error)):
+                        layers.load_local_tokenizers(directory)
+
+    def test_read_failure_is_fatal(self):
+        with tempfile.TemporaryDirectory() as directory:
+            (Path(directory) / 'valid.json').write_text('{}')
+            stream = mock.mock_open()
+            stream.return_value.read.side_effect = OSError('read failed')
+            with mock.patch.dict('sys.modules', self.modules()), mock.patch('builtins.open', stream):
+                with self.assertRaisesRegex(OSError, 'read failed'):
+                    layers.load_local_tokenizers(directory)
+
+    def test_real_tokenizer_serialization_without_downloads(self):
+        try:
+            from tokenizers import Tokenizer, models
+        except ImportError:
+            self.skipTest('optional tokenizers dependency is not installed')
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            Tokenizer(models.WordLevel({'[UNK]': 0, 'hello': 1}, unk_token='[UNK]')).save(
+                str(root / 'valid.json'))
+            (root / 'bad.json').write_text('{')
+            (root / 'unsupported.json').write_text('{"model": {"type": "unsupported"}}')
+            # Stub only built-in encodings: no tokenizer downloads or model calls.
+            with mock.patch.dict('sys.modules', {'tiktoken': self.modules()['tiktoken']}), self.assertLogs(
+                    layers.__name__, level='WARNING'), warnings.catch_warnings():
+                warnings.simplefilter('error')
+                local = layers.load_local_tokenizers(directory)
+            self.assertEqual(set(local), {'valid', 'o200k_base', 'cl100k_base'})
+            self.assertEqual(local['valid'].encode('hello').ids, [1])
+
+    def test_invalid_utf8_is_a_candidate_format_failure(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / 'bad.json').write_bytes(b'\xff')
+            (root / 'valid.json').write_text('{}')
+            with mock.patch.dict('sys.modules', self.modules()), self.assertLogs(
+                    layers.__name__, level='WARNING') as caught:
+                local = layers.load_local_tokenizers(directory)
+            self.assertEqual(set(local), {'valid', 'o200k_base', 'cl100k_base'})
+            self.assertIn('bad.json', caught.output[0])
 
     def test_changed_successful_candidate_still_invalidates_survey_resume(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -69,3 +123,4 @@ class CandidateIsolationTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
