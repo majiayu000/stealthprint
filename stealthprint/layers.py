@@ -6,6 +6,7 @@ import json
 import hashlib
 import os
 import struct
+import warnings
 import zlib
 
 from .i18n import t
@@ -99,7 +100,14 @@ def load_local_tokenizers(tokenizers_dir="tok"):
     if os.path.isdir(tokenizers_dir):
         for filename in sorted(os.listdir(tokenizers_dir)):
             if filename.endswith(".json"):
-                local[filename[:-5]] = Tokenizer.from_file(os.path.join(tokenizers_dir, filename))
+                try:
+                    local[filename[:-5]] = Tokenizer.from_file(os.path.join(tokenizers_dir, filename))
+                except Exception as error:
+                    # Tokenizer's native parser also raises plain Exception for
+                    # unsupported models. Isolate only this candidate's load;
+                    # dependency and provenance failures remain fatal.
+                    warnings.warn(f"Skipping tokenizer candidate {filename!r}: {error}",
+                                  RuntimeWarning, stacklevel=2)
     local["o200k_base"] = tiktoken.get_encoding("o200k_base")
     local["cl100k_base"] = tiktoken.get_encoding("cl100k_base")
     return local
