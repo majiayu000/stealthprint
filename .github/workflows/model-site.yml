@@ -1,0 +1,93 @@
+name: model-site
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '2-57/5 * * * *'
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/model-site.yml'
+      - 'stealthprint/updates.py'
+      - 'scripts/build_site.py'
+      - 'scripts/refresh_updates.py'
+      - 'site/**'
+      - 'docs/**'
+      - 'tests/test_updates.py'
+      - 'tests/test_site.py'
+      - 'pyproject.toml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: model-site
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      pages: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          ref: monitor-data
+          path: .monitor-data
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: python -m pip install '.[site]'
+      - name: Collect independent public sources
+        run: python scripts/refresh_updates.py
+      - name: Persist observations before building
+        working-directory: .monitor-data
+        run: |
+          git add --all
+          if ! git diff --cached --quiet; then
+            git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -s -m 'chore: retain public model observations'
+            git push origin HEAD:monitor-data
+          fi
+      - name: Verify collector and website
+        run: |
+          python -m unittest discover -s tests -p test_updates.py -v
+          python -m unittest discover -s tests -p test_site.py -v
+      - name: Build and report source health
+        run: |
+          python scripts/build_site.py
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          state = json.loads(Path('.monitor-data/state.json').read_text())
+          lines = ['## Source health', '', '| Source | Result | Last success |', '| --- | --- | --- |']
+          for source in state['sources'].values():
+              result = 'Fetch failed; saved data retained' if source['error'] else 'OK'
+              lines.append(f"| {source['name']} | {result} | {source.get('last_success_at', 'never')} |")
+          lines += ['', f"Retained events: {len(state['events'])}", '', 'Deployment success is separate from upstream source availability.']
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as output:
+              output.write('\n'.join(lines) + '\n')
+          PY
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: site/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy verified site
+        id: deployment
+        uses: actions/deploy-pages@v4

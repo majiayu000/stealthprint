@@ -15,17 +15,22 @@ import re
 import shutil
 import subprocess
 import tempfile
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from string import Template
 from urllib.parse import urlsplit, urlunsplit
 from markdown.extensions.toc import slugify_unicode
 
 import markdown
+import sys
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from stealthprint.updates import SOURCES, group_updates, load_state, parse_time
 
 
 ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / "site"
 OUT = SITE / "dist"
+MONITOR_DIR = ROOT / ".monitor-data"
 REPO = "https://github.com/majiayu000/stealthprint/blob/main/"
 BUILD = {}
 CASES = json.loads((SITE / "cases.json").read_text(encoding="utf-8"))
@@ -58,13 +63,14 @@ def render_page(page, title, description, content, active="home", body_class="")
         "home": relative(page, "index.html"),
         "guide": relative(page, "guide/index.html"),
         "methods": relative(page, "methods/index.html"),
+        "updates": relative(page, "updates/index.html"),
         "research": relative(page, "research/issue9/index.html"),
-        "css": relative(page, "assets/styles.css"),
-        "js": relative(page, "assets/site.js"),
+        "css": relative(page, "assets/styles.css") + "?v=" + hashlib.sha256((SITE / "styles.css").read_bytes()).hexdigest()[:12],
+        "js": relative(page, "assets/site.js") + "?v=" + hashlib.sha256((SITE / "site.js").read_bytes()).hexdigest()[:12],
         "build_info": relative(page, "assets/build.json"),
         "source_version": escape(BUILD.get("source_digest", "")[:12]),
     }
-    for name in ("home", "guide", "methods"):
+    for name in ("home", "guide", "methods", "updates"):
         values[f"active_{name}"] = 'aria-current="page"' if active == name or (name == "guide" and active == "research") else ""
     target = OUT / page
     target.parent.mkdir(parents=True, exist_ok=True)
@@ -281,22 +287,39 @@ def focus_evidence(case):
 
 
 def home():
+    omen = read_json("case-omen-alpha-measurements.json")
+    first = omen["tokenizer_round1_16_probes"]
+    second = omen["tokenizer_round2_8_probes"]
+    observed = list(first["api_delta"].items()) + list(second["api_delta"].items())
+    local = first["local_T_probe"]["glm5"] + second["glm5_delta"]
+    exact = sum(value == peer for (_, value), peer in zip(observed, local))
+    scale = max(value for _, value in observed)
+    bars = "".join(
+        f'<g><title>{escape(name)}：目标 {value} / GLM {peer} token</title>'
+        f'<rect class="signature-bar" x="{22 + i * 16}" y="{170 - value / scale * 138:.2f}" width="6" height="{value / scale * 138:.2f}" rx="1"/>'
+        f'<rect class="signature-peer" x="{30 + i * 16}" y="{170 - peer / scale * 138:.2f}" width="3" height="{peer / scale * 138:.2f}" rx="1"/></g>'
+        for i, ((name, value), peer) in enumerate(zip(observed, local))
+    )
     rows = []
-    for case in CASES:
+    for index, case in enumerate(CASES, 1):
         href = f'cases/{case["slug"]}/index.html'
         clues = "".join(f'<li>{escape(clue)}</li>' for clue in case["clues"])
-        rows.append(f'<a class="archive-row" href="{href}"><div><div class="archive-name">{escape(case["name"])}</div><div class="archive-gateway">{escape(case["gateway"])}</div></div><div class="archive-content"><div class="archive-title">{escape(case["title"])}</div><ul class="archive-clues">{clues}</ul></div><div class="archive-status">{status(case)}<div class="archive-date">{escape(case["date"])}</div></div><span class="arrow" aria-hidden="true">↗</span></a>')
-    content = '''<div class="container">
-      <section class="home-hero" aria-labelledby="hero-title">
-        <div><p class="eyebrow">MODEL FINGERPRINT ARCHIVE</p><h1 id="hero-title">匿名模型，<br>留下了什么线索？</h1><p class="hero-description">把 API 计数、能力测试与入口行为放在一起核对。<br>每份调查都记录实测、判断与尚未确认的部分。</p><div class="hero-actions"><a class="button button-primary" href="#archive">浏览调查 <span aria-hidden="true">↓</span></a><a class="text-link" href="guide/index.html">指纹怎么读 →</a></div></div>
-        <aside class="fingerprint-sheet" aria-label="omen-alpha 调查摘要示例"><div class="sheet-header"><span class="mono">omen-alpha / OpenCode Zen</span><span>2026-09-04</span></div><div class="trace-row"><span class="trace-number">实测</span><div><strong>GLM 词表 24/24，图视频对照吻合</strong><small>成功输入 {OMEN_INPUT} token，上界未触及</small></div></div><div class="trace-row"><span class="trace-number">判断</span><div><strong>多层线索支持 Flash 档</strong><small>词表、模态与具名入口共同提供依据</small></div></div><div class="trace-row"><span class="trace-number">未知</span><div><strong>权重身份与真实上下文上界</strong><small>保留空输出、网关限制及其他差异</small></div></div><p class="sheet-bottom"><a href="cases/omen-alpha/index.html">打开这份调查 →</a></p></aside>
-      </section><section id="archive" class="archive" aria-labelledby="archive-heading"><div class="section-heading"><h2 id="archive-heading">调查档案</h2><span class="caption">4 份公开记录 / 按首次测量时间排列</span></div>'''
-    comparison = '<section class="case-comparison"><h2>各案测到了哪些维度？</h2><p class="section-intro">结果属于各自的入口、日期与样本，不汇总为统一身份分数。</p><div class="table-scroll">' + table(["案例 / 日期", "词表线索", "上下文", "图像与视频", "工具调用"], [[case["name"] + " / " + case["date"]] + [row[1] for row in case["fingerprint"][:4]] for case in CASES]) + '</div></section>'
-    content += "".join(rows) + '</section>' + comparison + '''<section class="research-strip"><p class="eyebrow">研究补记 / ISSUE #9</p><div><h3>相同的模板开销，能说明相同身份吗？</h3><p>六个候选在相同显式 system 输入下的本地模板开销都是 +15。补测收窄了早期排除结论，未完成的实时推理实验已随退役预览停止计划。</p></div><a class="text-link" href="research/issue9/index.html">阅读实验 →</a></section></div>'''
-    omen = read_json("case-omen-alpha-measurements.json")
-    max_input = max(omen["context_limit"]["lower_scan"]["prompt_tokens"] + omen["context_limit"]["upper_scan"]["prompt_tokens"])
-    content = content.replace("{OMEN_INPUT}", f"{max_input:,}")
-    render_page("index.html", "匿名模型调查档案", "匿名模型的公开指纹调查：词表、上下文、多模态证据与原始测量数据。", content)
+        rows.append(f'''<a class="archive-row" href="{href}"><div class="archive-top"><span class="case-number">CASE / {index:02d}</span>{status(case)}</div>
+          <div class="archive-name">{escape(case["name"])}</div><div class="archive-title">{escape(case["title"])}</div><ul class="archive-clues">{clues}</ul>
+          <div class="archive-bottom"><div><span class="archive-gateway">{escape(case["gateway"])}</span><span class="archive-date">{escape(case["date"])}</span></div><span class="card-arrow" aria-hidden="true">↗</span></div></a>''')
+    file_count = len({file[0] for case in CASES for file in case["files"]})
+    dimension_count = len(CASES[0]["fingerprint"])
+    content = f'''<section class="home-stage"><div class="container home-hero" aria-labelledby="hero-title">
+      <div class="hero-copy"><p class="eyebrow">OPEN MODEL FORENSICS <span class="eyebrow-divider">/</span> 开放模型指纹研究</p><h1 id="hero-title">模型隐去名字。<br><span>线索依然可见。</span></h1><p class="hero-description">从一次 API 响应，追踪匿名模型的真实线索。<br>把词表、能力与入口行为，放回可核查的证据里。</p><div class="hero-actions"><a class="button button-primary" href="#archive">探索调查档案 <span aria-hidden="true">↗</span></a><a class="text-link" href="guide/index.html">指纹怎么读 <span aria-hidden="true">→</span></a></div><p class="hero-footnote"><span class="signal-dot"></span>公开测量 · 原始数据 · 保留未知</p></div>
+      <figure class="signature-panel"><div class="signature-top"><span>FINGERPRINT / 004</span><span class="specimen-label">归档样本</span></div><div class="signature-heading"><div><span class="signature-label">TOKENIZER DIFFERENTIAL</span><h2>omen-alpha</h2></div><div class="signature-score">{exact}<span>/{len(observed)}</span><small>与 GLM 词表一致</small></div></div>
+        <svg class="signature-chart" viewBox="0 0 424 198" role="img" aria-labelledby="signature-title signature-desc"><title id="signature-title">omen-alpha 的 24 条探针计数差分</title><desc id="signature-desc">每组橙色条表示 API 输入增量，灰色条表示 GLM 本地词表计数。24 条均一致；这不等于唯一模型身份。条形按本组最高值 {scale} token 缩放。</desc><path class="signature-grid" d="M16 32H410 M16 101H410 M16 170H410"/>{bars}<text x="22" y="192">PROBE 01</text><text x="337" y="192">PROBE 24</text></svg>
+        <figcaption><div class="signature-legend"><span><i></i>API 增量</span><span><i class="peer-dot"></i>GLM 本地词表</span></div><p>词表吻合是一条线索，<strong>不等于唯一身份。</strong></p></figcaption><a class="signature-link" href="cases/omen-alpha/index.html">检查完整证据链 <span aria-hidden="true">↗</span></a>
+      </figure></div></section>
+      <div class="container"><div class="archive-overview" aria-label="档案概况"><div><strong>{len(CASES):02d}</strong><span>公开调查档案</span></div><div><strong>{dimension_count:02d}</strong><span>指纹观察维度</span></div><div><strong>{file_count:02d}</strong><span>原始 JSON 记录</span></div><a href="methods/index.html"><span>让每个判断<br>都有据可查</span><span aria-hidden="true">↗</span></a></div>
+      <section id="archive" class="archive" aria-labelledby="archive-heading"><div class="section-heading"><div><p class="eyebrow">THE CASE FILES</p><h2 id="archive-heading">每个匿名入口，都有一份档案。</h2></div><span class="caption">按首次测量时间倒序</span></div><div class="archive-grid">{''.join(rows)}</div></section>'''
+    comparison = '<section class="case-comparison"><div class="section-heading"><div><p class="eyebrow">EVIDENCE COVERAGE</p><h2>各案测到了哪些维度？</h2></div><a class="text-link" href="guide/index.html">理解这些指标 →</a></div><p class="section-intro">结果属于各自的入口、日期与样本，不汇总为统一身份分数。</p><div class="table-scroll">' + table(["案例 / 日期", "词表线索", "上下文", "图像与视频", "工具调用"], [[case["name"] + " / " + case["date"]] + [row[1] for row in case["fingerprint"][:4]] for case in CASES]) + '</div></section>'
+    content += comparison + '''<section class="further-reading"><a class="research-strip" href="updates/index.html"><p class="eyebrow">01 / MODEL UPDATES</p><h3>下一个新模型，<br>可能已留下线索。</h3><p>追踪公开目录、官方仓库与来源消息，核对每次变化的依据。</p><span class="text-link">查看模型更新 ↗</span></a><a class="research-strip research-dark" href="research/issue9/index.html"><p class="eyebrow">02 / RESEARCH NOTE</p><h3>同样的模板开销，<br>意味着同一个模型？</h3><p>六个候选都是 +15 token。这次实验，收窄了早期的排除结论。</p><span class="text-link">阅读 Issue #9 实验 ↗</span></a></section></div>'''
+    render_page("index.html", "匿名模型调查档案", "匿名模型的公开指纹调查：词表、上下文、多模态证据与原始测量数据。", content, body_class="home-page")
 
 
 def evidence_links(content):
@@ -423,12 +446,119 @@ def research():
     render_page(page, "Issue #9 模板实验", "六个公开 tokenizer 的可复现本地模板对照：53 个成功组合、2 个模板异常与未完成的推理实验。", content, active="research")
 
 
+def updates():
+    snapshot = json.loads((SITE / "updates.json").read_text(encoding="utf-8"))
+    monitor = load_state(MONITOR_DIR)
+    now = datetime.now(timezone.utc)
+
+    def when(value):
+        return parse_time(value).astimezone(timezone(timedelta(hours=8))).strftime("%Y-%m-%d %H:%M") if value else "尚未成功"
+
+    def evidence_link(path, text="下载原始证据"):
+        return f'<a href="../data/monitor/{escape(path, quote=True)}" download>{text} ↓</a>' if path else ''
+
+    source_names = {source["id"]: source["name"] for source in SOURCES}
+    groups = {}
+    historical_ids = set()
+    for group in group_updates(snapshot):
+        key = ("aitracker-feed", group["url"])
+        groups[key] = {**group, "source_id": "aitracker-feed", "identity": group["url"], "events": []}
+        for item in group["events"]:
+            historical_ids.add(item["id"])
+            groups[key]["events"].append({"id": item["id"], "kind": "reported", "historical": True,
+                "date": item["date_published"], "published_at": item["date_published"],
+                "after": {"summary": item["content_text"], "tags": item["tags"]}})
+    for event in monitor["events"]:
+        record = event["after"] or event["before"]
+        key = (event["source_id"], record["url"] if event["source_id"] == "aitracker-feed" else event["entity_id"])
+        if key not in groups:
+            groups[key] = {"source_id": event["source_id"], "url": record["url"],
+                           "model": record["name"], "maker": source_names[event["source_id"]], "identity": key[1], "events": []}
+        if event["kind"] == "reported" and event["entity_id"] in historical_ids:
+            groups[key]["events"] = [item for item in groups[key]["events"] if item["id"] != event["entity_id"]]
+        groups[key]["events"].append({**event, "date": event["published_at"] if event["kind"] == "reported" else event["observed_at"]})
+    for group in groups.values():
+        group["events"].sort(key=lambda item: parse_time(item["date"]), reverse=True)
+    groups = sorted(groups.values(), key=lambda group: parse_time(group["events"][0]["date"]), reverse=True)
+
+    def label(event):
+        if event["kind"] == "reported":
+            tags = event["after"].get("tags", [])
+            if "release" in tags:
+                return "发布消息 · 来源报告", "green"
+            if "leak" in tags:
+                return "泄露线索 · 来源报告", "amber"
+            return "来源消息", "blue"
+        return {"added": ("目录新增", "blue"), "changed": ("记录修订", "blue"),
+                "missing": ("当前未观察到", "amber"), "restored": ("重新出现", "blue")}[event["kind"]]
+
+    def summary(event):
+        if event["kind"] == "reported":
+            return event["after"]["summary"]
+        return {"added": "该条目首次出现在本来源的已保存目录中，尚未验证是否可调用。",
+                "changed": "公开记录发生变化，可展开核对前后内容与原始依据。",
+                "missing": "本轮完整目录中未观察到此条目，不能据此认定服务已下架。",
+                "restored": "该条目重新出现在来源目录中，既往缺失记录仍予以保留。"}[event["kind"]]
+
+    cards = []
+    healthy_count = 0
+    for source in SOURCES:
+        row = monitor["sources"].get(source["id"], {})
+        success, error = row.get("last_success_at"), row.get("error")
+        stale_after = source["interval"] * 3
+        stale = bool(success and (now - parse_time(success)).total_seconds() > stale_after)
+        health = "采集失败" if error else "等待首次采集" if not success else "数据已过期" if stale else "采集正常"
+        healthy_count += int(health == "采集正常")
+        count = len(row.get("inventory", {}))
+        unit = "个文件" if source["kind"] == "sdk" else "条记录"
+        cards.append(f'''<article class="source-card" data-source-health data-last-success="{escape(success or '', quote=True)}" data-stale-after="{stale_after}" data-error="{str(bool(error)).lower()}">
+          <div class="source-title"><a href="{escape(source['url'], quote=True)}" target="_blank" rel="noopener noreferrer">{escape(source['name'])} ↗</a><strong data-health-label>{health}</strong></div>
+          <p>最近成功 · <time>{when(success)}</time></p><p>{count} {unit} · {"已建立基线" if 'inventory' in row else "尚无基线"}</p>
+          {('<p class="source-error">' + escape(error) + '</p>') if error else ''}
+          {evidence_link(row.get('evidence'), '下载当前来源证据')}</article>''')
+    rows = []
+    for group in groups[:200]:
+        anchor = "update-" + hashlib.sha256((group["source_id"] + ':' + group["identity"]).encode()).hexdigest()[:12]
+        latest = group["events"][0]
+        title, tone = label(latest)
+        events = []
+        for item in reversed(group["events"]):
+            event_label, _ = label(item)
+            detail = ''
+            if item.get("observed_at"):
+                detail += f'<p>本站观察时间 · {when(item["observed_at"])}</p>'
+            if item.get("published_at"):
+                detail += f'<p>来源发布时间 · {when(item["published_at"])}</p>'
+            detail += evidence_link(item.get("evidence"))
+            if item.get("before") is not None:
+                before = escape(json.dumps(item['before'], ensure_ascii=False, indent=2))
+                after = escape(json.dumps(item['after'], ensure_ascii=False, indent=2))
+                detail += f'<details class="event-diff"><summary>核对前后记录</summary>{evidence_link(item.get("before_evidence"), "下载此前证据")}<h3>此前记录</h3><pre><code>{before}</code></pre><h3>本次记录</h3><pre><code>{after}</code></pre></details>'
+            if item.get("historical"):
+                detail += '<p>历史来源消息 · 本站首次观察时间未知</p><a href="../assets/updates.json" download>下载历史快照 ↓</a>'
+            events.append(f'<li><time datetime="{escape(item["date"], quote=True)}">{when(item["date"])}</time><div><strong>{event_label}</strong><p>{escape(summary(item))}</p>{detail}<span class="event-id">事件 · {escape(item["id"])}</span></div></li>')
+        query = escape(group["model"] + " " + group["maker"] + " " + source_names[group["source_id"]], quote=True)
+        rows.append(f'''<article class="update-row" id="{anchor}" data-update data-search="{query}" data-kind="{tone}">
+          <div class="update-heading"><div><p class="update-maker">{escape(group['maker'])} · {escape(source_names[group['source_id']])}</p><h2>{escape(group['model'])}</h2></div><span class="status status-{tone}">{title}</span></div>
+          <p class="update-summary">{escape(summary(latest))}</p>
+          <div class="update-meta"><time datetime="{escape(latest['date'], quote=True)}">最近记录 · {when(latest['date'])}</time><span>本站复测 · 暂无</span><a href="{escape(group['url'], quote=True)}" target="_blank" rel="noopener noreferrer">查看来源 ↗</a><a href="#{anchor}" aria-label="这条模型更新的永久链接">#</a></div>
+          <details class="update-history"><summary>查看消息经过 · {len(events)} 条</summary><ol>{''.join(events)}</ol></details>
+        </article>''')
+    checked = monitor['checked_at']
+    content = f'''<div class="container"><section class="updates-hero"><div class="updates-heading-row"><div><p class="eyebrow">THE MODEL WATCH / 模型观察站</p><h1>最近哪些模型<br>有了新变化？</h1><p class="hero-description">发现公开变化，保留来源与后续。<br>目录线索、发布消息和独立实测，各有依据。</p></div><div class="updates-stat"><strong>{len(SOURCES):02d}</strong><span>个观察来源</span><span class="signal-dot"></span></div></div><div class="updates-provenance"><span id="monitor-freshness" data-checked-at="{escape(checked or '', quote=True)}">最近检查 · {when(checked)}（北京时间）</span><a href="../data/monitor/state.json" download>下载完整监测数据 ↓</a><a href="../assets/updates.json" download>历史消息快照 · {when(snapshot['fetched_at'])}</a></div></section>
+      <section class="source-section" aria-label="来源健康"><details class="source-details"><summary><strong>来源状态</strong><span id="source-health-summary">{healthy_count} / {len(SOURCES)} 个来源最近采集成功</span><span>展开查看 ↗</span></summary><p class="source-note">计划每 5 分钟检查；部分来源每 15 分钟采集，调度可能延迟。</p><div class="source-grid">{''.join(cards)}</div><p class="source-note">首次读取目录只建立基线。来源失败会保留上次证据；没有新记录不等于没有新模型。原始证据为包含响应原文的 gzip JSON 文件。</p></details></section>
+      <div class="updates-layout"><section aria-label="模型更新列表"><div class="updates-controls"><label for="update-search">查找模型、厂商或来源<input id="update-search" type="search" placeholder="例如 DeepSeek、OpenRouter" autocomplete="off"></label><label for="update-kind">消息类型<select id="update-kind"><option value="">全部消息</option><option value="green">发布消息</option><option value="amber">泄露或缺失</option><option value="blue">目录与其他变化</option></select></label></div><p id="update-count" class="update-count" aria-live="polite">{len(rows)} / {len(groups)} 组记录 · 完整历史可下载</p><noscript><p>所有记录在下方；交互筛选和实时过期提示需要 JavaScript。</p></noscript><p id="update-empty" hidden>没有找到匹配的记录，试试其他名称。</p>{''.join(rows) or '<p>基线已准备，后续变化将在这里显示。</p>'}</section>
+      <aside class="updates-reading"><h2>这些记录说明什么？</h2><dl><dt>目录与 SDK 变化</dt><dd>某个公开来源发生了变化，不代表正式发布或实际可调用。</dd><dt>来源发布消息</dt><dd>保留来源的原始判断。AI Tracker 订阅通常比其 X 消息晚约 10 分钟。</dd><dt>本站复测</dt><dd>本页没有自动运行模型 API 测量。入口身份与能力需另外验证。</dd></dl><p>日期均为北京时间。来源发布时间、本站观察时间和 API 测量时间分别记录。</p><a class="text-link" href="../index.html#archive">阅读已有实测调查 →</a></aside></div></div>'''
+    render_page("updates/index.html", "模型更新", "公开模型变化、原始依据、来源健康与消息时间线。", content, active="updates")
+
+
 def build():
     assets = OUT / "assets"
     assets.mkdir(parents=True, exist_ok=True)
-    inputs = [SITE / name for name in ("template.html", "styles.css", "site.js", "cases.json")]
-    inputs += sorted((ROOT / "docs").glob("*")) + [Path(__file__)]
-    hashes = {str(path.relative_to(ROOT)): hashlib.sha256(path.read_bytes()).hexdigest() for path in inputs if path.is_file()}
+    inputs = [SITE / name for name in ("template.html", "styles.css", "site.js", "cases.json", "updates.json")]
+    inputs += [MONITOR_DIR / "state.json"]
+    inputs += sorted((ROOT / "docs").glob("*")) + [Path(__file__), ROOT / "stealthprint/updates.py"]
+    hashes = {str(path.relative_to(ROOT)) if path.is_relative_to(ROOT) else path.name: hashlib.sha256(path.read_bytes()).hexdigest() for path in inputs if path.is_file()}
     BUILD.update(built_at=datetime.now(timezone.utc).isoformat(), files=hashes,
                  source_digest=hashlib.sha256(json.dumps(hashes, sort_keys=True).encode()).hexdigest())
     revision = subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT, capture_output=True, text=True)
@@ -437,6 +567,14 @@ def build():
     (assets / "build.json").write_text(json.dumps(BUILD, indent=2) + "\n", encoding="utf-8")
     for filename in ("styles.css", "site.js"):
         shutil.copyfile(SITE / filename, assets / filename)
+    shutil.copyfile(SITE / "updates.json", assets / "updates.json")
+    monitor_out = OUT / "data" / "monitor"
+    monitor_out.mkdir(parents=True, exist_ok=True)
+    state = load_state(MONITOR_DIR)
+    (monitor_out / "state.json").write_text(json.dumps(state, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    if (MONITOR_DIR / "evidence").exists():
+        shutil.copytree(MONITOR_DIR / "evidence", monitor_out / "evidence")
+    (OUT / ".nojekyll").touch()
     archive = OUT / "data"
     archive.mkdir(exist_ok=True)
     # Copy only the public measurement files referenced by these pages.
@@ -450,7 +588,8 @@ def build():
     guide()
     methods()
     research()
-    print(f"Built {len(CASES) + 4} pages and {len(files)} unchanged JSON archives in {OUT}")
+    updates()
+    print(f"Built {len(CASES) + 5} pages and {len(files)} unchanged JSON archives in {OUT}")
 
 
 def main():
