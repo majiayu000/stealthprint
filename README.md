@@ -34,6 +34,14 @@ Deploy `site/dist/` to a static host. Editorial summaries and case associations
 live in `site/cases.json`; reports and chart data come from `docs/`. Downloadable
 JSON files retain the exact source bytes.
 
+## Live model monitoring
+
+[Open the model watch](https://majiayu000.github.io/stealthprint/updates/) for public catalog changes, source health, dated reports, and downloadable evidence. The `model-site` workflow schedules checks every five minutes; some sources refresh every fifteen minutes and GitHub scheduling can be delayed. Observations and compressed response evidence persist on the separate `monitor-data` branch.
+
+Initial catalogs establish baselines without announcing old models as new. A failed source keeps its saved evidence while other sources continue. Catalog presence, source-reported releases, and independent API measurements remain separate. No model inference calls or model credentials are used.
+
+See the [design and operational acceptance record](docs/model-monitoring-design.zh-CN.md) for the source list and rollback procedure.
+
 ## CLI
 
 ```bash
