@@ -1,6 +1,6 @@
 # 模型监测上线设计与验收
 
-状态：实施中。2026-10-20。用户已授权分析、实现、测试和上线。
+状态：设计已实现。2026-10-20。用户已授权分析、实现、测试和上线；实际部署以文末实时记录为准。
 
 ## 目标与范围
 
@@ -55,4 +55,14 @@ GitHub schedule 可能延迟，不承诺分钟级 SLA。来源出现 530/429 时
 
 真实基线：OpenRouter 470 条、models.dev OpenCode 128 条、HF DeepSeek 106 条（两页）、两个 SDK 各 1 个类型文件。AI Tracker 两个来源返回 HTTP 530，页面显示失败。目录首次采集事件数为 0，没有把初始库存报为新模型。
 
-PR、远端 CI、公开部署及第二轮持久化：待执行。
+实现与 CI 记录：[PR #27](https://github.com/majiayu000/stealthprint/pull/27)。CI 暴露的 Python 3.9 HTTPError 测试流构造问题已修正为真实响应流，不改变线上重试行为。
+
+运行状态从以下实际记录核对，不把静态文档日期当成最新采集时间：
+
+- [公开模型观察站](https://majiayu000.github.io/stealthprint/updates/)
+- [采集与部署记录](https://github.com/majiayu000/stealthprint/actions/workflows/model-site.yml)
+- [线上构建提交与文件摘要](https://majiayu000.github.io/stealthprint/assets/build.json)
+- [线上来源健康、基线和完整事件](https://majiayu000.github.io/stealthprint/data/monitor/state.json)
+- [持久化数据提交历史](https://github.com/majiayu000/stealthprint/commits/monitor-data/)
+
+决定：采用当前最小实现，保留来源故障和证据边界。公开可访问、后续轮次持久化与前端交互分别验收；7 天有效性指标仍待真实运行数据，不以测试数量替代。
