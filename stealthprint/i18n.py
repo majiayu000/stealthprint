@@ -136,6 +136,8 @@ def load_probes(path=None):
     if "base" not in data or "probes" not in data:
         raise ValueError("probe file must contain 'base' and 'probes'")
     names = [item[0] for item in data["probes"]]
+    if any(not isinstance(name, str) or not name for name in names):
+        raise ValueError("probe names must be nonempty strings")
     if len(names) != len(set(names)) or "base" in names or not names:
         raise ValueError("probe names must be unique, nonempty, and cannot use reserved name 'base'")
     return data
