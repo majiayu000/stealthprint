@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-10-20T19:38:17.449114+00:00",
+  "checked_at": "2026-10-20T22:39:27.007984+00:00",
   "events": [
     {
       "after": {
@@ -6431,15 +6431,526 @@
       "observed_at": "2026-10-20T19:38:17.449114+00:00",
       "published_at": null,
       "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "maker": "Cohere",
+        "name": "rerank-v5.0-fast",
+        "stage": "release",
+        "url": "https://live.aitracker.bot/rerank-v5.0-fast"
+      },
+      "before": null,
+      "before_evidence": "evidence/efec049cbfaba8a00150b18d489fe1dc892075d8ab964c37c94badd89af98f6d.json.gz",
+      "entity_id": "rerank-v5.0-fast",
+      "evidence": "evidence/47ce169369f6d7a7a92179e4271eb7c22ec89ab6c3f0d9e54ab623d6aaaef14c.json.gz",
+      "id": "22e0e68ed60fd0c0998a186f",
+      "kind": "added",
+      "observed_at": "2026-10-20T22:39:27.007984+00:00",
+      "published_at": null,
+      "source_id": "aitracker-catalog"
+    },
+    {
+      "after": {
+        "maker": "Cohere",
+        "name": "rerank-v5.0-pro",
+        "stage": "release",
+        "url": "https://live.aitracker.bot/rerank-v5.0-pro"
+      },
+      "before": null,
+      "before_evidence": "evidence/efec049cbfaba8a00150b18d489fe1dc892075d8ab964c37c94badd89af98f6d.json.gz",
+      "entity_id": "rerank-v5.0-pro",
+      "evidence": "evidence/47ce169369f6d7a7a92179e4271eb7c22ec89ab6c3f0d9e54ab623d6aaaef14c.json.gz",
+      "id": "c07c6e67ce496d7cfdf8c1eb",
+      "kind": "added",
+      "observed_at": "2026-10-20T22:39:27.007984+00:00",
+      "published_at": null,
+      "source_id": "aitracker-catalog"
+    },
+    {
+      "after": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "DeepSeek"
+        },
+        "canonical_slug": "deepseek/deepseek-v4-pro-20260423",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "DeepSeek: DeepSeek V4 Pro 0423",
+        "pricing": {
+          "completion": "0.000000685908",
+          "input_cache_read": "0.0000000285795",
+          "prompt": "0.000000342954"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_completion_tokens",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/deepseek/deepseek-v4-pro"
+      },
+      "before": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "DeepSeek"
+        },
+        "canonical_slug": "deepseek/deepseek-v4-pro-20260423",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "DeepSeek: DeepSeek V4 Pro 0423",
+        "pricing": {
+          "completion": "0.000000743328",
+          "input_cache_read": "0.000000030972",
+          "prompt": "0.000000371664"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_completion_tokens",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/deepseek/deepseek-v4-pro"
+      },
+      "before_evidence": "evidence/c56a40f808f2c0eccafe574ddc5b6093181c4ff09755d8ad5b78e590c3d0baf7.json.gz",
+      "entity_id": "deepseek/deepseek-v4-pro",
+      "evidence": "evidence/25f59065c4e26118aaa77e1c6fe52e2790438fdc722439038bc1aa8bd9c5d7ef.json.gz",
+      "id": "d0d48a5202e5e3c1b0d2a889",
+      "kind": "changed",
+      "observed_at": "2026-10-20T22:39:27.007984+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image",
+            "video"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+video->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "z-ai/glm-5.3-flash-20260826",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "Z.ai: GLM 5.3 Flash",
+        "pricing": {
+          "completion": "0.00000012",
+          "input_cache_read": "0.000000006",
+          "prompt": "0.000000047076"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "parallel_tool_calls",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/z-ai/glm-5.3-flash"
+      },
+      "before": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image",
+            "video"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+video->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "z-ai/glm-5.3-flash-20260826",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "Z.ai: GLM 5.3 Flash",
+        "pricing": {
+          "completion": "0.00000012",
+          "input_cache_read": "0.000000006",
+          "prompt": "0.000000048"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "parallel_tool_calls",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/z-ai/glm-5.3-flash"
+      },
+      "before_evidence": "evidence/c56a40f808f2c0eccafe574ddc5b6093181c4ff09755d8ad5b78e590c3d0baf7.json.gz",
+      "entity_id": "z-ai/glm-5.3-flash",
+      "evidence": "evidence/25f59065c4e26118aaa77e1c6fe52e2790438fdc722439038bc1aa8bd9c5d7ef.json.gz",
+      "id": "34b687d55d52e72264607e5a",
+      "kind": "changed",
+      "observed_at": "2026-10-20T22:39:27.007984+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "alias_target": {
+          "name": "DeepSeek: DeepSeek V4 Flash 0731",
+          "slug": "deepseek/deepseek-v4-flash-0731"
+        },
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Router"
+        },
+        "canonical_slug": "~deepseek/deepseek-v4-flash-latest",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "DeepSeek: DeepSeek V4 Flash Latest",
+        "pricing": {
+          "completion": "0.00000011288",
+          "input_cache_read": "0.000000003304",
+          "prompt": "0.0000000168"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "parallel_tool_calls",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_a",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/~deepseek/deepseek-v4-flash-latest"
+      },
+      "before": {
+        "alias_target": {
+          "name": "DeepSeek: DeepSeek V4 Flash 0731",
+          "slug": "deepseek/deepseek-v4-flash-0731"
+        },
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Router"
+        },
+        "canonical_slug": "~deepseek/deepseek-v4-flash-latest",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "DeepSeek: DeepSeek V4 Flash Latest",
+        "pricing": {
+          "completion": "0.00000045",
+          "input_cache_read": "0.0000000065",
+          "prompt": "0.0000000065"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "parallel_tool_calls",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_a",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/~deepseek/deepseek-v4-flash-latest"
+      },
+      "before_evidence": "evidence/c56a40f808f2c0eccafe574ddc5b6093181c4ff09755d8ad5b78e590c3d0baf7.json.gz",
+      "entity_id": "~deepseek/deepseek-v4-flash-latest",
+      "evidence": "evidence/25f59065c4e26118aaa77e1c6fe52e2790438fdc722439038bc1aa8bd9c5d7ef.json.gz",
+      "id": "1aab9561835cb771ff4b3ef9",
+      "kind": "changed",
+      "observed_at": "2026-10-20T22:39:27.007984+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "alias_target": {
+          "name": "Z.ai: GLM 5.3 Flash",
+          "slug": "z-ai/glm-5.3-flash"
+        },
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image",
+            "video"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+video->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Router"
+        },
+        "canonical_slug": "~z-ai/glm-flash-latest",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "Z.ai: GLM Flash Latest",
+        "pricing": {
+          "completion": "0.00000012",
+          "input_cache_read": "0.000000006",
+          "prompt": "0.000000047076"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "parallel_tool_calls",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/~z-ai/glm-flash-latest"
+      },
+      "before": {
+        "alias_target": {
+          "name": "Z.ai: GLM 5.3 Flash",
+          "slug": "z-ai/glm-5.3-flash"
+        },
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image",
+            "video"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+video->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Router"
+        },
+        "canonical_slug": "~z-ai/glm-flash-latest",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "Z.ai: GLM Flash Latest",
+        "pricing": {
+          "completion": "0.00000012",
+          "input_cache_read": "0.000000006",
+          "prompt": "0.000000048"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "parallel_tool_calls",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/~z-ai/glm-flash-latest"
+      },
+      "before_evidence": "evidence/c56a40f808f2c0eccafe574ddc5b6093181c4ff09755d8ad5b78e590c3d0baf7.json.gz",
+      "entity_id": "~z-ai/glm-flash-latest",
+      "evidence": "evidence/25f59065c4e26118aaa77e1c6fe52e2790438fdc722439038bc1aa8bd9c5d7ef.json.gz",
+      "id": "7a4b6f132879a2d9ff41f424",
+      "kind": "changed",
+      "observed_at": "2026-10-20T22:39:27.007984+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "canonical_model_id": "meta/muse-wonder-1.0",
+        "cost": {
+          "cache_read": 0.2,
+          "input": 4,
+          "output": 20
+        },
+        "limit": {
+          "context": 1048576,
+          "output": 131072
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "video",
+            "pdf",
+            "audio"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Muse Wonder",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before": null,
+      "before_evidence": "evidence/4a6bef809e15527139169501281240f24bf98a0a25ce4a3d7de463184ff89a5f.json.gz",
+      "entity_id": "muse-wonder-1.0",
+      "evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "id": "423d0a363aea50dc228d15c1",
+      "kind": "added",
+      "observed_at": "2026-10-20T22:39:27.007984+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
     }
   ],
   "sources": {
     "aitracker-catalog": {
       "baseline_at": "2026-10-19T22:29:44.347714+00:00",
-      "checked_at": "2026-10-20T19:38:17.449114+00:00",
+      "checked_at": "2026-10-20T22:39:27.007984+00:00",
       "error": null,
-      "etag": "W/\"8cb8-cphy1EoYJEOHXm3daeNAteXXrCc\"",
-      "evidence": "evidence/efec049cbfaba8a00150b18d489fe1dc892075d8ab964c37c94badd89af98f6d.json.gz",
+      "etag": "W/\"8ea9-MRiT7Y3RmW7uFPxuUUvX0A3bey4\"",
+      "evidence": "evidence/47ce169369f6d7a7a92179e4271eb7c22ec89ab6c3f0d9e54ab623d6aaaef14c.json.gz",
       "interval": 900,
       "inventory": {
         "arex-2": {
@@ -7204,6 +7715,18 @@
           "stage": "leak",
           "url": "https://live.aitracker.bot/rerank-3-lite"
         },
+        "rerank-v5.0-fast": {
+          "maker": "Cohere",
+          "name": "rerank-v5.0-fast",
+          "stage": "release",
+          "url": "https://live.aitracker.bot/rerank-v5.0-fast"
+        },
+        "rerank-v5.0-pro": {
+          "maker": "Cohere",
+          "name": "rerank-v5.0-pro",
+          "stage": "release",
+          "url": "https://live.aitracker.bot/rerank-v5.0-pro"
+        },
         "span-02": {
           "maker": "Respan",
           "name": "span-02",
@@ -7284,25 +7807,25 @@
         }
       },
       "kind": "tracker",
-      "last_changed_at": "2026-10-20T19:38:17.449114+00:00",
+      "last_changed_at": "2026-10-20T22:39:27.007984+00:00",
       "last_modified": null,
-      "last_success_at": "2026-10-20T19:38:17.449114+00:00",
+      "last_success_at": "2026-10-20T22:39:27.007984+00:00",
       "name": "AI Tracker 目录",
-      "next_check_at": "2026-10-20T19:53:17.449114+00:00",
+      "next_check_at": "2026-10-20T22:54:27.007984+00:00",
       "url": "https://live.aitracker.bot/api/model-pages"
     },
     "aitracker-feed": {
-      "checked_at": "2026-10-20T19:38:17.449114+00:00",
+      "checked_at": "2026-10-20T22:39:27.007984+00:00",
       "error": "ValueError: Source has an empty or duplicate identifier",
       "interval": 300,
       "kind": "feed",
       "name": "AI Tracker 消息",
-      "next_check_at": "2026-10-20T19:43:17.449114+00:00",
+      "next_check_at": "2026-10-20T22:44:27.007984+00:00",
       "url": "https://live.aitracker.bot/feeds/all.json"
     },
     "anthropic-sdk": {
       "baseline_at": "2026-10-19T18:04:35.626127+00:00",
-      "checked_at": "2026-10-20T19:38:17.449114+00:00",
+      "checked_at": "2026-10-20T22:39:27.007984+00:00",
       "error": null,
       "etag": "\"28351440b6b0dea1e48a708fe2f37b49b7f98aca\"",
       "evidence": "evidence/489e2998f3740d0ee5535b49c0ce13791a705a2e159a869380fe9929e1cf5479.json.gz",
@@ -7339,16 +7862,16 @@
       "kind": "sdk",
       "last_changed_at": "2026-10-19T18:04:35.626127+00:00",
       "last_modified": "Thu, 15 Oct 2026 19:43:35 GMT",
-      "last_success_at": "2026-10-20T19:38:17.449114+00:00",
+      "last_success_at": "2026-10-20T22:39:27.007984+00:00",
       "name": "Anthropic SDK",
-      "next_check_at": "2026-10-20T19:53:17.449114+00:00",
+      "next_check_at": "2026-10-20T22:54:27.007984+00:00",
       "url": "https://api.github.com/repos/anthropics/anthropic-sdk-python/contents/src/anthropic/types/model.py?ref=main"
     },
     "huggingface-deepseek": {
       "baseline_at": "2026-10-19T18:04:35.626127+00:00",
-      "checked_at": "2026-10-20T19:38:17.449114+00:00",
+      "checked_at": "2026-10-20T22:39:27.007984+00:00",
       "error": null,
-      "etag": "W/\"44db7-xqVHYto2eC0bqA1TMPIrXLFsw0M\"",
+      "etag": "W/\"44db7-mwy2FmHfQ66flX1zeVhOSODC9rQ\"",
       "evidence": "evidence/6bbc45fcbff786856fb471a6ecde13eb9009ff9a2b38472acd42349a50b79bd9.json.gz",
       "interval": 900,
       "inventory": {
@@ -13248,17 +13771,17 @@
       "kind": "huggingface",
       "last_changed_at": "2026-10-19T18:04:35.626127+00:00",
       "last_modified": null,
-      "last_success_at": "2026-10-20T19:38:17.449114+00:00",
+      "last_success_at": "2026-10-20T22:39:27.007984+00:00",
       "name": "Hugging Face · DeepSeek",
-      "next_check_at": "2026-10-20T19:53:17.449114+00:00",
+      "next_check_at": "2026-10-20T22:54:27.007984+00:00",
       "url": "https://huggingface.co/api/models?author=deepseek-ai&sort=lastModified&direction=-1&limit=100&full=true"
     },
     "models-dev": {
       "baseline_at": "2026-10-19T18:04:35.626127+00:00",
-      "checked_at": "2026-10-20T19:38:17.449114+00:00",
+      "checked_at": "2026-10-20T22:39:27.007984+00:00",
       "error": null,
-      "etag": "\"897f9136c4c009887a628fa92f4efab0\"",
-      "evidence": "evidence/4a6bef809e15527139169501281240f24bf98a0a25ce4a3d7de463184ff89a5f.json.gz",
+      "etag": "\"e38c807f7e7d027cfd7213f5a37328e2\"",
+      "evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
       "interval": 900,
       "inventory": {
         "beam-free": {
@@ -16456,6 +16979,34 @@
           "status": "deprecated",
           "url": "https://models.dev/#opencode"
         },
+        "muse-wonder-1.0": {
+          "canonical_model_id": "meta/muse-wonder-1.0",
+          "cost": {
+            "cache_read": 0.2,
+            "input": 4,
+            "output": 20
+          },
+          "limit": {
+            "context": 1048576,
+            "output": 131072
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "video",
+              "pdf",
+              "audio"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "name": "Muse Wonder",
+          "reasoning": true,
+          "status": null,
+          "url": "https://models.dev/#opencode"
+        },
         "nemotron-3-super-free": {
           "canonical_model_id": "nvidia/nemotron-3-super-120b-a12b",
           "cost": {
@@ -16862,16 +17413,16 @@
         }
       },
       "kind": "models-dev",
-      "last_changed_at": "2026-10-19T18:04:35.626127+00:00",
+      "last_changed_at": "2026-10-20T22:39:27.007984+00:00",
       "last_modified": null,
-      "last_success_at": "2026-10-20T19:38:17.449114+00:00",
+      "last_success_at": "2026-10-20T22:39:27.007984+00:00",
       "name": "models.dev · OpenCode",
-      "next_check_at": "2026-10-20T19:53:17.449114+00:00",
+      "next_check_at": "2026-10-20T22:54:27.007984+00:00",
       "url": "https://models.dev/api.json"
     },
     "openai-sdk": {
       "baseline_at": "2026-10-19T18:04:35.626127+00:00",
-      "checked_at": "2026-10-20T19:38:17.449114+00:00",
+      "checked_at": "2026-10-20T22:39:27.007984+00:00",
       "error": null,
       "etag": "\"83da5285891053650b7f9407bf5c8f6751e4c8ca\"",
       "evidence": "evidence/d7baec3b22ae6fca74179bbfb5afd7c672551edc91690473123807474e300c49.json.gz",
@@ -16979,17 +17530,17 @@
       "kind": "sdk",
       "last_changed_at": "2026-10-19T18:04:35.626127+00:00",
       "last_modified": "Mon, 19 Oct 2026 02:21:06 GMT",
-      "last_success_at": "2026-10-20T19:38:17.449114+00:00",
+      "last_success_at": "2026-10-20T22:39:27.007984+00:00",
       "name": "OpenAI SDK",
-      "next_check_at": "2026-10-20T19:53:17.449114+00:00",
+      "next_check_at": "2026-10-20T22:54:27.007984+00:00",
       "url": "https://api.github.com/repos/openai/openai-python/contents/src/openai/types/shared/chat_model.py?ref=main"
     },
     "openrouter": {
       "baseline_at": "2026-10-19T18:04:35.626127+00:00",
-      "checked_at": "2026-10-20T19:38:17.449114+00:00",
+      "checked_at": "2026-10-20T22:39:27.007984+00:00",
       "error": null,
       "etag": null,
-      "evidence": "evidence/c56a40f808f2c0eccafe574ddc5b6093181c4ff09755d8ad5b78e590c3d0baf7.json.gz",
+      "evidence": "evidence/25f59065c4e26118aaa77e1c6fe52e2790438fdc722439038bc1aa8bd9c5d7ef.json.gz",
       "interval": 300,
       "inventory": {
         "aion-labs/aion-2.0": {
@@ -19736,9 +20287,9 @@
           "expiration_date": null,
           "name": "DeepSeek: DeepSeek V4 Pro 0423",
           "pricing": {
-            "completion": "0.000000743328",
-            "input_cache_read": "0.000000030972",
-            "prompt": "0.000000371664"
+            "completion": "0.000000685908",
+            "input_cache_read": "0.0000000285795",
+            "prompt": "0.000000342954"
           },
           "supported_parameters": [
             "frequency_penalty",
@@ -35618,7 +36169,7 @@
           "pricing": {
             "completion": "0.00000012",
             "input_cache_read": "0.000000006",
-            "prompt": "0.000000048"
+            "prompt": "0.000000047076"
           },
           "supported_parameters": [
             "frequency_penalty",
@@ -36166,9 +36717,9 @@
           "expiration_date": null,
           "name": "DeepSeek: DeepSeek V4 Flash Latest",
           "pricing": {
-            "completion": "0.00000045",
-            "input_cache_read": "0.0000000065",
-            "prompt": "0.0000000065"
+            "completion": "0.00000011288",
+            "input_cache_read": "0.000000003304",
+            "prompt": "0.0000000168"
           },
           "supported_parameters": [
             "frequency_penalty",
@@ -36717,7 +37268,7 @@
           "pricing": {
             "completion": "0.00000012",
             "input_cache_read": "0.000000006",
-            "prompt": "0.000000048"
+            "prompt": "0.000000047076"
           },
           "supported_parameters": [
             "frequency_penalty",
@@ -36796,11 +37347,11 @@
         }
       },
       "kind": "openrouter",
-      "last_changed_at": "2026-10-20T19:38:17.449114+00:00",
-      "last_modified": "Tue, 20 Oct 2026 19:37:56 GMT",
-      "last_success_at": "2026-10-20T19:38:17.449114+00:00",
+      "last_changed_at": "2026-10-20T22:39:27.007984+00:00",
+      "last_modified": null,
+      "last_success_at": "2026-10-20T22:39:27.007984+00:00",
       "name": "OpenRouter · 文本输出",
-      "next_check_at": "2026-10-20T19:43:17.449114+00:00",
+      "next_check_at": "2026-10-20T22:44:27.007984+00:00",
       "url": "https://openrouter.ai/api/v1/models"
     }
   }
