@@ -6,7 +6,7 @@ import sys
 
 from .client import ChatClient
 from .i18n import set_lang, get_lang, VALID_LANGS, load_probes, t
-from . import layers, probes_extra, survey
+from . import layers, probes_extra, survey, watch
 
 
 def make_client(args):
@@ -87,6 +87,14 @@ def build_parser():
                    help="append one JSON line per model here; only completed models with matching experiment config are skipped")
     p.add_argument("--delay", type=float, default=0.5, help="seconds between models (free tiers allow ~1 concurrent)")
     p.add_argument("--retries", type=int, default=1, help="retries per probe on failure")
+    p = sub.add_parser("watch", parents=[common], help=t("cli.watch"))
+    p.add_argument("--source", default="openrouter",
+                   help="catalog to poll: openrouter or an OpenAI-compatible /models URL")
+    p.add_argument("--state", default="watch-state", help="directory for snapshots and sightings.jsonl")
+    p.add_argument("--fingerprint", action="store_true",
+                   help="L1-probe added ids via --base-url/--api-key (billable requests)")
+    p.add_argument("--tokenizers", default="tok", help="dir of local tokenizer.json candidates")
+    p.add_argument("--webhook", default=None, help="POST new events as JSON to this URL (off by default)")
     return ap
 
 
@@ -97,6 +105,14 @@ def main(argv=None):
     set_lang(language.parse_known_args(argv)[0].lang)
     args = build_parser().parse_args(argv)
     set_lang(args.lang)
+    if args.cmd == "watch":
+        try:
+            with contextlib.redirect_stdout(sys.stderr) if args.json else contextlib.nullcontext():
+                r = run_watch(args)
+        except (ValueError, RuntimeError, OSError) as error:
+            sys.exit(str(error))
+        emit(r, args.json)
+        return 0
     if not args.model and args.cmd != "survey":
         sys.exit(t("err.no_model"))
     client = make_client(args)
@@ -110,6 +126,27 @@ def main(argv=None):
         sys.exit(str(error))
     emit(r, args.json)
     return 1 if r.get("error") or r.get("status") in ("incomplete", "unstable_counts") else 0
+
+
+def run_watch(args):
+    on_added = None
+    if args.fingerprint:
+        if not args.base_url or not args.api_key:
+            sys.exit("watch --fingerprint needs --base-url and --api-key for the probed gateway")
+
+        def on_added(ids):
+            def factory(m):
+                return ChatClient(model=m or ids[0], base_url=args.base_url, api_key=args.api_key,
+                                  transport=args.transport, record_path=args.record)
+            measured = survey.run_survey(factory, ids, tokenizers_dir=args.tokenizers)["measured"]
+            return {m: {"l1_best": row.get("best"), "l1_scores": row.get("scores"),
+                        "mode": row.get("mode")} for m, row in measured.items()}
+
+    catalog_key = args.api_key if args.source != "openrouter" else None
+    r = watch.run_watch(args.state, source=args.source, api_key=catalog_key, on_added=on_added)
+    if args.webhook and r["events"]:
+        watch.post_webhook(args.webhook, r["events"])
+    return r
 
 
 def run(args, client):
