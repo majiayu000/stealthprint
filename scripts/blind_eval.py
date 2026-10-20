@@ -55,10 +55,15 @@ def vendor_outcome(guess, vendor, truth, groups):
 def score_rows(rows, truth):
     groups = [set(g) for g in truth.get("equivalent", [])]
     expected = {k: _spec(v) for k, v in truth["models"].items()}
-    graded = []
+    graded, invalid = [], {}
     for row in rows:
         model = row.get("model")
         if model not in expected or not row.get("complete"):
+            continue
+        # Every probe adds nonempty text, so a nonpositive delta means the
+        # endpoint's counter is not text-proportional; no vocabulary verdict.
+        if any(d <= 0 for d in (row.get("deltas") or {}).values()):
+            invalid[model] = "nonpositive_delta"
             continue
         guess, tier = verdict(row)
         want = expected[model]["vocab"]
@@ -85,7 +90,8 @@ def score_rows(rows, truth):
     return {
         "vendor_attribution": {o: sum(g["vendor"] == o for g in attributed)
                                for o in ("correct", "ambiguous", "wrong")},
-        "graded": len(graded), "missing": sorted(set(expected) - {g["model"] for g in graded}),
+        "graded": len(graded), "invalid": invalid,
+        "missing": sorted(set(expected) - {g["model"] for g in graded} - set(invalid)),
         "positive_accuracy": rate(positives, {"correct"}),
         "negative_reject_rate": rate(negatives, {"correct_reject"}),
         "precision_by_tier": by_tier,
@@ -103,7 +109,7 @@ def main(argv=None):
     p.add_argument("--out", required=True)
     p.add_argument("--truth", default=TRUTH)
     p = sub.add_parser("score")
-    p.add_argument("jsonl")
+    p.add_argument("jsonl", nargs="+", help="one or more measurement files; later rows win")
     p.add_argument("--truth", default=TRUTH)
     args = ap.parse_args(argv)
     truth = json.load(open(args.truth, encoding="utf-8"))
@@ -121,8 +127,14 @@ def main(argv=None):
         models = sorted(truth["models"]) + [m for m in truth.get("observe", []) if m not in truth["models"]]
         survey.run_survey(factory, models, tokenizers_dir=args.tokenizers, out_path=args.out)
         return
-    with open(args.jsonl, encoding="utf-8") as stream:
-        rows = [json.loads(line) for line in stream if line.strip()]
+    latest = {}
+    for path in args.jsonl:
+        with open(path, encoding="utf-8") as stream:
+            for line in stream:
+                if line.strip():
+                    row = json.loads(line)
+                    latest[row["model"]] = row  # later files and lines replace earlier attempts
+    rows = list(latest.values())
     result = score_rows(rows, truth)
     result["observed"] = {r["model"]: {"l1_best": verdict(r)[0], "tier": verdict(r)[1], "base_api": r.get("base_api"),
                                        "class": r.get("class")}
