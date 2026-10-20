@@ -35,23 +35,41 @@ def same(a, b, groups):
     return a == b or any(a in g and b in g for g in groups)
 
 
+def _spec(value):
+    """Truth entries are a candidate name / null, or {"vocab": ..., "vendor": ...}."""
+    return value if isinstance(value, dict) else {"vocab": value, "vendor": None}
+
+
+def vendor_outcome(guess, vendor, truth, groups):
+    """Vendor attribution: shared vocabularies cannot name a single vendor."""
+    if not vendor or not guess:
+        return None
+    vendors = truth.get("candidate_vendor", {})
+    group = next((g for g in groups if guess in g), {guess})
+    implied = {vendors.get(c) for c in group}
+    if len(implied) > 1:
+        return "ambiguous"
+    return "correct" if implied == {vendor} else "wrong"
+
+
 def score_rows(rows, truth):
     groups = [set(g) for g in truth.get("equivalent", [])]
-    expected = truth["models"]
+    expected = {k: _spec(v) for k, v in truth["models"].items()}
     graded = []
     for row in rows:
         model = row.get("model")
         if model not in expected or not row.get("complete"):
             continue
         guess, tier = verdict(row)
-        want = expected[model]
+        want = expected[model]["vocab"]
         if want is None:
             outcome = "false_positive" if guess else "correct_reject"
         elif guess is None:
             outcome = "miss"
         else:
             outcome = "correct" if same(guess, want, groups) else "wrong"
-        graded.append({"model": model, "expected": want, "verdict": guess, "tier": tier, "outcome": outcome})
+        graded.append({"model": model, "expected": want, "verdict": guess, "tier": tier, "outcome": outcome,
+                       "vendor": vendor_outcome(guess, expected[model]["vendor"], truth, groups)})
 
     def rate(items, good):
         return round(sum(i["outcome"] in good for i in items) / len(items), 3) if items else None
@@ -63,7 +81,10 @@ def score_rows(rows, truth):
     for tier in ("high", "medium"):
         items = [g for g in claimed if g["tier"] == tier]
         by_tier[tier] = {"n": len(items), "precision": rate(items, {"correct"})}
+    attributed = [g for g in graded if g["vendor"]]
     return {
+        "vendor_attribution": {o: sum(g["vendor"] == o for g in attributed)
+                               for o in ("correct", "ambiguous", "wrong")},
         "graded": len(graded), "missing": sorted(set(expected) - {g["model"] for g in graded}),
         "positive_accuracy": rate(positives, {"correct"}),
         "negative_reject_rate": rate(negatives, {"correct_reject"}),
@@ -76,7 +97,7 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     sub = ap.add_subparsers(dest="cmd", required=True)
     p = sub.add_parser("run")
-    p.add_argument("--base-url", default=os.environ.get("STEALTHPRINT_BASE_URL"))
+    p.add_argument("--base-url", default=None, help="defaults to the truth file's base_url")
     p.add_argument("--api-key", default=os.environ.get("STEALTHPRINT_API_KEY"))
     p.add_argument("--tokenizers", default="tok")
     p.add_argument("--out", required=True)
@@ -88,6 +109,7 @@ def main(argv=None):
     truth = json.load(open(args.truth, encoding="utf-8"))
 
     if args.cmd == "run":
+        args.base_url = args.base_url or truth.get("base_url") or os.environ.get("STEALTHPRINT_BASE_URL")
         if not args.base_url or not args.api_key:
             sys.exit("run needs --base-url and --api-key (or STEALTHPRINT_BASE_URL / STEALTHPRINT_API_KEY)")
         from stealthprint.client import ChatClient
@@ -96,11 +118,16 @@ def main(argv=None):
         def factory(model):
             return ChatClient(model=model or "probe", base_url=args.base_url, api_key=args.api_key)
 
-        survey.run_survey(factory, sorted(truth["models"]), tokenizers_dir=args.tokenizers, out_path=args.out)
+        models = sorted(truth["models"]) + [m for m in truth.get("observe", []) if m not in truth["models"]]
+        survey.run_survey(factory, models, tokenizers_dir=args.tokenizers, out_path=args.out)
         return
     with open(args.jsonl, encoding="utf-8") as stream:
         rows = [json.loads(line) for line in stream if line.strip()]
-    print(json.dumps(score_rows(rows, truth), ensure_ascii=False, indent=1))
+    result = score_rows(rows, truth)
+    result["observed"] = {r["model"]: {"l1_best": verdict(r)[0], "tier": verdict(r)[1], "base_api": r.get("base_api"),
+                                       "class": r.get("class")}
+                          for r in rows if r.get("model") in truth.get("observe", [])}
+    print(json.dumps(result, ensure_ascii=False, indent=1))
 
 
 if __name__ == "__main__":
