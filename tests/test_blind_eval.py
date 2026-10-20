@@ -42,6 +42,14 @@ class BlindEvalTests(unittest.TestCase):
                                   "mimo": ("correct", "ambiguous")})
         self.assertEqual(result["vendor_attribution"], {"correct": 1, "ambiguous": 1, "wrong": 1})
 
+    def test_nonpositive_deltas_are_invalid_not_misses(self):
+        bad = row("d", "deepseek", 3)
+        bad["deltas"] = {"p1": 4, "p2": -2}
+        result = blind_eval.score_rows([bad], TRUTH)
+        self.assertEqual(result["invalid"], {"d": "nonpositive_delta"})
+        self.assertEqual(result["graded"], 0)
+        self.assertNotIn("d", result["missing"])
+
     def test_incomplete_and_unknown_rows_are_not_graded(self):
         result = blind_eval.score_rows([row("q", "qwen3", 10, complete=False), row("zzz", "qwen3", 10)], TRUTH)
         self.assertEqual(result["graded"], 0)
