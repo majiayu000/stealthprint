@@ -1,0 +1,23 @@
+{
+  "_note": "Stealth catalog ids and what they were later revealed as. status: confirmed = OpenRouter or the vendor said so; vendor_claimed = the deployer's own claim, disputed; speculated / unknown are not scored. release = official announcement date of the revealed model (model-chronicle id when it has one).",
+  "checked_at": "2026-10-20",
+  "reveals": [
+    {"stealth": "openrouter/quasar-alpha", "revealed": "GPT-4.1 (pre-release checkpoint)", "vendor": "openai", "chronicle": "gpt-4-1", "release": "2025-04-14", "status": "confirmed", "sources": ["https://openrouter.ai/blog/announcements/quasar-alpha-and-optimus-alpha-reveal/"]},
+    {"stealth": "openrouter/optimus-alpha", "revealed": "GPT-4.1 (later checkpoint)", "vendor": "openai", "chronicle": "gpt-4-1", "release": "2025-04-14", "status": "confirmed", "sources": ["https://openrouter.ai/blog/announcements/quasar-alpha-and-optimus-alpha-reveal/"]},
+    {"stealth": "openrouter/cypher-alpha:free", "revealed": null, "vendor": null, "chronicle": null, "release": null, "status": "unknown", "sources": []},
+    {"stealth": "openrouter/sonoma-dusk-alpha", "revealed": "Grok 4 Fast (early test)", "vendor": "xai", "chronicle": "grok-4-fast", "release": "2025-09-19", "status": "confirmed", "sources": ["https://x.com/OpenRouterAI/status/1969185510641058245"]},
+    {"stealth": "openrouter/sonoma-sky-alpha", "revealed": "Grok 4 Fast (early test)", "vendor": "xai", "chronicle": "grok-4-fast", "release": "2025-09-19", "status": "confirmed", "sources": ["https://x.com/OpenRouterAI/status/1969185510641058245"]},
+    {"stealth": "openrouter/andromeda-alpha", "revealed": "Nemotron Nano 12B v2 VL", "vendor": "nvidia", "chronicle": null, "release": "2025-10-28", "status": "confirmed", "sources": ["https://openrouter.ai/openrouter/andromeda-alpha"]},
+    {"stealth": "openrouter/polaris-alpha", "revealed": "GPT-5.1 (early checkpoint)", "vendor": "openai", "chronicle": "gpt-5-1", "release": "2025-11-12", "status": "confirmed", "sources": ["https://openrouter.ai/openrouter/polaris-alpha"]},
+    {"stealth": "openrouter/sherlock-dash-alpha", "revealed": "Grok 4.1 Fast (non-reasoning)", "vendor": "xai", "chronicle": "grok-4-1-fast", "release": "2025-11-19", "status": "confirmed", "sources": ["https://openrouter.ai/openrouter/sherlock-dash-alpha"]},
+    {"stealth": "openrouter/sherlock-think-alpha", "revealed": "Grok 4.1 Fast (reasoning)", "vendor": "xai", "chronicle": "grok-4-1-fast", "release": "2025-11-19", "status": "confirmed", "sources": ["https://openrouter.ai/openrouter/sherlock-think-alpha"]},
+    {"stealth": "openrouter/bert-nebulon-alpha", "revealed": "Mistral Large 3 (early test)", "vendor": "mistral", "chronicle": "mistral-large-3", "release": "2025-12-02", "status": "confirmed", "sources": ["https://openrouter.ai/openrouter/bert-nebulon-alpha"]},
+    {"stealth": "openrouter/aurora-alpha", "revealed": null, "vendor": null, "chronicle": null, "release": null, "status": "unknown", "sources": []},
+    {"stealth": "openrouter/hunter-alpha", "revealed": "MiMo-V2-Pro (internal test build)", "vendor": "xiaomi", "chronicle": null, "release": "2026-03-18", "status": "confirmed", "sources": ["https://openrouter.ai/xiaomi/mimo-v2-pro"]},
+    {"stealth": "openrouter/healer-alpha", "revealed": "MiMo-V2-Omni", "vendor": "xiaomi", "chronicle": null, "release": "2026-03-18", "status": "confirmed", "sources": ["https://openrouter.ai/xiaomi/mimo-v2-omni"]},
+    {"stealth": "openrouter/owl-alpha", "revealed": "LongCat-2.0-Preview", "vendor": "meituan", "chronicle": null, "release": "2026-06-30", "status": "confirmed", "sources": ["https://x.com/Meituan_LongCat"]},
+    {"stealth": "stealth/ox-alpha", "revealed": "GLM-5.3-Flash", "vendor": "zhipu", "chronicle": "glm-5-3-flash", "release": "2026-08-26", "status": "confirmed", "sources": ["https://openrouter.ai/z-ai/glm-5.3-flash"]},
+    {"stealth": "stealth/union-alpha", "revealed": "Pareto (Unbiased)", "vendor": "unbiased", "chronicle": null, "release": null, "status": "vendor_claimed", "sources": ["https://openrouter.ai/stealth/union-alpha"]},
+    {"stealth": "stealth/space-bunny-alpha", "revealed": null, "vendor": "minimax?", "chronicle": null, "release": null, "status": "speculated", "sources": []}
+  ]
+}

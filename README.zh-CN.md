@@ -53,6 +53,16 @@ stealthprint survey --out census.jsonl     # 网关普查：目录可达性分�
 
 也可以每条命令显式传参：`stealthprint --base-url ... --model ... --api-key ... tokenizer`。全局 flag 放在子命令前后都可以。加 `--json` 后 stdout 只输出 JSON，进度写入 stderr；`--record requests.jsonl` 逐请求保存时间、输入、原始响应和错误，不记录认证头。
 
+## 监测模型目录
+
+```bash
+stealthprint watch --state watch-state                     # OpenRouter，不需要 key
+stealthprint watch --source https://api.example.com/v1/models --api-key ... --state watch-state
+stealthprint watch --fingerprint --base-url https://openrouter.ai/api/v1 --api-key ... --tokenizers tok/
+```
+
+每次运行把目录保存到 `watch-state/<source>/latest.json`，并把 `added` / `removed` 事件追加到 `sightings.jsonl`。第一次运行只记录基线，不产生事件。适合放进 cron 定时跑。`--fingerprint` 会对新增 id 跑 L1 survey 并附上证据（会产生费用）；`--webhook URL` 会把新事件推送出去。sighting 只说明某个 id 何时出现，不说明它是谁做的；`stealth_hint` 只是按命名规则做的提示。[基于 180 份 OpenRouter 历史目录的回测](docs/watch-backtest.zh-CN.md)显示：10 个已确认的 stealth 发布全部早于官方发布，中位提前 7 天。`scripts/blind_eval.py` 用具名模型测 L1 结论的准确率。
+
 ## 第一次调查：先比较分词器，再选择大探针
 
 1. 安装指纹层依赖（`stealthprint[all]`），准备[候选分词器文件](#拉取对照词表)，并设置上面的端点、模型 ID 和密钥环境变量。
