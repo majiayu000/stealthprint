@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-10-21T15:45:50.814630+00:00",
+  "checked_at": "2026-10-21T15:58:31.895670+00:00",
   "events": [
     {
       "after": {
@@ -10691,6 +10691,110 @@
       "observed_at": "2026-10-21T15:45:50.814630+00:00",
       "published_at": null,
       "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "DeepSeek"
+        },
+        "canonical_slug": "deepseek/deepseek-v4-pro-20260423",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "DeepSeek: DeepSeek V4 Pro 0423",
+        "pricing": {
+          "completion": "0.000000855036",
+          "input_cache_read": "0.0000000356265",
+          "prompt": "0.000000427518"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_completion_tokens",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/deepseek/deepseek-v4-pro"
+      },
+      "before": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "DeepSeek"
+        },
+        "canonical_slug": "deepseek/deepseek-v4-pro-20260423",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "DeepSeek: DeepSeek V4 Pro 0423",
+        "pricing": {
+          "completion": "0.000000861648",
+          "input_cache_read": "0.000000035902",
+          "prompt": "0.000000430824"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_completion_tokens",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/deepseek/deepseek-v4-pro"
+      },
+      "before_evidence": "evidence/c89d1296f8f9d43f990af40ca42e6afc87e1d885d94ec5091aec4ed2644d2c34.json.gz",
+      "entity_id": "deepseek/deepseek-v4-pro",
+      "evidence": "evidence/1b66553df7a5325d423213761b592b534a5a97671ddc57c00c8f99d60114dcb2.json.gz",
+      "id": "4046360eaaf9599cde045627",
+      "kind": "changed",
+      "observed_at": "2026-10-21T15:58:31.895670+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
     }
   ],
   "sources": {
@@ -11564,12 +11668,12 @@
       "url": "https://live.aitracker.bot/api/model-pages"
     },
     "aitracker-feed": {
-      "checked_at": "2026-10-21T15:45:50.814630+00:00",
+      "checked_at": "2026-10-21T15:58:31.895670+00:00",
       "error": "HTTPError: HTTP Error 530: <none>",
       "interval": 300,
       "kind": "feed",
       "name": "AI Tracker 消息",
-      "next_check_at": "2026-10-21T15:50:50.814630+00:00",
+      "next_check_at": "2026-10-21T16:03:31.895670+00:00",
       "url": "https://live.aitracker.bot/feeds/all.json"
     },
     "anthropic-sdk": {
@@ -21286,10 +21390,10 @@
     },
     "openrouter": {
       "baseline_at": "2026-10-19T18:04:35.626127+00:00",
-      "checked_at": "2026-10-21T15:45:50.814630+00:00",
+      "checked_at": "2026-10-21T15:58:31.895670+00:00",
       "error": null,
       "etag": null,
-      "evidence": "evidence/c89d1296f8f9d43f990af40ca42e6afc87e1d885d94ec5091aec4ed2644d2c34.json.gz",
+      "evidence": "evidence/1b66553df7a5325d423213761b592b534a5a97671ddc57c00c8f99d60114dcb2.json.gz",
       "interval": 300,
       "inventory": {
         "aion-labs/aion-2.0": {
@@ -24036,9 +24140,9 @@
           "expiration_date": null,
           "name": "DeepSeek: DeepSeek V4 Pro 0423",
           "pricing": {
-            "completion": "0.000000861648",
-            "input_cache_read": "0.000000035902",
-            "prompt": "0.000000430824"
+            "completion": "0.000000855036",
+            "input_cache_read": "0.0000000356265",
+            "prompt": "0.000000427518"
           },
           "supported_parameters": [
             "frequency_penalty",
@@ -41177,11 +41281,11 @@
         }
       },
       "kind": "openrouter",
-      "last_changed_at": "2026-10-21T15:45:50.814630+00:00",
+      "last_changed_at": "2026-10-21T15:58:31.895670+00:00",
       "last_modified": null,
-      "last_success_at": "2026-10-21T15:45:50.814630+00:00",
+      "last_success_at": "2026-10-21T15:58:31.895670+00:00",
       "name": "OpenRouter · 文本输出",
-      "next_check_at": "2026-10-21T15:50:50.814630+00:00",
+      "next_check_at": "2026-10-21T16:03:31.895670+00:00",
       "url": "https://openrouter.ai/api/v1/models"
     }
   }
