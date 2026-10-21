@@ -4,12 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="$description">
-  <meta name="color-scheme" content="light dark">
+  <meta name="color-scheme" content="light">
   <meta property="og:title" content="$title">
   <meta property="og:description" content="$description">
   <meta property="og:type" content="website">
   <title>$title</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%2320382e'/%3E%3Ctext x='10' y='44' font-family='monospace' font-size='38' fill='%23e7eee8'%3Es.%3C/text%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%2317191b'/%3E%3Ctext x='10' y='44' font-family='monospace' font-size='38' fill='%23ed754f'%3Es.%3C/text%3E%3C/svg%3E">
   <link rel="stylesheet" href="$css">
   <script defer src="$js"></script>
 </head>
@@ -17,8 +17,9 @@
   <a class="skip-link" href="#main">跳到正文</a>
   <header class="site-header">
     <div class="header-inner">
-      <a class="brand" href="$home" aria-label="Stealthprint 首页">stealthprint<span>.</span></a>
+      <a class="brand" href="$home" aria-label="Stealthprint 首页"><svg class="brand-icon" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M5 18V15a11 11 0 0 1 22 0v4M9 21v-6a7 7 0 0 1 14 0v7M13 25V15a3 3 0 0 1 6 0v13M5 23v2M27 23v2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>stealthprint<span>.</span></a>
       <nav class="site-nav" aria-label="主导航">
+        <a href="$updates" $active_updates>模型更新</a>
         <a href="$home#archive" $active_home>调查档案</a>
         <a href="$guide" $active_guide>指纹怎么读</a>
         <a href="$methods" $active_methods>使用与复现</a>

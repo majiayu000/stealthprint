@@ -30,6 +30,27 @@ python -m http.server 5572 --bind 127.0.0.1 --directory site/dist
 可放到静态托管服务。页面摘要与案例关联维护在 `site/cases.json`；报告正文来自
 `docs/` 的中文 Markdown，图表从归档 JSON 读取，下载文件与源文件字节一致。
 
+### 在线模型监测
+
+[模型观察站](https://majiayu000.github.io/stealthprint/updates/) 展示公开来源变化、完整日期、来源健康、历史消息及可下载的原始依据。访客无需密钥。
+
+首期观察 AI Tracker、OpenRouter、models.dev 的 OpenCode 目录、Hugging Face 的 DeepSeek 组织，以及 OpenAI / Anthropic 官方 SDK 模型类型文件。目录首次采集只建立基线；后续新增、修订、缺失和恢复保留前后证据。来源报告与本站实测明确区分，不自动推断模型身份或可调用性。
+
+`model-site` 工作流每 5 分钟计划检查，部分来源每 15 分钟更新；GitHub 调度可能延迟。`monitor-data` 分支持久保存状态与 gzip 原始取证包，失败来源保留此前数据，其余来源继续运行。页面在快照停止更新时提示过期。
+
+维护者本地复现：
+
+```bash
+pip install -e '.[site]'
+git worktree add .monitor-data origin/monitor-data
+python scripts/refresh_updates.py
+python scripts/build_site.py
+```
+
+只读取公开元数据，不调用模型推理接口。构建本身不联网。不要同时运行多个刷新进程写同一数据目录。没有数据分支 checkout 时仍可构建历史资料预览。
+
+[分析与来源取舍](docs/model-leak-monitoring.zh-CN.md) · [设计、验收和回滚](docs/model-monitoring-design.zh-CN.md)
+
 ## 命令行
 
 ```bash
