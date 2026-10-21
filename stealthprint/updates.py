@@ -15,6 +15,7 @@ from pathlib import Path
 import re
 import urllib.error
 import urllib.request
+import uuid
 from urllib.parse import quote, urlsplit
 
 
@@ -200,8 +201,20 @@ def _save_evidence(directory, envelope):
     relative = "evidence/" + digest + ".json.gz"
     path = directory / relative
     path.parent.mkdir(parents=True, exist_ok=True)
-    if not path.exists():
-        path.write_bytes(gzip.compress(body, mtime=0))
+    compressed = gzip.compress(body, mtime=0)
+    try:
+        if path.read_bytes() == compressed:
+            return relative
+    except FileNotFoundError:
+        pass
+    # Publish only complete bytes, including when repairing an older partial file.
+    # A unique sibling created like the final file keeps umask-based permissions.
+    temporary = path.with_name(path.name + "." + uuid.uuid4().hex + ".tmp")
+    try:
+        temporary.write_bytes(compressed)
+        temporary.replace(path)
+    finally:
+        temporary.unlink(missing_ok=True)
     return relative
 
 
