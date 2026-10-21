@@ -2,7 +2,9 @@
 import gzip
 import hashlib
 import json
+import os
 from pathlib import Path
+import stat
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -60,6 +62,12 @@ class EvidenceAtomicityTests(unittest.TestCase):
         self.assertEqual(self.path.read_bytes(), b'previous partial file')
         self.assertEqual(list(self.path.parent.iterdir()), [self.path])
         self.assert_saved()
+
+    def test_published_file_keeps_umask_permissions(self):
+        umask = os.umask(0o022)
+        os.umask(umask)
+        self.assert_saved()
+        self.assertEqual(stat.S_IMODE(self.path.stat().st_mode), 0o666 & ~umask)
 
 
 if __name__ == '__main__':

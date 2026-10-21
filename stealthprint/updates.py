@@ -13,9 +13,9 @@ from datetime import datetime, timedelta, timezone
 from email.utils import parsedate_to_datetime
 from pathlib import Path
 import re
-import tempfile
 import urllib.error
 import urllib.request
+import uuid
 from urllib.parse import quote, urlsplit
 
 
@@ -208,8 +208,8 @@ def _save_evidence(directory, envelope):
     except FileNotFoundError:
         pass
     # Publish only complete bytes, including when repairing an older partial file.
-    with tempfile.NamedTemporaryFile(dir=path.parent, suffix=".tmp", delete=False) as output:
-        temporary = Path(output.name)
+    # A unique sibling created like the final file keeps umask-based permissions.
+    temporary = path.with_name(path.name + "." + uuid.uuid4().hex + ".tmp")
     try:
         temporary.write_bytes(compressed)
         temporary.replace(path)
@@ -305,4 +305,3 @@ def group_updates(snapshot):
     for group in groups.values():
         group["events"].sort(key=lambda item: item["date_published"], reverse=True)
     return sorted(groups.values(), key=lambda group: group["events"][0]["date_published"], reverse=True)
-
