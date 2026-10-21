@@ -4,9 +4,9 @@ prints a human-readable summary via i18n.t()."""
 import base64
 import json
 import hashlib
+import logging
 import os
 import struct
-import logging
 import zlib
 
 from .i18n import t
@@ -575,4 +575,3 @@ def catalog_ab(client, peers=None, family=None, verbose=True):
         if target.get("hi_prompt_tokens") is not None and c.get("hi_prompt_tokens") is not None:
             c["wrapper_offset_vs_target"] = target["hi_prompt_tokens"] - c["hi_prompt_tokens"]
     return {"catalog_ids": ids, "cards": cards}
-
