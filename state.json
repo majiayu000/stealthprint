@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-10-21T15:58:31.895670+00:00",
+  "checked_at": "2026-10-21T19:34:54.949807+00:00",
   "events": [
     {
       "after": {
@@ -10795,15 +10795,4799 @@
       "observed_at": "2026-10-21T15:58:31.895670+00:00",
       "published_at": null,
       "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "maker": "inclusionAI",
+        "name": "ling-3.0-flash-ubtree",
+        "stage": "release",
+        "url": "https://live.aitracker.bot/ling-3.0-flash-ubtree"
+      },
+      "before": null,
+      "before_evidence": "evidence/47ce169369f6d7a7a92179e4271eb7c22ec89ab6c3f0d9e54ab623d6aaaef14c.json.gz",
+      "entity_id": "ling-3.0-flash-ubtree",
+      "evidence": "evidence/53da8e4d7fd5fb612a63d6ad899ba4f17fd1db9651c145aeb5f84fd7b1116a01.json.gz",
+      "id": "16eddd0d36af02b5866fc0b2",
+      "kind": "added",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "aitracker-catalog"
+    },
+    {
+      "after": {
+        "maker": "inclusionAI",
+        "name": "ling-3.0-tiny-ubtree",
+        "stage": "release",
+        "url": "https://live.aitracker.bot/ling-3.0-tiny-ubtree"
+      },
+      "before": null,
+      "before_evidence": "evidence/47ce169369f6d7a7a92179e4271eb7c22ec89ab6c3f0d9e54ab623d6aaaef14c.json.gz",
+      "entity_id": "ling-3.0-tiny-ubtree",
+      "evidence": "evidence/53da8e4d7fd5fb612a63d6ad899ba4f17fd1db9651c145aeb5f84fd7b1116a01.json.gz",
+      "id": "ad62731737f2f77b0e8b3a40",
+      "kind": "added",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "aitracker-catalog"
+    },
+    {
+      "after": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "DeepSeek"
+        },
+        "canonical_slug": "deepseek/deepseek-v4-pro-20260423",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "DeepSeek: DeepSeek V4 Pro 0423",
+        "pricing": {
+          "completion": "0.00000082128",
+          "input_cache_read": "0.00000003422",
+          "prompt": "0.00000041064"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_completion_tokens",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/deepseek/deepseek-v4-pro"
+      },
+      "before": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "DeepSeek"
+        },
+        "canonical_slug": "deepseek/deepseek-v4-pro-20260423",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "DeepSeek: DeepSeek V4 Pro 0423",
+        "pricing": {
+          "completion": "0.000000855036",
+          "input_cache_read": "0.0000000356265",
+          "prompt": "0.000000427518"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_completion_tokens",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/deepseek/deepseek-v4-pro"
+      },
+      "before_evidence": "evidence/1b66553df7a5325d423213761b592b534a5a97671ddc57c00c8f99d60114dcb2.json.gz",
+      "entity_id": "deepseek/deepseek-v4-pro",
+      "evidence": "evidence/ff5fbdb1375892a96e805ff431349b2440f9d012972788f1287627a2b75e988e.json.gz",
+      "id": "08ab1242de302750a499b0c8",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "image",
+            "text",
+            "video"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+video->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Gemma"
+        },
+        "canonical_slug": "google/gemma-4-26b-a4b-it-20260403",
+        "context_length": 262144,
+        "expiration_date": null,
+        "name": "Google: Gemma 4 26B A4B ",
+        "pricing": {
+          "completion": "0.000000255",
+          "input_cache_read": "0.0000000425",
+          "prompt": "0.0000000765"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/google/gemma-4-26b-a4b-it"
+      },
+      "before": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "image",
+            "text",
+            "video"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+video->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Gemma"
+        },
+        "canonical_slug": "google/gemma-4-26b-a4b-it-20260403",
+        "context_length": 262144,
+        "expiration_date": null,
+        "name": "Google: Gemma 4 26B A4B ",
+        "pricing": {
+          "completion": "0.0000003",
+          "input_cache_read": "0.00000005",
+          "prompt": "0.00000009"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/google/gemma-4-26b-a4b-it"
+      },
+      "before_evidence": "evidence/1b66553df7a5325d423213761b592b534a5a97671ddc57c00c8f99d60114dcb2.json.gz",
+      "entity_id": "google/gemma-4-26b-a4b-it",
+      "evidence": "evidence/ff5fbdb1375892a96e805ff431349b2440f9d012972788f1287627a2b75e988e.json.gz",
+      "id": "580c7fa0549d1fb197992ad0",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "nvidia/nemotron-3-super-120b-a12b-20230311",
+        "context_length": 262144,
+        "expiration_date": null,
+        "name": "NVIDIA: Nemotron 3 Super",
+        "pricing": {
+          "completion": "0.0000024",
+          "input_cache_read": "0.00000015",
+          "prompt": "0.0000003"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/nvidia/nemotron-3-super-120b-a12b"
+      },
+      "before": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "nvidia/nemotron-3-super-120b-a12b-20230311",
+        "context_length": 262144,
+        "expiration_date": null,
+        "name": "NVIDIA: Nemotron 3 Super",
+        "pricing": {
+          "completion": "0.00000045",
+          "prompt": "0.00000008"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/nvidia/nemotron-3-super-120b-a12b"
+      },
+      "before_evidence": "evidence/1b66553df7a5325d423213761b592b534a5a97671ddc57c00c8f99d60114dcb2.json.gz",
+      "entity_id": "nvidia/nemotron-3-super-120b-a12b",
+      "evidence": "evidence/ff5fbdb1375892a96e805ff431349b2440f9d012972788f1287627a2b75e988e.json.gz",
+      "id": "ce6c629e2614accbba1c355d",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "tencent/hy3-20260706",
+        "context_length": 262144,
+        "expiration_date": null,
+        "name": "Tencent: Hy3",
+        "pricing": {
+          "completion": "0.00000033",
+          "input_cache_read": "0.000000020625",
+          "overrides": [
+            {
+              "completion": "0.000000528",
+              "input_cache_read": "0.000000033",
+              "prompt": "0.000000132",
+              "utc_end": 1600,
+              "utc_start": 0
+            },
+            {
+              "completion": "0.00000033",
+              "input_cache_read": "0.000000020625",
+              "prompt": "0.0000000825",
+              "utc_end": 0,
+              "utc_start": 1600
+            }
+          ],
+          "prompt": "0.0000000825"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "max_completion_tokens",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/tencent/hy3"
+      },
+      "before": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "tencent/hy3-20260706",
+        "context_length": 262144,
+        "expiration_date": null,
+        "name": "Tencent: Hy3",
+        "pricing": {
+          "completion": "0.000000528",
+          "input_cache_read": "0.000000033",
+          "overrides": [
+            {
+              "completion": "0.000000528",
+              "input_cache_read": "0.000000033",
+              "prompt": "0.000000132",
+              "utc_end": 1600,
+              "utc_start": 0
+            },
+            {
+              "completion": "0.00000033",
+              "input_cache_read": "0.000000020625",
+              "prompt": "0.0000000825",
+              "utc_end": 0,
+              "utc_start": 1600
+            }
+          ],
+          "prompt": "0.000000132"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "max_completion_tokens",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/tencent/hy3"
+      },
+      "before_evidence": "evidence/1b66553df7a5325d423213761b592b534a5a97671ddc57c00c8f99d60114dcb2.json.gz",
+      "entity_id": "tencent/hy3",
+      "evidence": "evidence/ff5fbdb1375892a96e805ff431349b2440f9d012972788f1287627a2b75e988e.json.gz",
+      "id": "403da1fb3f2b7d1cec8c5320",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "tencent/hy4-preview-20260827",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "Tencent: Hy4 preview",
+        "pricing": {
+          "completion": "0.0000022509",
+          "input_cache_read": "0.0000000378",
+          "overrides": [
+            {
+              "completion": "0.000002501",
+              "input_cache_read": "0.000000042",
+              "prompt": "0.000000834",
+              "utc_end": 1600,
+              "utc_start": 0
+            },
+            {
+              "completion": "0.0000022509",
+              "input_cache_read": "0.0000000378",
+              "prompt": "0.0000007506",
+              "utc_end": 0,
+              "utc_start": 1600
+            }
+          ],
+          "prompt": "0.0000007506"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "max_completion_tokens",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/tencent/hy4-preview"
+      },
+      "before": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "tencent/hy4-preview-20260827",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "Tencent: Hy4 preview",
+        "pricing": {
+          "completion": "0.000002501",
+          "input_cache_read": "0.000000042",
+          "overrides": [
+            {
+              "completion": "0.000002501",
+              "input_cache_read": "0.000000042",
+              "prompt": "0.000000834",
+              "utc_end": 1600,
+              "utc_start": 0
+            },
+            {
+              "completion": "0.0000022509",
+              "input_cache_read": "0.0000000378",
+              "prompt": "0.0000007506",
+              "utc_end": 0,
+              "utc_start": 1600
+            }
+          ],
+          "prompt": "0.000000834"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "max_completion_tokens",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/tencent/hy4-preview"
+      },
+      "before_evidence": "evidence/1b66553df7a5325d423213761b592b534a5a97671ddc57c00c8f99d60114dcb2.json.gz",
+      "entity_id": "tencent/hy4-preview",
+      "evidence": "evidence/ff5fbdb1375892a96e805ff431349b2440f9d012972788f1287627a2b75e988e.json.gz",
+      "id": "b62d19857895a91ee19c8aed",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image",
+            "video"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+video->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "z-ai/glm-5.3-flash-20260826",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "Z.ai: GLM 5.3 Flash",
+        "pricing": {
+          "completion": "0.0000000718",
+          "input_cache_read": "0.0000000217",
+          "prompt": "0.0000000217"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "parallel_tool_calls",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/z-ai/glm-5.3-flash"
+      },
+      "before": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image",
+            "video"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+video->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "z-ai/glm-5.3-flash-20260826",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "Z.ai: GLM 5.3 Flash",
+        "pricing": {
+          "completion": "0.00000012",
+          "input_cache_read": "0.00000000375",
+          "prompt": "0.000000041191"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "parallel_tool_calls",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/z-ai/glm-5.3-flash"
+      },
+      "before_evidence": "evidence/1b66553df7a5325d423213761b592b534a5a97671ddc57c00c8f99d60114dcb2.json.gz",
+      "entity_id": "z-ai/glm-5.3-flash",
+      "evidence": "evidence/ff5fbdb1375892a96e805ff431349b2440f9d012972788f1287627a2b75e988e.json.gz",
+      "id": "4744d5bbfa41df8d20b59487",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "alias_target": {
+          "name": "MoonshotAI: Kimi K3",
+          "slug": "moonshotai/kimi-k3"
+        },
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image",
+            "video"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+video->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Router"
+        },
+        "canonical_slug": "~moonshotai/kimi-latest",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "MoonshotAI: Kimi Latest",
+        "pricing": {
+          "completion": "0.000016",
+          "input_cache_read": "0.000000228",
+          "prompt": "0.000000238"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/~moonshotai/kimi-latest"
+      },
+      "before": {
+        "alias_target": {
+          "name": "MoonshotAI: Kimi K3",
+          "slug": "moonshotai/kimi-k3"
+        },
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image",
+            "video"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+video->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Router"
+        },
+        "canonical_slug": "~moonshotai/kimi-latest",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "MoonshotAI: Kimi Latest",
+        "pricing": {
+          "completion": "0.000024",
+          "input_cache_read": "0.000000228",
+          "prompt": "0.000000238"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/~moonshotai/kimi-latest"
+      },
+      "before_evidence": "evidence/1b66553df7a5325d423213761b592b534a5a97671ddc57c00c8f99d60114dcb2.json.gz",
+      "entity_id": "~moonshotai/kimi-latest",
+      "evidence": "evidence/ff5fbdb1375892a96e805ff431349b2440f9d012972788f1287627a2b75e988e.json.gz",
+      "id": "6ebe7652f98fcf7c3fa34cc0",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "alias_target": {
+          "name": "Z.ai: GLM 5.3 Flash",
+          "slug": "z-ai/glm-5.3-flash"
+        },
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image",
+            "video"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+video->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Router"
+        },
+        "canonical_slug": "~z-ai/glm-flash-latest",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "Z.ai: GLM Flash Latest",
+        "pricing": {
+          "completion": "0.0000000718",
+          "input_cache_read": "0.0000000217",
+          "prompt": "0.0000000217"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "parallel_tool_calls",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/~z-ai/glm-flash-latest"
+      },
+      "before": {
+        "alias_target": {
+          "name": "Z.ai: GLM 5.3 Flash",
+          "slug": "z-ai/glm-5.3-flash"
+        },
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image",
+            "video"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+video->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Router"
+        },
+        "canonical_slug": "~z-ai/glm-flash-latest",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "Z.ai: GLM Flash Latest",
+        "pricing": {
+          "completion": "0.00000012",
+          "input_cache_read": "0.00000000375",
+          "prompt": "0.000000041191"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "parallel_tool_calls",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/~z-ai/glm-flash-latest"
+      },
+      "before_evidence": "evidence/1b66553df7a5325d423213761b592b534a5a97671ddc57c00c8f99d60114dcb2.json.gz",
+      "entity_id": "~z-ai/glm-flash-latest",
+      "evidence": "evidence/ff5fbdb1375892a96e805ff431349b2440f9d012972788f1287627a2b75e988e.json.gz",
+      "id": "7eb1ff21be90c7e123746e2e",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "canonical_model_id": "anthropic/claude-3-5-haiku-20241022",
+        "cost": {
+          "cache_read": 0.08,
+          "cache_write": 1,
+          "input": 0.8,
+          "output": 4
+        },
+        "limit": {
+          "context": 200000,
+          "output": 8192
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Claude Haiku 3.5",
+        "reasoning": false,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0.08,
+          "cache_write": 1,
+          "input": 0.8,
+          "output": 4
+        },
+        "limit": {
+          "context": 200000,
+          "output": 8192
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Claude Haiku 3.5",
+        "reasoning": false,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "claude-3-5-haiku",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "166b7cdad2835e4d54a73992",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "anthropic/claude-haiku-4-5",
+        "cost": {
+          "cache_read": 0.1,
+          "cache_write": 1.25,
+          "input": 1,
+          "output": 5
+        },
+        "limit": {
+          "context": 200000,
+          "output": 64000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Claude Haiku 4.5",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0.1,
+          "cache_write": 1.25,
+          "input": 1,
+          "output": 5
+        },
+        "limit": {
+          "context": 200000,
+          "output": 64000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Claude Haiku 4.5",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "claude-haiku-4-5",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "d45d7b4d25f1366fba21f108",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "anthropic/claude-opus-4-1",
+        "cost": {
+          "cache_read": 1.5,
+          "cache_write": 18.75,
+          "input": 15,
+          "output": 75
+        },
+        "limit": {
+          "context": 200000,
+          "output": 32000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Claude Opus 4.1",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 1.5,
+          "cache_write": 18.75,
+          "input": 15,
+          "output": 75
+        },
+        "limit": {
+          "context": 200000,
+          "output": 32000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Claude Opus 4.1",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "claude-opus-4-1",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "0a540894a68b792a5130c74b",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "anthropic/claude-opus-4-5",
+        "cost": {
+          "cache_read": 0.5,
+          "cache_write": 6.25,
+          "input": 5,
+          "output": 25
+        },
+        "limit": {
+          "context": 200000,
+          "output": 64000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Claude Opus 4.5",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0.5,
+          "cache_write": 6.25,
+          "input": 5,
+          "output": 25
+        },
+        "limit": {
+          "context": 200000,
+          "output": 64000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Claude Opus 4.5",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "claude-opus-4-5",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "f6265c243ba0be3c37301327",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "anthropic/claude-opus-4-7",
+        "cost": {
+          "cache_read": 0.5,
+          "cache_write": 6.25,
+          "input": 5,
+          "output": 25
+        },
+        "limit": {
+          "context": 1000000,
+          "output": 128000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Claude Opus 4.7",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0.5,
+          "cache_write": 6.25,
+          "input": 5,
+          "output": 25
+        },
+        "limit": {
+          "context": 1000000,
+          "output": 128000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Claude Opus 4.7",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "claude-opus-4-7",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "659e05ee18aa6c9975c28106",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "anthropic/claude-sonnet-4-0",
+        "cost": {
+          "cache_read": 0.3,
+          "cache_write": 3.75,
+          "context_over_200k": {
+            "cache_read": 0.6,
+            "cache_write": 7.5,
+            "input": 6,
+            "output": 22.5
+          },
+          "input": 3,
+          "output": 15,
+          "tiers": [
+            {
+              "cache_read": 0.6,
+              "cache_write": 7.5,
+              "input": 6,
+              "output": 22.5,
+              "tier": {
+                "size": 200000,
+                "type": "context"
+              }
+            }
+          ]
+        },
+        "limit": {
+          "context": 1000000,
+          "output": 64000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Claude Sonnet 4",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0.3,
+          "cache_write": 3.75,
+          "context_over_200k": {
+            "cache_read": 0.6,
+            "cache_write": 7.5,
+            "input": 6,
+            "output": 22.5
+          },
+          "input": 3,
+          "output": 15,
+          "tiers": [
+            {
+              "cache_read": 0.6,
+              "cache_write": 7.5,
+              "input": 6,
+              "output": 22.5,
+              "tier": {
+                "size": 200000,
+                "type": "context"
+              }
+            }
+          ]
+        },
+        "limit": {
+          "context": 1000000,
+          "output": 64000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Claude Sonnet 4",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "claude-sonnet-4",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "4b4c5a551ce076f9150003d8",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "anthropic/claude-sonnet-4-5",
+        "cost": {
+          "cache_read": 0.3,
+          "cache_write": 3.75,
+          "context_over_200k": {
+            "cache_read": 0.6,
+            "cache_write": 7.5,
+            "input": 6,
+            "output": 22.5
+          },
+          "input": 3,
+          "output": 15,
+          "tiers": [
+            {
+              "cache_read": 0.6,
+              "cache_write": 7.5,
+              "input": 6,
+              "output": 22.5,
+              "tier": {
+                "size": 200000,
+                "type": "context"
+              }
+            }
+          ]
+        },
+        "limit": {
+          "context": 1000000,
+          "output": 64000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Claude Sonnet 4.5",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0.3,
+          "cache_write": 3.75,
+          "context_over_200k": {
+            "cache_read": 0.6,
+            "cache_write": 7.5,
+            "input": 6,
+            "output": 22.5
+          },
+          "input": 3,
+          "output": 15,
+          "tiers": [
+            {
+              "cache_read": 0.6,
+              "cache_write": 7.5,
+              "input": 6,
+              "output": 22.5,
+              "tier": {
+                "size": 200000,
+                "type": "context"
+              }
+            }
+          ]
+        },
+        "limit": {
+          "context": 1000000,
+          "output": 64000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Claude Sonnet 4.5",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "claude-sonnet-4-5",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "2d1954cc631304e48a19cf39",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "anthropic/claude-sonnet-4-6",
+        "cost": {
+          "cache_read": 0.3,
+          "cache_write": 3.75,
+          "input": 3,
+          "output": 15
+        },
+        "limit": {
+          "context": 1000000,
+          "output": 64000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Claude Sonnet 4.6",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0.3,
+          "cache_write": 3.75,
+          "input": 3,
+          "output": 15
+        },
+        "limit": {
+          "context": 1000000,
+          "output": 64000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Claude Sonnet 4.6",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "claude-sonnet-4-6",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "8fe80760b02b0b84e26629af",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "deepseek/deepseek-v4-flash-vision-exp",
+        "cost": {
+          "cache_read": 0.028,
+          "input": 0.14,
+          "output": 0.28
+        },
+        "limit": {
+          "context": 1000000,
+          "output": 384000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "DeepSeek V4 Flash Vision Exp",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": "deepseek/deepseek-v4-flash-vision-exp",
+        "cost": {
+          "cache_read": 0.028,
+          "input": 0.14,
+          "output": 0.28
+        },
+        "limit": {
+          "context": 1000000,
+          "output": 384000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "DeepSeek V4 Flash Vision Exp",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "deepseek-v4-flash-vision-exp",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "6b07f54c73238af60edbcc51",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "deepseek/deepseek-v4-pro",
+        "cost": {
+          "cache_read": 0.145,
+          "input": 1.74,
+          "output": 3.48
+        },
+        "limit": {
+          "context": 1000000,
+          "output": 384000
+        },
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "DeepSeek V4 Pro",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": "deepseek/deepseek-v4-pro",
+        "cost": {
+          "cache_read": 0.145,
+          "input": 1.74,
+          "output": 3.84
+        },
+        "limit": {
+          "context": 1000000,
+          "output": 384000
+        },
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "DeepSeek V4 Pro",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "deepseek-v4-pro",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "0621088ba9cb041a948ace01",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "recursive/flint",
+        "cost": {
+          "cache_read": 0,
+          "input": 0,
+          "output": 0
+        },
+        "limit": {
+          "context": 262144,
+          "output": 65536
+        },
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Flint 40B Free",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before": null,
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "flint-40b-free",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "af25a2e35fd975af77e58926",
+      "kind": "added",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "google/gemini-3-flash-preview",
+        "cost": {
+          "cache_read": 0.05,
+          "input": 0.5,
+          "output": 3
+        },
+        "limit": {
+          "context": 1048576,
+          "output": 65536
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "video",
+            "audio",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Gemini 3 Flash",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0.05,
+          "input": 0.5,
+          "output": 3
+        },
+        "limit": {
+          "context": 1048576,
+          "output": 65536
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "video",
+            "audio",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Gemini 3 Flash",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "gemini-3-flash",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "974f785fa116afe4081b359e",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "google/gemini-3-pro-preview",
+        "cost": {
+          "cache_read": 0.2,
+          "context_over_200k": {
+            "cache_read": 0.4,
+            "input": 4,
+            "output": 18
+          },
+          "input": 2,
+          "output": 12,
+          "tiers": [
+            {
+              "cache_read": 0.4,
+              "input": 4,
+              "output": 18,
+              "tier": {
+                "size": 200000,
+                "type": "context"
+              }
+            }
+          ]
+        },
+        "limit": {
+          "context": 1048576,
+          "output": 65536
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "video",
+            "audio",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Gemini 3 Pro",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0.2,
+          "context_over_200k": {
+            "cache_read": 0.4,
+            "input": 4,
+            "output": 18
+          },
+          "input": 2,
+          "output": 12,
+          "tiers": [
+            {
+              "cache_read": 0.4,
+              "input": 4,
+              "output": 18,
+              "tier": {
+                "size": 200000,
+                "type": "context"
+              }
+            }
+          ]
+        },
+        "limit": {
+          "context": 1048576,
+          "output": 65536
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "video",
+            "audio",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Gemini 3 Pro",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "gemini-3-pro",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "1dee51ec121738ac6d3c247e",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "google/gemini-3.1-pro-preview",
+        "cost": {
+          "cache_read": 0.2,
+          "context_over_200k": {
+            "cache_read": 0.4,
+            "input": 4,
+            "output": 18
+          },
+          "input": 2,
+          "output": 12,
+          "tiers": [
+            {
+              "cache_read": 0.4,
+              "input": 4,
+              "output": 18,
+              "tier": {
+                "size": 200000,
+                "type": "context"
+              }
+            }
+          ]
+        },
+        "limit": {
+          "context": 1048576,
+          "output": 65536
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "video",
+            "audio",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Gemini 3.1 Pro Preview",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0.2,
+          "context_over_200k": {
+            "cache_read": 0.4,
+            "input": 4,
+            "output": 18
+          },
+          "input": 2,
+          "output": 12,
+          "tiers": [
+            {
+              "cache_read": 0.4,
+              "input": 4,
+              "output": 18,
+              "tier": {
+                "size": 200000,
+                "type": "context"
+              }
+            }
+          ]
+        },
+        "limit": {
+          "context": 1048576,
+          "output": 65536
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "video",
+            "audio",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Gemini 3.1 Pro Preview",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "gemini-3.1-pro",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "e64793db89e66fe600b1b21c",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "google/gemini-3.5-flash",
+        "cost": {
+          "cache_read": 0.15,
+          "input": 1.5,
+          "input_audio": 1.5,
+          "output": 9
+        },
+        "limit": {
+          "context": 1048576,
+          "output": 65536
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "video",
+            "audio",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Gemini 3.5 Flash",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0.15,
+          "input": 1.5,
+          "input_audio": 1.5,
+          "output": 9
+        },
+        "limit": {
+          "context": 1048576,
+          "output": 65536
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "video",
+            "audio",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Gemini 3.5 Flash",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "gemini-3.5-flash",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "027a728891e1ea479eb15e68",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "zhipuai/glm-4.6",
+        "cost": {
+          "cache_read": 0.1,
+          "input": 0.6,
+          "output": 2.2
+        },
+        "limit": {
+          "context": 204800,
+          "output": 131072
+        },
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "GLM-4.6",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0.1,
+          "input": 0.6,
+          "output": 2.2
+        },
+        "limit": {
+          "context": 204800,
+          "output": 131072
+        },
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "GLM-4.6",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "glm-4.6",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "86d0542b0504d56b26f61da7",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "zhipuai/glm-4.7",
+        "cost": {
+          "cache_read": 0.1,
+          "input": 0.6,
+          "output": 2.2
+        },
+        "limit": {
+          "context": 204800,
+          "output": 131072
+        },
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "GLM-4.7",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0.1,
+          "input": 0.6,
+          "output": 2.2
+        },
+        "limit": {
+          "context": 204800,
+          "output": 131072
+        },
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "GLM-4.7",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "glm-4.7",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "e7fc79bffcae0f6cb301716d",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "zhipuai/glm-4.7",
+        "cost": {
+          "cache_read": 0,
+          "input": 0,
+          "output": 0
+        },
+        "limit": {
+          "context": 204800,
+          "output": 131072
+        },
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "GLM-4.7 Free",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0,
+          "input": 0,
+          "output": 0
+        },
+        "limit": {
+          "context": 204800,
+          "output": 131072
+        },
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "GLM-4.7 Free",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "glm-4.7-free",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "0b61b889f58a44ecb2cdf6d2",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "zhipuai/glm-5",
+        "cost": {
+          "cache_read": 0.2,
+          "input": 1,
+          "output": 3.2
+        },
+        "limit": {
+          "context": 204800,
+          "output": 131072
+        },
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "GLM-5",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0.2,
+          "input": 1,
+          "output": 3.2
+        },
+        "limit": {
+          "context": 204800,
+          "output": 131072
+        },
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "GLM-5",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "glm-5",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "7dd368d081c6d83d6aee1f4f",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "zhipuai/glm-5",
+        "cost": {
+          "cache_read": 0,
+          "input": 0,
+          "output": 0
+        },
+        "limit": {
+          "context": 204800,
+          "output": 131072
+        },
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "GLM-5 Free",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0,
+          "input": 0,
+          "output": 0
+        },
+        "limit": {
+          "context": 204800,
+          "output": 131072
+        },
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "GLM-5 Free",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "glm-5-free",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "67578f672c4b58517291f36f",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "zhipuai/glm-5.1",
+        "cost": {
+          "cache_read": 0.26,
+          "input": 1.4,
+          "output": 4.4
+        },
+        "limit": {
+          "context": 204800,
+          "output": 131072
+        },
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "GLM-5.1",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0.26,
+          "input": 1.4,
+          "output": 4.4
+        },
+        "limit": {
+          "context": 204800,
+          "output": 131072
+        },
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "GLM-5.1",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "glm-5.1",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "7b160dfac41b3c7ec2297432",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "openai/gpt-5",
+        "cost": {
+          "cache_read": 0.107,
+          "input": 1.07,
+          "output": 8.5
+        },
+        "limit": {
+          "context": 400000,
+          "input": 272000,
+          "output": 128000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "GPT-5",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0.107,
+          "input": 1.07,
+          "output": 8.5
+        },
+        "limit": {
+          "context": 400000,
+          "input": 272000,
+          "output": 128000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "GPT-5",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "gpt-5",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "3d8d6f2d84f09d1dae27f183",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "openai/gpt-5-codex",
+        "cost": {
+          "cache_read": 0.107,
+          "input": 1.07,
+          "output": 8.5
+        },
+        "limit": {
+          "context": 400000,
+          "input": 272000,
+          "output": 128000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "GPT-5 Codex",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0.107,
+          "input": 1.07,
+          "output": 8.5
+        },
+        "limit": {
+          "context": 400000,
+          "input": 272000,
+          "output": 128000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "GPT-5 Codex",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "gpt-5-codex",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "1fc5a539c1cf8026c35ddbc1",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "openai/gpt-5-nano",
+        "cost": {
+          "cache_read": 0.005,
+          "input": 0.05,
+          "output": 0.4
+        },
+        "limit": {
+          "context": 400000,
+          "input": 272000,
+          "output": 128000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "GPT-5 Nano",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0.005,
+          "input": 0.05,
+          "output": 0.4
+        },
+        "limit": {
+          "context": 400000,
+          "input": 272000,
+          "output": 128000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "GPT-5 Nano",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "gpt-5-nano",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "8ab606be7bb2e6b2a1f22c4d",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "openai/gpt-5.1",
+        "cost": {
+          "cache_read": 0.107,
+          "input": 1.07,
+          "output": 8.5
+        },
+        "limit": {
+          "context": 400000,
+          "input": 272000,
+          "output": 128000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "GPT-5.1",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0.107,
+          "input": 1.07,
+          "output": 8.5
+        },
+        "limit": {
+          "context": 400000,
+          "input": 272000,
+          "output": 128000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "GPT-5.1",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "gpt-5.1",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "f32ea31b099559964b874e3b",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "openai/gpt-5.1-codex",
+        "cost": {
+          "cache_read": 0.107,
+          "input": 1.07,
+          "output": 8.5
+        },
+        "limit": {
+          "context": 400000,
+          "input": 272000,
+          "output": 128000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "GPT-5.1 Codex",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0.107,
+          "input": 1.07,
+          "output": 8.5
+        },
+        "limit": {
+          "context": 400000,
+          "input": 272000,
+          "output": 128000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "GPT-5.1 Codex",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "gpt-5.1-codex",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "ce947e49dac3e28152b40756",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "openai/gpt-5.1-codex-max",
+        "cost": {
+          "cache_read": 0.125,
+          "input": 1.25,
+          "output": 10
+        },
+        "limit": {
+          "context": 400000,
+          "input": 272000,
+          "output": 128000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "GPT-5.1 Codex Max",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0.125,
+          "input": 1.25,
+          "output": 10
+        },
+        "limit": {
+          "context": 400000,
+          "input": 272000,
+          "output": 128000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "GPT-5.1 Codex Max",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "gpt-5.1-codex-max",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "26229ac3548a657f937192d7",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "openai/gpt-5.1-codex-mini",
+        "cost": {
+          "cache_read": 0.025,
+          "input": 0.25,
+          "output": 2
+        },
+        "limit": {
+          "context": 400000,
+          "input": 272000,
+          "output": 128000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "GPT-5.1 Codex Mini",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0.025,
+          "input": 0.25,
+          "output": 2
+        },
+        "limit": {
+          "context": 400000,
+          "input": 272000,
+          "output": 128000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "GPT-5.1 Codex Mini",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "gpt-5.1-codex-mini",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "7a311a056f1bb4becc369ca1",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "openai/gpt-5.2",
+        "cost": {
+          "cache_read": 0.175,
+          "input": 1.75,
+          "output": 14
+        },
+        "limit": {
+          "context": 400000,
+          "input": 272000,
+          "output": 128000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "GPT-5.2",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0.175,
+          "input": 1.75,
+          "output": 14
+        },
+        "limit": {
+          "context": 400000,
+          "input": 272000,
+          "output": 128000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "GPT-5.2",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "gpt-5.2",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "9243092e09d64022a6e3bc26",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "openai/gpt-5.2-codex",
+        "cost": {
+          "cache_read": 0.175,
+          "input": 1.75,
+          "output": 14
+        },
+        "limit": {
+          "context": 400000,
+          "input": 272000,
+          "output": 128000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "GPT-5.2 Codex",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0.175,
+          "input": 1.75,
+          "output": 14
+        },
+        "limit": {
+          "context": 400000,
+          "input": 272000,
+          "output": 128000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "GPT-5.2 Codex",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "gpt-5.2-codex",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "e598ff29c32f8a0bb0ca4e14",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "openai/gpt-5.3-codex",
+        "cost": {
+          "cache_read": 0.175,
+          "input": 1.75,
+          "output": 14
+        },
+        "limit": {
+          "context": 400000,
+          "input": 272000,
+          "output": 128000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "GPT-5.3 Codex",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0.175,
+          "input": 1.75,
+          "output": 14
+        },
+        "limit": {
+          "context": 400000,
+          "input": 272000,
+          "output": 128000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "GPT-5.3 Codex",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "gpt-5.3-codex",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "3b6be4e61a27f7f2af617ac2",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "openai/gpt-5.3-codex-spark",
+        "cost": {
+          "cache_read": 0.175,
+          "input": 1.75,
+          "output": 14
+        },
+        "limit": {
+          "context": 128000,
+          "input": 128000,
+          "output": 128000
+        },
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "GPT-5.3 Codex Spark",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0.175,
+          "input": 1.75,
+          "output": 14
+        },
+        "limit": {
+          "context": 128000,
+          "input": 128000,
+          "output": 128000
+        },
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "GPT-5.3 Codex Spark",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "gpt-5.3-codex-spark",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "c446ed19046d78e95f462b46",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "openai/gpt-5.4-mini",
+        "cost": {
+          "cache_read": 0.075,
+          "input": 0.75,
+          "output": 4.5
+        },
+        "limit": {
+          "context": 400000,
+          "input": 272000,
+          "output": 128000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "GPT-5.4 Mini",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0.075,
+          "input": 0.75,
+          "output": 4.5
+        },
+        "limit": {
+          "context": 400000,
+          "input": 272000,
+          "output": 128000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "GPT-5.4 Mini",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "gpt-5.4-mini",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "c936e746c21e596c645351d5",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "openai/gpt-5.4-nano",
+        "cost": {
+          "cache_read": 0.02,
+          "input": 0.2,
+          "output": 1.25
+        },
+        "limit": {
+          "context": 400000,
+          "input": 272000,
+          "output": 128000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "GPT-5.4 Nano",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0.02,
+          "input": 0.2,
+          "output": 1.25
+        },
+        "limit": {
+          "context": 400000,
+          "input": 272000,
+          "output": 128000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "GPT-5.4 Nano",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "gpt-5.4-nano",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "5ae1ea3d41088c7b97ae9282",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "openai/gpt-5.4-pro",
+        "cost": {
+          "cache_read": 30,
+          "input": 30,
+          "output": 180
+        },
+        "limit": {
+          "context": 1050000,
+          "input": 922000,
+          "output": 128000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "GPT-5.4 Pro",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 30,
+          "input": 30,
+          "output": 180
+        },
+        "limit": {
+          "context": 1050000,
+          "input": 922000,
+          "output": 128000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "GPT-5.4 Pro",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "gpt-5.4-pro",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "e1c60eaae4bf6adadc606d2f",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "openai/gpt-5.5-pro",
+        "cost": {
+          "cache_read": 30,
+          "input": 30,
+          "output": 180
+        },
+        "limit": {
+          "context": 1050000,
+          "input": 922000,
+          "output": 128000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "GPT-5.5 Pro",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 30,
+          "input": 30,
+          "output": 180
+        },
+        "limit": {
+          "context": 1050000,
+          "input": 922000,
+          "output": 128000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "GPT-5.5 Pro",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "gpt-5.5-pro",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "67e3ee1f491a1dae7a0cf657",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "openai/gpt-5.6-terra",
+        "cost": {
+          "cache_read": 0.2,
+          "cache_write": 2.5,
+          "context_over_200k": {
+            "cache_read": 0.4,
+            "cache_write": 5,
+            "input": 4,
+            "output": 18
+          },
+          "input": 2,
+          "output": 12,
+          "tiers": [
+            {
+              "cache_read": 0.4,
+              "cache_write": 5,
+              "input": 4,
+              "output": 18,
+              "tier": {
+                "size": 272000,
+                "type": "context"
+              }
+            }
+          ]
+        },
+        "limit": {
+          "context": 1050000,
+          "input": 922000,
+          "output": 128000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "GPT-5.6 Terra",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": "openai/gpt-5.6-terra",
+        "cost": {
+          "cache_read": 0.25,
+          "cache_write": 3.125,
+          "context_over_200k": {
+            "cache_read": 0.5,
+            "cache_write": 6.25,
+            "input": 5,
+            "output": 22.5
+          },
+          "input": 2.5,
+          "output": 15,
+          "tiers": [
+            {
+              "cache_read": 0.5,
+              "cache_write": 6.25,
+              "input": 5,
+              "output": 22.5,
+              "tier": {
+                "size": 272000,
+                "type": "context"
+              }
+            }
+          ]
+        },
+        "limit": {
+          "context": 1050000,
+          "input": 922000,
+          "output": 128000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "GPT-5.6 Terra",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "gpt-5.6-terra",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "875240ba947b3adbaa988c9c",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "xai/grok-code-fast-1",
+        "cost": {
+          "cache_read": 0,
+          "cache_write": 0,
+          "input": 0,
+          "output": 0
+        },
+        "limit": {
+          "context": 256000,
+          "output": 256000
+        },
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Grok Code Fast 1",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0,
+          "cache_write": 0,
+          "input": 0,
+          "output": 0
+        },
+        "limit": {
+          "context": 256000,
+          "output": 256000
+        },
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Grok Code Fast 1",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "grok-code",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "23b2ee5c98959127faa5570a",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "tencent/hy3-preview",
+        "cost": {
+          "cache_read": 0,
+          "input": 0,
+          "output": 0
+        },
+        "limit": {
+          "context": 256000,
+          "output": 64000
+        },
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Hy3 preview Free",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0,
+          "input": 0,
+          "output": 0
+        },
+        "limit": {
+          "context": 256000,
+          "output": 64000
+        },
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Hy3 preview Free",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "hy3-preview-free",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "41390feb5997602e07d7a80e",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "moonshotai/kimi-k2-0905",
+        "cost": {
+          "cache_read": 0.4,
+          "input": 0.4,
+          "output": 2.5
+        },
+        "limit": {
+          "context": 262144,
+          "output": 262144
+        },
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Kimi K2",
+        "reasoning": false,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0.4,
+          "input": 0.4,
+          "output": 2.5
+        },
+        "limit": {
+          "context": 262144,
+          "output": 262144
+        },
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Kimi K2",
+        "reasoning": false,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "kimi-k2",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "6afbabd990229feb00729410",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "moonshotai/kimi-k2-thinking",
+        "cost": {
+          "cache_read": 0.4,
+          "input": 0.4,
+          "output": 2.5
+        },
+        "limit": {
+          "context": 262144,
+          "output": 262144
+        },
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Kimi K2 Thinking",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0.4,
+          "input": 0.4,
+          "output": 2.5
+        },
+        "limit": {
+          "context": 262144,
+          "output": 262144
+        },
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Kimi K2 Thinking",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "kimi-k2-thinking",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "1c5a8ac886400cea6716c032",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "moonshotai/kimi-k2.5",
+        "cost": {
+          "cache_read": 0.1,
+          "input": 0.6,
+          "output": 3
+        },
+        "limit": {
+          "context": 262144,
+          "output": 65536
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "video"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Kimi K2.5",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0.08,
+          "input": 0.6,
+          "output": 3
+        },
+        "limit": {
+          "context": 262144,
+          "output": 65536
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "video"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Kimi K2.5",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "kimi-k2.5",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "2f21da6affe89d8fdc8df9d6",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "moonshotai/kimi-k2.5",
+        "cost": {
+          "cache_read": 0,
+          "input": 0,
+          "output": 0
+        },
+        "limit": {
+          "context": 262144,
+          "output": 262144
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "video"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Kimi K2.5 Free",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0,
+          "input": 0,
+          "output": 0
+        },
+        "limit": {
+          "context": 262144,
+          "output": 262144
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "video"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Kimi K2.5 Free",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "kimi-k2.5-free",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "d7ef651515b0b3310988084f",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "moonshotai/kimi-k2.6",
+        "cost": {
+          "cache_read": 0.16,
+          "input": 0.95,
+          "output": 4
+        },
+        "limit": {
+          "context": 262144,
+          "output": 65536
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "video"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Kimi K2.6",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0.16,
+          "input": 0.95,
+          "output": 4
+        },
+        "limit": {
+          "context": 262144,
+          "output": 65536
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "video"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Kimi K2.6",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "kimi-k2.6",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "4a038eb14b040d00688ea111",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "inclusionai/ling-3.0-flash",
+        "cost": {
+          "cache_read": 0,
+          "input": 0,
+          "output": 0
+        },
+        "limit": {
+          "context": 262144,
+          "output": 32768
+        },
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Ling-3.0-flash Free",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0,
+          "input": 0,
+          "output": 0
+        },
+        "limit": {
+          "context": 262144,
+          "output": 32768
+        },
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Ling-3.0-flash Free",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "ling-3.0-flash-free",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "40ab258053bcb78b4ed82bc5",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "xiaomi/mimo-v2-flash",
+        "cost": {
+          "cache_read": 0,
+          "input": 0,
+          "output": 0
+        },
+        "limit": {
+          "context": 262144,
+          "output": 65536
+        },
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "MiMo V2 Flash Free",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0,
+          "input": 0,
+          "output": 0
+        },
+        "limit": {
+          "context": 262144,
+          "output": 65536
+        },
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "MiMo V2 Flash Free",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "mimo-v2-flash-free",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "15562ee6fa739aa5a20bd09f",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "xiaomi/mimo-v2-omni",
+        "cost": {
+          "cache_read": 0,
+          "input": 0,
+          "output": 0
+        },
+        "limit": {
+          "context": 262144,
+          "output": 64000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "audio",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "MiMo V2 Omni Free",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0,
+          "input": 0,
+          "output": 0
+        },
+        "limit": {
+          "context": 262144,
+          "output": 64000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "audio",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "MiMo V2 Omni Free",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "mimo-v2-omni-free",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "700a19fa2a3d30040ab628dc",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "xiaomi/mimo-v2-pro",
+        "cost": {
+          "cache_read": 0,
+          "input": 0,
+          "output": 0
+        },
+        "limit": {
+          "context": 1048576,
+          "output": 64000
+        },
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "MiMo V2 Pro Free",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0,
+          "input": 0,
+          "output": 0
+        },
+        "limit": {
+          "context": 1048576,
+          "output": 64000
+        },
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "MiMo V2 Pro Free",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "mimo-v2-pro-free",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "1f9ad69ff0c57149a4736964",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "xiaomi/mimo-v2.5",
+        "cost": {
+          "cache_read": 0,
+          "input": 0,
+          "output": 0
+        },
+        "limit": {
+          "context": 200000,
+          "output": 32000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "audio",
+            "video"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "MiMo V2.5 Free",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0,
+          "input": 0,
+          "output": 0
+        },
+        "limit": {
+          "context": 200000,
+          "output": 32000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "audio",
+            "video"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "MiMo V2.5 Free",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "mimo-v2.5-free",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "ccbbe4d03b301c72d7e1dd30",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "minimax/MiniMax-M2.1",
+        "cost": {
+          "cache_read": 0.1,
+          "input": 0.3,
+          "output": 1.2
+        },
+        "limit": {
+          "context": 204800,
+          "output": 131072
+        },
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "MiniMax-M2.1",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0.1,
+          "input": 0.3,
+          "output": 1.2
+        },
+        "limit": {
+          "context": 204800,
+          "output": 131072
+        },
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "MiniMax-M2.1",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "minimax-m2.1",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "712222fb4cfbd1814bd20773",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "minimax/MiniMax-M2.1",
+        "cost": {
+          "cache_read": 0,
+          "input": 0,
+          "output": 0
+        },
+        "limit": {
+          "context": 204800,
+          "output": 131072
+        },
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "MiniMax-M2.1 Free",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0,
+          "input": 0,
+          "output": 0
+        },
+        "limit": {
+          "context": 204800,
+          "output": 131072
+        },
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "MiniMax-M2.1 Free",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "minimax-m2.1-free",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "dbd54f1949be7450a1f5eff8",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "minimax/MiniMax-M2.5",
+        "cost": {
+          "cache_read": 0.06,
+          "input": 0.3,
+          "output": 1.2
+        },
+        "limit": {
+          "context": 204800,
+          "output": 131072
+        },
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "MiniMax-M2.5",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0.06,
+          "input": 0.3,
+          "output": 1.2
+        },
+        "limit": {
+          "context": 204800,
+          "output": 131072
+        },
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "MiniMax-M2.5",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "minimax-m2.5",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "585abd21a65c5bf5f86770a0",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "minimax/MiniMax-M2.5",
+        "cost": {
+          "cache_read": 0,
+          "input": 0,
+          "output": 0
+        },
+        "limit": {
+          "context": 204800,
+          "output": 131072
+        },
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "MiniMax-M2.5 Free",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0,
+          "input": 0,
+          "output": 0
+        },
+        "limit": {
+          "context": 204800,
+          "output": 131072
+        },
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "MiniMax-M2.5 Free",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "minimax-m2.5-free",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "911add320013cfdb934af77c",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "minimax/MiniMax-M2.7",
+        "cost": {
+          "cache_read": 0.06,
+          "input": 0.3,
+          "output": 1.2
+        },
+        "limit": {
+          "context": 204800,
+          "output": 131072
+        },
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "MiniMax-M2.7",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0.06,
+          "input": 0.3,
+          "output": 1.2
+        },
+        "limit": {
+          "context": 204800,
+          "output": 131072
+        },
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "MiniMax-M2.7",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "minimax-m2.7",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "057948e5396321b559bc68bb",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "minimax/MiniMax-M3",
+        "cost": {
+          "cache_read": 0,
+          "input": 0,
+          "output": 0
+        },
+        "limit": {
+          "context": 200000,
+          "output": 32000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "video"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "MiniMax-M3 Free",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0,
+          "input": 0,
+          "output": 0
+        },
+        "limit": {
+          "context": 200000,
+          "output": 32000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "video"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "MiniMax-M3 Free",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "minimax-m3-free",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "1d2e2ea995be3e1462f5836a",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "meta/muse-spark-1.3",
+        "cost": {
+          "cache_read": 0,
+          "input": 0,
+          "output": 0
+        },
+        "limit": {
+          "context": 1048576,
+          "output": 131072
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "video",
+            "pdf",
+            "audio"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Muse Spark 1.3 Free",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0,
+          "input": 0,
+          "output": 0
+        },
+        "limit": {
+          "context": 1048576,
+          "output": 131072
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "video",
+            "pdf",
+            "audio"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Muse Spark 1.3 Free",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "muse-spark-1.3-contributor-free",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "b049d21a01f1673693ebde49",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "alibaba/qwen3-coder-480b-a35b-instruct",
+        "cost": {
+          "input": 0.45,
+          "output": 1.8
+        },
+        "limit": {
+          "context": 262144,
+          "output": 65536
+        },
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Qwen3 Coder",
+        "reasoning": false,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "input": 0.45,
+          "output": 1.8
+        },
+        "limit": {
+          "context": 262144,
+          "output": 65536
+        },
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Qwen3 Coder",
+        "reasoning": false,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "qwen3-coder",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "706eb48df2ceba650af4b4b3",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "alibaba/qwen3.5-plus",
+        "cost": {
+          "cache_read": 0.02,
+          "cache_write": 0.25,
+          "input": 0.2,
+          "output": 1.2
+        },
+        "limit": {
+          "context": 262144,
+          "output": 65536
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "video"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Qwen3.5 Plus",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0.02,
+          "cache_write": 0.25,
+          "input": 0.2,
+          "output": 1.2
+        },
+        "limit": {
+          "context": 262144,
+          "output": 65536
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "video"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Qwen3.5 Plus",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "qwen3.5-plus",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "c5eb92cfde1cda6e2925bc74",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "alibaba/qwen3.6-plus",
+        "cost": {
+          "cache_read": 0.05,
+          "cache_write": 0.625,
+          "input": 0.5,
+          "output": 3
+        },
+        "limit": {
+          "context": 262144,
+          "output": 65536
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "video"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Qwen3.6 Plus",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0.05,
+          "cache_write": 0.625,
+          "input": 0.5,
+          "output": 3
+        },
+        "limit": {
+          "context": 262144,
+          "output": 65536
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "video"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Qwen3.6 Plus",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "qwen3.6-plus",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "47e7195e764bff7acd8ed41d",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "alibaba/qwen3.6-plus",
+        "cost": {
+          "cache_read": 0,
+          "input": 0,
+          "output": 0
+        },
+        "limit": {
+          "context": 262144,
+          "output": 65536
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "video"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Qwen3.6 Plus Free",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0,
+          "input": 0,
+          "output": 0
+        },
+        "limit": {
+          "context": 262144,
+          "output": 65536
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "video"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Qwen3.6 Plus Free",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "entity_id": "qwen3.6-plus-free",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "id": "726667c859e885419df73536",
+      "kind": "changed",
+      "observed_at": "2026-10-21T19:34:54.949807+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
     }
   ],
   "sources": {
     "aitracker-catalog": {
       "baseline_at": "2026-10-19T22:29:44.347714+00:00",
-      "checked_at": "2026-10-21T15:45:50.814630+00:00",
-      "error": "HTTPError: HTTP Error 530: <none>",
-      "etag": "W/\"8ea9-MRiT7Y3RmW7uFPxuUUvX0A3bey4\"",
-      "evidence": "evidence/47ce169369f6d7a7a92179e4271eb7c22ec89ab6c3f0d9e54ab623d6aaaef14c.json.gz",
+      "checked_at": "2026-10-21T19:34:54.949807+00:00",
+      "error": null,
+      "etag": "W/\"90de-hmO9kUho5fstCoLeTzipI2woD7M\"",
+      "evidence": "evidence/53da8e4d7fd5fb612a63d6ad899ba4f17fd1db9651c145aeb5f84fd7b1116a01.json.gz",
       "interval": 900,
       "inventory": {
         "arex-2": {
@@ -11225,6 +16009,18 @@
           "name": "lemondecider",
           "stage": "release",
           "url": "https://live.aitracker.bot/lemondecider"
+        },
+        "ling-3.0-flash-ubtree": {
+          "maker": "inclusionAI",
+          "name": "ling-3.0-flash-ubtree",
+          "stage": "release",
+          "url": "https://live.aitracker.bot/ling-3.0-flash-ubtree"
+        },
+        "ling-3.0-tiny-ubtree": {
+          "maker": "inclusionAI",
+          "name": "ling-3.0-tiny-ubtree",
+          "stage": "release",
+          "url": "https://live.aitracker.bot/ling-3.0-tiny-ubtree"
         },
         "ling-3.1-flash": {
           "maker": "",
@@ -11660,25 +16456,25 @@
         }
       },
       "kind": "tracker",
-      "last_changed_at": "2026-10-20T22:39:27.007984+00:00",
+      "last_changed_at": "2026-10-21T19:34:54.949807+00:00",
       "last_modified": null,
-      "last_success_at": "2026-10-21T00:57:11.507629+00:00",
+      "last_success_at": "2026-10-21T19:34:54.949807+00:00",
       "name": "AI Tracker 目录",
-      "next_check_at": "2026-10-21T16:00:50.814630+00:00",
+      "next_check_at": "2026-10-21T19:49:54.949807+00:00",
       "url": "https://live.aitracker.bot/api/model-pages"
     },
     "aitracker-feed": {
-      "checked_at": "2026-10-21T15:58:31.895670+00:00",
-      "error": "HTTPError: HTTP Error 530: <none>",
+      "checked_at": "2026-10-21T19:34:54.949807+00:00",
+      "error": "ValueError: Source has an empty or duplicate identifier",
       "interval": 300,
       "kind": "feed",
       "name": "AI Tracker 消息",
-      "next_check_at": "2026-10-21T16:03:31.895670+00:00",
+      "next_check_at": "2026-10-21T19:39:54.949807+00:00",
       "url": "https://live.aitracker.bot/feeds/all.json"
     },
     "anthropic-sdk": {
       "baseline_at": "2026-10-19T18:04:35.626127+00:00",
-      "checked_at": "2026-10-21T15:45:50.814630+00:00",
+      "checked_at": "2026-10-21T19:34:54.949807+00:00",
       "error": null,
       "etag": "\"28351440b6b0dea1e48a708fe2f37b49b7f98aca\"",
       "evidence": "evidence/489e2998f3740d0ee5535b49c0ce13791a705a2e159a869380fe9929e1cf5479.json.gz",
@@ -11715,16 +16511,16 @@
       "kind": "sdk",
       "last_changed_at": "2026-10-19T18:04:35.626127+00:00",
       "last_modified": "Thu, 15 Oct 2026 19:43:35 GMT",
-      "last_success_at": "2026-10-21T15:45:50.814630+00:00",
+      "last_success_at": "2026-10-21T19:34:54.949807+00:00",
       "name": "Anthropic SDK",
-      "next_check_at": "2026-10-21T16:00:50.814630+00:00",
+      "next_check_at": "2026-10-21T19:49:54.949807+00:00",
       "url": "https://api.github.com/repos/anthropics/anthropic-sdk-python/contents/src/anthropic/types/model.py?ref=main"
     },
     "huggingface-deepseek": {
       "baseline_at": "2026-10-19T18:04:35.626127+00:00",
-      "checked_at": "2026-10-21T15:45:50.814630+00:00",
+      "checked_at": "2026-10-21T19:34:54.949807+00:00",
       "error": null,
-      "etag": "W/\"44db4-hb3cd0AQULFt+WtQBimHWGjh5w4\"",
+      "etag": "W/\"44db4-uAkX8BxWRrNHHdcR46zuUYWdogI\"",
       "evidence": "evidence/6bbc45fcbff786856fb471a6ecde13eb9009ff9a2b38472acd42349a50b79bd9.json.gz",
       "interval": 900,
       "inventory": {
@@ -17624,17 +22420,17 @@
       "kind": "huggingface",
       "last_changed_at": "2026-10-19T18:04:35.626127+00:00",
       "last_modified": null,
-      "last_success_at": "2026-10-21T15:45:50.814630+00:00",
+      "last_success_at": "2026-10-21T19:34:54.949807+00:00",
       "name": "Hugging Face · DeepSeek",
-      "next_check_at": "2026-10-21T16:00:50.814630+00:00",
+      "next_check_at": "2026-10-21T19:49:54.949807+00:00",
       "url": "https://huggingface.co/api/models?author=deepseek-ai&sort=lastModified&direction=-1&limit=100&full=true"
     },
     "models-dev": {
       "baseline_at": "2026-10-19T18:04:35.626127+00:00",
-      "checked_at": "2026-10-21T15:45:50.814630+00:00",
+      "checked_at": "2026-10-21T19:34:54.949807+00:00",
       "error": null,
-      "etag": "\"3e7636aacccabfdab3726ff6c7fd5a07\"",
-      "evidence": "evidence/8e0c27369512781dc0afd90a2b32a2a5876f7d15c2e0c6c63158c12b502bed90.json.gz",
+      "etag": "\"519eb5d2374ca1ef598d038a26a5ead2\"",
+      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
       "interval": 900,
       "inventory": {
         "beam-free": {
@@ -17712,7 +22508,7 @@
           "url": "https://models.dev/#opencode"
         },
         "claude-3-5-haiku": {
-          "canonical_model_id": null,
+          "canonical_model_id": "anthropic/claude-3-5-haiku-20241022",
           "cost": {
             "cache_read": 0.08,
             "cache_write": 1,
@@ -17793,7 +22589,7 @@
           "url": "https://models.dev/#opencode"
         },
         "claude-haiku-4-5": {
-          "canonical_model_id": null,
+          "canonical_model_id": "anthropic/claude-haiku-4-5",
           "cost": {
             "cache_read": 0.1,
             "cache_write": 1.25,
@@ -17859,7 +22655,7 @@
           "url": "https://models.dev/#opencode"
         },
         "claude-opus-4-1": {
-          "canonical_model_id": null,
+          "canonical_model_id": "anthropic/claude-opus-4-1",
           "cost": {
             "cache_read": 1.5,
             "cache_write": 18.75,
@@ -17886,7 +22682,7 @@
           "url": "https://models.dev/#opencode"
         },
         "claude-opus-4-5": {
-          "canonical_model_id": null,
+          "canonical_model_id": "anthropic/claude-opus-4-5",
           "cost": {
             "cache_read": 0.5,
             "cache_write": 6.25,
@@ -17940,7 +22736,7 @@
           "url": "https://models.dev/#opencode"
         },
         "claude-opus-4-7": {
-          "canonical_model_id": null,
+          "canonical_model_id": "anthropic/claude-opus-4-7",
           "cost": {
             "cache_read": 0.5,
             "cache_write": 6.25,
@@ -18048,7 +22844,7 @@
           "url": "https://models.dev/#opencode"
         },
         "claude-sonnet-4": {
-          "canonical_model_id": null,
+          "canonical_model_id": "anthropic/claude-sonnet-4-0",
           "cost": {
             "cache_read": 0.3,
             "cache_write": 3.75,
@@ -18089,11 +22885,11 @@
           },
           "name": "Claude Sonnet 4",
           "reasoning": true,
-          "status": null,
+          "status": "deprecated",
           "url": "https://models.dev/#opencode"
         },
         "claude-sonnet-4-5": {
-          "canonical_model_id": null,
+          "canonical_model_id": "anthropic/claude-sonnet-4-5",
           "cost": {
             "cache_read": 0.3,
             "cache_write": 3.75,
@@ -18138,7 +22934,7 @@
           "url": "https://models.dev/#opencode"
         },
         "claude-sonnet-4-6": {
-          "canonical_model_id": null,
+          "canonical_model_id": "anthropic/claude-sonnet-4-6",
           "cost": {
             "cache_read": 0.3,
             "cache_write": 3.75,
@@ -18288,7 +23084,7 @@
           },
           "name": "DeepSeek V4 Flash Vision Exp",
           "reasoning": true,
-          "status": null,
+          "status": "deprecated",
           "url": "https://models.dev/#opencode"
         },
         "deepseek-v4-pro": {
@@ -18296,7 +23092,7 @@
           "cost": {
             "cache_read": 0.145,
             "input": 1.74,
-            "output": 3.84
+            "output": 3.48
           },
           "limit": {
             "context": 1000000,
@@ -18413,8 +23209,32 @@
           "status": "deprecated",
           "url": "https://models.dev/#opencode"
         },
+        "flint-40b-free": {
+          "canonical_model_id": "recursive/flint",
+          "cost": {
+            "cache_read": 0,
+            "input": 0,
+            "output": 0
+          },
+          "limit": {
+            "context": 262144,
+            "output": 65536
+          },
+          "modalities": {
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "name": "Flint 40B Free",
+          "reasoning": true,
+          "status": null,
+          "url": "https://models.dev/#opencode"
+        },
         "gemini-3-flash": {
-          "canonical_model_id": null,
+          "canonical_model_id": "google/gemini-3-flash-preview",
           "cost": {
             "cache_read": 0.05,
             "input": 0.5,
@@ -18442,7 +23262,7 @@
           "url": "https://models.dev/#opencode"
         },
         "gemini-3-pro": {
-          "canonical_model_id": null,
+          "canonical_model_id": "google/gemini-3-pro-preview",
           "cost": {
             "cache_read": 0.2,
             "context_over_200k": {
@@ -18486,7 +23306,7 @@
           "url": "https://models.dev/#opencode"
         },
         "gemini-3.1-pro": {
-          "canonical_model_id": null,
+          "canonical_model_id": "google/gemini-3.1-pro-preview",
           "cost": {
             "cache_read": 0.2,
             "context_over_200k": {
@@ -18530,7 +23350,7 @@
           "url": "https://models.dev/#opencode"
         },
         "gemini-3.5-flash": {
-          "canonical_model_id": null,
+          "canonical_model_id": "google/gemini-3.5-flash",
           "cost": {
             "cache_read": 0.15,
             "input": 1.5,
@@ -18703,7 +23523,7 @@
           "url": "https://models.dev/#opencode"
         },
         "glm-4.6": {
-          "canonical_model_id": null,
+          "canonical_model_id": "zhipuai/glm-4.6",
           "cost": {
             "cache_read": 0.1,
             "input": 0.6,
@@ -18727,7 +23547,7 @@
           "url": "https://models.dev/#opencode"
         },
         "glm-4.7": {
-          "canonical_model_id": null,
+          "canonical_model_id": "zhipuai/glm-4.7",
           "cost": {
             "cache_read": 0.1,
             "input": 0.6,
@@ -18751,7 +23571,7 @@
           "url": "https://models.dev/#opencode"
         },
         "glm-4.7-free": {
-          "canonical_model_id": null,
+          "canonical_model_id": "zhipuai/glm-4.7",
           "cost": {
             "cache_read": 0,
             "input": 0,
@@ -18775,7 +23595,7 @@
           "url": "https://models.dev/#opencode"
         },
         "glm-5": {
-          "canonical_model_id": null,
+          "canonical_model_id": "zhipuai/glm-5",
           "cost": {
             "cache_read": 0.2,
             "input": 1,
@@ -18799,7 +23619,7 @@
           "url": "https://models.dev/#opencode"
         },
         "glm-5-free": {
-          "canonical_model_id": null,
+          "canonical_model_id": "zhipuai/glm-5",
           "cost": {
             "cache_read": 0,
             "input": 0,
@@ -18823,7 +23643,7 @@
           "url": "https://models.dev/#opencode"
         },
         "glm-5.1": {
-          "canonical_model_id": null,
+          "canonical_model_id": "zhipuai/glm-5.1",
           "cost": {
             "cache_read": 0.26,
             "input": 1.4,
@@ -18949,7 +23769,7 @@
           "url": "https://models.dev/#opencode"
         },
         "gpt-5": {
-          "canonical_model_id": null,
+          "canonical_model_id": "openai/gpt-5",
           "cost": {
             "cache_read": 0.107,
             "input": 1.07,
@@ -18975,7 +23795,7 @@
           "url": "https://models.dev/#opencode"
         },
         "gpt-5-codex": {
-          "canonical_model_id": null,
+          "canonical_model_id": "openai/gpt-5-codex",
           "cost": {
             "cache_read": 0.107,
             "input": 1.07,
@@ -19001,7 +23821,7 @@
           "url": "https://models.dev/#opencode"
         },
         "gpt-5-nano": {
-          "canonical_model_id": null,
+          "canonical_model_id": "openai/gpt-5-nano",
           "cost": {
             "cache_read": 0.005,
             "input": 0.05,
@@ -19027,7 +23847,7 @@
           "url": "https://models.dev/#opencode"
         },
         "gpt-5.1": {
-          "canonical_model_id": null,
+          "canonical_model_id": "openai/gpt-5.1",
           "cost": {
             "cache_read": 0.107,
             "input": 1.07,
@@ -19053,7 +23873,7 @@
           "url": "https://models.dev/#opencode"
         },
         "gpt-5.1-codex": {
-          "canonical_model_id": null,
+          "canonical_model_id": "openai/gpt-5.1-codex",
           "cost": {
             "cache_read": 0.107,
             "input": 1.07,
@@ -19079,7 +23899,7 @@
           "url": "https://models.dev/#opencode"
         },
         "gpt-5.1-codex-max": {
-          "canonical_model_id": null,
+          "canonical_model_id": "openai/gpt-5.1-codex-max",
           "cost": {
             "cache_read": 0.125,
             "input": 1.25,
@@ -19105,7 +23925,7 @@
           "url": "https://models.dev/#opencode"
         },
         "gpt-5.1-codex-mini": {
-          "canonical_model_id": null,
+          "canonical_model_id": "openai/gpt-5.1-codex-mini",
           "cost": {
             "cache_read": 0.025,
             "input": 0.25,
@@ -19131,7 +23951,7 @@
           "url": "https://models.dev/#opencode"
         },
         "gpt-5.2": {
-          "canonical_model_id": null,
+          "canonical_model_id": "openai/gpt-5.2",
           "cost": {
             "cache_read": 0.175,
             "input": 1.75,
@@ -19157,7 +23977,7 @@
           "url": "https://models.dev/#opencode"
         },
         "gpt-5.2-codex": {
-          "canonical_model_id": null,
+          "canonical_model_id": "openai/gpt-5.2-codex",
           "cost": {
             "cache_read": 0.175,
             "input": 1.75,
@@ -19184,7 +24004,7 @@
           "url": "https://models.dev/#opencode"
         },
         "gpt-5.3-codex": {
-          "canonical_model_id": null,
+          "canonical_model_id": "openai/gpt-5.3-codex",
           "cost": {
             "cache_read": 0.175,
             "input": 1.75,
@@ -19211,7 +24031,7 @@
           "url": "https://models.dev/#opencode"
         },
         "gpt-5.3-codex-spark": {
-          "canonical_model_id": null,
+          "canonical_model_id": "openai/gpt-5.3-codex-spark",
           "cost": {
             "cache_read": 0.175,
             "input": 1.75,
@@ -19279,7 +24099,7 @@
           "url": "https://models.dev/#opencode"
         },
         "gpt-5.4-mini": {
-          "canonical_model_id": null,
+          "canonical_model_id": "openai/gpt-5.4-mini",
           "cost": {
             "cache_read": 0.075,
             "input": 0.75,
@@ -19306,7 +24126,7 @@
           "url": "https://models.dev/#opencode"
         },
         "gpt-5.4-nano": {
-          "canonical_model_id": null,
+          "canonical_model_id": "openai/gpt-5.4-nano",
           "cost": {
             "cache_read": 0.02,
             "input": 0.2,
@@ -19333,7 +24153,7 @@
           "url": "https://models.dev/#opencode"
         },
         "gpt-5.4-pro": {
-          "canonical_model_id": null,
+          "canonical_model_id": "openai/gpt-5.4-pro",
           "cost": {
             "cache_read": 30,
             "input": 30,
@@ -19403,7 +24223,7 @@
           "url": "https://models.dev/#opencode"
         },
         "gpt-5.5-pro": {
-          "canonical_model_id": null,
+          "canonical_model_id": "openai/gpt-5.5-pro",
           "cost": {
             "cache_read": 30,
             "input": 30,
@@ -19524,22 +24344,22 @@
         "gpt-5.6-terra": {
           "canonical_model_id": "openai/gpt-5.6-terra",
           "cost": {
-            "cache_read": 0.25,
-            "cache_write": 3.125,
+            "cache_read": 0.2,
+            "cache_write": 2.5,
             "context_over_200k": {
-              "cache_read": 0.5,
-              "cache_write": 6.25,
-              "input": 5,
-              "output": 22.5
+              "cache_read": 0.4,
+              "cache_write": 5,
+              "input": 4,
+              "output": 18
             },
-            "input": 2.5,
-            "output": 15,
+            "input": 2,
+            "output": 12,
             "tiers": [
               {
-                "cache_read": 0.5,
-                "cache_write": 6.25,
-                "input": 5,
-                "output": 22.5,
+                "cache_read": 0.4,
+                "cache_write": 5,
+                "input": 4,
+                "output": 18,
                 "tier": {
                   "size": 272000,
                   "type": "context"
@@ -19902,7 +24722,7 @@
           "url": "https://models.dev/#opencode"
         },
         "grok-code": {
-          "canonical_model_id": null,
+          "canonical_model_id": "xai/grok-code-fast-1",
           "cost": {
             "cache_read": 0,
             "cache_write": 0,
@@ -19952,7 +24772,7 @@
           "url": "https://models.dev/#opencode"
         },
         "hy3-preview-free": {
-          "canonical_model_id": null,
+          "canonical_model_id": "tencent/hy3-preview",
           "cost": {
             "cache_read": 0,
             "input": 0,
@@ -19976,7 +24796,7 @@
           "url": "https://models.dev/#opencode"
         },
         "kimi-k2": {
-          "canonical_model_id": null,
+          "canonical_model_id": "moonshotai/kimi-k2-0905",
           "cost": {
             "cache_read": 0.4,
             "input": 0.4,
@@ -20000,7 +24820,7 @@
           "url": "https://models.dev/#opencode"
         },
         "kimi-k2-thinking": {
-          "canonical_model_id": null,
+          "canonical_model_id": "moonshotai/kimi-k2-thinking",
           "cost": {
             "cache_read": 0.4,
             "input": 0.4,
@@ -20024,9 +24844,9 @@
           "url": "https://models.dev/#opencode"
         },
         "kimi-k2.5": {
-          "canonical_model_id": null,
+          "canonical_model_id": "moonshotai/kimi-k2.5",
           "cost": {
-            "cache_read": 0.08,
+            "cache_read": 0.1,
             "input": 0.6,
             "output": 3
           },
@@ -20050,7 +24870,7 @@
           "url": "https://models.dev/#opencode"
         },
         "kimi-k2.5-free": {
-          "canonical_model_id": null,
+          "canonical_model_id": "moonshotai/kimi-k2.5",
           "cost": {
             "cache_read": 0,
             "input": 0,
@@ -20076,7 +24896,7 @@
           "url": "https://models.dev/#opencode"
         },
         "kimi-k2.6": {
-          "canonical_model_id": null,
+          "canonical_model_id": "moonshotai/kimi-k2.6",
           "cost": {
             "cache_read": 0.16,
             "input": 0.95,
@@ -20225,7 +25045,7 @@
           "url": "https://models.dev/#opencode"
         },
         "ling-3.0-flash-free": {
-          "canonical_model_id": null,
+          "canonical_model_id": "inclusionai/ling-3.0-flash",
           "cost": {
             "cache_read": 0,
             "input": 0,
@@ -20369,7 +25189,7 @@
           "url": "https://models.dev/#opencode"
         },
         "mimo-v2-flash-free": {
-          "canonical_model_id": null,
+          "canonical_model_id": "xiaomi/mimo-v2-flash",
           "cost": {
             "cache_read": 0,
             "input": 0,
@@ -20393,7 +25213,7 @@
           "url": "https://models.dev/#opencode"
         },
         "mimo-v2-omni-free": {
-          "canonical_model_id": null,
+          "canonical_model_id": "xiaomi/mimo-v2-omni",
           "cost": {
             "cache_read": 0,
             "input": 0,
@@ -20420,7 +25240,7 @@
           "url": "https://models.dev/#opencode"
         },
         "mimo-v2-pro-free": {
-          "canonical_model_id": null,
+          "canonical_model_id": "xiaomi/mimo-v2-pro",
           "cost": {
             "cache_read": 0,
             "input": 0,
@@ -20444,7 +25264,7 @@
           "url": "https://models.dev/#opencode"
         },
         "mimo-v2.5-free": {
-          "canonical_model_id": null,
+          "canonical_model_id": "xiaomi/mimo-v2.5",
           "cost": {
             "cache_read": 0,
             "input": 0,
@@ -20498,7 +25318,7 @@
           "url": "https://models.dev/#opencode"
         },
         "minimax-m2.1": {
-          "canonical_model_id": null,
+          "canonical_model_id": "minimax/MiniMax-M2.1",
           "cost": {
             "cache_read": 0.1,
             "input": 0.3,
@@ -20522,7 +25342,7 @@
           "url": "https://models.dev/#opencode"
         },
         "minimax-m2.1-free": {
-          "canonical_model_id": null,
+          "canonical_model_id": "minimax/MiniMax-M2.1",
           "cost": {
             "cache_read": 0,
             "input": 0,
@@ -20546,7 +25366,7 @@
           "url": "https://models.dev/#opencode"
         },
         "minimax-m2.5": {
-          "canonical_model_id": null,
+          "canonical_model_id": "minimax/MiniMax-M2.5",
           "cost": {
             "cache_read": 0.06,
             "input": 0.3,
@@ -20570,7 +25390,7 @@
           "url": "https://models.dev/#opencode"
         },
         "minimax-m2.5-free": {
-          "canonical_model_id": null,
+          "canonical_model_id": "minimax/MiniMax-M2.5",
           "cost": {
             "cache_read": 0,
             "input": 0,
@@ -20594,7 +25414,7 @@
           "url": "https://models.dev/#opencode"
         },
         "minimax-m2.7": {
-          "canonical_model_id": null,
+          "canonical_model_id": "minimax/MiniMax-M2.7",
           "cost": {
             "cache_read": 0.06,
             "input": 0.3,
@@ -20644,7 +25464,7 @@
           "url": "https://models.dev/#opencode"
         },
         "minimax-m3-free": {
-          "canonical_model_id": null,
+          "canonical_model_id": "minimax/MiniMax-M3",
           "cost": {
             "cache_read": 0,
             "input": 0,
@@ -20805,7 +25625,7 @@
           "url": "https://models.dev/#opencode"
         },
         "muse-spark-1.3-contributor-free": {
-          "canonical_model_id": null,
+          "canonical_model_id": "meta/muse-spark-1.3",
           "cost": {
             "cache_read": 0,
             "input": 0,
@@ -20982,7 +25802,7 @@
           "url": "https://models.dev/#opencode"
         },
         "qwen3-coder": {
-          "canonical_model_id": null,
+          "canonical_model_id": "alibaba/qwen3-coder-480b-a35b-instruct",
           "cost": {
             "input": 0.45,
             "output": 1.8
@@ -21005,7 +25825,7 @@
           "url": "https://models.dev/#opencode"
         },
         "qwen3.5-plus": {
-          "canonical_model_id": null,
+          "canonical_model_id": "alibaba/qwen3.5-plus",
           "cost": {
             "cache_read": 0.02,
             "cache_write": 0.25,
@@ -21032,7 +25852,7 @@
           "url": "https://models.dev/#opencode"
         },
         "qwen3.6-plus": {
-          "canonical_model_id": null,
+          "canonical_model_id": "alibaba/qwen3.6-plus",
           "cost": {
             "cache_read": 0.05,
             "cache_write": 0.625,
@@ -21059,7 +25879,7 @@
           "url": "https://models.dev/#opencode"
         },
         "qwen3.6-plus-free": {
-          "canonical_model_id": null,
+          "canonical_model_id": "alibaba/qwen3.6-plus",
           "cost": {
             "cache_read": 0,
             "input": 0,
@@ -21266,16 +26086,16 @@
         }
       },
       "kind": "models-dev",
-      "last_changed_at": "2026-10-20T22:39:27.007984+00:00",
+      "last_changed_at": "2026-10-21T19:34:54.949807+00:00",
       "last_modified": null,
-      "last_success_at": "2026-10-21T15:45:50.814630+00:00",
+      "last_success_at": "2026-10-21T19:34:54.949807+00:00",
       "name": "models.dev · OpenCode",
-      "next_check_at": "2026-10-21T16:00:50.814630+00:00",
+      "next_check_at": "2026-10-21T19:49:54.949807+00:00",
       "url": "https://models.dev/api.json"
     },
     "openai-sdk": {
       "baseline_at": "2026-10-19T18:04:35.626127+00:00",
-      "checked_at": "2026-10-21T15:45:50.814630+00:00",
+      "checked_at": "2026-10-21T19:34:54.949807+00:00",
       "error": null,
       "etag": "\"83da5285891053650b7f9407bf5c8f6751e4c8ca\"",
       "evidence": "evidence/d7baec3b22ae6fca74179bbfb5afd7c672551edc91690473123807474e300c49.json.gz",
@@ -21383,17 +26203,17 @@
       "kind": "sdk",
       "last_changed_at": "2026-10-19T18:04:35.626127+00:00",
       "last_modified": "Mon, 19 Oct 2026 02:21:06 GMT",
-      "last_success_at": "2026-10-21T15:45:50.814630+00:00",
+      "last_success_at": "2026-10-21T19:34:54.949807+00:00",
       "name": "OpenAI SDK",
-      "next_check_at": "2026-10-21T16:00:50.814630+00:00",
+      "next_check_at": "2026-10-21T19:49:54.949807+00:00",
       "url": "https://api.github.com/repos/openai/openai-python/contents/src/openai/types/shared/chat_model.py?ref=main"
     },
     "openrouter": {
       "baseline_at": "2026-10-19T18:04:35.626127+00:00",
-      "checked_at": "2026-10-21T15:58:31.895670+00:00",
+      "checked_at": "2026-10-21T19:34:54.949807+00:00",
       "error": null,
       "etag": null,
-      "evidence": "evidence/1b66553df7a5325d423213761b592b534a5a97671ddc57c00c8f99d60114dcb2.json.gz",
+      "evidence": "evidence/ff5fbdb1375892a96e805ff431349b2440f9d012972788f1287627a2b75e988e.json.gz",
       "interval": 300,
       "inventory": {
         "aion-labs/aion-2.0": {
@@ -24140,9 +28960,9 @@
           "expiration_date": null,
           "name": "DeepSeek: DeepSeek V4 Pro 0423",
           "pricing": {
-            "completion": "0.000000855036",
-            "input_cache_read": "0.0000000356265",
-            "prompt": "0.000000427518"
+            "completion": "0.00000082128",
+            "input_cache_read": "0.00000003422",
+            "prompt": "0.00000041064"
           },
           "supported_parameters": [
             "frequency_penalty",
@@ -26334,9 +31154,9 @@
           "expiration_date": null,
           "name": "Google: Gemma 4 26B A4B ",
           "pricing": {
-            "completion": "0.0000003",
-            "input_cache_read": "0.00000005",
-            "prompt": "0.00000009"
+            "completion": "0.000000255",
+            "input_cache_read": "0.0000000425",
+            "prompt": "0.0000000765"
           },
           "supported_parameters": [
             "frequency_penalty",
@@ -29998,8 +34818,9 @@
           "expiration_date": null,
           "name": "NVIDIA: Nemotron 3 Super",
           "pricing": {
-            "completion": "0.00000045",
-            "prompt": "0.00000008"
+            "completion": "0.0000024",
+            "input_cache_read": "0.00000015",
+            "prompt": "0.0000003"
           },
           "supported_parameters": [
             "frequency_penalty",
@@ -38188,8 +43009,8 @@
           "expiration_date": null,
           "name": "Tencent: Hy3",
           "pricing": {
-            "completion": "0.000000528",
-            "input_cache_read": "0.000000033",
+            "completion": "0.00000033",
+            "input_cache_read": "0.000000020625",
             "overrides": [
               {
                 "completion": "0.000000528",
@@ -38206,7 +43027,7 @@
                 "utc_start": 1600
               }
             ],
-            "prompt": "0.000000132"
+            "prompt": "0.0000000825"
           },
           "supported_parameters": [
             "frequency_penalty",
@@ -38284,8 +43105,8 @@
           "expiration_date": null,
           "name": "Tencent: Hy4 preview",
           "pricing": {
-            "completion": "0.000002501",
-            "input_cache_read": "0.000000042",
+            "completion": "0.0000022509",
+            "input_cache_read": "0.0000000378",
             "overrides": [
               {
                 "completion": "0.000002501",
@@ -38302,7 +43123,7 @@
                 "utc_start": 1600
               }
             ],
-            "prompt": "0.000000834"
+            "prompt": "0.0000007506"
           },
           "supported_parameters": [
             "frequency_penalty",
@@ -40101,9 +44922,9 @@
           "expiration_date": null,
           "name": "Z.ai: GLM 5.3 Flash",
           "pricing": {
-            "completion": "0.00000012",
-            "input_cache_read": "0.00000000375",
-            "prompt": "0.000000041191"
+            "completion": "0.0000000718",
+            "input_cache_read": "0.0000000217",
+            "prompt": "0.0000000217"
           },
           "supported_parameters": [
             "frequency_penalty",
@@ -40806,7 +45627,7 @@
           "expiration_date": null,
           "name": "MoonshotAI: Kimi Latest",
           "pricing": {
-            "completion": "0.000024",
+            "completion": "0.000016",
             "input_cache_read": "0.000000228",
             "prompt": "0.000000238"
           },
@@ -41200,9 +46021,9 @@
           "expiration_date": null,
           "name": "Z.ai: GLM Flash Latest",
           "pricing": {
-            "completion": "0.00000012",
-            "input_cache_read": "0.00000000375",
-            "prompt": "0.000000041191"
+            "completion": "0.0000000718",
+            "input_cache_read": "0.0000000217",
+            "prompt": "0.0000000217"
           },
           "supported_parameters": [
             "frequency_penalty",
@@ -41281,11 +46102,11 @@
         }
       },
       "kind": "openrouter",
-      "last_changed_at": "2026-10-21T15:58:31.895670+00:00",
+      "last_changed_at": "2026-10-21T19:34:54.949807+00:00",
       "last_modified": null,
-      "last_success_at": "2026-10-21T15:58:31.895670+00:00",
+      "last_success_at": "2026-10-21T19:34:54.949807+00:00",
       "name": "OpenRouter · 文本输出",
-      "next_check_at": "2026-10-21T16:03:31.895670+00:00",
+      "next_check_at": "2026-10-21T19:39:54.949807+00:00",
       "url": "https://openrouter.ai/api/v1/models"
     }
   }
