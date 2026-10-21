@@ -4,9 +4,9 @@ prints a human-readable summary via i18n.t()."""
 import base64
 import json
 import hashlib
+import logging
 import os
 import struct
-import warnings
 import zlib
 
 from .i18n import t
@@ -100,14 +100,17 @@ def load_local_tokenizers(tokenizers_dir="tok"):
     if os.path.isdir(tokenizers_dir):
         for filename in sorted(os.listdir(tokenizers_dir)):
             if filename.endswith(".json"):
+                # Keep filesystem failures fatal; only parsing a readable
+                # candidate is optional.
+                with open(os.path.join(tokenizers_dir, filename), "rb") as stream:
+                    serialized = stream.read()
                 try:
-                    local[filename[:-5]] = Tokenizer.from_file(os.path.join(tokenizers_dir, filename))
+                    local[filename[:-5]] = Tokenizer.from_str(serialized.decode("utf-8"))
                 except Exception as error:
                     # Tokenizer's native parser also raises plain Exception for
-                    # unsupported models. Isolate only this candidate's load;
-                    # dependency and provenance failures remain fatal.
-                    warnings.warn(f"Skipping tokenizer candidate {filename!r}: {error}",
-                                  RuntimeWarning, stacklevel=2)
+                    # unsupported models. File I/O happens outside this handler.
+                    logging.getLogger(__name__).warning(
+                        "Skipping tokenizer candidate %r: %s", filename, error)
     local["o200k_base"] = tiktoken.get_encoding("o200k_base")
     local["cl100k_base"] = tiktoken.get_encoding("cl100k_base")
     return local
