@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-10-22T19:30:34.611918+00:00",
+  "checked_at": "2026-10-22T22:40:24.803085+00:00",
   "events": [
     {
       "after": {
@@ -20640,7 +20640,7 @@
   "sources": {
     "aitracker-catalog": {
       "baseline_at": "2026-10-19T22:29:44.347714+00:00",
-      "checked_at": "2026-10-22T19:30:34.611918+00:00",
+      "checked_at": "2026-10-22T22:40:24.803085+00:00",
       "error": "HTTPError: HTTP Error 530: <none>",
       "etag": "W/\"91f0-km6lbY3aeIYD+qnxwFBWXmTioyU\"",
       "evidence": "evidence/f9f1202acbcaa580d6ca906d74250a711f013bfb689f4298a35644d949b29297.json.gz",
@@ -21528,21 +21528,21 @@
       "last_modified": null,
       "last_success_at": "2026-10-22T15:39:46.527688+00:00",
       "name": "AI Tracker 目录",
-      "next_check_at": "2026-10-22T19:45:34.611918+00:00",
+      "next_check_at": "2026-10-22T22:55:24.803085+00:00",
       "url": "https://live.aitracker.bot/api/model-pages"
     },
     "aitracker-feed": {
-      "checked_at": "2026-10-22T19:30:34.611918+00:00",
+      "checked_at": "2026-10-22T22:40:24.803085+00:00",
       "error": "HTTPError: HTTP Error 530: <none>",
       "interval": 300,
       "kind": "feed",
       "name": "AI Tracker 消息",
-      "next_check_at": "2026-10-22T19:35:34.611918+00:00",
+      "next_check_at": "2026-10-22T22:45:24.803085+00:00",
       "url": "https://live.aitracker.bot/feeds/all.json"
     },
     "anthropic-sdk": {
       "baseline_at": "2026-10-19T18:04:35.626127+00:00",
-      "checked_at": "2026-10-22T19:30:34.611918+00:00",
+      "checked_at": "2026-10-22T22:40:24.803085+00:00",
       "error": null,
       "etag": "\"28351440b6b0dea1e48a708fe2f37b49b7f98aca\"",
       "evidence": "evidence/489e2998f3740d0ee5535b49c0ce13791a705a2e159a869380fe9929e1cf5479.json.gz",
@@ -21579,16 +21579,16 @@
       "kind": "sdk",
       "last_changed_at": "2026-10-19T18:04:35.626127+00:00",
       "last_modified": "Thu, 15 Oct 2026 19:43:35 GMT",
-      "last_success_at": "2026-10-22T19:30:34.611918+00:00",
+      "last_success_at": "2026-10-22T22:40:24.803085+00:00",
       "name": "Anthropic SDK",
-      "next_check_at": "2026-10-22T19:45:34.611918+00:00",
+      "next_check_at": "2026-10-22T22:55:24.803085+00:00",
       "url": "https://api.github.com/repos/anthropics/anthropic-sdk-python/contents/src/anthropic/types/model.py?ref=main"
     },
     "huggingface-deepseek": {
       "baseline_at": "2026-10-19T18:04:35.626127+00:00",
-      "checked_at": "2026-10-22T19:30:34.611918+00:00",
+      "checked_at": "2026-10-22T22:40:24.803085+00:00",
       "error": null,
-      "etag": "W/\"44dc3-SDv3O2yECj/EPsKy7Cfg2VTcGYo\"",
+      "etag": "W/\"44dc3-ragSWE/phbHfdgJm4ZMeBEZjAXo\"",
       "evidence": "evidence/6bbc45fcbff786856fb471a6ecde13eb9009ff9a2b38472acd42349a50b79bd9.json.gz",
       "interval": 900,
       "inventory": {
@@ -27488,16 +27488,16 @@
       "kind": "huggingface",
       "last_changed_at": "2026-10-19T18:04:35.626127+00:00",
       "last_modified": null,
-      "last_success_at": "2026-10-22T19:30:34.611918+00:00",
+      "last_success_at": "2026-10-22T22:40:24.803085+00:00",
       "name": "Hugging Face · DeepSeek",
-      "next_check_at": "2026-10-22T19:45:34.611918+00:00",
+      "next_check_at": "2026-10-22T22:55:24.803085+00:00",
       "url": "https://huggingface.co/api/models?author=deepseek-ai&sort=lastModified&direction=-1&limit=100&full=true"
     },
     "models-dev": {
       "baseline_at": "2026-10-19T18:04:35.626127+00:00",
-      "checked_at": "2026-10-22T19:30:34.611918+00:00",
+      "checked_at": "2026-10-22T22:40:24.803085+00:00",
       "error": null,
-      "etag": "\"e53f98262797f19766f4c47512cc3256\"",
+      "etag": "\"2ed440eb3bc43dfd1b1416d0f2931d0c\"",
       "evidence": "evidence/dcb42927f5d914c2e9363aacd1132de4da2c86c28a43c2a92c920340c3a9dc13.json.gz",
       "interval": 900,
       "inventory": {
@@ -31156,14 +31156,14 @@
       "kind": "models-dev",
       "last_changed_at": "2026-10-22T15:39:46.527688+00:00",
       "last_modified": null,
-      "last_success_at": "2026-10-22T19:30:34.611918+00:00",
+      "last_success_at": "2026-10-22T22:40:24.803085+00:00",
       "name": "models.dev · OpenCode",
-      "next_check_at": "2026-10-22T19:45:34.611918+00:00",
+      "next_check_at": "2026-10-22T22:55:24.803085+00:00",
       "url": "https://models.dev/api.json"
     },
     "openai-sdk": {
       "baseline_at": "2026-10-19T18:04:35.626127+00:00",
-      "checked_at": "2026-10-22T19:30:34.611918+00:00",
+      "checked_at": "2026-10-22T22:40:24.803085+00:00",
       "error": null,
       "etag": "\"83da5285891053650b7f9407bf5c8f6751e4c8ca\"",
       "evidence": "evidence/d7baec3b22ae6fca74179bbfb5afd7c672551edc91690473123807474e300c49.json.gz",
@@ -31271,14 +31271,14 @@
       "kind": "sdk",
       "last_changed_at": "2026-10-19T18:04:35.626127+00:00",
       "last_modified": "Mon, 19 Oct 2026 02:21:06 GMT",
-      "last_success_at": "2026-10-22T19:30:34.611918+00:00",
+      "last_success_at": "2026-10-22T22:40:24.803085+00:00",
       "name": "OpenAI SDK",
-      "next_check_at": "2026-10-22T19:45:34.611918+00:00",
+      "next_check_at": "2026-10-22T22:55:24.803085+00:00",
       "url": "https://api.github.com/repos/openai/openai-python/contents/src/openai/types/shared/chat_model.py?ref=main"
     },
     "openrouter": {
       "baseline_at": "2026-10-19T18:04:35.626127+00:00",
-      "checked_at": "2026-10-22T19:30:34.611918+00:00",
+      "checked_at": "2026-10-22T22:40:24.803085+00:00",
       "error": null,
       "etag": null,
       "evidence": "evidence/a3f493d1c5a9f91d200010b69bcdb6b41813ba99755ccefe31b9902d65ff4c23.json.gz",
@@ -51167,10 +51167,10 @@
       },
       "kind": "openrouter",
       "last_changed_at": "2026-10-22T19:30:34.611918+00:00",
-      "last_modified": "Thu, 22 Oct 2026 19:30:21 GMT",
-      "last_success_at": "2026-10-22T19:30:34.611918+00:00",
+      "last_modified": "Thu, 22 Oct 2026 22:40:09 GMT",
+      "last_success_at": "2026-10-22T22:40:24.803085+00:00",
       "name": "OpenRouter · 文本输出",
-      "next_check_at": "2026-10-22T19:35:34.611918+00:00",
+      "next_check_at": "2026-10-22T22:45:24.803085+00:00",
       "url": "https://openrouter.ai/api/v1/models"
     }
   }
