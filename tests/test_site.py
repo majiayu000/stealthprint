@@ -174,6 +174,36 @@ class SiteTests(unittest.TestCase):
         self.assertEqual(before, after)
         self.assertEqual(self.builder.OUT, root)
 
+    def test_candidate_filter_keeps_prior_signal_when_latest_event_is_metadata(self):
+        import json
+        sdk_before = {'name': 'chat_model.py', 'url': 'https://example.com/types', 'models': ['known']}
+        sdk_after = {**sdk_before, 'models': ['known', '<new-model>']}
+        events = [
+            {'id': 'new-sdk-id', 'source_id': 'openai-sdk', 'entity_id': 'model-types', 'kind': 'changed',
+             'before': sdk_before, 'after': sdk_after, 'observed_at': '2026-10-22T00:00:00Z', 'published_at': None},
+            {'id': 'notes-only', 'source_id': 'openai-sdk', 'entity_id': 'model-types', 'kind': 'changed',
+             'before': sdk_after, 'after': {**sdk_after, 'notes': ['documentation correction']},
+             'observed_at': '2026-10-22T01:00:00Z', 'published_at': None},
+            {'id': 'build-id', 'source_id': 'gemini-cli-build', 'entity_id': 'gemini-example', 'kind': 'added',
+             'before': None, 'after': {'name': 'gemini-example', 'url': 'https://example.com/build',
+                                      'symbols': ['PREVIEW_MODEL'], 'file': 'package/dist/src/config/models.js'},
+             'observed_at': '2026-10-22T02:00:00Z', 'published_at': None},
+        ]
+        directory = self.builder.MONITOR_DIR
+        directory.mkdir()
+        (directory / 'state.json').write_text(json.dumps({'checked_at': '2026-10-22T02:00:00Z',
+                                                         'sources': {}, 'events': events}))
+        self.build()
+        html = (self.builder.OUT / 'updates/index.html').read_text()
+        self.assertIn('id="update-signal"', html)
+        self.assertIn('data-signals="candidate change"', html)
+        self.assertIn('含新标识线索 · &lt;new-model&gt;', html)
+        self.assertIn('新标识 · 待核对', html)
+        self.assertNotIn('<new-model>', html)
+        self.assertIn('PREVIEW_MODEL', html)
+        self.assertIn('package/dist/src/config/models.js', html)
+        self.assertIn('不代表正式发布或实际可调用', html)
+
 
 if __name__ == '__main__':
     unittest.main()
