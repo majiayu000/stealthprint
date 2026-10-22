@@ -320,7 +320,7 @@ pre code { font-size: inherit; }
 .updates-stat .signal-dot { position: absolute; top: 25px; right: 25px; background: #bc4423; }
 .updates-provenance { display: flex; flex-wrap: wrap; gap: 10px 25px; margin-top: 35px; padding-block: 18px; border-block: 1px solid var(--line); color: var(--muted); font-size: 12px; }
 .updates-layout { display: grid; grid-template-columns: minmax(0, 1fr) 250px; gap: 40px; padding: 0 0 70px; }
-.updates-controls { display: flex; gap: 16px; }
+.updates-controls { display: flex; flex-wrap: wrap; gap: 16px; }
 .updates-controls label { display: grid; gap: 8px; font-size: 12px; color: var(--muted); }
 .updates-controls label:first-child { flex: 1; min-width: 0; }
 .updates-controls input, .updates-controls select { width: 100%; min-height: 46px; padding: 11px 13px; color: var(--ink); background: var(--surface); border: 1px solid #cdd3db; border-radius: 6px; font: inherit; font-size: 16px; }
@@ -332,6 +332,7 @@ pre code { font-size: inherit; }
 .update-heading .status { flex-shrink: 0; margin-top: 25px; }
 .update-maker { color: var(--muted); font-size: 11px; margin-bottom: 8px; }
 .update-summary { color: var(--muted); font-size: 14px; margin: 18px 0; overflow-wrap: anywhere; }
+.candidate-note { font-size: 13px; color: var(--accent); overflow-wrap: anywhere; }
 .update-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; font-size: 11px; color: var(--muted); }
 .update-history { margin-top: 19px; padding-top: 14px; border-top: 1px solid #edf0f3; font-size: 12px; }
 .update-history summary { color: #555f6b; cursor: pointer; width: fit-content; }
@@ -527,8 +528,10 @@ pre code { font-size: inherit; }
   .updates-stat > span:not(.signal-dot) { margin: 0; font-size: 12px; }
   .updates-provenance { margin-top: 25px; font-size: 11px; }
   .updates-controls { gap: 12px; }
+  .updates-controls label:first-child { flex-basis: 100%; }
+  .updates-controls label:not(:first-child) { flex: 1; }
   .updates-controls label { font-size: 11px; }
-  .updates-controls select { max-width: 135px; }
+  .updates-controls select { max-width: none; }
   .updates-controls input, .updates-controls select { font-size: 14px; }
   .update-row { padding: 22px 20px; }
   .update-heading h2 { font-size: 20px; }

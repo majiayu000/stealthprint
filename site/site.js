@@ -93,20 +93,23 @@ if (selectedButton) selectCandidate(selectedButton, false);
 const updateSearch = document.getElementById('update-search');
 if (updateSearch) {
   const kind = document.getElementById('update-kind');
+  const signal = document.getElementById('update-signal');
   const rows = [...document.querySelectorAll('[data-update]')];
   function filterUpdates() {
     const query = updateSearch.value.trim().toLocaleLowerCase();
     let visible = 0;
     for (const row of rows) {
       row.hidden = !row.dataset.search.toLocaleLowerCase().includes(query) ||
-        (kind.value !== '' && row.dataset.kind !== kind.value);
+        (kind.value !== '' && row.dataset.kind !== kind.value) ||
+        (signal.value !== '' && !row.dataset.signals.split(' ').includes(signal.value));
       if (!row.hidden) visible++;
     }
-    document.getElementById('update-count').textContent = `${visible} / ${rows.length} 个模型`;
+    document.getElementById('update-count').textContent = `${visible} / ${rows.length} 组记录`;
     document.getElementById('update-empty').hidden = visible !== 0;
   }
   updateSearch.addEventListener('input', filterUpdates);
   kind.addEventListener('change', filterUpdates);
+  signal.addEventListener('change', filterUpdates);
 }
 
 function updateFreshness() {

@@ -24,7 +24,7 @@ import markdown
 import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from stealthprint.updates import SOURCES, group_updates, load_state, parse_time
+from stealthprint.updates import SOURCES, candidate_ids, group_updates, load_state, parse_time
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -458,6 +458,7 @@ def updates():
         return f'<a href="../data/monitor/{escape(path, quote=True)}" download>{text} ↓</a>' if path else ''
 
     source_names = {source["id"]: source["name"] for source in SOURCES}
+    source_kinds = {source["id"]: source["kind"] for source in SOURCES}
     groups = {}
     historical_ids = set()
     for group in group_updates(snapshot):
@@ -476,12 +477,15 @@ def updates():
                            "model": record["name"], "maker": source_names[event["source_id"]], "identity": key[1], "events": []}
         if event["kind"] == "reported" and event["entity_id"] in historical_ids:
             groups[key]["events"] = [item for item in groups[key]["events"] if item["id"] != event["entity_id"]]
-        groups[key]["events"].append({**event, "date": event["published_at"] if event["kind"] == "reported" else event["observed_at"]})
+        groups[key]["events"].append({**event, "candidates": candidate_ids(event, source_kinds[event['source_id']]),
+                                     "date": event["published_at"] if event["kind"] == "reported" else event["observed_at"]})
     for group in groups.values():
         group["events"].sort(key=lambda item: parse_time(item["date"]), reverse=True)
     groups = sorted(groups.values(), key=lambda group: parse_time(group["events"][0]["date"]), reverse=True)
 
     def label(event):
+        if event.get("candidates"):
+            return "新标识 · 待核对", "blue"
         if event["kind"] == "reported":
             tags = event["after"].get("tags", [])
             if "release" in tags:
@@ -493,6 +497,8 @@ def updates():
                 "missing": ("当前未观察到", "amber"), "restored": ("重新出现", "blue")}[event["kind"]]
 
     def summary(event):
+        if event.get("candidates"):
+            return "本来源新出现标识：" + "、".join(event["candidates"]) + "。请核对原始文件与既往记录；不代表正式发布或实际可调用。"
         if event["kind"] == "reported":
             return event["after"]["summary"]
         return {"added": "该条目首次出现在本来源的已保存目录中，尚未验证是否可调用。",
@@ -515,12 +521,15 @@ def updates():
           <div class="source-title"><a href="{escape(source['url'], quote=True)}" target="_blank" rel="noopener noreferrer">{escape(source['name'])} ↗</a><strong data-health-label>{health}</strong></div>
           <p>最近成功 · <time>{when(success)}</time></p><p>{count} {unit} · {"已建立基线" if 'inventory' in row else "尚无基线"}</p>
           {('<p class="source-error">' + escape(error) + '</p>') if error else ''}
-          {evidence_link(row.get('evidence'), '下载当前来源证据')}</article>''')
+          {evidence_link(row.get('evidence'), '下载基线证据')}</article>''')
     rows = []
     for group in groups[:200]:
         anchor = "update-" + hashlib.sha256((group["source_id"] + ':' + group["identity"]).encode()).hexdigest()[:12]
         latest = group["events"][0]
         title, tone = label(latest)
+        candidates = sorted({identity for item in group['events'] for identity in item.get('candidates', [])})
+        signals = sorted({"candidate" if item.get("candidates") else "report" if item["kind"] == "reported" else "change"
+                          for item in group["events"]})
         events = []
         for item in reversed(group["events"]):
             event_label, _ = label(item)
@@ -530,24 +539,25 @@ def updates():
             if item.get("published_at"):
                 detail += f'<p>来源发布时间 · {when(item["published_at"])}</p>'
             detail += evidence_link(item.get("evidence"))
-            if item.get("before") is not None:
-                before = escape(json.dumps(item['before'], ensure_ascii=False, indent=2))
+            if item.get("before") is not None or (not item.get("historical") and item["kind"] != "reported"):
+                before = escape(json.dumps(item.get('before'), ensure_ascii=False, indent=2))
                 after = escape(json.dumps(item['after'], ensure_ascii=False, indent=2))
                 detail += f'<details class="event-diff"><summary>核对前后记录</summary>{evidence_link(item.get("before_evidence"), "下载此前证据")}<h3>此前记录</h3><pre><code>{before}</code></pre><h3>本次记录</h3><pre><code>{after}</code></pre></details>'
             if item.get("historical"):
                 detail += '<p>历史来源消息 · 本站首次观察时间未知</p><a href="../assets/updates.json" download>下载历史快照 ↓</a>'
             events.append(f'<li><time datetime="{escape(item["date"], quote=True)}">{when(item["date"])}</time><div><strong>{event_label}</strong><p>{escape(summary(item))}</p>{detail}<span class="event-id">事件 · {escape(item["id"])}</span></div></li>')
-        query = escape(group["model"] + " " + group["maker"] + " " + source_names[group["source_id"]], quote=True)
-        rows.append(f'''<article class="update-row" id="{anchor}" data-update data-search="{query}" data-kind="{tone}">
+        query = escape(group["model"] + " " + group["maker"] + " " + source_names[group["source_id"]] + " " + " ".join(candidates), quote=True)
+        rows.append(f'''<article class="update-row" id="{anchor}" data-update data-search="{query}" data-kind="{tone}" data-signals="{' '.join(signals)}">
           <div class="update-heading"><div><p class="update-maker">{escape(group['maker'])} · {escape(source_names[group['source_id']])}</p><h2>{escape(group['model'])}</h2></div><span class="status status-{tone}">{title}</span></div>
           <p class="update-summary">{escape(summary(latest))}</p>
+          {('<p class="candidate-note">含新标识线索 · ' + escape('、'.join(candidates)) + ' · 展开消息经过核对</p>') if candidates else ''}
           <div class="update-meta"><time datetime="{escape(latest['date'], quote=True)}">最近记录 · {when(latest['date'])}</time><span>本站复测 · 暂无</span><a href="{escape(group['url'], quote=True)}" target="_blank" rel="noopener noreferrer">查看来源 ↗</a><a href="#{anchor}" aria-label="这条模型更新的永久链接">#</a></div>
           <details class="update-history"><summary>查看消息经过 · {len(events)} 条</summary><ol>{''.join(events)}</ol></details>
         </article>''')
     checked = monitor['checked_at']
     content = f'''<div class="container"><section class="updates-hero"><div class="updates-heading-row"><div><p class="eyebrow">THE MODEL WATCH / 模型观察站</p><h1>最近哪些模型<br>有了新变化？</h1><p class="hero-description">发现公开变化，保留来源与后续。<br>目录线索、发布消息和独立实测，各有依据。</p></div><div class="updates-stat"><strong>{len(SOURCES):02d}</strong><span>个观察来源</span><span class="signal-dot"></span></div></div><div class="updates-provenance"><span id="monitor-freshness" data-checked-at="{escape(checked or '', quote=True)}">最近检查 · {when(checked)}（北京时间）</span><a href="../data/monitor/state.json" download>下载完整监测数据 ↓</a><a href="../assets/updates.json" download>历史消息快照 · {when(snapshot['fetched_at'])}</a></div></section>
-      <section class="source-section" aria-label="来源健康"><details class="source-details"><summary><strong>来源状态</strong><span id="source-health-summary">{healthy_count} / {len(SOURCES)} 个来源最近采集成功</span><span>展开查看 ↗</span></summary><p class="source-note">计划每 5 分钟检查；部分来源每 15 分钟采集，调度可能延迟。</p><div class="source-grid">{''.join(cards)}</div><p class="source-note">首次读取目录只建立基线。来源失败会保留上次证据；没有新记录不等于没有新模型。原始证据为包含响应原文的 gzip JSON 文件。</p></details></section>
-      <div class="updates-layout"><section aria-label="模型更新列表"><div class="updates-controls"><label for="update-search">查找模型、厂商或来源<input id="update-search" type="search" placeholder="例如 DeepSeek、OpenRouter" autocomplete="off"></label><label for="update-kind">消息类型<select id="update-kind"><option value="">全部消息</option><option value="green">发布消息</option><option value="amber">泄露或缺失</option><option value="blue">目录与其他变化</option></select></label></div><p id="update-count" class="update-count" aria-live="polite">{len(rows)} / {len(groups)} 组记录 · 完整历史可下载</p><noscript><p>所有记录在下方；交互筛选和实时过期提示需要 JavaScript。</p></noscript><p id="update-empty" hidden>没有找到匹配的记录，试试其他名称。</p>{''.join(rows) or '<p>基线已准备，后续变化将在这里显示。</p>'}</section>
+      <section class="source-section" aria-label="来源健康"><details class="source-details"><summary><strong>来源状态</strong><span id="source-health-summary">{healthy_count} / {len(SOURCES)} 个来源最近采集成功</span><span>展开查看 ↗</span></summary><p class="source-note">计划每 5 分钟检查；官方仓库每 15 分钟、构建包每小时采集，调度可能延迟。</p><div class="source-grid">{''.join(cards)}</div><p class="source-note">首次读取目录只建立基线。来源失败会保留上次证据；没有新记录不等于没有新模型。原始证据为 gzip JSON；构建包保留完整选定源码文件、版本与校验信息。</p></details></section>
+      <div class="updates-layout"><section aria-label="模型更新列表"><div class="updates-controls"><label for="update-search">查找模型、厂商或来源<input id="update-search" type="search" placeholder="例如 DeepSeek、OpenRouter" autocomplete="off"></label><label for="update-signal">含以下记录<select id="update-signal"><option value="">全部记录</option><option value="candidate">新标识待核对</option><option value="change">配置与状态变化</option><option value="report">来源消息</option></select></label><label for="update-kind">消息类型<select id="update-kind"><option value="">全部消息</option><option value="green">发布消息</option><option value="amber">泄露或缺失</option><option value="blue">目录与其他变化</option></select></label></div><p id="update-count" class="update-count" aria-live="polite">{len(rows)} / {len(groups)} 组记录 · 完整历史可下载</p><noscript><p>所有记录在下方；交互筛选和实时过期提示需要 JavaScript。</p></noscript><p id="update-empty" hidden>没有找到匹配的记录，试试其他名称。</p>{''.join(rows) or '<p>基线已准备，后续变化将在这里显示。</p>'}</section>
       <aside class="updates-reading"><h2>这些记录说明什么？</h2><dl><dt>目录与 SDK 变化</dt><dd>某个公开来源发生了变化，不代表正式发布或实际可调用。</dd><dt>来源发布消息</dt><dd>保留来源的原始判断。AI Tracker 订阅通常比其 X 消息晚约 10 分钟。</dd><dt>本站复测</dt><dd>本页没有自动运行模型 API 测量。入口身份与能力需另外验证。</dd></dl><p>日期均为北京时间。来源发布时间、本站观察时间和 API 测量时间分别记录。</p><a class="text-link" href="../index.html#archive">阅读已有实测调查 →</a></aside></div></div>'''
     render_page("updates/index.html", "模型更新", "公开模型变化、原始依据、来源健康与消息时间线。", content, active="updates")
 
