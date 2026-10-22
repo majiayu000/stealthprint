@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-10-22T00:54:55.674564+00:00",
+  "checked_at": "2026-10-22T05:41:03.967979+00:00",
   "events": [
     {
       "after": {
@@ -17901,15 +17901,624 @@
       "observed_at": "2026-10-22T00:54:55.674564+00:00",
       "published_at": null,
       "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "maker": "Alibaba (Qwen tokenizer)",
+        "name": "kalmia (Arena)",
+        "stage": "leak",
+        "url": "https://live.aitracker.bot/kalmia-arena"
+      },
+      "before": null,
+      "before_evidence": "evidence/e0a4bbfb139f9ebbab4bf30011d88cecd99dd5f923f95004c6481bf218bfff2a.json.gz",
+      "entity_id": "kalmia-arena",
+      "evidence": "evidence/5111b651e2091eb525794a75a7f39662728144b57f613c5f22ffa099f0cdefd9.json.gz",
+      "id": "dd5b36d402c41f946be1b7d4",
+      "kind": "added",
+      "observed_at": "2026-10-22T05:41:03.967979+00:00",
+      "published_at": null,
+      "source_id": "aitracker-catalog"
+    },
+    {
+      "after": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "moonshotai/kimi-k2-thinking-20251106",
+        "context_length": 262144,
+        "expiration_date": null,
+        "name": "MoonshotAI: Kimi K2 Thinking",
+        "pricing": {
+          "completion": "0.0000025",
+          "input_cache_read": "0.00000015",
+          "prompt": "0.0000006"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logprobs",
+          "max_tokens",
+          "presence_penalty",
+          "reasoning",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/moonshotai/kimi-k2-thinking"
+      },
+      "before": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "moonshotai/kimi-k2-thinking-20251106",
+        "context_length": 262144,
+        "expiration_date": null,
+        "name": "MoonshotAI: Kimi K2 Thinking",
+        "pricing": {
+          "completion": "0.0000025",
+          "prompt": "0.0000006"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logprobs",
+          "max_tokens",
+          "presence_penalty",
+          "reasoning",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/moonshotai/kimi-k2-thinking"
+      },
+      "before_evidence": "evidence/a5a7ddec2ce9ffb84f3773b6dffa32f39edeccfc317303fc483a537af66aa403.json.gz",
+      "entity_id": "moonshotai/kimi-k2-thinking",
+      "evidence": "evidence/ba7efc0a87c68984e6b7a135f854369d3a2acc0d6629df77d0605d6ff7632932.json.gz",
+      "id": "c47a838fb4e4ac6f5c59dcab",
+      "kind": "changed",
+      "observed_at": "2026-10-22T05:41:03.967979+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image",
+            "video"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+video->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Qwen3"
+        },
+        "canonical_slug": "qwen/qwen3.5-397b-a17b-20260216",
+        "context_length": 262144,
+        "expiration_date": null,
+        "name": "Qwen: Qwen3.5 397B A17B",
+        "pricing": {
+          "completion": "0.0000036",
+          "input_cache_read": "0.0000003",
+          "prompt": "0.0000005"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/qwen/qwen3.5-397b-a17b"
+      },
+      "before": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image",
+            "video"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+video->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Qwen3"
+        },
+        "canonical_slug": "qwen/qwen3.5-397b-a17b-20260216",
+        "context_length": 262144,
+        "expiration_date": null,
+        "name": "Qwen: Qwen3.5 397B A17B",
+        "pricing": {
+          "completion": "0.00000234",
+          "prompt": "0.00000039"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/qwen/qwen3.5-397b-a17b"
+      },
+      "before_evidence": "evidence/a5a7ddec2ce9ffb84f3773b6dffa32f39edeccfc317303fc483a537af66aa403.json.gz",
+      "entity_id": "qwen/qwen3.5-397b-a17b",
+      "evidence": "evidence/ba7efc0a87c68984e6b7a135f854369d3a2acc0d6629df77d0605d6ff7632932.json.gz",
+      "id": "3cc9ff2a0832296e0cc62807",
+      "kind": "changed",
+      "observed_at": "2026-10-22T05:41:03.967979+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image",
+            "video"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+video->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "z-ai/glm-5.3-flash-20260826",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "Z.ai: GLM 5.3 Flash",
+        "pricing": {
+          "completion": "0.0000001589",
+          "input_cache_read": "0.0000000125",
+          "prompt": "0.0000000125"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "parallel_tool_calls",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/z-ai/glm-5.3-flash"
+      },
+      "before": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image",
+            "video"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+video->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "z-ai/glm-5.3-flash-20260826",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "Z.ai: GLM 5.3 Flash",
+        "pricing": {
+          "completion": "0.000000083",
+          "input_cache_read": "0.00000003",
+          "prompt": "0.0000000318"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "parallel_tool_calls",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/z-ai/glm-5.3-flash"
+      },
+      "before_evidence": "evidence/a5a7ddec2ce9ffb84f3773b6dffa32f39edeccfc317303fc483a537af66aa403.json.gz",
+      "entity_id": "z-ai/glm-5.3-flash",
+      "evidence": "evidence/ba7efc0a87c68984e6b7a135f854369d3a2acc0d6629df77d0605d6ff7632932.json.gz",
+      "id": "0c2e4feaed91d3a3876121c8",
+      "kind": "changed",
+      "observed_at": "2026-10-22T05:41:03.967979+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "alias_target": {
+          "name": "MoonshotAI: Kimi K3",
+          "slug": "moonshotai/kimi-k3"
+        },
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image",
+            "video"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+video->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Router"
+        },
+        "canonical_slug": "~moonshotai/kimi-latest",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "MoonshotAI: Kimi Latest",
+        "pricing": {
+          "completion": "0.000016",
+          "input_cache_read": "0.000000228",
+          "prompt": "0.000000238"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/~moonshotai/kimi-latest"
+      },
+      "before": {
+        "alias_target": {
+          "name": "MoonshotAI: Kimi K3",
+          "slug": "moonshotai/kimi-k3"
+        },
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image",
+            "video"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+video->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Router"
+        },
+        "canonical_slug": "~moonshotai/kimi-latest",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "MoonshotAI: Kimi Latest",
+        "pricing": {
+          "completion": "0.000024",
+          "input_cache_read": "0.000000228",
+          "prompt": "0.000000238"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/~moonshotai/kimi-latest"
+      },
+      "before_evidence": "evidence/a5a7ddec2ce9ffb84f3773b6dffa32f39edeccfc317303fc483a537af66aa403.json.gz",
+      "entity_id": "~moonshotai/kimi-latest",
+      "evidence": "evidence/ba7efc0a87c68984e6b7a135f854369d3a2acc0d6629df77d0605d6ff7632932.json.gz",
+      "id": "f7e369afa6ef43967fd7565d",
+      "kind": "changed",
+      "observed_at": "2026-10-22T05:41:03.967979+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "alias_target": {
+          "name": "Z.ai: GLM 5.3 Flash",
+          "slug": "z-ai/glm-5.3-flash"
+        },
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image",
+            "video"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+video->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Router"
+        },
+        "canonical_slug": "~z-ai/glm-flash-latest",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "Z.ai: GLM Flash Latest",
+        "pricing": {
+          "completion": "0.0000001589",
+          "input_cache_read": "0.0000000125",
+          "prompt": "0.0000000125"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "parallel_tool_calls",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/~z-ai/glm-flash-latest"
+      },
+      "before": {
+        "alias_target": {
+          "name": "Z.ai: GLM 5.3 Flash",
+          "slug": "z-ai/glm-5.3-flash"
+        },
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image",
+            "video"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+video->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Router"
+        },
+        "canonical_slug": "~z-ai/glm-flash-latest",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "Z.ai: GLM Flash Latest",
+        "pricing": {
+          "completion": "0.000000083",
+          "input_cache_read": "0.00000003",
+          "prompt": "0.0000000318"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "parallel_tool_calls",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/~z-ai/glm-flash-latest"
+      },
+      "before_evidence": "evidence/a5a7ddec2ce9ffb84f3773b6dffa32f39edeccfc317303fc483a537af66aa403.json.gz",
+      "entity_id": "~z-ai/glm-flash-latest",
+      "evidence": "evidence/ba7efc0a87c68984e6b7a135f854369d3a2acc0d6629df77d0605d6ff7632932.json.gz",
+      "id": "bd0a7899145bc3cefe6ecdf8",
+      "kind": "changed",
+      "observed_at": "2026-10-22T05:41:03.967979+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "canonical_model_id": "meituan/longcat-2.5-preview",
+        "cost": {
+          "cache_read": 0,
+          "input": 0,
+          "output": 0
+        },
+        "limit": {
+          "context": 1000000,
+          "output": 131072
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "LongCat 2.5 Preview Free",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": "meituan/longcat-2.5-preview",
+        "cost": {
+          "cache_read": 0,
+          "input": 0,
+          "output": 0
+        },
+        "limit": {
+          "context": 1000000,
+          "output": 131072
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "LongCat 2.5 Preview Free",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "entity_id": "longcat-2.5-preview-free",
+      "evidence": "evidence/e2ce07b34ea91fdc55dc501e9b0a6d44801057727fe6a34d07a3b70888fa5b4c.json.gz",
+      "id": "1ed1b1c7807f99f3025873d4",
+      "kind": "changed",
+      "observed_at": "2026-10-22T05:41:03.967979+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
     }
   ],
   "sources": {
     "aitracker-catalog": {
       "baseline_at": "2026-10-19T22:29:44.347714+00:00",
-      "checked_at": "2026-10-22T00:54:55.674564+00:00",
+      "checked_at": "2026-10-22T05:41:03.967979+00:00",
       "error": null,
-      "etag": "W/\"8f6e-sMNQbfunnxDKYqa3vWVhc7M7tkw\"",
-      "evidence": "evidence/e0a4bbfb139f9ebbab4bf30011d88cecd99dd5f923f95004c6481bf218bfff2a.json.gz",
+      "etag": "W/\"9040-WYVpAhlWlisGS+Y8/A82cxAItuM\"",
+      "evidence": "evidence/5111b651e2091eb525794a75a7f39662728144b57f613c5f22ffa099f0cdefd9.json.gz",
       "interval": 900,
       "inventory": {
         "arex-2": {
@@ -18295,6 +18904,12 @@
           "name": "grok-voice-transcribe-2.0",
           "stage": "leak",
           "url": "https://live.aitracker.bot/grok-voice-transcribe-2.0"
+        },
+        "kalmia-arena": {
+          "maker": "Alibaba (Qwen tokenizer)",
+          "name": "kalmia (Arena)",
+          "stage": "leak",
+          "url": "https://live.aitracker.bot/kalmia-arena"
         },
         "kandinsky-6.0-video-lite": {
           "maker": "Kandinsky Lab",
@@ -18772,25 +19387,25 @@
         }
       },
       "kind": "tracker",
-      "last_changed_at": "2026-10-22T00:54:55.674564+00:00",
+      "last_changed_at": "2026-10-22T05:41:03.967979+00:00",
       "last_modified": null,
-      "last_success_at": "2026-10-22T00:54:55.674564+00:00",
+      "last_success_at": "2026-10-22T05:41:03.967979+00:00",
       "name": "AI Tracker 目录",
-      "next_check_at": "2026-10-22T01:09:55.674564+00:00",
+      "next_check_at": "2026-10-22T05:56:03.967979+00:00",
       "url": "https://live.aitracker.bot/api/model-pages"
     },
     "aitracker-feed": {
-      "checked_at": "2026-10-22T00:54:55.674564+00:00",
+      "checked_at": "2026-10-22T05:41:03.967979+00:00",
       "error": "ValueError: Source has an empty or duplicate identifier",
       "interval": 300,
       "kind": "feed",
       "name": "AI Tracker 消息",
-      "next_check_at": "2026-10-22T00:59:55.674564+00:00",
+      "next_check_at": "2026-10-22T05:46:03.967979+00:00",
       "url": "https://live.aitracker.bot/feeds/all.json"
     },
     "anthropic-sdk": {
       "baseline_at": "2026-10-19T18:04:35.626127+00:00",
-      "checked_at": "2026-10-22T00:54:55.674564+00:00",
+      "checked_at": "2026-10-22T05:41:03.967979+00:00",
       "error": null,
       "etag": "\"28351440b6b0dea1e48a708fe2f37b49b7f98aca\"",
       "evidence": "evidence/489e2998f3740d0ee5535b49c0ce13791a705a2e159a869380fe9929e1cf5479.json.gz",
@@ -18827,16 +19442,16 @@
       "kind": "sdk",
       "last_changed_at": "2026-10-19T18:04:35.626127+00:00",
       "last_modified": "Thu, 15 Oct 2026 19:43:35 GMT",
-      "last_success_at": "2026-10-22T00:54:55.674564+00:00",
+      "last_success_at": "2026-10-22T05:41:03.967979+00:00",
       "name": "Anthropic SDK",
-      "next_check_at": "2026-10-22T01:09:55.674564+00:00",
+      "next_check_at": "2026-10-22T05:56:03.967979+00:00",
       "url": "https://api.github.com/repos/anthropics/anthropic-sdk-python/contents/src/anthropic/types/model.py?ref=main"
     },
     "huggingface-deepseek": {
       "baseline_at": "2026-10-19T18:04:35.626127+00:00",
-      "checked_at": "2026-10-22T00:54:55.674564+00:00",
+      "checked_at": "2026-10-22T05:41:03.967979+00:00",
       "error": null,
-      "etag": "W/\"44db4-j5mXZcFtsAZZv1JiD6trKIYKnVI\"",
+      "etag": "W/\"44db4-F2zjx9B8W9ofKMg8ilvfIZtsZtY\"",
       "evidence": "evidence/6bbc45fcbff786856fb471a6ecde13eb9009ff9a2b38472acd42349a50b79bd9.json.gz",
       "interval": 900,
       "inventory": {
@@ -24736,17 +25351,17 @@
       "kind": "huggingface",
       "last_changed_at": "2026-10-19T18:04:35.626127+00:00",
       "last_modified": null,
-      "last_success_at": "2026-10-22T00:54:55.674564+00:00",
+      "last_success_at": "2026-10-22T05:41:03.967979+00:00",
       "name": "Hugging Face · DeepSeek",
-      "next_check_at": "2026-10-22T01:09:55.674564+00:00",
+      "next_check_at": "2026-10-22T05:56:03.967979+00:00",
       "url": "https://huggingface.co/api/models?author=deepseek-ai&sort=lastModified&direction=-1&limit=100&full=true"
     },
     "models-dev": {
       "baseline_at": "2026-10-19T18:04:35.626127+00:00",
-      "checked_at": "2026-10-22T00:54:55.674564+00:00",
+      "checked_at": "2026-10-22T05:41:03.967979+00:00",
       "error": null,
-      "etag": "\"5b0c6c09bb035e73e65af52cd5941e0d\"",
-      "evidence": "evidence/e9665b5c8f8771f43bb3dd5ab8b027f395d5e1da3fc6e6e63908a2ecedd5b9dc.json.gz",
+      "etag": "\"16deae19a31a00dffe9858f4eeeff854\"",
+      "evidence": "evidence/e2ce07b34ea91fdc55dc501e9b0a6d44801057727fe6a34d07a3b70888fa5b4c.json.gz",
       "interval": 900,
       "inventory": {
         "beam-free": {
@@ -27501,7 +28116,7 @@
           },
           "name": "LongCat 2.5 Preview Free",
           "reasoning": true,
-          "status": null,
+          "status": "deprecated",
           "url": "https://models.dev/#opencode"
         },
         "mimo-v2-flash-free": {
@@ -28402,16 +29017,16 @@
         }
       },
       "kind": "models-dev",
-      "last_changed_at": "2026-10-21T19:34:54.949807+00:00",
+      "last_changed_at": "2026-10-22T05:41:03.967979+00:00",
       "last_modified": null,
-      "last_success_at": "2026-10-22T00:54:55.674564+00:00",
+      "last_success_at": "2026-10-22T05:41:03.967979+00:00",
       "name": "models.dev · OpenCode",
-      "next_check_at": "2026-10-22T01:09:55.674564+00:00",
+      "next_check_at": "2026-10-22T05:56:03.967979+00:00",
       "url": "https://models.dev/api.json"
     },
     "openai-sdk": {
       "baseline_at": "2026-10-19T18:04:35.626127+00:00",
-      "checked_at": "2026-10-22T00:54:55.674564+00:00",
+      "checked_at": "2026-10-22T05:41:03.967979+00:00",
       "error": null,
       "etag": "\"83da5285891053650b7f9407bf5c8f6751e4c8ca\"",
       "evidence": "evidence/d7baec3b22ae6fca74179bbfb5afd7c672551edc91690473123807474e300c49.json.gz",
@@ -28519,17 +29134,17 @@
       "kind": "sdk",
       "last_changed_at": "2026-10-19T18:04:35.626127+00:00",
       "last_modified": "Mon, 19 Oct 2026 02:21:06 GMT",
-      "last_success_at": "2026-10-22T00:54:55.674564+00:00",
+      "last_success_at": "2026-10-22T05:41:03.967979+00:00",
       "name": "OpenAI SDK",
-      "next_check_at": "2026-10-22T01:09:55.674564+00:00",
+      "next_check_at": "2026-10-22T05:56:03.967979+00:00",
       "url": "https://api.github.com/repos/openai/openai-python/contents/src/openai/types/shared/chat_model.py?ref=main"
     },
     "openrouter": {
       "baseline_at": "2026-10-19T18:04:35.626127+00:00",
-      "checked_at": "2026-10-22T00:54:55.674564+00:00",
+      "checked_at": "2026-10-22T05:41:03.967979+00:00",
       "error": null,
       "etag": null,
-      "evidence": "evidence/a5a7ddec2ce9ffb84f3773b6dffa32f39edeccfc317303fc483a537af66aa403.json.gz",
+      "evidence": "evidence/ba7efc0a87c68984e6b7a135f854369d3a2acc0d6629df77d0605d6ff7632932.json.gz",
       "interval": 300,
       "inventory": {
         "aion-labs/aion-2.0": {
@@ -36480,6 +37095,7 @@
           "name": "MoonshotAI: Kimi K2 Thinking",
           "pricing": {
             "completion": "0.0000025",
+            "input_cache_read": "0.00000015",
             "prompt": "0.0000006"
           },
           "supported_parameters": [
@@ -43647,8 +44263,9 @@
           "expiration_date": null,
           "name": "Qwen: Qwen3.5 397B A17B",
           "pricing": {
-            "completion": "0.00000234",
-            "prompt": "0.00000039"
+            "completion": "0.0000036",
+            "input_cache_read": "0.0000003",
+            "prompt": "0.0000005"
           },
           "supported_parameters": [
             "frequency_penalty",
@@ -47227,9 +47844,9 @@
           "expiration_date": null,
           "name": "Z.ai: GLM 5.3 Flash",
           "pricing": {
-            "completion": "0.000000083",
-            "input_cache_read": "0.00000003",
-            "prompt": "0.0000000318"
+            "completion": "0.0000001589",
+            "input_cache_read": "0.0000000125",
+            "prompt": "0.0000000125"
           },
           "supported_parameters": [
             "frequency_penalty",
@@ -47932,7 +48549,7 @@
           "expiration_date": null,
           "name": "MoonshotAI: Kimi Latest",
           "pricing": {
-            "completion": "0.000024",
+            "completion": "0.000016",
             "input_cache_read": "0.000000228",
             "prompt": "0.000000238"
           },
@@ -48326,9 +48943,9 @@
           "expiration_date": null,
           "name": "Z.ai: GLM Flash Latest",
           "pricing": {
-            "completion": "0.000000083",
-            "input_cache_read": "0.00000003",
-            "prompt": "0.0000000318"
+            "completion": "0.0000001589",
+            "input_cache_read": "0.0000000125",
+            "prompt": "0.0000000125"
           },
           "supported_parameters": [
             "frequency_penalty",
@@ -48407,11 +49024,11 @@
         }
       },
       "kind": "openrouter",
-      "last_changed_at": "2026-10-22T00:54:55.674564+00:00",
-      "last_modified": "Thu, 22 Oct 2026 00:53:14 GMT",
-      "last_success_at": "2026-10-22T00:54:55.674564+00:00",
+      "last_changed_at": "2026-10-22T05:41:03.967979+00:00",
+      "last_modified": null,
+      "last_success_at": "2026-10-22T05:41:03.967979+00:00",
       "name": "OpenRouter · 文本输出",
-      "next_check_at": "2026-10-22T00:59:55.674564+00:00",
+      "next_check_at": "2026-10-22T05:46:03.967979+00:00",
       "url": "https://openrouter.ai/api/v1/models"
     }
   }
