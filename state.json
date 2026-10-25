@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-10-25T21:48:56.059314+00:00",
+  "checked_at": "2026-10-25T23:37:16.370727+00:00",
   "events": [
     {
       "after": {
@@ -31653,12 +31653,234 @@
       "observed_at": "2026-10-25T21:48:56.059314+00:00",
       "published_at": null,
       "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "DeepSeek"
+        },
+        "canonical_slug": "deepseek/deepseek-v4-flash-20260731",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "DeepSeek: DeepSeek V4 Flash 0731",
+        "pricing": {
+          "completion": "0.00000132",
+          "input_cache_read": "0.000000014",
+          "prompt": "0.00000044"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "parallel_tool_calls",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_a",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/deepseek/deepseek-v4-flash-0731"
+      },
+      "before": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "DeepSeek"
+        },
+        "canonical_slug": "deepseek/deepseek-v4-flash-20260731",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "DeepSeek: DeepSeek V4 Flash 0731",
+        "pricing": {
+          "completion": "0.00000013332",
+          "input_cache_read": "0.000000001414",
+          "prompt": "0.00000004444"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "parallel_tool_calls",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_a",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/deepseek/deepseek-v4-flash-0731"
+      },
+      "before_evidence": "evidence/8cc6a7851110f7c904ca95580b6bc5485aa33cc813dd49a81f7fbb2ef31337ef.json.gz",
+      "entity_id": "deepseek/deepseek-v4-flash-0731",
+      "evidence": "evidence/a68388a9aa75cc1fc77038a6a82188251b71e46b5192bf4007a096a730ee1d02.json.gz",
+      "id": "9630107a1e5d2e63a6c84d16",
+      "kind": "changed",
+      "observed_at": "2026-10-25T23:37:16.370727+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "alias_target": {
+          "name": "MoonshotAI: Kimi K3",
+          "slug": "moonshotai/kimi-k3"
+        },
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image",
+            "video"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+video->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Router"
+        },
+        "canonical_slug": "~moonshotai/kimi-latest",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "MoonshotAI: Kimi Latest",
+        "pricing": {
+          "completion": "0.000016",
+          "input_cache_read": "0.00000017",
+          "prompt": "0.00000018"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_completion_tokens",
+          "max_tokens",
+          "min_p",
+          "parallel_tool_calls",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/~moonshotai/kimi-latest"
+      },
+      "before": {
+        "alias_target": {
+          "name": "MoonshotAI: Kimi K3",
+          "slug": "moonshotai/kimi-k3"
+        },
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image",
+            "video"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+video->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Router"
+        },
+        "canonical_slug": "~moonshotai/kimi-latest",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "MoonshotAI: Kimi Latest",
+        "pricing": {
+          "completion": "0.000016",
+          "input_cache_read": "0.000000151",
+          "prompt": "0.000000161"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_completion_tokens",
+          "max_tokens",
+          "min_p",
+          "parallel_tool_calls",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/~moonshotai/kimi-latest"
+      },
+      "before_evidence": "evidence/8cc6a7851110f7c904ca95580b6bc5485aa33cc813dd49a81f7fbb2ef31337ef.json.gz",
+      "entity_id": "~moonshotai/kimi-latest",
+      "evidence": "evidence/a68388a9aa75cc1fc77038a6a82188251b71e46b5192bf4007a096a730ee1d02.json.gz",
+      "id": "9ab89db7211cb77ddc417302",
+      "kind": "changed",
+      "observed_at": "2026-10-25T23:37:16.370727+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
     }
   ],
   "sources": {
     "aitracker-catalog": {
       "baseline_at": "2026-10-19T22:29:44.347714+00:00",
-      "checked_at": "2026-10-25T21:48:56.059314+00:00",
+      "checked_at": "2026-10-25T23:37:16.370727+00:00",
       "error": null,
       "etag": "W/\"945d-8gsmOM9FGNxVmLHDnAe0MXIuQ1s\"",
       "evidence": "evidence/ab9582175be23f0c9c7687ed65a2f4badaa1feab49e04834eadbc8c94349bd6f.json.gz",
@@ -32562,23 +32784,23 @@
       "kind": "tracker",
       "last_changed_at": "2026-10-23T19:26:07.854354+00:00",
       "last_modified": null,
-      "last_success_at": "2026-10-25T21:48:56.059314+00:00",
+      "last_success_at": "2026-10-25T23:37:16.370727+00:00",
       "name": "AI Tracker 目录",
-      "next_check_at": "2026-10-25T22:03:56.059314+00:00",
+      "next_check_at": "2026-10-25T23:52:16.370727+00:00",
       "url": "https://live.aitracker.bot/api/model-pages"
     },
     "aitracker-feed": {
-      "checked_at": "2026-10-25T21:48:56.059314+00:00",
+      "checked_at": "2026-10-25T23:37:16.370727+00:00",
       "error": "ValueError: Source has an empty or duplicate identifier",
       "interval": 300,
       "kind": "feed",
       "name": "AI Tracker 消息",
-      "next_check_at": "2026-10-25T21:53:56.059314+00:00",
+      "next_check_at": "2026-10-25T23:42:16.370727+00:00",
       "url": "https://live.aitracker.bot/feeds/all.json"
     },
     "anthropic-sdk": {
       "baseline_at": "2026-10-19T18:04:35.626127+00:00",
-      "checked_at": "2026-10-25T21:48:56.059314+00:00",
+      "checked_at": "2026-10-25T23:37:16.370727+00:00",
       "error": null,
       "etag": "\"28351440b6b0dea1e48a708fe2f37b49b7f98aca\"",
       "evidence": "evidence/489e2998f3740d0ee5535b49c0ce13791a705a2e159a869380fe9929e1cf5479.json.gz",
@@ -32615,16 +32837,16 @@
       "kind": "sdk",
       "last_changed_at": "2026-10-19T18:04:35.626127+00:00",
       "last_modified": "Thu, 15 Oct 2026 19:43:35 GMT",
-      "last_success_at": "2026-10-25T21:48:56.059314+00:00",
+      "last_success_at": "2026-10-25T23:37:16.370727+00:00",
       "name": "Anthropic SDK",
-      "next_check_at": "2026-10-25T22:03:56.059314+00:00",
+      "next_check_at": "2026-10-25T23:52:16.370727+00:00",
       "url": "https://api.github.com/repos/anthropics/anthropic-sdk-python/contents/src/anthropic/types/model.py?ref=main"
     },
     "huggingface-deepseek": {
       "baseline_at": "2026-10-19T18:04:35.626127+00:00",
-      "checked_at": "2026-10-25T21:48:56.059314+00:00",
+      "checked_at": "2026-10-25T23:37:16.370727+00:00",
       "error": null,
-      "etag": "W/\"44dc6-FGoxJ0M0JZndQSZQGTszgWmczIQ\"",
+      "etag": "W/\"44dc6-fbHH8xoJ9B8t+u9khfntjG9m3PY\"",
       "evidence": "evidence/6bbc45fcbff786856fb471a6ecde13eb9009ff9a2b38472acd42349a50b79bd9.json.gz",
       "interval": 900,
       "inventory": {
@@ -38524,16 +38746,16 @@
       "kind": "huggingface",
       "last_changed_at": "2026-10-19T18:04:35.626127+00:00",
       "last_modified": null,
-      "last_success_at": "2026-10-25T21:48:56.059314+00:00",
+      "last_success_at": "2026-10-25T23:37:16.370727+00:00",
       "name": "Hugging Face · DeepSeek",
-      "next_check_at": "2026-10-25T22:03:56.059314+00:00",
+      "next_check_at": "2026-10-25T23:52:16.370727+00:00",
       "url": "https://huggingface.co/api/models?author=deepseek-ai&sort=lastModified&direction=-1&limit=100&full=true"
     },
     "models-dev": {
       "baseline_at": "2026-10-19T18:04:35.626127+00:00",
-      "checked_at": "2026-10-25T21:48:56.059314+00:00",
+      "checked_at": "2026-10-25T23:37:16.370727+00:00",
       "error": null,
-      "etag": "\"c35d27b5f43b69372434f195c2299e1a\"",
+      "etag": "\"83360ffd2877565788cd4749ca8ed92f\"",
       "evidence": "evidence/64976402abbceb61e4302d68f8eff5abe56a737d8c583aaa8d95343d85c66cec.json.gz",
       "interval": 900,
       "inventory": {
@@ -42191,14 +42413,14 @@
       "kind": "models-dev",
       "last_changed_at": "2026-10-24T19:16:52.530476+00:00",
       "last_modified": null,
-      "last_success_at": "2026-10-25T21:48:56.059314+00:00",
+      "last_success_at": "2026-10-25T23:37:16.370727+00:00",
       "name": "models.dev · OpenCode",
-      "next_check_at": "2026-10-25T22:03:56.059314+00:00",
+      "next_check_at": "2026-10-25T23:52:16.370727+00:00",
       "url": "https://models.dev/api.json"
     },
     "openai-sdk": {
       "baseline_at": "2026-10-19T18:04:35.626127+00:00",
-      "checked_at": "2026-10-25T21:48:56.059314+00:00",
+      "checked_at": "2026-10-25T23:37:16.370727+00:00",
       "error": null,
       "etag": "\"83da5285891053650b7f9407bf5c8f6751e4c8ca\"",
       "evidence": "evidence/d7baec3b22ae6fca74179bbfb5afd7c672551edc91690473123807474e300c49.json.gz",
@@ -42306,17 +42528,17 @@
       "kind": "sdk",
       "last_changed_at": "2026-10-19T18:04:35.626127+00:00",
       "last_modified": "Mon, 19 Oct 2026 02:21:06 GMT",
-      "last_success_at": "2026-10-25T21:48:56.059314+00:00",
+      "last_success_at": "2026-10-25T23:37:16.370727+00:00",
       "name": "OpenAI SDK",
-      "next_check_at": "2026-10-25T22:03:56.059314+00:00",
+      "next_check_at": "2026-10-25T23:52:16.370727+00:00",
       "url": "https://api.github.com/repos/openai/openai-python/contents/src/openai/types/shared/chat_model.py?ref=main"
     },
     "openrouter": {
       "baseline_at": "2026-10-19T18:04:35.626127+00:00",
-      "checked_at": "2026-10-25T21:48:56.059314+00:00",
+      "checked_at": "2026-10-25T23:37:16.370727+00:00",
       "error": null,
       "etag": null,
-      "evidence": "evidence/8cc6a7851110f7c904ca95580b6bc5485aa33cc813dd49a81f7fbb2ef31337ef.json.gz",
+      "evidence": "evidence/a68388a9aa75cc1fc77038a6a82188251b71e46b5192bf4007a096a730ee1d02.json.gz",
       "interval": 300,
       "inventory": {
         "aion-labs/aion-2.0": {
@@ -44968,9 +45190,9 @@
           "expiration_date": null,
           "name": "DeepSeek: DeepSeek V4 Flash 0731",
           "pricing": {
-            "completion": "0.00000013332",
-            "input_cache_read": "0.000000001414",
-            "prompt": "0.00000004444"
+            "completion": "0.00000132",
+            "input_cache_read": "0.000000014",
+            "prompt": "0.00000044"
           },
           "supported_parameters": [
             "frequency_penalty",
@@ -61702,8 +61924,8 @@
           "name": "MoonshotAI: Kimi Latest",
           "pricing": {
             "completion": "0.000016",
-            "input_cache_read": "0.000000151",
-            "prompt": "0.000000161"
+            "input_cache_read": "0.00000017",
+            "prompt": "0.00000018"
           },
           "supported_parameters": [
             "frequency_penalty",
@@ -62178,11 +62400,11 @@
         }
       },
       "kind": "openrouter",
-      "last_changed_at": "2026-10-25T21:48:56.059314+00:00",
+      "last_changed_at": "2026-10-25T23:37:16.370727+00:00",
       "last_modified": null,
-      "last_success_at": "2026-10-25T21:48:56.059314+00:00",
+      "last_success_at": "2026-10-25T23:37:16.370727+00:00",
       "name": "OpenRouter · 文本输出",
-      "next_check_at": "2026-10-25T21:53:56.059314+00:00",
+      "next_check_at": "2026-10-25T23:42:16.370727+00:00",
       "url": "https://openrouter.ai/api/v1/models"
     }
   }
