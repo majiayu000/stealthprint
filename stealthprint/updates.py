@@ -75,26 +75,37 @@ def load_state(directory):
     return json.loads(path.read_text(encoding="utf-8")) if path.exists() else empty_state()
 
 
-def _fetch(url, headers):
+def _fetch(url, headers, deadline):
     started = time.monotonic()
+    download_deadline = started + 90
+    deadline = min(deadline, download_deadline)
+    timeout_message = ("Source download exceeded 90 seconds" if deadline == download_deadline
+                       else "Monitor collection exceeded 240 seconds")
+    remaining = deadline - started
+    if remaining <= 0:
+        raise TimeoutError("Monitor collection exceeded 240 seconds")
     request = urllib.request.Request(url, headers={
         "Accept": "application/json", "User-Agent": "stealthprint-monitor/0.1", **headers,
     })
     try:
-        response = urllib.request.urlopen(request, timeout=25)
+        response = urllib.request.urlopen(request, timeout=min(25, remaining))
     except urllib.error.HTTPError as error:
         if error.code != 304:
             raise
         response = error
     with response:
+        if time.monotonic() >= deadline:
+            raise TimeoutError(timeout_message)
         headers = {k.lower(): v for k, v in response.headers.items() if k.lower() in HEADER_NAMES}
         if response.code == 304:
             return 304, headers, b""
         chunks, size = [], 0
         while True:
-            if time.monotonic() - started > 90:
-                raise TimeoutError("Source download exceeded 90 seconds")
+            if time.monotonic() >= deadline:
+                raise TimeoutError(timeout_message)
             chunk = response.read1(64 * 1024)
+            if time.monotonic() >= deadline:
+                raise TimeoutError(timeout_message)
             if not chunk:
                 break
             size += len(chunk)
@@ -192,7 +203,7 @@ def _normalize(kind, payload):
     raise ValueError("Unknown source kind: " + kind)
 
 
-def _collect(source, previous):
+def _collect(source, previous, deadline):
     request_headers = {}
     if source["kind"] != "huggingface":
         if previous.get("etag"):
@@ -204,7 +215,7 @@ def _collect(source, previous):
         if url in seen or len(seen) >= 50:
             raise ValueError("Pagination did not finish within 50 unique pages")
         seen.add(url)
-        code, headers, body = _fetch(url, request_headers if not responses else {})
+        code, headers, body = _fetch(url, request_headers if not responses else {}, deadline)
         if code == 304:
             if responses or "inventory" not in previous:
                 raise ValueError("Received 304 without a complete stored baseline")
@@ -215,7 +226,7 @@ def _collect(source, previous):
         data = json.loads(text)
         responses.append({"url": url, "status": code, "headers": headers, "body": text})
         if source["kind"] == "gemini-build":
-            inventory, envelope = _collect_gemini_build(data, previous, responses)
+            inventory, envelope = _collect_gemini_build(data, previous, responses, deadline)
             return inventory, headers, envelope
         if source["kind"] != "huggingface":
             return _normalize(source["kind"], data), headers, {"responses": responses}
@@ -248,7 +259,7 @@ def _gemini_identifiers(text):
                   for identity, symbols in sorted(models.items()))
 
 
-def _collect_gemini_build(payload, previous, responses):
+def _collect_gemini_build(payload, previous, responses, deadline):
     if not isinstance(payload, dict) or payload.get("name") != GEMINI_PACKAGE:
         raise ValueError("Unexpected Gemini npm package")
     version = payload["version"]
@@ -271,7 +282,7 @@ def _collect_gemini_build(payload, previous, responses):
     envelope = {"responses": responses, "package": package}
     if previous.get("artifact", {}).get("integrity") == integrity and "inventory" in previous:
         return previous["inventory"], envelope
-    code, headers, archive = _fetch(url, {"Accept": "application/octet-stream"})
+    code, headers, archive = _fetch(url, {"Accept": "application/octet-stream"}, deadline)
     if code != 200 or hashlib.sha512(archive).digest() != digest:
         raise ValueError("Gemini archive failed its status or integrity check")
     selected, expanded, entries = None, 0, 0
@@ -343,12 +354,18 @@ def _events(source, before, after, observed_at, old_evidence, evidence, previous
     return events
 
 
-def candidate_ids(event, source_kind):
-    """Identifiers newly observed in this source, never a model identity verdict."""
+def candidate_ids(event, source_kind, previous_events):
+    """Identifiers first seen in retained source history, never an identity verdict."""
     if source_kind in ("feed", "tracker") or event["kind"] in ("missing", "restored", "reported"):
         return []
     if source_kind == "sdk":
-        before = (event.get("before") or {}).get("models", [])
+        before = set((event.get("before") or {}).get("models", []))
+        for previous in previous_events:
+            if previous["id"] == event["id"]:
+                break
+            if previous["source_id"] == event["source_id"]:
+                for record in (previous.get("before"), previous.get("after")):
+                    before.update((record or {}).get("models", []))
         after = (event.get("after") or {}).get("models", [])
         return sorted(set(after) - set(before))
     return [event["entity_id"]] if event["kind"] == "added" else []
@@ -361,6 +378,7 @@ def refresh_monitor(directory, sources=SOURCES, now=None):
     now = now or datetime.now(timezone.utc)
     observed_at = timestamp(now)
     state = load_state(directory)
+    deadline = time.monotonic() + 240
     for source in sources:
         previous = state["sources"].get(source["id"], {})
         if previous.get("next_check_at") and parse_time(previous["next_check_at"]) > now:
@@ -369,7 +387,9 @@ def refresh_monitor(directory, sources=SOURCES, now=None):
                   "interval": source["interval"], "checked_at": observed_at,
                   "next_check_at": timestamp(now + timedelta(seconds=source["interval"]))}
         try:
-            inventory, headers, envelope = _collect(source, previous)
+            inventory, headers, envelope = _collect(source, previous, deadline)
+            if time.monotonic() >= deadline:
+                raise TimeoutError("Monitor collection exceeded 240 seconds")
             if inventory is not None:
                 before = previous.get("inventory", {})
                 if source["kind"] == "feed":

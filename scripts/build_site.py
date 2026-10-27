@@ -477,7 +477,7 @@ def updates():
                            "model": record["name"], "maker": source_names[event["source_id"]], "identity": key[1], "events": []}
         if event["kind"] == "reported" and event["entity_id"] in historical_ids:
             groups[key]["events"] = [item for item in groups[key]["events"] if item["id"] != event["entity_id"]]
-        groups[key]["events"].append({**event, "candidates": candidate_ids(event, source_kinds[event['source_id']]),
+        groups[key]["events"].append({**event, "candidates": candidate_ids(event, source_kinds[event['source_id']], monitor["events"]),
                                      "date": event["published_at"] if event["kind"] == "reported" else event["observed_at"]})
     for group in groups.values():
         group["events"].sort(key=lambda item: parse_time(item["date"]), reverse=True)
