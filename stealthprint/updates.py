@@ -9,10 +9,13 @@ import gzip
 import hashlib
 from http.client import HTTPException
 import json
+import io
 from datetime import datetime, timedelta, timezone
 from email.utils import parsedate_to_datetime
 from pathlib import Path
 import re
+import tarfile
+import time
 import urllib.error
 import urllib.request
 import uuid
@@ -34,8 +37,20 @@ SOURCES = (
      "url": "https://api.github.com/repos/openai/openai-python/contents/src/openai/types/shared/chat_model.py?ref=main"},
     {"id": "anthropic-sdk", "name": "Anthropic SDK", "kind": "sdk", "interval": 900,
      "url": "https://api.github.com/repos/anthropics/anthropic-sdk-python/contents/src/anthropic/types/model.py?ref=main"},
+    {"id": "huggingface-qwen", "name": "Hugging Face · Qwen", "kind": "huggingface", "interval": 900,
+     "url": "https://huggingface.co/api/models?author=Qwen&sort=lastModified&direction=-1&limit=100&full=true"},
+    {"id": "huggingface-minimax", "name": "Hugging Face · MiniMax", "kind": "huggingface", "interval": 900,
+     "url": "https://huggingface.co/api/models?author=MiniMaxAI&sort=lastModified&direction=-1&limit=100&full=true"},
+    {"id": "huggingface-moonshot", "name": "Hugging Face · Moonshot", "kind": "huggingface", "interval": 900,
+     "url": "https://huggingface.co/api/models?author=moonshotai&sort=lastModified&direction=-1&limit=100&full=true"},
+    {"id": "huggingface-mistral", "name": "Hugging Face · Mistral", "kind": "huggingface", "interval": 900,
+     "url": "https://huggingface.co/api/models?author=mistralai&sort=lastModified&direction=-1&limit=100&full=true"},
+    {"id": "gemini-cli-build", "name": "Gemini CLI · 公开构建", "kind": "gemini-build", "interval": 3600,
+     "url": "https://registry.npmjs.org/@google/gemini-cli-core/latest"},
 )
 HEADER_NAMES = {"content-type", "date", "age", "etag", "last-modified", "cache-control", "link", "retry-after"}
+GEMINI_PACKAGE = "@google/gemini-cli-core"
+GEMINI_MODELS_PATH = "package/dist/src/config/models.js"
 
 
 def timestamp(value):
@@ -60,22 +75,48 @@ def load_state(directory):
     return json.loads(path.read_text(encoding="utf-8")) if path.exists() else empty_state()
 
 
-def _fetch(url, headers):
+def _fetch(url, headers, deadline):
+    started = time.monotonic()
+    download_deadline = started + 90
+    deadline = min(deadline, download_deadline)
+    timeout_message = ("Source download exceeded 90 seconds" if deadline == download_deadline
+                       else "Monitor collection exceeded 240 seconds")
+    remaining = deadline - started
+    if remaining <= 0:
+        raise TimeoutError("Monitor collection exceeded 240 seconds")
     request = urllib.request.Request(url, headers={
         "Accept": "application/json", "User-Agent": "stealthprint-monitor/0.1", **headers,
     })
     try:
-        response = urllib.request.urlopen(request, timeout=25)
+        response = urllib.request.urlopen(request, timeout=min(25, remaining))
     except urllib.error.HTTPError as error:
         if error.code != 304:
             raise
         response = error
     with response:
-        body = response.read(20 * 1024 * 1024 + 1)
-        if len(body) > 20 * 1024 * 1024:
-            raise ValueError("Source response exceeds 20 MiB")
-        return response.code, {k.lower(): v for k, v in response.headers.items()
-                               if k.lower() in HEADER_NAMES}, body
+        if time.monotonic() >= deadline:
+            raise TimeoutError(timeout_message)
+        headers = {k.lower(): v for k, v in response.headers.items() if k.lower() in HEADER_NAMES}
+        if response.code == 304:
+            return 304, headers, b""
+        chunks, size = [], 0
+        while True:
+            if time.monotonic() >= deadline:
+                raise TimeoutError(timeout_message)
+            chunk = response.read1(64 * 1024)
+            if time.monotonic() >= deadline:
+                raise TimeoutError(timeout_message)
+            if not chunk:
+                break
+            size += len(chunk)
+            if size > 20 * 1024 * 1024:
+                raise ValueError("Source response exceeds 20 MiB")
+            chunks.append(chunk)
+        body = b"".join(chunks)
+        length = response.headers.get("Content-Length")
+        if length is not None and size != int(length):
+            raise ValueError("Source response is truncated")
+        return response.code, headers, body
 
 
 def _http_url(value):
@@ -162,7 +203,7 @@ def _normalize(kind, payload):
     raise ValueError("Unknown source kind: " + kind)
 
 
-def _collect(source, previous):
+def _collect(source, previous, deadline):
     request_headers = {}
     if source["kind"] != "huggingface":
         if previous.get("etag"):
@@ -174,7 +215,7 @@ def _collect(source, previous):
         if url in seen or len(seen) >= 50:
             raise ValueError("Pagination did not finish within 50 unique pages")
         seen.add(url)
-        code, headers, body = _fetch(url, request_headers if not responses else {})
+        code, headers, body = _fetch(url, request_headers if not responses else {}, deadline)
         if code == 304:
             if responses or "inventory" not in previous:
                 raise ValueError("Received 304 without a complete stored baseline")
@@ -184,6 +225,9 @@ def _collect(source, previous):
         text = body.decode("utf-8")
         data = json.loads(text)
         responses.append({"url": url, "status": code, "headers": headers, "body": text})
+        if source["kind"] == "gemini-build":
+            inventory, envelope = _collect_gemini_build(data, previous, responses, deadline)
+            return inventory, headers, envelope
         if source["kind"] != "huggingface":
             return _normalize(source["kind"], data), headers, {"responses": responses}
         records.extend(data)
@@ -193,6 +237,77 @@ def _collect(source, previous):
                 urlsplit(source["url"]).scheme, urlsplit(source["url"]).netloc, urlsplit(source["url"]).path):
             raise ValueError("Pagination left the source endpoint")
     return _normalize(source["kind"], records), responses[0]["headers"], {"responses": responses}
+
+
+def _gemini_identifiers(text):
+    # This published file exports model constants. Ignore comments, aliases and
+    # runtime assignments; never execute the JavaScript or scan arbitrary files.
+    text = re.sub(r"/\*.*?\*/|//[^\n]*", "", text, flags=re.DOTALL)
+    declarations = re.findall(r"(?:^|(?<=;))\s*export\s+(?:const|let)\s+([A-Z][A-Z0-9_]*MODEL)\s*=\s*([^;]+);", text, re.MULTILINE)
+    models = {}
+    for symbol, value in declarations:
+        literal = re.fullmatch(r"(['\"])((?:gemini|gemma)-[A-Za-z0-9._-]+)\1", value.strip())
+        if literal:
+            models.setdefault(literal[2], []).append(symbol)
+        elif not re.fullmatch(r"(['\"])[^'\"\\\n]*\1|[A-Z][A-Z0-9_]*", value.strip()):
+            raise ValueError("Gemini model declaration is no longer a simple literal or static alias")
+    if not models:
+        raise ValueError("Gemini build contains no exported model identifiers")
+    return _index((identity, {"name": identity,
+                   "url": "https://www.npmjs.com/package/" + GEMINI_PACKAGE,
+                   "file": GEMINI_MODELS_PATH, "symbols": sorted(set(symbols))})
+                  for identity, symbols in sorted(models.items()))
+
+
+def _collect_gemini_build(payload, previous, responses, deadline):
+    if not isinstance(payload, dict) or payload.get("name") != GEMINI_PACKAGE:
+        raise ValueError("Unexpected Gemini npm package")
+    version = payload["version"]
+    if not isinstance(version, str) or not version:
+        raise ValueError("Gemini package version is missing")
+    dist = payload["dist"]
+    url = _http_url(dist["tarball"])
+    parts = urlsplit(url)
+    if (parts.scheme != "https" or parts.netloc != "registry.npmjs.org"
+            or not parts.path.startswith("/" + GEMINI_PACKAGE + "/-/gemini-cli-core-")
+            or not parts.path.endswith(".tgz") or parts.query or parts.fragment):
+        raise ValueError("Gemini archive left the expected npm package")
+    integrity = dist["integrity"]
+    if not isinstance(integrity, str) or not integrity.startswith("sha512-"):
+        raise ValueError("Gemini archive requires SHA-512 integrity")
+    digest = base64.b64decode(integrity[len("sha512-"):], validate=True)
+    if len(digest) != 64:
+        raise ValueError("Gemini archive has an invalid SHA-512 digest")
+    package = {"name": GEMINI_PACKAGE, "version": version, "integrity": integrity, "tarball": url}
+    envelope = {"responses": responses, "package": package}
+    if previous.get("artifact", {}).get("integrity") == integrity and "inventory" in previous:
+        return previous["inventory"], envelope
+    code, headers, archive = _fetch(url, {"Accept": "application/octet-stream"}, deadline)
+    if code != 200 or hashlib.sha512(archive).digest() != digest:
+        raise ValueError("Gemini archive failed its status or integrity check")
+    selected, expanded, entries = None, 0, 0
+    with tarfile.open(fileobj=io.BytesIO(archive), mode="r|gz") as bundle:
+        for member in bundle:
+            expanded += member.size
+            entries += 1
+            if expanded > 128 * 1024 * 1024 or entries > 10000:
+                raise ValueError("Gemini archive exceeds the inspection limit")
+            if member.name == GEMINI_MODELS_PATH:
+                if selected is not None or not member.isfile() or member.size > 2 * 1024 * 1024:
+                    raise ValueError("Gemini model file is duplicated, non-regular or too large")
+                with bundle.extractfile(member) as stream:
+                    selected = stream.read()
+                if len(selected) != member.size:
+                    raise ValueError("Gemini model file is truncated")
+    if selected is None:
+        raise ValueError("Gemini archive is missing the expected model file")
+    text = selected.decode("utf-8")
+    inventory = _gemini_identifiers(text)
+    envelope["artifact"] = {"url": url, "status": code, "headers": headers,
+                            "integrity_verified": True, "bytes": len(archive),
+                            "files": [{"path": GEMINI_MODELS_PATH,
+                                       "sha256": hashlib.sha256(selected).hexdigest(), "body": text}]}
+    return inventory, envelope
 
 
 def _save_evidence(directory, envelope):
@@ -239,6 +354,23 @@ def _events(source, before, after, observed_at, old_evidence, evidence, previous
     return events
 
 
+def candidate_ids(event, source_kind, previous_events):
+    """Identifiers first seen in retained source history, never an identity verdict."""
+    if source_kind in ("feed", "tracker") or event["kind"] in ("missing", "restored", "reported"):
+        return []
+    if source_kind == "sdk":
+        before = set((event.get("before") or {}).get("models", []))
+        for previous in previous_events:
+            if previous["id"] == event["id"]:
+                break
+            if previous["source_id"] == event["source_id"]:
+                for record in (previous.get("before"), previous.get("after")):
+                    before.update((record or {}).get("models", []))
+        after = (event.get("after") or {}).get("models", [])
+        return sorted(set(after) - set(before))
+    return [event["entity_id"]] if event["kind"] == "added" else []
+
+
 def refresh_monitor(directory, sources=SOURCES, now=None):
     """Commit one local snapshot; one broken source cannot erase another's data."""
     directory = Path(directory)
@@ -246,6 +378,7 @@ def refresh_monitor(directory, sources=SOURCES, now=None):
     now = now or datetime.now(timezone.utc)
     observed_at = timestamp(now)
     state = load_state(directory)
+    deadline = time.monotonic() + 240
     for source in sources:
         previous = state["sources"].get(source["id"], {})
         if previous.get("next_check_at") and parse_time(previous["next_check_at"]) > now:
@@ -254,7 +387,9 @@ def refresh_monitor(directory, sources=SOURCES, now=None):
                   "interval": source["interval"], "checked_at": observed_at,
                   "next_check_at": timestamp(now + timedelta(seconds=source["interval"]))}
         try:
-            inventory, headers, envelope = _collect(source, previous)
+            inventory, headers, envelope = _collect(source, previous, deadline)
+            if time.monotonic() >= deadline:
+                raise TimeoutError("Monitor collection exceeded 240 seconds")
             if inventory is not None:
                 before = previous.get("inventory", {})
                 if source["kind"] == "feed":
@@ -268,8 +403,10 @@ def refresh_monitor(directory, sources=SOURCES, now=None):
                 status["baseline_at"] = previous.get("baseline_at", observed_at)
                 status["etag"] = headers.get("etag")
                 status["last_modified"] = headers.get("last-modified")
+                if source["kind"] == "gemini-build":
+                    status["artifact"] = envelope["package"]
             status.update(last_success_at=observed_at, error=None)
-        except (OSError, HTTPException, ValueError, KeyError, TypeError, SyntaxError) as error:
+        except (OSError, HTTPException, ValueError, KeyError, TypeError, SyntaxError, tarfile.TarError, EOFError) as error:
             status["error"] = type(error).__name__ + ": " + str(error)
             if isinstance(error, urllib.error.HTTPError):
                 retry = error.headers.get("Retry-After")

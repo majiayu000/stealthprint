@@ -14,6 +14,7 @@ on:
       - 'site/**'
       - 'docs/**'
       - 'tests/test_updates.py'
+      - 'tests/test_build_updates.py'
       - 'tests/test_site.py'
       - 'pyproject.toml'
 
@@ -56,6 +57,7 @@ jobs:
       - name: Verify collector and website
         run: |
           python -m unittest discover -s tests -p test_updates.py -v
+          python -m unittest discover -s tests -p test_build_updates.py -v
           python -m unittest discover -s tests -p test_site.py -v
       - name: Build and report source health
         run: |
