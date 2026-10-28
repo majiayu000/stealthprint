@@ -70,6 +70,23 @@ Global flags work before or after the subcommand. Add `--json` for
 JSON only on stdout; progress goes to stderr. Use `--record requests.jsonl`
 to preserve timestamped requests, raw responses and errors without authentication headers.
 
+## Watching catalogs for new models
+
+```bash
+stealthprint watch --state watch-state                     # OpenRouter, no key needed
+stealthprint watch --source https://api.example.com/v1/models --api-key ... --state watch-state
+stealthprint watch --fingerprint --base-url https://openrouter.ai/api/v1 --api-key ... --tokenizers tok/
+```
+
+Each run stores the catalog under `watch-state/<source>/latest.json` and appends
+`added` / `removed` events to `sightings.jsonl`. The first run is a silent baseline.
+Run it from cron. `--fingerprint` adds L1 survey evidence to new ids (billable);
+`--webhook URL` posts new events. A sighting says when an id appeared, not who
+built it, and `stealth_hint` is a naming heuristic.
+[Backtest on 180 archived OpenRouter catalogs](docs/watch-backtest.zh-CN.md):
+all 10 confirmed stealth releases appeared before launch, median 7 days early.
+`scripts/blind_eval.py` measures L1 verdict accuracy on named models.
+
 ## First investigation: compare tokenizers before larger probes
 
 1. Install the fingerprint dependencies (`stealthprint[all]`) and fetch the
