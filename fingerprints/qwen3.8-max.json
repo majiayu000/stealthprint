@@ -1,0 +1,60 @@
+{
+ "model": "qwen3.8-max",
+ "meta": {
+  "measured": "2026-11-03",
+  "source": "stealthprint case pulse-alpha seed",
+  "gateway": "opencode go (/zen/go/v1, direct)"
+ },
+ "l1_delta": {
+  "en_pangram": 11,
+  "zh_long": 15,
+  "code": 20,
+  "emoji_zwj": 33,
+  "rare_uni": 19,
+  "digits": 33,
+  "ja": 7,
+  "ko": 6,
+  "code_indent": 17,
+  "url_sym": 19,
+  "cjk_rare": 17,
+  "long_words": 17,
+  "ws": 0,
+  "zh_num": 17,
+  "punct": 13,
+  "hex_bin": 18,
+  "fr": 14,
+  "ru": 15,
+  "mixed_code_zh": 26,
+  "emoji_flags": 36,
+  "thai": 3,
+  "floats": 32,
+  "html": 16,
+  "quotes2": 12
+ },
+ "vision": {
+  "fit": {
+   "kind": "grid",
+   "patch": 34,
+   "const": 27,
+   "exact": 2,
+   "of": 6,
+   "formula": "ceil(w/34)*ceil(h/34)+27"
+  },
+  "tokens": {
+   "32x32": 28,
+   "64x64": 28,
+   "256x256": 28,
+   "1024x1024": 988,
+   "2048x2048": 2464,
+   "1024x256": 220
+  }
+ },
+ "errors": {
+  "tags": [
+   "dashscope_api"
+  ],
+  "limits": {
+   "max_completion": 131072
+  }
+ }
+}

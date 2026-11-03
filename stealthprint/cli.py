@@ -35,7 +35,8 @@ def build_parser():
     ap.add_argument("--transport", choices=("openai", "anthropic"), default="openai", help="Anthropic: text counting only")
     ap.add_argument("--record", help="append raw requests/responses to JSONL, without authentication headers")
     ap.add_argument("--shell", default=None, choices=["opencode-free"],
-                    help="client-identity shell for gateways with fingerprint checks")
+                    help="client-identity shell for gateways with fingerprint checks "
+                         "(opencode-free stopped working 2026-11; use scripts/opencode_relay.mjs)")
     ap.add_argument("--session-id", default=os.environ.get("STEALTHPRINT_SESSION_ID"),
                     help="client session id (required by opencode-free shell: reuse one "
                          "created by a real opencode CLI run)")
@@ -78,6 +79,24 @@ def build_parser():
     p = sub.add_parser("catalog", parents=[common], help=t("cli.cat"))
     p.add_argument("--peers", default=None, help="comma-separated model ids to A/B on this gateway")
     p.add_argument("--family", default=None, help="substring filter on GET /v1/models ids (e.g. glm)")
+    extra_help = "JSON object merged into every request body (e.g. '{\"reasoning_effort\":\"low\"}')"
+    p = sub.add_parser("segment", parents=[common],
+                       help="L1b streamed token boundaries vs local tokenizers (needs per-token SSE)")
+    p.add_argument("--tokenizers", default="tok", help="dir of local tokenizer.json candidates")
+    p.add_argument("--extra", default=None, help=extra_help)
+    p = sub.add_parser("leaks", parents=[common], help="L4b error-text leaks: serving stack, vendor, limits")
+    p.add_argument("--extra", default=None, help=extra_help)
+    p = sub.add_parser("vision-grid", parents=[common], help="L6b image token cost over 7 sizes + grid formula fit")
+    p.add_argument("--extra", default=None, help=extra_help)
+    p = sub.add_parser("profile", parents=[common],
+                       help="run tokenizer+segment+leaks+vision-grid and write one profile JSON")
+    p.add_argument("--tokenizers", default="tok", help="dir of local tokenizer.json candidates")
+    p.add_argument("--extra", default=None, help=extra_help)
+    p.add_argument("--out", required=True, help="profile JSON path (e.g. fingerprints/<model>.json)")
+    p.add_argument("--skip", default="", help="comma list of layers to skip: l1,segment,leaks,vision")
+    p = sub.add_parser("match", parents=[common], help="offline: compare a profile JSON against a library dir")
+    p.add_argument("profile_path", help="target profile JSON")
+    p.add_argument("--library", default="fingerprints", help="dir of profile JSON files")
     p = sub.add_parser("survey", parents=[common], help=t("cli.survey"))
     p.add_argument("--tokenizers", default="tok", help="dir of local tokenizer.json candidates")
     p.add_argument("--filter", default=None, help="substring filter on catalog ids")
@@ -97,6 +116,17 @@ def main(argv=None):
     set_lang(language.parse_known_args(argv)[0].lang)
     args = build_parser().parse_args(argv)
     set_lang(args.lang)
+    if args.cmd == "match":
+        from . import fingerprint
+        with open(args.profile_path, encoding="utf-8") as fh:
+            target = json.load(fh)
+        rows = fingerprint.match_profile(target, fingerprint.load_library(args.library))
+        if not args.json:
+            for r in rows:
+                print("%-30s %-10s %s" % (r["model"], r["verdict"],
+                                          {k: v for k, v in r.items() if k not in ("model", "verdict")}))
+        emit({"target": target.get("model"), "matches": rows}, args.json)
+        return 0
     if not args.model and args.cmd != "survey":
         sys.exit(t("err.no_model"))
     client = make_client(args)
@@ -144,6 +174,29 @@ def run(args, client):
     elif args.cmd == "catalog":
         peers = [x.strip() for x in args.peers.split(",")] if args.peers else None
         r = layers.catalog_ab(client, peers=peers, family=args.family)
+    elif args.cmd in ("segment", "leaks", "vision-grid", "profile"):
+        from . import fingerprint
+        extra = json.loads(args.extra) if args.extra else None
+        if extra is not None and not isinstance(extra, dict):
+            raise ValueError("--extra must be a JSON object")
+        if args.cmd == "segment":
+            r = fingerprint.segmentation(client, tokenizers_dir=args.tokenizers, extra=extra)
+        elif args.cmd == "leaks":
+            r = fingerprint.error_leaks(client, extra=extra)
+        elif args.cmd == "vision-grid":
+            r = fingerprint.vision_grid(client, extra=extra)
+        else:
+            skip = {s.strip() for s in args.skip.split(",") if s.strip()}
+            l1 = None if "l1" in skip else layers.tokenizer_differential(
+                client, probes=load_probes(), tokenizers_dir=args.tokenizers)
+            seg = None if "segment" in skip else fingerprint.segmentation(
+                client, tokenizers_dir=args.tokenizers, extra=extra)
+            leaks = None if "leaks" in skip else fingerprint.error_leaks(client, extra=extra)
+            vision = None if "vision" in skip else fingerprint.vision_grid(client, extra=extra)
+            r = fingerprint.build_profile(args.model, l1=l1, seg=seg, leaks=leaks, vision=vision,
+                                          meta={"base_url": client.base_url})
+            with open(args.out, "w", encoding="utf-8") as fh:
+                json.dump(r, fh, ensure_ascii=False, indent=1)
     elif args.cmd == "survey":
         from .client import require_openai
         require_openai(client)

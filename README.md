@@ -166,10 +166,29 @@ Data keys stay English regardless of display language.
 | L6 vision | `vision` | Color answers and token counts across image sizes; fixed counts do not identify an encoder. `--repeats N` records outcomes, not a model mixing rate |
 | L6 video | `video` | Does the model accept native video (`video_url`) vs unknown `type: video` vs mp4-as-image? |
 | L7 catalog | `catalog` | Same-gateway A/B: wrapper offset, special-token delta, `reasoning_effort=none`, one image vs named siblings (`--peers` / `--family`) |
+| L1b segmentation | `segment` | The model's own token boundaries: on servers that flush one token per SSE chunk, chunks are tokens (checked via a constant completion_tokens offset); boundary F1 vs local vocabs plus a key-token pattern |
+| L4b error leaks | `leaks` | Upstream error text for invalid params: serving framework (SGLang/vLLM), PD disaggregation, Rust serde, vendor API signatures, leaked output/context limits |
+| L6b vision grid | `vision-grid` | Image token cost over 7 sizes fitted to `ceil(w/p)*ceil(h/p)+c`; patch size, constant and (no) resizing fingerprint the encoder |
+| profiles | `profile` / `match` | Run L1+L1b+L4b+L6b into `fingerprints/<model>.json`; `match` compares offline against the library (see [fingerprints/README.md](fingerprints/README.md)) |
 
 Self-identification ("who are you"), prompt injection, censorship probes and
 emoji density are deliberately **not** implemented as layers — for stealth
 models, self-descriptions are frequently bait. See the case study for why.
+
+### OpenCode Zen free tier / Go plan access (2026-11)
+
+The October `--shell opencode-free` recipe no longer works: the free tier now serves
+only bun-originated requests carrying the real opencode system prompt and tools
+(Python/curl replays of identical bytes get 429 `FreeUsageLimitError`); the Go line
+answers non-bun clients with Cloudflare 1010 and requires `x-opencode-session`. Use the
+local relay instead:
+
+```bash
+python3 -I scripts/opencode_capture.py --model opencode/<free-model> --out envelope.json  # capture, Authorization stripped
+bun scripts/opencode_relay.mjs free envelope.json 8898      # free tier; key read from opencode auth.json at runtime
+bun scripts/opencode_relay.mjs go 8897                      # Go plan (MIN_TOKENS=16 for GPT lines)
+stealthprint --base-url http://127.0.0.1:8898/v1 --model <free-model> --api-key x profile --out fingerprints/<free-model>.json
+```
 
 ## Fetching comparison tokenizers
 

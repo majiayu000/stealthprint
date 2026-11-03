@@ -116,8 +116,10 @@ class ChatClient:
         wrapped.setdefault('reasoning_effort', 'none')
         return wrapped
 
-    def request(self, method, path, body=None, timeout=None):
-        """Return (JSON object, None) or (None, error), retaining original errors."""
+    def request(self, method, path, body=None, timeout=None, sse=False):
+        """Return (JSON object, None) or (None, error), retaining original errors.
+
+        sse=True keeps a successful streaming body unparsed as {'_sse': raw}."""
         if self.shell == 'opencode-free' and method == 'POST' and body is not None:
             body = self._wrap_body(body)
         data = None if body is None else json.dumps(body).encode()
@@ -140,7 +142,9 @@ class ChatClient:
                     if response.headers.get('Location'):
                         error['location'] = response.headers['Location']
             if error is None:
-                if self.shell == 'opencode-free' and method == 'POST':
+                if sse:
+                    parsed = {'_sse': raw}
+                elif self.shell == 'opencode-free' and method == 'POST':
                     parsed = _sse_to_chat_response(raw)
                 else:
                     parsed = json.loads(raw)
@@ -190,6 +194,22 @@ class ChatClient:
                 return None, {'http': 200, 'body': 'no message in choices', 'detail': d}
         return d, None
 
+    def stream_chat(self, messages, max_tokens=512, extra=None, timeout=None, model=None):
+        """Streamed chat returning per-chunk content as sent by the server.
+
+        Returns ({'chunks', 'reasoning_chunks', 'usage', 'finish_reason'}, None)
+        or (None, error). Each content delta is kept separate: on servers that
+        flush one token per SSE event this is the model's own segmentation."""
+        require_openai(self)
+        body = {'model': model or self.model, 'messages': messages, 'max_tokens': max_tokens,
+                'stream': True, 'stream_options': {'include_usage': True}}
+        if extra:
+            body.update(extra)
+        d, error = self.request('POST', '/chat/completions', body=body, timeout=timeout, sse=True)
+        if error:
+            return None, error
+        return parse_sse_chunks(d['_sse']), None
+
     def prompt_tokens(self, messages, max_tokens=1, extra=None, timeout=None, model=None):
         d, err = self.chat(messages, max_tokens=max_tokens, extra=extra, timeout=timeout, model=model)
         if err:
@@ -210,6 +230,34 @@ class ChatClient:
         if not isinstance(d.get('data'), list):
             return None, {'http': 200, 'body': 'no model list in data', 'detail': d}
         return [m['id'] for m in d['data'] if isinstance(m, dict) and m.get('id')], None
+
+
+def parse_sse_chunks(raw):
+    """Split an SSE chat stream into its individual content deltas."""
+    out = {'chunks': [], 'reasoning_chunks': 0, 'usage': None, 'finish_reason': None}
+    for line in raw.splitlines():
+        if not line.startswith('data:'):
+            continue
+        payload = line[5:].strip()
+        if not payload or payload == '[DONE]':
+            continue
+        try:
+            chunk = json.loads(payload)
+        except ValueError:
+            continue
+        if not isinstance(chunk, dict):
+            continue
+        if chunk.get('usage'):
+            out['usage'] = chunk['usage']
+        for choice in chunk.get('choices') or []:
+            delta = choice.get('delta') or {}
+            if delta.get('content'):
+                out['chunks'].append(delta['content'])
+            if delta.get('reasoning_content') or delta.get('reasoning'):
+                out['reasoning_chunks'] += 1
+            if choice.get('finish_reason'):
+                out['finish_reason'] = choice['finish_reason']
+    return out
 
 
 def _sse_to_chat_response(raw):

@@ -1,0 +1,61 @@
+{
+ "model": "claude-haiku-5-5",
+ "meta": {
+  "measured": "2026-11-03",
+  "source": "stealthprint case pulse-alpha seed",
+  "gateway": "opencode go (/zen/go/v1, direct)"
+ },
+ "l1_delta": {
+  "en_pangram": 19,
+  "zh_long": 33,
+  "code": 25,
+  "emoji_zwj": 31,
+  "rare_uni": 34,
+  "digits": 18,
+  "ja": 13,
+  "ko": 13,
+  "code_indent": 17,
+  "url_sym": 26,
+  "cjk_rare": 20,
+  "long_words": 27,
+  "ws": 0,
+  "zh_num": 18,
+  "punct": 16,
+  "hex_bin": 21,
+  "fr": 21,
+  "ru": 20,
+  "mixed_code_zh": 30,
+  "emoji_flags": 38,
+  "thai": 17,
+  "floats": 19,
+  "html": 23,
+  "quotes2": 13
+ },
+ "vision": {
+  "fit": {
+   "kind": "grid",
+   "patch": 28,
+   "const": 3,
+   "exact": 6,
+   "of": 7,
+   "formula": "ceil(w/28)*ceil(h/28)+3"
+  },
+  "tokens": {
+   "32x32": 7,
+   "64x64": 12,
+   "256x256": 103,
+   "512x512": 364,
+   "1024x1024": 1372,
+   "2048x2048": 4764,
+   "1024x256": 373
+  }
+ },
+ "errors": {
+  "tags": [
+   "anthropic_api"
+  ],
+  "limits": {
+   "max_completion": 128000
+  }
+ }
+}

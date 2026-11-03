@@ -1,0 +1,57 @@
+{
+ "model": "gpt-6-luna",
+ "meta": {
+  "measured": "2026-11-03",
+  "source": "stealthprint case pulse-alpha seed",
+  "gateway": "opencode go (/zen/go/v1, direct)"
+ },
+ "l1_delta": {
+  "en_pangram": 10,
+  "zh_long": 18,
+  "code": -22,
+  "emoji_zwj": 21,
+  "rare_uni": -22,
+  "digits": 17,
+  "ja": 7,
+  "ko": 4,
+  "code_indent": 14,
+  "url_sym": -22,
+  "cjk_rare": 17,
+  "long_words": 15,
+  "ws": 4,
+  "zh_num": -22,
+  "punct": 11,
+  "hex_bin": 16,
+  "fr": -22,
+  "ru": 13,
+  "mixed_code_zh": -22,
+  "emoji_flags": -22,
+  "thai": -22,
+  "floats": 17,
+  "html": -22,
+  "quotes2": 11
+ },
+ "vision": {
+  "fit": {
+   "kind": "grid",
+   "patch": 32,
+   "const": 1,
+   "exact": 2,
+   "of": 7,
+   "formula": "ceil(w/32)*ceil(h/32)+1"
+  },
+  "tokens": {
+   "32x32": 2,
+   "64x64": 5,
+   "256x256": 77,
+   "512x512": 308,
+   "1024x1024": 1229,
+   "2048x2048": 4916,
+   "1024x256": 308
+  }
+ },
+ "errors": {
+  "tags": [],
+  "limits": {}
+ }
+}

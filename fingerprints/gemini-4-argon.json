@@ -1,0 +1,61 @@
+{
+ "model": "gemini-4-argon",
+ "meta": {
+  "measured": "2026-11-03",
+  "source": "stealthprint case pulse-alpha seed",
+  "gateway": "opencode go (/zen/go/v1, direct)"
+ },
+ "l1_delta": {
+  "en_pangram": 10,
+  "zh_long": 15,
+  "code": 21,
+  "emoji_zwj": 12,
+  "rare_uni": 11,
+  "digits": 32,
+  "ja": 6,
+  "ko": 3,
+  "code_indent": 16,
+  "url_sym": 21,
+  "cjk_rare": 15,
+  "long_words": 12,
+  "ws": 5,
+  "zh_num": 16,
+  "punct": 11,
+  "hex_bin": 19,
+  "fr": 14,
+  "ru": 10,
+  "mixed_code_zh": 26,
+  "emoji_flags": 11,
+  "thai": 5,
+  "floats": 31,
+  "html": 16,
+  "quotes2": 10
+ },
+ "vision": {
+  "fit": {
+   "kind": "grid",
+   "patch": 16,
+   "const": 34,
+   "exact": 1,
+   "of": 7,
+   "formula": "ceil(w/16)*ceil(h/16)+34"
+  },
+  "tokens": {
+   "32x32": 1091,
+   "64x64": 1091,
+   "256x256": 1091,
+   "512x512": 1091,
+   "1024x1024": 1091,
+   "2048x2048": 1091,
+   "1024x256": 1058
+  }
+ },
+ "errors": {
+  "tags": [
+   "gemini_api"
+  ],
+  "limits": {
+   "max_completion": 1048576
+  }
+ }
+}

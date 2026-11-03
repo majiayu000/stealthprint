@@ -1,0 +1,61 @@
+{
+ "model": "minimax-m3.1-flash",
+ "meta": {
+  "measured": "2026-11-03",
+  "source": "stealthprint case pulse-alpha seed",
+  "gateway": "opencode go (/zen/go/v1, direct)"
+ },
+ "l1_delta": {
+  "en_pangram": 10,
+  "zh_long": 13,
+  "code": 18,
+  "emoji_zwj": 20,
+  "rare_uni": 17,
+  "digits": 17,
+  "ja": 6,
+  "ko": 4,
+  "code_indent": 14,
+  "url_sym": 18,
+  "cjk_rare": 18,
+  "long_words": 14,
+  "ws": 4,
+  "zh_num": 12,
+  "punct": 9,
+  "hex_bin": 16,
+  "fr": 9,
+  "ru": 15,
+  "mixed_code_zh": 24,
+  "emoji_flags": 23,
+  "thai": 18,
+  "floats": 17,
+  "html": 15,
+  "quotes2": 10
+ },
+ "vision": {
+  "fit": {
+   "kind": "grid",
+   "patch": 28,
+   "const": 0,
+   "exact": 4,
+   "of": 7,
+   "formula": "ceil(w/28)*ceil(h/28)+0"
+  },
+  "tokens": {
+   "32x32": 16,
+   "64x64": 16,
+   "256x256": 100,
+   "512x512": 361,
+   "1024x1024": 1369,
+   "2048x2048": 5184,
+   "1024x256": 370
+  }
+ },
+ "errors": {
+  "tags": [
+   "minimax_api"
+  ],
+  "limits": {
+   "max_completion": 524288
+  }
+ }
+}

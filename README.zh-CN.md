@@ -142,8 +142,25 @@ CATALOGS["ja"] = {"cli.tok": "L1 トークナイザ差分 ...", ...}
 | L6 视觉 | `vision` | 核对单一颜色答案及不同尺寸的计数；固定开销不能确认编码器。`--repeats N` 记录结果分布，不推算模型混挂率 |
 | L6 视频 | `video` | 是否接受原生视频（`video_url`）vs 未知 `type: video` vs 把 mp4 当图 |
 | L7 目录 | `catalog` | 同网关 A/B：wrapper 差、特殊 token 差分、`reasoning_effort=none`、一张图，对照具名兄弟（`--peers` / `--family`） |
+| L1b 流式切分 | `segment` | 模型自己怎么切词？逐 token 流式的服务每个 SSE chunk 是一个 token；用 completion_tokens 校验 offset 恒定后，与本地词表逐边界比 F1，并给出关键 token 模式 |
+| L4b 错误泄露 | `leaks` | 非法参数的上游报错原文：推理框架（SGLang/vLLM）、PD 分离、Rust serde、各厂商官方 API 签名，以及泄露的输出/上下文上限 |
+| L6b 视觉网格 | `vision-grid` | 7 个尺寸的图片 token 开销，拟合 `ceil(w/p)*ceil(h/p)+c`；补丁尺寸、常数和是否缩放都是编码器指纹 |
+| 档案 | `profile` / `match` | 一次跑 L1+L1b+L4b+L6b 写入 `fingerprints/<model>.json`；`match` 离线与指纹库逐层比对（见 [fingerprints/README.md](fingerprints/README.md)） |
 
 刻意**不实现**：自称探针（「你是谁」）、注入、审查探针、emoji 密度——对 stealth 模型来说自我介绍经常是诱饵。原因见案例报告。
+
+### OpenCode Zen 免费档 / Go 线访问（2026-11）
+
+10 月的 `--shell opencode-free` 配方已失效：免费档现在只放行 bun 发出的、带真实 opencode
+system prompt 和 tools 的请求（Python/curl 重放同样字节得 429 `FreeUsageLimitError`）；Go 线对非 bun
+客户端返回 Cloudflare 1010，并要求 `x-opencode-session`。改用本地中继：
+
+```bash
+python3 -I scripts/opencode_capture.py --model opencode/<free-model> --out envelope.json  # 抓真实请求，去掉 Authorization
+bun scripts/opencode_relay.mjs free envelope.json 8898      # 免费档；key 运行时读 opencode auth.json
+bun scripts/opencode_relay.mjs go 8897                      # Go 线（MIN_TOKENS=16 适配 GPT 线）
+stealthprint --base-url http://127.0.0.1:8898/v1 --model <free-model> --api-key x profile --out fingerprints/<free-model>.json
+```
 
 ## 拉取对照词表
 
