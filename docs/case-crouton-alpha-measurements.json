@@ -1,0 +1,324 @@
+{
+ "model": "crouton-alpha-free",
+ "measured_at": "2026-11-04",
+ "gateway": "OpenCode Zen free tier via scripts/opencode_relay.mjs (scratch copy adding a max_tokens floor of 16 in free mode)",
+ "warning": "usage counts are not tokenizer counts for this model; l1_delta, segmentation and vision below are recorded for reproducibility and must not be used for identity matching. Deliberately not added to fingerprints/.",
+ "profile": {
+  "model": "crouton-alpha-free",
+  "meta": {
+   "base_url": "http://127.0.0.1:8898/v1"
+  },
+  "l1_delta": {
+   "en_pangram": 13,
+   "zh_long": 28,
+   "code": 15,
+   "emoji_zwj": 8,
+   "rare_uni": 6,
+   "digits": 11,
+   "ja": 16,
+   "ko": 10,
+   "code_indent": 9,
+   "url_sym": 15,
+   "cjk_rare": 11,
+   "long_words": 18,
+   "ws": 4,
+   "zh_num": 12,
+   "punct": 10,
+   "hex_bin": 11,
+   "fr": 10,
+   "ru": 23,
+   "mixed_code_zh": 14,
+   "emoji_flags": 9,
+   "thai": 8,
+   "floats": 11,
+   "html": 14,
+   "quotes2": 4
+  },
+  "segmentation": {
+   "key_pattern": "...1.....?.",
+   "per_token_chunks": false,
+   "samples": [
+    {
+     "name": "en_pangram",
+     "pieces": [
+      "The quick brown fox jumps over the lazy ",
+      "dog."
+     ]
+    },
+    {
+     "name": "en_words",
+     "pieces": [
+      "the of and to in ",
+      "is was for that with on as by at from his her they ",
+      "which"
+     ]
+    },
+    {
+     "name": "en_prose",
+     "pieces": [
+      "Internationalization and localization are often abbreviated as i18n and ",
+      "l10n."
+     ]
+    },
+    {
+     "name": "code_py",
+     "pieces": [
+      "def fibonacci(n: int) -> int:\n    if n < 2:\n       ",
+      " return n\n    return fibonacci(n - 1) + fibonacci(n - ",
+      "2)"
+     ]
+    },
+    {
+     "name": "json",
+     "pieces": [
+      "{\"name\": \"pulse\", \"id\": ",
+      "12345, \"tags\": [\"a\", \"b\"], \"ok\": ",
+      "true}"
+     ]
+    },
+    {
+     "name": "html",
+     "pieces": [
+      "<div class=\"a\" ",
+      "data-x='1'>&nbsp;</div>"
+     ]
+    },
+    {
+     "name": "nums",
+     "pieces": [
+      "2026-11-03 ",
+      "3.14159 1000000 0.000123 -42 ",
+      "1e10 ",
+      "255.255.255.0"
+     ]
+    },
+    {
+     "name": "zh_prose",
+     "pieces": [
+      "机器",
+      "学习模型的分词器决定了文本如何被切分成词元，这对",
+      "多语言能力影响很大",
+      "。"
+     ]
+    },
+    {
+     "name": "ja_prose",
+     "pieces": [
+      "東京の天気は明日晴れるでしょう。ト",
+      "ークナイザーの違いを調べています",
+      "。"
+     ]
+    },
+    {
+     "name": "ko_prose",
+     "pieces": [
+      "안녕하세요 세계입니다. 인공지능이 세상을 바꾸",
+      "고 있습니다",
+      "."
+     ]
+    },
+    {
+     "name": "th_prose",
+     "pieces": [
+      "กรุงเทพมหานคร ครับ ",
+      "ปัญญาประดิษฐ์กำลังเปลี่ยนโลก"
+     ]
+    },
+    {
+     "name": "ru_prose",
+     "pieces": [
+      "Быстрая коричневая лиса прыгает через ленивую ",
+      "собаку."
+     ]
+    },
+    {
+     "name": "de_prose",
+     "pieces": [
+      "Die ",
+      "Donaudampfschifffahrtsgesellschaftskapitänsmütze ist ",
+      "ungewöhnlich ",
+      "lang."
+     ]
+    },
+    {
+     "name": "ar_prose",
+     "pieces": [
+      "الذكاء ",
+      "الاصطناعي يغير العالم بسرعة ",
+      "كبيرة."
+     ]
+    },
+    {
+     "name": "hi_prose",
+     "pieces": [
+      "कृत्रिम बुद्धिमत्ता दुनिया को बदल रही ",
+      "है।"
+     ]
+    },
+    {
+     "name": "fr_prose",
+     "pieces": [
+      "L'intelligence artificielle transforme ",
+      "rapidement le monde ",
+      "entier."
+     ]
+    }
+   ]
+  },
+  "errors": {
+   "tags": [
+    "openai_responses_api"
+   ],
+   "limits": {}
+  },
+  "vision": {
+   "fit": {
+    "kind": "fixed",
+    "tokens": 0,
+    "exact": 7,
+    "of": 7
+   },
+   "tokens": {
+    "32x32": 0,
+    "64x64": 0,
+    "256x256": 0,
+    "512x512": 0,
+    "1024x1024": 0,
+    "2048x2048": 0,
+    "1024x256": 0
+   }
+  }
+ },
+ "count_anomaly": {
+  "single_letter_prompt_tokens": {
+   "a": 19939,
+   "b": 19937,
+   "c": 19936,
+   "h": 19935,
+   "j": 19938,
+   "x": 19935,
+   "z": 19935
+  },
+  "repeat_stable": true,
+  "additivity": {
+   "A": 14,
+   "B": 14,
+   "A+B": 23,
+   "A_text": "The committee reviewed the proposal carefully.",
+   "B_text": "机器学习模型正在改变世界。"
+  },
+  "a_repeated_delta_vs_x": {
+   "8": 3,
+   "40": 10,
+   "400": 103,
+   "1024": 256
+  },
+  "cjk_repeated_delta_vs_x": {
+   "10": 12,
+   "100": 97
+  },
+  "completion_vs_o200k": [
+   {
+    "chars": 287,
+    "completion": 66,
+    "o200k": 48
+   },
+   {
+    "chars": 390,
+    "completion": 113,
+    "o200k": 298
+   },
+   {
+    "chars": 200,
+    "completion": 180,
+    "o200k": 164
+   },
+   {
+    "chars": 251,
+    "completion": 47,
+    "o200k": 82
+   }
+  ]
+ },
+ "same_relay_controls": {
+  "deepseek-v4.1-flash-free": {
+   "eight_letters_distinct_counts": 1,
+   "additivity": [
+    6,
+    5,
+    12
+   ],
+   "l1_vs_local_deepseek": "24/24, mae 0"
+  },
+  "glm-5.3-flash-free": {
+   "eight_letters_distinct_counts": 1,
+   "additivity": [
+    6,
+    6,
+    13
+   ]
+  },
+  "pulse-alpha-free": {
+   "eight_letters_distinct_counts": 1,
+   "additivity": [
+    6,
+    7,
+    14
+   ]
+  },
+  "crouton-alpha-free": {
+   "eight_letters_distinct_counts": 4,
+   "additivity": [
+    14,
+    14,
+    23
+   ]
+  }
+ },
+ "errors": {
+  "max_tokens_below_16": "Upstream request failed: [invalid_request_error] `max_output_tokens` must be at least 16 for this model.",
+  "stop": "stop: Responses does not support stop sequences",
+  "reasoning_effort_bogus": "reasoning_effort: expected none, minimal, low, medium, high, xhigh or max",
+  "video_url_shape": "messages[1].content[1].type: content type video_url is not portable",
+  "video_as_image_url": "Upstream request failed: [invalid_request_error] unsupported media type at input[1].content[1]: `video/mp4`. Supported: JPEG, PNG, GIF, WebP, ICO."
+ },
+ "vision_ground_truth": {
+  "sizes": [
+   64,
+   1024
+  ],
+  "colors_correct": "6/6",
+  "prompt_tokens_with_image": 19957,
+  "prompt_tokens_text_only_same_prompt": 19958
+ },
+ "context_needle": [
+  {
+   "requested": 300000,
+   "reported_prompt_tokens": 337579,
+   "needles": "3/3"
+  },
+  {
+   "requested": 800000,
+   "reported_prompt_tokens": 866952,
+   "needles": "3/3"
+  },
+  {
+   "requested": 1100000,
+   "reported_prompt_tokens": 1184578,
+   "accepted": true,
+   "answer": "empty, inconclusive"
+  }
+ ],
+ "self_report": {
+  "cutoff": "2026-02-28",
+  "march_april_2026": "UNKNOWN",
+  "newest_remembered_chinese_model": "GLM-4.7 (2025-12)",
+  "listed_newest": [
+   "Gemini 3.1 Pro (2026-02)",
+   "Claude Sonnet 4.6 (2026-02)",
+   "Claude Opus 4.6 (2026-02)",
+   "GPT-5.2 Codex (2026-01)"
+  ]
+ },
+ "streaming": "batched chunks (2-4 per text), not per token"
+}
