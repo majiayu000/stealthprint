@@ -227,21 +227,29 @@ def run(args, client):
                     fh.write(json.dumps(r, ensure_ascii=False) + "\n")
         else:
             skip = {s.strip() for s in args.skip.split(",") if s.strip()}
-            integrity = None if "integrity" in skip else fingerprint.count_integrity(client, extra=extra)
-            l1 = None if "l1" in skip else layers.tokenizer_differential(
-                client, probes=load_probes(), tokenizers_dir=args.tokenizers)
-            seg = None if "segment" in skip else fingerprint.segmentation(
-                client, tokenizers_dir=args.tokenizers, extra=extra)
-            leaks = None if "leaks" in skip else fingerprint.error_leaks(client, extra=extra)
-            vision = None if "vision" in skip else fingerprint.vision_grid(client, extra=extra)
-            trunc = None
-            if "truncation" not in skip and (args.with_truncation or (integrity or {}).get("status") == "untrusted"):
+            measured = {}
+
+            def save():
+                # Written after every layer, so an interrupted run keeps what it paid for.
+                result = fingerprint.build_profile(args.model, meta={"base_url": client.base_url}, **measured)
+                with open(args.out, "w", encoding="utf-8") as fh:
+                    json.dump(result, fh, ensure_ascii=False, indent=1)
+                return result
+
+            def layer(key, name, measure):
+                if name not in skip:
+                    measured[key] = measure()
+                    save()
+
+            layer("integrity", "integrity", lambda: fingerprint.count_integrity(client, extra=extra))
+            layer("l1", "l1", lambda: layers.tokenizer_differential(client, probes=load_probes(), tokenizers_dir=args.tokenizers))
+            layer("seg", "segment", lambda: fingerprint.segmentation(client, tokenizers_dir=args.tokenizers, extra=extra))
+            layer("leaks", "leaks", lambda: fingerprint.error_leaks(client, extra=extra))
+            layer("vision", "vision", lambda: fingerprint.vision_grid(client, extra=extra))
+            if args.with_truncation or (measured.get("integrity") or {}).get("status") == "untrusted":
                 from . import truncation
-                trunc = truncation.truncation_probe(client, tokenizers_dir=args.tokenizers, extra=extra)
-            r = fingerprint.build_profile(args.model, l1=l1, seg=seg, leaks=leaks, vision=vision,
-                                          meta={"base_url": client.base_url}, integrity=integrity, trunc=trunc)
-            with open(args.out, "w", encoding="utf-8") as fh:
-                json.dump(r, fh, ensure_ascii=False, indent=1)
+                layer("trunc", "truncation", lambda: truncation.truncation_probe(client, tokenizers_dir=args.tokenizers, extra=extra))
+            r = save()
     elif args.cmd == "survey":
         from .client import require_openai
         require_openai(client)

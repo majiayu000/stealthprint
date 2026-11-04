@@ -103,6 +103,25 @@ class LadderTests(unittest.TestCase):
         # The first cut comes from the walk-back, close to where text first appears.
         self.assertLessEqual(min(n for n, _ in rows), 36)
 
+    def test_varying_thinking_sweeps_again_instead_of_stopping_at_few_cuts(self):
+        calls = []
+
+        def think(n):
+            calls.append(n)
+            return 0 if len(calls) % 3 == 0 else n // 2  # some budgets leave far more text
+
+        client = EchoClient(think=think)
+        rows, stats = tr.ladder(client, self.TEXT, start=40, step=1, max_requests=40, verbose=False)
+        budgets = [n for n, _ in client.calls]
+        self.assertEqual(len(budgets), len(set(budgets)), "a budget was tried twice")
+        self.assertNotEqual(stats["stop"], "errors")
+        self.assertGreater(len(rows), 2)
+
+    def test_fitting_text_with_enough_cuts_stops(self):
+        client = EchoClient()
+        _, stats = tr.ladder(client, "x" * 400, step=1, max_requests=200, verbose=False)
+        self.assertEqual(stats["stop"], "complete")
+
     def test_repeated_errors_stop_early(self):
         client = EchoClient(error="This Go model trains on request data")
         rows, stats = tr.ladder(client, self.TEXT, verbose=False)
@@ -281,6 +300,39 @@ class SentinelTests(unittest.TestCase):
         self.assertEqual(out["status"], "unverifiable")
 
 
+class ProfileCliTests(unittest.TestCase):
+    def test_partial_profile_survives_a_failing_layer(self):
+        import contextlib
+        import io
+        import tempfile
+        from stealthprint.cli import main
+        with tempfile.TemporaryDirectory() as d:
+            out = Path(d) / "p.json"
+            with mock.patch.object(fp, "count_integrity", return_value={"status": "untrusted"}), \
+                 mock.patch("stealthprint.layers.tokenizer_differential", side_effect=RuntimeError("cut off")), \
+                 contextlib.redirect_stderr(io.StringIO()), contextlib.redirect_stdout(io.StringIO()), \
+                 self.assertRaises(SystemExit):
+                main(["--base-url", "http://127.0.0.1:1", "--model", "m", "--api-key", "k",
+                      "profile", "--out", str(out)])
+            self.assertEqual(json.loads(out.read_text())["count_integrity"]["status"], "untrusted")
+
+    def test_untrusted_counts_add_truncation(self):
+        import contextlib
+        import io
+        import tempfile
+        from stealthprint.cli import main
+        trunc = {"effort": "minimal", "cuts": 40, "evidence": "strong", "passing": ["llama4"], "texts": {}}
+        with tempfile.TemporaryDirectory() as d:
+            out = Path(d) / "p.json"
+            with mock.patch.object(fp, "count_integrity", return_value={"status": "untrusted"}), \
+                 mock.patch.object(tr, "truncation_probe", return_value=trunc) as probe, \
+                 contextlib.redirect_stdout(io.StringIO()):
+                main(["--base-url", "http://127.0.0.1:1", "--model", "m", "--api-key", "k", "profile",
+                      "--out", str(out), "--skip", "l1,segment,leaks,vision"])
+            probe.assert_called_once()
+            self.assertEqual(json.loads(out.read_text())["tokenizer_candidates"], ["llama4"])
+
+
 class ScrubTests(unittest.TestCase):
     def setUp(self):
         spec = importlib.util.spec_from_file_location("opencode_capture", ROOT / "scripts/opencode_capture.py")
@@ -297,6 +349,14 @@ class ScrubTests(unittest.TestCase):
         self.assertNotIn("alice", text)
         self.assertNotIn("/var/folders", text)
         self.assertIn("/home/user/code", text)
+
+    def test_user_rule_files_are_removed(self):
+        prompt = "# Tool policy\n<env>\n  Working directory: /Users/alice/p\n</env>\nInstructions from: /Users/alice/.claude/CLAUDE.md\n# Rules\nprivate"
+        out = self.scrub(prompt)
+        self.assertNotIn("private", out)
+        self.assertNotIn("Instructions from", out)
+        self.assertIn("Working directory: /tmp/workspace", out)
+        self.assertTrue(out.startswith("# Tool policy"))
 
     def test_skill_list_is_emptied(self):
         out = self.scrub("a <available_skills>\n<skill>secret</skill>\n</available_skills> b")

@@ -8,8 +8,8 @@ request to opencode.ai, and saves the first chat request with the Authorization
 header stripped. scripts/opencode_relay.mjs then replays that envelope.
 
 The envelope is sent again with every replayed request, so local identity in the
-captured system prompt (home path, user name, host name, temp paths, skill list) is
-replaced with placeholders unless --raw is given. Inspect the result before use: this
+captured system prompt (rule files such as ~/.claude/CLAUDE.md, working directory, home
+path, user name, host name, temp paths, skill list) is removed unless --raw is given. Inspect the result before use: this
 removes the patterns below, not everything a prompt could contain.
 
 usage: python3 -I scripts/opencode_capture.py --model opencode/<free-model> --out envelope.json
@@ -34,6 +34,9 @@ DROP = {"host", "content-length", "accept-encoding", "connection"}
 
 def scrub_text(text, home, user, host):
     """Replace local identity in one string."""
+    # opencode appends the user's own rule files verbatim; they run to the end of the prompt.
+    text = re.sub(r"\n*Instructions from: .*\Z", "", text, flags=re.S)
+    text = re.sub(r"(Working directory|Workspace root folder): [^\n]*", r"\1: /tmp/workspace", text)
     text = re.sub(r"<available_skills>.*?</available_skills>", "<available_skills></available_skills>", text, flags=re.S)
     text = re.sub(r"(?:/private)?/(?:var/folders|tmp)/[^\s\"'<>]+", "/tmp/workspace", text)
     if home:
@@ -122,7 +125,8 @@ def main():
         # The forwarded copy may be refused (the free tier rejects non-bun
         # clients); only the outgoing request shape matters here.
         subprocess.run(["opencode", "run", "-m", args.model, "Reply with just: ok"],
-                       env=env, cwd=d, timeout=300, capture_output=True)
+                       env=env, cwd=d, timeout=300, capture_output=True,
+                       stdin=subprocess.DEVNULL)  # opencode run waits on an open stdin
     server.shutdown()
     if not saved.is_set():
         raise SystemExit("no matching chat request captured (is the model id right?)")

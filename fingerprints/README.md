@@ -12,6 +12,8 @@ Profile fields (all optional except `model`):
 | field | layer | content |
 |---|---|---|
 | `count_integrity` | — | `count-check` result; `untrusted` removes L1 and vision from every comparison with this profile |
+| `tokenizer_candidates` | — | local tokenizers the evidence allows: every L1 probe under trusted counts, and truncation when it has at least 30 cuts |
+| `truncation` | L1c | cuts per bundled text as `[max_tokens, cut]`, plus streamed boundaries when chunks are per-token |
 | `l1_delta` | L1 | API token delta per bundled probe (`T(base+probe) - T(base)`) |
 | `segmentation` | L1b | streamed pieces per echoed text + key-token pattern |
 | `errors` | L4b | error-text signature tags and leaked numeric limits |
@@ -19,8 +21,11 @@ Profile fields (all optional except `model`):
 | `meta` | — | measurement date, gateway, source |
 
 `match` verdicts: `match` only when every hard layer both profiles share agrees
-fully (L1 24/24, all vision sizes, segmentation F1 = 1); `partial` when some do;
-`different` otherwise; `no_overlap` when no hard layer is usable. Vision counts of
+fully (L1 24/24, all vision sizes, segmentation F1 = 1, at least 30 cuts all on the other
+model's streamed boundaries); `partial` when some do; `different` otherwise.
+With no hard layer, `tokenizer_match` means the tokenizer candidates overlap, which an open
+tokenizer allows for unrelated models; disjoint candidates are `different`; `no_overlap`
+means nothing is usable. Vision counts of
 zero at every size and non-per-token streams are not evidence. 2026-11-04: every profile except
 `pixel-canary` carries a `count_integrity` result (all `trusted`); `pixel-canary` is on
 another gateway and stays unchecked. L1 probes retry zero usage now; `meta.l1_dropped_zero_usage`

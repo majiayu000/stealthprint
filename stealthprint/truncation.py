@@ -89,14 +89,20 @@ def ladder(client, text, effort=None, extra=None, start=START_TOKENS, step=2, ma
     """Collect [max_tokens, cut] pairs, widening the budget while thinking eats it.
 
     Empty replies jump ahead by a quarter. The first reply with text then walks back to
-    just after the last empty budget, so early cuts are not skipped. Stops on repeated
-    errors, once the whole text fits twice, or at max_requests."""
-    rows, observations = [], []
+    just after the last empty budget, so early cuts are not skipped. When the whole text
+    fits but there are still few cuts, thinking length must vary, so sweep again from the
+    lowest budget that showed text, on budgets not tried yet. Stops on repeated errors,
+    once the text fits with enough cuts, or at max_requests."""
+    rows, observations, tried = [], [], set()
     n, floor, errors, complete, stop_reason = start, None, 0, 0, "max_requests"
+    lowest_text = None
     while len(rows) < max_requests:
+        while n in tried:
+            n += 1
         if n > MAX_TOKENS_CAP:
             stop_reason = "token_cap"
             break
+        tried.add(n)
         row = ask(client, text, n, effort=effort, extra=extra)
         rows.append(row)
         if "error" in row:
@@ -107,13 +113,18 @@ def ladder(client, text, effort=None, extra=None, start=START_TOKENS, step=2, ma
             n += step
             continue
         errors = 0
-        if row["finish"] != "length" and row["chars"]:
-            complete += 1
-            if complete >= 2:
-                stop_reason = "complete"
-                break
         if "cut" in row:
             observations.append([n, row["cut"]])
+        if row["chars"]:
+            lowest_text = n if lowest_text is None else min(lowest_text, n)
+        if row["finish"] != "length" and row["chars"]:
+            complete += 1
+            if complete >= 2 and len({c for _, c in observations}) >= MIN_CUTS_FOR_EVIDENCE:
+                stop_reason = "complete"
+                break
+            if complete >= 2:
+                n, floor, complete = lowest_text, None, 0
+                continue
         if not row["chars"]:
             floor = n
             n += max(step, math.ceil(n / 4))
