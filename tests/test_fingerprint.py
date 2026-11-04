@@ -115,6 +115,119 @@ class ProfileMatchTests(unittest.TestCase):
             self.assertIn("m", fp.load_library(d))
 
 
+class FakeCounter:
+    """prompt_tokens stub: overhead plus a per-text count."""
+
+    def __init__(self, counter, overhead=100, fail=()):
+        self.counter, self.overhead, self.fail = counter, overhead, fail
+        self.calls = []
+
+    def prompt_tokens(self, messages, max_tokens=1, extra=None):
+        text = messages[0]["content"]
+        self.calls.append((text, max_tokens))
+        if text in self.fail:
+            return None, {"http": 500, "body": "boom"}
+        return self.overhead + self.counter(text), None
+
+
+class CountIntegrityTests(unittest.TestCase):
+    def test_tokenizer_like_counts_are_trusted(self):
+        client = FakeCounter(lambda text: max(1, len(text) // 4))
+        out = fp.count_integrity(client, verbose=False)
+        self.assertEqual(out["status"], "trusted", out["reasons"])
+        self.assertEqual(out["letter_spread"], 0)
+        self.assertTrue(all(abs(p["residual"]) <= fp.MAX_ADDITIVITY_RESIDUAL for p in out["pairs"]))
+
+    def test_requests_clear_a_sixteen_token_output_minimum(self):
+        client = FakeCounter(lambda text: 1)
+        fp.count_integrity(client, verbose=False)
+        self.assertEqual({mt for _, mt in client.calls}, {16})
+
+    def test_recorded_crouton_counts_are_untrusted(self):
+        # Values measured on crouton-alpha-free, 2026-11-04.
+        a, b = fp.INTEGRITY_PAIRS[0]
+        seen = {"a": 19939, "b": 19937, "c": 19936, "d": 19937, "e": 19937, "f": 19936, "g": 19936, "h": 19935,
+                "x": 19935, a: 19949, b: 19949, a + b: 19958}
+        client = FakeCounter(lambda text: seen.get(text, 19935 + len(text) // 4), overhead=0)
+        out = fp.count_integrity(client, verbose=False)
+        self.assertEqual(out["status"], "untrusted")
+        self.assertEqual(out["letter_spread"], 4)
+        self.assertEqual(out["pairs"][0]["residual"], -6)
+        self.assertEqual(len(out["reasons"]), 2)
+
+    def test_additivity_alone_fails(self):
+        a, b = fp.INTEGRITY_PAIRS[1]
+        client = FakeCounter(lambda text: 30 if text == a + b else (1 if len(text) == 1 else 10))
+        out = fp.count_integrity(client, verbose=False)
+        self.assertEqual(out["status"], "untrusted")
+        self.assertEqual(out["letter_spread"], 0)
+
+    def test_changing_count_for_same_request_fails(self):
+        seen_a = []
+
+        def counter(text):
+            if text == "a":
+                seen_a.append(1)
+                return 1 + len(seen_a)
+            return 1 if len(text) == 1 else 10
+        out = fp.count_integrity(FakeCounter(counter), verbose=False)
+        self.assertFalse(out["repeat_stable"])
+        self.assertEqual(out["status"], "untrusted")
+
+    def test_failed_requests_are_incomplete_not_trusted(self):
+        client = FakeCounter(lambda text: 1 if len(text) == 1 else 10, fail=("x",))
+        out = fp.count_integrity(client, verbose=False)
+        self.assertEqual(out["status"], "incomplete")
+        self.assertIn("x", out["failures"])
+        self.assertTrue(all("residual" not in p for p in out["pairs"]))
+
+
+class EvidenceExclusionTests(unittest.TestCase):
+    L1 = {"x": 1, "y": 2}
+
+    def test_untrusted_target_drops_count_layers(self):
+        target = {"model": "t", "count_integrity": {"status": "untrusted"}, "l1_delta": self.L1,
+                  "vision": {"tokens": {"64x64": 7}}}
+        peer = {"model": "p", "l1_delta": {"x": 9, "y": 9}, "vision": {"tokens": {"64x64": 9}}}
+        row = fp.match_profile(target, {"p": peer})[0]
+        self.assertEqual(row["verdict"], "no_overlap")
+        self.assertTrue(row["count_untrusted"])
+        self.assertNotIn("l1", row)
+        self.assertNotIn("vision", row)
+
+    def test_untrusted_library_entry_drops_count_layers(self):
+        target = {"model": "t", "l1_delta": self.L1}
+        peer = {"model": "p", "l1_delta": self.L1, "count_integrity": {"status": "untrusted"}}
+        self.assertEqual(fp.match_profile(target, {"p": peer})[0]["verdict"], "no_overlap")
+
+    def test_trusted_and_unchecked_profiles_still_compare(self):
+        target = {"model": "t", "count_integrity": {"status": "trusted"}, "l1_delta": self.L1}
+        peer = {"model": "p", "l1_delta": self.L1}
+        self.assertEqual(fp.match_profile(target, {"p": peer})[0]["verdict"], "match")
+
+    def test_all_zero_vision_is_not_agreement(self):
+        zero = {"tokens": {"64x64": 0, "256x256": 0}}
+        a = {"model": "a", "l1_delta": {"x": 1, "y": 2}, "vision": zero}
+        b = {"model": "b", "l1_delta": {"x": 5, "y": 2}, "vision": zero}
+        row = fp.match_profile(a, {"b": b})[0]
+        self.assertEqual(row["verdict"], "different")
+        self.assertTrue(row["vision_uncounted"])
+        self.assertNotIn("vision", row)
+
+    def test_batched_stream_is_not_segmentation_evidence(self):
+        batched = {"per_token_chunks": False, "samples": [{"name": "s", "pieces": ["ab cd"]}]}
+        per_token = {"per_token_chunks": True, "samples": [{"name": "s", "pieces": ["ab", " cd"]}]}
+        row = fp.match_profile({"model": "a", "segmentation": batched},
+                               {"b": {"model": "b", "segmentation": per_token}})[0]
+        self.assertEqual(row["verdict"], "no_overlap")
+        self.assertTrue(row["segmentation_unusable"])
+        self.assertNotIn("segmentation_f1", row)
+
+    def test_build_profile_records_integrity(self):
+        prof = fp.build_profile("m", integrity={"status": "untrusted"})
+        self.assertTrue(fp.counts_untrusted(prof))
+
+
 class SegmentationLayerTests(unittest.TestCase):
     def setUp(self):
         self.client = ChatClient(model="t", base_url="https://example.invalid/v1", api_key="dummy")

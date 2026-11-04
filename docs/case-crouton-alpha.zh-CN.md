@@ -45,4 +45,4 @@
 ## 工具待修
 
 - `opencode_relay.mjs` 的 `MIN_TOKENS` 只在 Go 模式生效，这次用 scratch 副本补到免费模式。
-- `profile` 和 `match` 不检查计数是否可信，建议加单字母同价和可叠加两项自检，不通过就把 L1、视觉标为无效。
+- 已加 `count-check`：`profile` 会先跑它，`match` 不再用不可信的计数层下判定。

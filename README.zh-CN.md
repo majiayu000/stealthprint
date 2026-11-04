@@ -145,7 +145,8 @@ CATALOGS["ja"] = {"cli.tok": "L1 トークナイザ差分 ...", ...}
 | L1b 流式切分 | `segment` | 模型自己怎么切词？逐 token 流式的服务每个 SSE chunk 是一个 token；用 completion_tokens 校验 offset 恒定后，与本地词表逐边界比 F1，并给出关键 token 模式 |
 | L4b 错误泄露 | `leaks` | 非法参数的上游报错原文：推理框架（SGLang/vLLM）、PD 分离、Rust serde、各厂商官方 API 签名，以及泄露的输出/上下文上限 |
 | L6b 视觉网格 | `vision-grid` | 7 个尺寸的图片 token 开销，拟合 `ceil(w/p)*ceil(h/p)+c`；补丁尺寸、常数和是否缩放都是编码器指纹 |
-| 档案 | `profile` / `match` | 一次跑 L1+L1b+L4b+L6b 写入 `fingerprints/<model>.json`；`match` 离线与指纹库逐层比对（见 [fingerprints/README.md](fingerprints/README.md)） |
+| 计数自检 | `count-check` | usage 是不是真词表计数：单字母同价、拼接可叠加、重复一致；不通过（退出码 1）时，L1 和视觉计数既不能认定也不能排除模型 |
+| 档案 | `profile` / `match` | 一次跑计数自检+L1+L1b+L4b+L6b 写入 `fingerprints/<model>.json`；`match` 离线与指纹库逐层比对（见 [fingerprints/README.md](fingerprints/README.md)） |
 
 刻意**不实现**：自称探针（「你是谁」）、注入、审查探针、emoji 密度——对 stealth 模型来说自我介绍经常是诱饵。原因见案例报告。
 

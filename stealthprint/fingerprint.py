@@ -3,6 +3,7 @@
 segmentation  -- the model's own token boundaries, read from per-token SSE streams
 error_leaks   -- upstream error text: serving-stack and vendor signatures, limits
 vision_grid   -- image token cost over sizes, fitted to ceil(w/p)*ceil(h/p)+c
+count_integrity -- is usage a real tokenizer count? Run before trusting count layers
 profile/match -- one JSON profile per model; compare a target against a library
 
 All results are plain dicts with stable English keys.
@@ -320,10 +321,82 @@ def vision_grid(client, sizes=None, rgb=(220, 30, 30), extra=None, verbose=True)
     return {"text_only_prompt_tokens": base, "rows": rows, "fit": fit}
 
 
+# ------------------------------------------------------------------ count integrity
+INTEGRITY_LETTERS = "abcdefgh"
+INTEGRITY_PAIRS = [
+    ("The committee reviewed the proposal carefully.", "机器学习模型正在改变世界。"),
+    ("def add(a, b):\n    return a + b\n", "Hello, how are you today?"),
+]
+# Observed on named models through one gateway: spread 0 and residual 0. Slack
+# covers an unusual letter token and a merge across the concatenation boundary.
+MAX_LETTER_SPREAD = 1
+MAX_ADDITIVITY_RESIDUAL = 2
+
+
+def count_integrity(client, extra=None, verbose=True):
+    """Check that usage counts behave like a tokenizer before using them as evidence.
+
+    A tokenizer prices single lowercase letters about the same, adds up across
+    concatenation, and repeats exactly. Failing any of these means the count is
+    an estimate or is perturbed, so count-based layers cannot exclude a candidate.
+    """
+    failures = {}
+
+    def count(text):
+        pt, err = client.prompt_tokens([{"role": "user", "content": text}], max_tokens=16, extra=extra)
+        if err:
+            failures[text[:40]] = str(err.get("body"))[:300]
+            return None
+        return pt
+
+    letters = {c: count(c) for c in INTEGRITY_LETTERS}
+    repeat = count(INTEGRITY_LETTERS[0])
+    anchor = count("x")
+    pairs = []
+    for a, b in INTEGRITY_PAIRS:
+        ta, tb, tab = count(a), count(b), count(a + b)
+        row = {"a": ta, "b": tb, "ab": tab}
+        if None not in (ta, tb, tab, anchor):
+            # The anchor is one token over the fixed overhead: overhead = anchor - 1.
+            row["residual"] = tab - ta - tb + anchor - 1
+        pairs.append(row)
+
+    reasons = []
+    measured = [v for v in letters.values() if v is not None]
+    spread = max(measured) - min(measured) if len(measured) >= 2 else None
+    if spread is not None and spread > MAX_LETTER_SPREAD:
+        reasons.append("single letters differ by %d tokens" % spread)
+    stable = None if repeat is None or letters[INTEGRITY_LETTERS[0]] is None else repeat == letters[INTEGRITY_LETTERS[0]]
+    if stable is False:
+        reasons.append("identical request returned a different count")
+    residuals = [p["residual"] for p in pairs if "residual" in p]
+    worst = max((abs(r) for r in residuals), default=None)
+    if worst is not None and worst > MAX_ADDITIVITY_RESIDUAL:
+        reasons.append("concatenation is off by %d tokens" % worst)
+
+    if reasons:
+        status = "untrusted"
+    elif failures:
+        status = "incomplete"
+    else:
+        status = "trusted"
+    out = {"status": status, "reasons": reasons, "letters": letters, "letter_spread": spread,
+           "repeat_stable": stable, "anchor": anchor, "pairs": pairs, "failures": failures}
+    if verbose:
+        print("count integrity: %s spread=%s stable=%s residuals=%s" % (status, spread, stable, residuals))
+        for reason in reasons:
+            print("  " + reason)
+        if status == "untrusted":
+            print("  L1 and vision counts cannot identify or exclude a model on this endpoint")
+    return out
+
+
 # ------------------------------------------------------------------ profiles
-def build_profile(model, l1=None, seg=None, leaks=None, vision=None, meta=None):
+def build_profile(model, l1=None, seg=None, leaks=None, vision=None, meta=None, integrity=None):
     """Assemble a comparable profile from whatever layers were measured."""
     prof = {"model": model, "meta": meta or {}}
+    if integrity:
+        prof["count_integrity"] = integrity
     if l1:
         prof["l1_delta"] = l1.get("api_delta") or l1
     if seg:
@@ -339,15 +412,24 @@ def build_profile(model, l1=None, seg=None, leaks=None, vision=None, meta=None):
     return prof
 
 
+def counts_untrusted(profile):
+    return (profile.get("count_integrity") or {}).get("status") == "untrusted"
+
+
 def compare_profiles(a, b):
-    """Per-layer agreement between two profiles (only layers both have)."""
+    """Per-layer agreement between two profiles (only layers with usable evidence)."""
     out = {}
+    untrusted = counts_untrusted(a) or counts_untrusted(b)
+    if untrusted:
+        out["count_untrusted"] = True
     da, db = a.get("l1_delta"), b.get("l1_delta")
-    if da and db:
+    if da and db and not untrusted:
         keys = [k for k in da if k in db]
         out["l1"] = {"exact": sum(da[k] == db[k] for k in keys), "of": len(keys)}
     sa, sb = a.get("segmentation"), b.get("segmentation")
-    if sa and sb:
+    if sa and sb and (sa.get("per_token_chunks") is False or sb.get("per_token_chunks") is False):
+        out["segmentation_unusable"] = True
+    elif sa and sb:
         pa, pb = {s["name"]: s["pieces"] for s in sa["samples"]}, {s["name"]: s["pieces"] for s in sb["samples"]}
         tp = fp = fn = 0
         for name in set(pa) & set(pb):
@@ -356,9 +438,12 @@ def compare_profiles(a, b):
         if tp + fp + fn:
             out["segmentation_f1"] = round(f1(tp, fp, fn), 4)
     va, vb = (a.get("vision") or {}).get("tokens"), (b.get("vision") or {}).get("tokens")
-    if va and vb:
+    if va and vb and not untrusted:
         keys = [k for k in va if k in vb and isinstance(va[k], int) and isinstance(vb[k], int)]
-        if keys:
+        if keys and (all(va[k] == 0 for k in keys) or all(vb[k] == 0 for k in keys)):
+            # Zero for every size means images are not counted, not that two models agree.
+            out["vision_uncounted"] = True
+        elif keys:
             out["vision"] = {"exact": sum(va[k] == vb[k] for k in keys), "of": len(keys)}
     ea, eb = (a.get("errors") or {}).get("tags"), (b.get("errors") or {}).get("tags")
     if ea and eb:

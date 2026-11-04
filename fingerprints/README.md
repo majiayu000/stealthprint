@@ -11,6 +11,7 @@ Profile fields (all optional except `model`):
 
 | field | layer | content |
 |---|---|---|
+| `count_integrity` | — | `count-check` result; `untrusted` removes L1 and vision from every comparison with this profile |
 | `l1_delta` | L1 | API token delta per bundled probe (`T(base+probe) - T(base)`) |
 | `segmentation` | L1b | streamed pieces per echoed text + key-token pattern |
 | `errors` | L4b | error-text signature tags and leaked numeric limits |
@@ -19,7 +20,9 @@ Profile fields (all optional except `model`):
 
 `match` verdicts: `match` only when every hard layer both profiles share agrees
 fully (L1 24/24, all vision sizes, segmentation F1 = 1); `partial` when some do;
-`different` otherwise. A `match` says the measured surfaces are identical, not that
+`different` otherwise; `no_overlap` when no hard layer is usable. Vision counts of
+zero at every size and non-per-token streams are not evidence. Profiles seeded before
+`count-check` have no `count_integrity`, so their counts are compared unchecked. A `match` says the measured surfaces are identical, not that
 weights, training data or vendor are proven identical.
 
 Seed (2026-11-03): 23 named models on OpenCode Zen free tier and Go plan, plus the

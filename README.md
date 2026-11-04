@@ -169,7 +169,8 @@ Data keys stay English regardless of display language.
 | L1b segmentation | `segment` | The model's own token boundaries: on servers that flush one token per SSE chunk, chunks are tokens (checked via a constant completion_tokens offset); boundary F1 vs local vocabs plus a key-token pattern |
 | L4b error leaks | `leaks` | Upstream error text for invalid params: serving framework (SGLang/vLLM), PD disaggregation, Rust serde, vendor API signatures, leaked output/context limits |
 | L6b vision grid | `vision-grid` | Image token cost over 7 sizes fitted to `ceil(w/p)*ceil(h/p)+c`; patch size, constant and (no) resizing fingerprint the encoder |
-| profiles | `profile` / `match` | Run L1+L1b+L4b+L6b into `fingerprints/<model>.json`; `match` compares offline against the library (see [fingerprints/README.md](fingerprints/README.md)) |
+| count check | `count-check` | Does usage behave like a tokenizer: letters cost the same, concatenation adds up, repeats match. On failure (exit 1), L1 and vision counts can neither identify nor exclude a model |
+| profiles | `profile` / `match` | Run the count check+L1+L1b+L4b+L6b into `fingerprints/<model>.json`; `match` compares offline against the library (see [fingerprints/README.md](fingerprints/README.md)) |
 
 Self-identification ("who are you"), prompt injection, censorship probes and
 emoji density are deliberately **not** implemented as layers — for stealth
