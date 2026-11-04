@@ -1,8 +1,8 @@
 # crouton-alpha：usage 计数不可用，身份未定（2026-11-04）
 
-**决定：待验证。** 没有指认出厂商；这次只确定了它和 Pulse Alpha 不是同一个部署，以及词表类证据在这个模型上失效。
+**决定：待验证，已收窄。** Crouton 的真实切分和 Llama 4 词表一致（盲测 92/92，49 份词表中唯一通过），GPT-6、Claude Haiku、Gemini、Grok 对照都不符。这指向 Meta 或使用这份词表的模型，但词表是开源的，不等于证明了厂商。它和 Pulse Alpha 也不是同一个部署。
 
-要支撑的决定：能否把 Crouton 定位到具体厂商。放弃条件：真实词表计数拿不到，且错误和行为层没有唯一指向时停止，改等官方揭晓或具名模型对照。
+要支撑的决定：能否把 Crouton 定位到具体厂商。放弃条件：真实词表计数拿不到，且错误和行为层没有唯一指向时停止，改等官方揭晓或具名模型对照。第一层计数确实拿不到，但截断边界绕过了它。
 
 测量数据：[case-crouton-alpha-measurements.json](case-crouton-alpha-measurements.json)。
 
@@ -21,6 +21,38 @@
 推断：usage 是估算值，可能叠加了按内容确定的扰动。是否有意遮蔽、发生在网关还是上游，都没有证据。
 
 **因此 L1、视觉计数和 `stealthprint match` 的 `different` 判定，在这里都不能排除任何厂商。** `match` 给 hy3 的 `partial` 也是假信号：两边的图片计数都是 0。这个档案故意没有放进 `fingerprints/`。
+
+## 截断边界：绕过 usage 的词表测试
+
+被 `max_tokens` 截断的回复一定停在 token 边界上，不管隐藏思考占了多少预算；断点前的 token 数也不会超过 `max_tokens`。所以让模型复述固定文本，改变 `max_tokens`，就能不看 usage 判断词表。Crouton 用 `reasoning_effort=minimal`（不支持 `none`，其他档位常把预算耗光）。
+
+通过标准：所有断点都是该词表的边界，且没有一次超预算。
+
+| 文本 | 模型 | 断点数 | 49 份词表中通过的 |
+|---|---|---|---|
+| t1（探索） | crouton | 68 | `llama4` |
+| t2（探索） | crouton | 104 | `llama4` |
+| **t3（盲测）** | **crouton** | **92** | **`llama4`** |
+| t1 | deepseek-v4.1-flash-free | 32 | `deepseek`、`step3` |
+| t1 | glm-5.3-flash-free | 24 | `glm53` 等 9 份，不含 `llama4` |
+| t1 | mimo-v2.6-flash-free | 15 | `mimo-v2.5` 等 12 份，不含 `llama4` |
+| t3 | gpt-6-luna | 34 | `o200k_base` |
+| t3 | claude-haiku-5-5 | 55 | 无（`llama4` 38/55） |
+| t3 | gemini-4-argon | 57 | 无（`llama4` 54/57，超预算 32 次） |
+| t3 | grok-4.7（只跑了 28/61） | 19 | 无（`llama4` 超预算 19 次） |
+
+过程要如实记录：
+- t2 上预先写下的预测**没过**（100/104）。4 个没命中的点都是半字节 token，确认是评分器错误后才修，所以 t1、t2 的结果是事后得到的。
+- t3 是修复后的正式盲测：文本、算法和判定标准都先锁定、校验过哈希才发请求。
+- t3 有 15 条回复被排除，都是模型在 `。` 后多打一个空格，和词表无关。
+
+数据和评分脚本：[case-crouton-truncation.json](case-crouton-truncation.json)、`scripts/truncation_score.py`。
+
+局限：
+- 只比了 49 份本地词表，没有的词表无法排除，比如 Meta 更新的闭源模型。
+- 词表可以被其他团队复用，所以这不证明权重或厂商。
+- 没有具名 Meta 模型做同线对照。
+- DeepSeek、GLM、MiMo 的对照只用了 t1，且部分请求被限流；t3 上它们 41 次全部被限流。
 
 ## 还可用的线索
 
