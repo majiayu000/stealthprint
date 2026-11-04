@@ -1,6 +1,6 @@
 # crouton-alpha：usage 计数不可用，身份未定（2026-11-04）
 
-**决定：待验证，已收窄。** Crouton 的真实切分和 Llama 4 词表一致（盲测 92/92，49 份词表中唯一通过），GPT-6、Claude Haiku、Gemini、Grok 对照都不符。这指向 Meta 或使用这份词表的模型，但词表是开源的，不等于证明了厂商。它和 Pulse Alpha 也不是同一个部署。
+**决定：很可能是 Meta 这条线，未确认。** Crouton 的真实切分和 Llama 4 词表一致（盲测 92/92，49 份词表中唯一通过）；同网关的具名 Meta 模型 Muse Spark 1.2、1.3 也是这份词表（L1 24/24，第二名 13/24）。GPT-6、Claude Haiku、Gemini、Grok 对照都不符。词表开源，其他团队也能用，权重和厂商没有被证明。它和 Pulse Alpha 不是同一个部署。
 
 要支撑的决定：能否把 Crouton 定位到具体厂商。放弃条件：真实词表计数拿不到，且错误和行为层没有唯一指向时停止，改等官方揭晓或具名模型对照。第一层计数确实拿不到，但截断边界绕过了它。
 
@@ -53,6 +53,24 @@
 - 词表可以被其他团队复用，所以这不证明权重或厂商。
 - 没有具名 Meta 模型做同线对照。
 - DeepSeek、GLM、MiMo 的对照只用了 t1，且部分请求被限流；t3 上它们 41 次全部被限流。
+
+## 和 Muse Spark 对照
+
+| 项目 | Crouton | Muse Spark 1.2 / 1.3 |
+|---|---|---|
+| 词表证据 | 截断边界只通过 `llama4` | L1 `llama4` 24/24（两版差值完全相同） |
+| `stop` 报错 | `Responses does not support stop sequences` | 相同（这句来自网关适配层） |
+| `max_output_tokens` 下限 | 16 | 16，但措辞不同（`The number must be >= 16`） |
+| `reasoning_effort=none` 报错 | `reasoning_effort 'none' is not supported for model '<id>'. Supported values: [minimal, low, medium, high, xhigh, max]` | 1.3 逐字相同（只有模型名不同）；1.2 是另一句 |
+| 流式 | 成批 | 成批（1.3 全文 43 块） |
+| usage 计数 | **估算，自检不通过** | **真实，自检通过** |
+| `reasoning_tokens` | 始终 0 | 真实上报 |
+
+相同点里有的来自网关，不能全算作模型证据：`stop` 那句肯定是，`none` 报错带 `Upstream request failed`，来自上游，但没和其他厂商逐一比对过（GPT-6 的措辞不同）。usage 是明确的不同：Crouton 的计数被估算或遮蔽，Muse 没有。
+
+Muse 的截断测试区分力不够：思考吃掉大部分预算，1.3 只留下 14 个断点（`llama4` 和 Gemma 系都过），1.2 一个都没有。所以两者的词表证据来自两种不同方法，没有在同一方法下直接比对。
+
+Zen 线的 `muse-spark-1.3`、`muse-wonder-1.0` 没测。
 
 ## 还可用的线索
 
