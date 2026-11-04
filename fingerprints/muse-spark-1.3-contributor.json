@@ -62,6 +62,106 @@
     "measured": "2026-11-04",
     "gateway": "opencode go (/zen/go/v1, direct, MIN_TOKENS=16)",
     "source": "stealthprint tokenizer + count-check",
-    "l1_top": "llama4 24/24"
-  }
+    "l1_top": "llama4 24/24",
+    "truncation_measured": "2026-11-05"
+  },
+  "truncation": {
+    "effort": "minimal",
+    "cuts": 14,
+    "evidence": "weak",
+    "margin": 1,
+    "passing": [
+      "gemma3",
+      "gemma3n",
+      "llama4",
+      "sealion",
+      "typhoon"
+    ],
+    "texts": {
+      "t3": {
+        "observations": [
+          [
+            50,
+            122
+          ],
+          [
+            259,
+            507
+          ],
+          [
+            410,
+            128
+          ],
+          [
+            413,
+            128
+          ],
+          [
+            415,
+            145
+          ],
+          [
+            420,
+            150
+          ],
+          [
+            423,
+            142
+          ],
+          [
+            425,
+            149
+          ],
+          [
+            428,
+            148
+          ],
+          [
+            430,
+            160
+          ],
+          [
+            433,
+            151
+          ],
+          [
+            435,
+            151
+          ],
+          [
+            438,
+            165
+          ],
+          [
+            309,
+            586
+          ],
+          [
+            312,
+            590
+          ],
+          [
+            251,
+            479
+          ]
+        ],
+        "stats": {
+          "requests": 60,
+          "empty": 40,
+          "deviated": 0,
+          "errors": 0,
+          "stop": "max_requests",
+          "last_error": null
+        },
+        "stream": {
+          "per_token": false,
+          "chunks": 43,
+          "visible_tokens": 346
+        }
+      }
+    }
+  },
+  "tokenizer_candidates": [
+    "llama4"
+  ]
 }

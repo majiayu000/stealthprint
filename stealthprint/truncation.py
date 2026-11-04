@@ -189,8 +189,10 @@ def rank_tokenizers(observations_by_text, local, texts=None):
             hit, over = hit + result["hit"], over + result["over"]
         ranking[name] = {"hit": hit, "cuts": total, "over": over}
     passing = sorted(n for n, r in ranking.items() if total and r["hit"] == total and r["over"] == 0)
+    # Fewest failures among tokenizers that did not pass: 1 means one cut decided the result.
+    failures = [r["cuts"] - r["hit"] + r["over"] for n, r in ranking.items() if n not in passing]
     return {"cuts": total, "passing": passing, "evidence": "strong" if total >= MIN_CUTS_FOR_EVIDENCE else "weak",
-            "ranking": ranking}
+            "margin": min(failures) if passing and failures else None, "ranking": ranking}
 
 
 def truncation_probe(client, tokenizers_dir="tok", text_ids=("t3",), effort="auto", extra=None, step=2,
@@ -221,7 +223,7 @@ def truncation_probe(client, tokenizers_dir="tok", text_ids=("t3",), effort="aut
         out["error"] = "no truncation cuts: %s" % next(
             (t["stats"]["last_error"] or t["stats"]["stop"] for t in out["texts"].values()), "no texts")
     if verbose:
-        print("cuts=%d evidence=%s passing=%s" % (out["cuts"], out["evidence"], out["passing"]))
+        print("cuts=%d evidence=%s margin=%s passing=%s" % (out["cuts"], out["evidence"], out["margin"], out["passing"]))
         worst = sorted(out["ranking"].items(), key=lambda kv: (kv[1]["cuts"] - kv[1]["hit"]) + kv[1]["over"])
         for name, row in worst[:8]:
             print("  %-22s hit %d/%d over=%d" % (name, row["hit"], row["cuts"], row["over"]))

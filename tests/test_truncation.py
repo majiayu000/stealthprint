@@ -174,6 +174,19 @@ class RankTests(unittest.TestCase):
         self.assertGreater(result["ranking"]["fine"]["over"], 0)
         self.assertEqual(result["evidence"], "strong")
 
+    def test_margin_shows_how_many_failures_separate_the_runner_up(self):
+        rows = [[n, n * WORD] for n in range(10, 50)]
+
+        class Miss(Fixed):
+            def encode(self, text, add_special_tokens=False):
+                ends = [e for e in range(WORD, len(text), WORD) if e != 40] + [len(text)]
+                return Encoding(list(range(len(ends))), [(0, e) for e in ends])
+
+        result = tr.rank_tokenizers({"t3": rows}, {"true": Fixed(), "near": Miss()})
+        self.assertEqual(result["passing"], ["true"])
+        self.assertEqual(result["ranking"]["near"]["hit"], len(rows) - 1)
+        self.assertEqual(result["margin"], result["ranking"]["near"]["cuts"] - result["ranking"]["near"]["hit"] + result["ranking"]["near"]["over"])
+
     def test_probe_reports_error_without_cuts_and_loads_tokenizers_first(self):
         client = EchoClient(error="rate limited")
         client.transport = "openai"
@@ -215,20 +228,16 @@ def truncated(cuts=None, boundaries=None):
 
 
 class CompareTests(unittest.TestCase):
-    def test_cuts_inside_other_models_boundaries_match(self):
+    def test_cuts_inside_other_models_boundaries_do_not_prove_a_match(self):
         cuts = list(range(2, 80, 2))
         cmp = fp.compare_profiles(truncated(cuts=cuts), truncated(boundaries=list(range(1, 100))))
         self.assertEqual(cmp["truncation_boundary"], {"checked": len(cuts), "conflicts": 0})
-        self.assertEqual(fp.same_model_verdict(cmp), "match")
+        self.assertEqual(fp.same_model_verdict(cmp), "no_overlap")
 
     def test_a_cut_off_the_other_models_boundaries_is_a_conflict(self):
         cmp = fp.compare_profiles(truncated(cuts=[3, 5]), truncated(boundaries=[2, 4, 5]))
         self.assertEqual(cmp["truncation_boundary"]["conflicts"], 1)
         self.assertEqual(fp.same_model_verdict(cmp), "different")
-
-    def test_few_agreeing_cuts_are_not_a_match(self):
-        cmp = fp.compare_profiles(truncated(cuts=[2, 4]), truncated(boundaries=[2, 4, 6]))
-        self.assertEqual(fp.same_model_verdict(cmp), "no_overlap")
 
     def test_two_sets_of_cuts_cannot_contradict(self):
         self.assertNotIn("truncation_boundary", fp.compare_profiles(truncated(cuts=[1, 2]), truncated(cuts=[3, 4])))
@@ -237,6 +246,12 @@ class CompareTests(unittest.TestCase):
         cmp = fp.compare_profiles({"tokenizer_candidates": ["llama4"]}, {"tokenizer_candidates": ["llama4", "x"]})
         self.assertEqual(cmp["tokenizer_shared"], ["llama4"])
         self.assertEqual(fp.same_model_verdict(cmp), "tokenizer_match")
+
+    def test_models_with_no_local_tokenizer_are_not_called_different(self):
+        cmp = fp.compare_profiles({"tokenizer_candidates": []}, {"tokenizer_candidates": []})
+        self.assertEqual(fp.same_model_verdict(cmp), "no_overlap")
+        cmp = fp.compare_profiles({"tokenizer_candidates": []}, {"tokenizer_candidates": ["llama4"]})
+        self.assertEqual(fp.same_model_verdict(cmp), "no_overlap")
 
     def test_disjoint_tokenizers_are_different(self):
         cmp = fp.compare_profiles({"tokenizer_candidates": ["a"]}, {"tokenizer_candidates": ["b"]})

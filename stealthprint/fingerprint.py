@@ -416,7 +416,7 @@ def build_profile(model, l1=None, seg=None, leaks=None, vision=None, meta=None, 
         prof["count_integrity"] = integrity
     if trunc:
         prof["truncation"] = {"effort": trunc.get("effort"), "cuts": trunc.get("cuts"),
-                              "evidence": trunc.get("evidence"), "passing": trunc.get("passing"),
+                              "evidence": trunc.get("evidence"), "margin": trunc.get("margin"), "passing": trunc.get("passing"),
                               "texts": trunc.get("texts")}
     candidates = tokenizer_candidates(integrity, l1, trunc)
     if candidates is not None:
@@ -444,7 +444,8 @@ def truncation_conflicts(a, b):
     """Check each profile's cuts against the other's streamed boundaries on shared texts.
 
     Works with no local tokenizer, so closed models can be compared. Only a per-token
-    stream gives every boundary: two sets of cuts alone cannot contradict each other."""
+    stream gives every boundary: two sets of cuts alone cannot contradict each other.
+    A conflict refutes a shared tokenizer; no conflict does not establish one."""
     checked = conflicts = 0
     ta, tb = (a.get("truncation") or {}).get("texts") or {}, (b.get("truncation") or {}).get("texts") or {}
     for text_id in set(ta) & set(tb):
@@ -490,7 +491,7 @@ def compare_profiles(a, b):
     if boundary:
         out["truncation_boundary"] = boundary
     ca, cb = a.get("tokenizer_candidates"), b.get("tokenizer_candidates")
-    if ca is not None and cb is not None:
+    if ca and cb:  # an empty list means no local tokenizer fits, which says nothing about the other model
         shared = sorted(set(ca) & set(cb))
         if shared:
             out["tokenizer_shared"] = shared
@@ -515,9 +516,10 @@ def same_model_verdict(cmp):
         hard.append(cmp["vision"]["exact"] == cmp["vision"]["of"])
     if "segmentation_f1" in cmp:
         hard.append(cmp["segmentation_f1"] >= 0.999)
-    boundary = cmp.get("truncation_boundary")
-    if boundary and (boundary["conflicts"] or boundary["checked"] >= truncation_layer.MIN_CUTS_FOR_EVIDENCE):
-        hard.append(boundary["conflicts"] == 0)
+    # Cuts can refute a tokenizer but not confirm one: GPT-6's 33 cuts all sat on
+    # DeepSeek's streamed boundaries. So a conflict counts and its absence does not.
+    if (cmp.get("truncation_boundary") or {}).get("conflicts"):
+        hard.append(False)
     if hard:
         return "match" if all(hard) else ("partial" if any(hard) else "different")
     if cmp.get("tokenizer_shared"):

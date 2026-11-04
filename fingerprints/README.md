@@ -21,15 +21,19 @@ Profile fields (all optional except `model`):
 | `meta` | — | measurement date, gateway, source |
 
 `match` verdicts: `match` only when every hard layer both profiles share agrees
-fully (L1 24/24, all vision sizes, segmentation F1 = 1, at least 30 cuts all on the other
-model's streamed boundaries); `partial` when some do; `different` otherwise.
+fully (L1 24/24, all vision sizes, segmentation F1 = 1); `partial` when some do;
+`different` otherwise. A cut off the other model's streamed boundaries counts as a failed
+hard layer. The absence of such a conflict does not count as agreement: cuts can refute a
+tokenizer but not confirm one.
 With no hard layer, `tokenizer_match` means the tokenizer candidates overlap, which an open
-tokenizer allows for unrelated models; disjoint candidates are `different`; `no_overlap`
-means nothing is usable. Vision counts of
-zero at every size and non-per-token streams are not evidence. 2026-11-04: every profile except
-`pixel-canary` carries a `count_integrity` result (all `trusted`); `pixel-canary` is on
-another gateway and stays unchecked. L1 probes retry zero usage now; `meta.l1_dropped_zero_usage`
-lists probes removed from the two GPT profiles because a seeded 0 had become delta -22. A `match` says the measured surfaces are identical, not that
+tokenizer allows for unrelated models; disjoint non-empty candidates are `different`; `no_overlap`
+means nothing is usable. An empty candidate list means no local tokenizer fits, which says
+nothing about the other model. Vision counts of
+zero at every size and non-per-token streams are not evidence. 2026-11-05: every profile except
+`pixel-canary` carries a `count_integrity` result; only `crouton-alpha-free` is `untrusted`.
+`pixel-canary` is on another gateway and stays unchecked. The GPT lines report zero usage for
+some texts: L1 retries it and records a failure if it stays zero, so those profiles have
+fewer than 24 probes. A `match` says the measured surfaces are identical, not that
 weights, training data or vendor are proven identical.
 
 Seed (2026-11-03): 23 named models on OpenCode Zen free tier and Go plan, plus the

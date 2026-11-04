@@ -6,10 +6,8 @@
     "gateway": "opencode go (/zen/go/v1, direct)",
     "count_integrity_measured": "2026-11-04",
     "count_integrity_source": "count-check with zero-usage retry, go via relay",
-    "l1_dropped_zero_usage": [
-      "url_sym",
-      "punct",
-      "html",
+    "l1_remeasured": "2026-11-05",
+    "l1_zero_usage_probes": [
       "quotes2"
     ]
   },
@@ -23,17 +21,20 @@
     "ja": 7,
     "ko": 4,
     "code_indent": 14,
+    "url_sym": 18,
     "cjk_rare": 17,
     "long_words": 15,
     "ws": 4,
     "zh_num": 15,
+    "punct": 11,
     "hex_bin": 16,
     "fr": 10,
     "ru": 13,
     "mixed_code_zh": 24,
     "emoji_flags": 24,
     "thai": 6,
-    "floats": 17
+    "floats": 17,
+    "html": 15
   },
   "count_integrity": {
     "status": "trusted",
@@ -66,5 +67,8 @@
       }
     ],
     "failures": {}
-  }
+  },
+  "tokenizer_candidates": [
+    "o200k_base"
+  ]
 }
