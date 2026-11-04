@@ -10,8 +10,8 @@
 // Cloudflare 1010. stealthprint then talks plain OpenAI to http://127.0.0.1:<port>/v1.
 //
 // The API key is read at runtime from opencode's auth.json and never logged.
-// Env: OPENCODE_AUTH (auth.json path), SES (Go session id), MIN_TOKENS (Go line
-// floor for max_tokens, e.g. 16 for GPT models), RELAY_LOG (JSONL status log).
+// Env: OPENCODE_AUTH (auth.json path), SES (Go session id), MIN_TOKENS (floor for
+// max_tokens on either line, e.g. 16 for GPT models), RELAY_LOG (JSONL status log).
 import fs from 'fs';
 import os from 'os';
 
@@ -76,13 +76,13 @@ Bun.serve({
       headers = { ...env.headers, authorization: 'Bearer ' + key, 'x-opencode-request': msgId() };
     } else {
       body = { ...inb };
-      const floor = Number(process.env.MIN_TOKENS || 0);
-      if (floor && body.max_tokens !== undefined && body.max_tokens < floor) body.max_tokens = floor;
       target = 'https://opencode.ai/zen/go' + url.pathname;
       headers = { 'content-type': 'application/json', authorization: 'Bearer ' + key, 'user-agent': UA,
         'x-opencode-client': 'cli', 'x-opencode-project': 'global', 'x-opencode-session': SES,
         'x-opencode-session-id': SES, 'x-opencode-request': msgId() };
     }
+    const floor = Number(process.env.MIN_TOKENS || 0);
+    if (floor && body.max_tokens !== undefined && body.max_tokens < floor) body.max_tokens = floor;
     const r = await fetch(target, { method: 'POST', headers, body: JSON.stringify(body) });
     const raw = await r.text();
     log?.write(JSON.stringify({ t: new Date().toISOString(), mode, model: body.model, status: r.status,

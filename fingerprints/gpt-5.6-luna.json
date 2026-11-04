@@ -1,34 +1,70 @@
 {
- "model": "gpt-5.6-luna",
- "meta": {
-  "measured": "2026-11-03",
-  "source": "stealthprint case pulse-alpha seed",
-  "gateway": "opencode go (/zen/go/v1, direct)"
- },
- "l1_delta": {
-  "en_pangram": 10,
-  "zh_long": 18,
-  "code": 18,
-  "emoji_zwj": 21,
-  "rare_uni": 18,
-  "digits": 17,
-  "ja": 7,
-  "ko": 4,
-  "code_indent": 14,
-  "url_sym": -22,
-  "cjk_rare": 17,
-  "long_words": 15,
-  "ws": 4,
-  "zh_num": 15,
-  "punct": -22,
-  "hex_bin": 16,
-  "fr": 10,
-  "ru": 13,
-  "mixed_code_zh": 24,
-  "emoji_flags": 24,
-  "thai": 6,
-  "floats": 17,
-  "html": -22,
-  "quotes2": -22
- }
+  "model": "gpt-5.6-luna",
+  "meta": {
+    "measured": "2026-11-03",
+    "source": "stealthprint case pulse-alpha seed",
+    "gateway": "opencode go (/zen/go/v1, direct)",
+    "count_integrity_measured": "2026-11-04",
+    "count_integrity_source": "count-check with zero-usage retry, go via relay",
+    "l1_dropped_zero_usage": [
+      "url_sym",
+      "punct",
+      "html",
+      "quotes2"
+    ]
+  },
+  "l1_delta": {
+    "en_pangram": 10,
+    "zh_long": 18,
+    "code": 18,
+    "emoji_zwj": 21,
+    "rare_uni": 18,
+    "digits": 17,
+    "ja": 7,
+    "ko": 4,
+    "code_indent": 14,
+    "cjk_rare": 17,
+    "long_words": 15,
+    "ws": 4,
+    "zh_num": 15,
+    "hex_bin": 16,
+    "fr": 10,
+    "ru": 13,
+    "mixed_code_zh": 24,
+    "emoji_flags": 24,
+    "thai": 6,
+    "floats": 17
+  },
+  "count_integrity": {
+    "status": "trusted",
+    "reasons": [],
+    "letters": {
+      "a": 7,
+      "b": 7,
+      "c": 7,
+      "d": 7,
+      "e": 7,
+      "f": 7,
+      "g": 7,
+      "h": 7
+    },
+    "letter_spread": 0,
+    "repeat_stable": true,
+    "anchor": 7,
+    "pairs": [
+      {
+        "a": 13,
+        "b": 13,
+        "ab": 20,
+        "residual": 0
+      },
+      {
+        "a": 18,
+        "b": 13,
+        "ab": 25,
+        "residual": 0
+      }
+    ],
+    "failures": {}
+  }
 }

@@ -10,7 +10,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
 from unittest import mock
 
-from stealthprint.client import ChatClient, retryable
+from stealthprint.client import ChatClient, nonzero_prompt_tokens, retryable
 from stealthprint import layers, probes_extra, survey
 from stealthprint.cli import main
 
@@ -62,6 +62,20 @@ class IntegrityTests(unittest.TestCase):
             r = layers.needle_test(c, prompt_tokens_size=100, verbose=False)
         self.assertFalse(r['exact'])
         self.assertEqual(r['recovered'], '1/3')
+
+    def test_zero_prompt_tokens_retries_then_returns_real_count(self):
+        c = self.client()
+        with mock.patch.object(c, 'prompt_tokens', side_effect=[(0, None), (22, None)]) as count:
+            self.assertEqual(nonzero_prompt_tokens(c, []), (22, None))
+        self.assertEqual(count.call_count, 2)
+
+    def test_persistent_zero_prompt_tokens_is_an_error_not_a_count(self):
+        c = self.client()
+        with mock.patch.object(c, 'prompt_tokens', return_value=(0, None)) as count:
+            value, error = nonzero_prompt_tokens(c, [])
+        self.assertIsNone(value)
+        self.assertIn('stayed 0', error['body'])
+        self.assertEqual(count.call_count, 3)
 
     def test_anthropic_total_includes_cache(self):
         c = self.client(transport='anthropic')

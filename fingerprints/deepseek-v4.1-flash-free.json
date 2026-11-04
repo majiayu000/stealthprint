@@ -1,42 +1,76 @@
 {
- "model": "deepseek-v4.1-flash-free",
- "meta": {
-  "measured": "2026-11-03",
-  "source": "stealthprint case pulse-alpha seed",
-  "gateway": "opencode zen free (/zen/v1, envelope)"
- },
- "l1_delta": {
-  "en_pangram": 10,
-  "zh_long": 14,
-  "code": 19,
-  "emoji_zwj": 20,
-  "rare_uni": 15,
-  "digits": 17,
-  "ja": 10,
-  "ko": 7,
-  "code_indent": 14,
-  "url_sym": 21,
-  "cjk_rare": 18,
-  "long_words": 14,
-  "ws": 5,
-  "zh_num": 14,
-  "punct": 9,
-  "hex_bin": 14,
-  "fr": 16,
-  "ru": 13,
-  "mixed_code_zh": 24,
-  "emoji_flags": 24,
-  "thai": 8,
-  "floats": 17,
-  "html": 15,
-  "quotes2": 10
- },
- "errors": {
-  "tags": [
-   "deepseek_api"
-  ],
-  "limits": {
-   "max_completion": 393216
+  "model": "deepseek-v4.1-flash-free",
+  "meta": {
+    "measured": "2026-11-03",
+    "source": "stealthprint case pulse-alpha seed",
+    "gateway": "opencode zen free (/zen/v1, envelope)",
+    "count_integrity_measured": "2026-11-04",
+    "count_integrity_source": "count-check, zen free via relay"
+  },
+  "l1_delta": {
+    "en_pangram": 10,
+    "zh_long": 14,
+    "code": 19,
+    "emoji_zwj": 20,
+    "rare_uni": 15,
+    "digits": 17,
+    "ja": 10,
+    "ko": 7,
+    "code_indent": 14,
+    "url_sym": 21,
+    "cjk_rare": 18,
+    "long_words": 14,
+    "ws": 5,
+    "zh_num": 14,
+    "punct": 9,
+    "hex_bin": 14,
+    "fr": 16,
+    "ru": 13,
+    "mixed_code_zh": 24,
+    "emoji_flags": 24,
+    "thai": 8,
+    "floats": 17,
+    "html": 15,
+    "quotes2": 10
+  },
+  "errors": {
+    "tags": [
+      "deepseek_api"
+    ],
+    "limits": {
+      "max_completion": 393216
+    }
+  },
+  "count_integrity": {
+    "status": "trusted",
+    "reasons": [],
+    "letters": {
+      "a": 25290,
+      "b": 25290,
+      "c": 25290,
+      "d": 25290,
+      "e": 25290,
+      "f": 25290,
+      "g": 25290,
+      "h": 25290
+    },
+    "letter_spread": 0,
+    "repeat_stable": true,
+    "anchor": 25290,
+    "pairs": [
+      {
+        "a": 25296,
+        "b": 25295,
+        "ab": 25302,
+        "residual": 0
+      },
+      {
+        "a": 25301,
+        "b": 25296,
+        "ab": 25308,
+        "residual": 0
+      }
+    ],
+    "failures": {}
   }
- }
 }

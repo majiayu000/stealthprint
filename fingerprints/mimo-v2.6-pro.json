@@ -1,61 +1,77 @@
 {
- "model": "mimo-v2.6-pro",
- "meta": {
-  "measured": "2026-11-03",
-  "source": "stealthprint case pulse-alpha seed",
-  "gateway": "opencode go (/zen/go/v1, direct)"
- },
- "l1_delta": {
-  "en_pangram": 10,
-  "zh_long": 15,
-  "code": 18,
-  "emoji_zwj": 20,
-  "rare_uni": 17,
-  "digits": 32,
-  "ja": 6,
-  "ko": 5,
-  "code_indent": 14,
-  "url_sym": 18,
-  "cjk_rare": 13,
-  "long_words": 16,
-  "ws": 4,
-  "zh_num": 17,
-  "punct": 12,
-  "hex_bin": 17,
-  "fr": 15,
-  "ru": 16,
-  "mixed_code_zh": 24,
-  "emoji_flags": 18,
-  "thai": 10,
-  "floats": 31,
-  "html": 15,
-  "quotes2": 10
- },
- "vision": {
-  "fit": {
-   "kind": "grid",
-   "patch": 32,
-   "const": 2,
-   "exact": 5,
-   "of": 7,
-   "formula": "ceil(w/32)*ceil(h/32)+2"
+  "model": "mimo-v2.6-pro",
+  "meta": {
+    "measured": "2026-11-03",
+    "source": "stealthprint case pulse-alpha seed",
+    "gateway": "opencode go (/zen/go/v1, direct)",
+    "count_integrity_measured": "2026-11-04",
+    "count_integrity_source": "count-check summary line, go via relay"
   },
-  "tokens": {
-   "32x32": 11,
-   "64x64": 11,
-   "256x256": 66,
-   "512x512": 258,
-   "1024x1024": 1026,
-   "2048x2048": 4098,
-   "1024x256": 258
+  "l1_delta": {
+    "en_pangram": 10,
+    "zh_long": 15,
+    "code": 18,
+    "emoji_zwj": 20,
+    "rare_uni": 17,
+    "digits": 32,
+    "ja": 6,
+    "ko": 5,
+    "code_indent": 14,
+    "url_sym": 18,
+    "cjk_rare": 13,
+    "long_words": 16,
+    "ws": 4,
+    "zh_num": 17,
+    "punct": 12,
+    "hex_bin": 17,
+    "fr": 15,
+    "ru": 16,
+    "mixed_code_zh": 24,
+    "emoji_flags": 18,
+    "thai": 10,
+    "floats": 31,
+    "html": 15,
+    "quotes2": 10
+  },
+  "vision": {
+    "fit": {
+      "kind": "grid",
+      "patch": 32,
+      "const": 2,
+      "exact": 5,
+      "of": 7,
+      "formula": "ceil(w/32)*ceil(h/32)+2"
+    },
+    "tokens": {
+      "32x32": 11,
+      "64x64": 11,
+      "256x256": 66,
+      "512x512": 258,
+      "1024x1024": 1026,
+      "2048x2048": 4098,
+      "1024x256": 258
+    }
+  },
+  "errors": {
+    "tags": [
+      "sglang"
+    ],
+    "limits": {
+      "max_completion": 131072
+    }
+  },
+  "count_integrity": {
+    "status": "trusted",
+    "reasons": [],
+    "letter_spread": 0,
+    "repeat_stable": true,
+    "pairs": [
+      {
+        "residual": 0
+      },
+      {
+        "residual": 0
+      }
+    ]
   }
- },
- "errors": {
-  "tags": [
-   "sglang"
-  ],
-  "limits": {
-   "max_completion": 131072
-  }
- }
 }

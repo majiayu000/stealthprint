@@ -44,5 +44,7 @@
 
 ## 工具待修
 
-- `opencode_relay.mjs` 的 `MIN_TOKENS` 只在 Go 模式生效，这次用 scratch 副本补到免费模式。
+- `opencode_relay.mjs` 的 `MIN_TOKENS` 原先只在 Go 模式生效，现已对两条线都生效；本案当时用的是 scratch 补丁副本。
 - 已加 `count-check`：`profile` 会先跑它，`match` 不再用不可信的计数层下判定。
+- 指纹库复测（2026-11-04）：Zen 免费线和 Go 线共 24 个档案全部 `trusted`，只有 Crouton 不通过。`pixel-canary` 在 Cline 网关，没测。
+- 复测同时发现 GPT 线部分请求 `prompt_tokens` 报 0（这次 96 次里重试 3 次，种子档案里 25 次有 4 次和 9 次），曾被记成 L1 的 -22。现在 L1、自检、survey 遇 0 重试，库里两个 GPT 档案的脏值已删（gpt-5.6-luna 4 个、gpt-6-luna 9 个）。

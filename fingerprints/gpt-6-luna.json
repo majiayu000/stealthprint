@@ -1,57 +1,93 @@
 {
- "model": "gpt-6-luna",
- "meta": {
-  "measured": "2026-11-03",
-  "source": "stealthprint case pulse-alpha seed",
-  "gateway": "opencode go (/zen/go/v1, direct)"
- },
- "l1_delta": {
-  "en_pangram": 10,
-  "zh_long": 18,
-  "code": -22,
-  "emoji_zwj": 21,
-  "rare_uni": -22,
-  "digits": 17,
-  "ja": 7,
-  "ko": 4,
-  "code_indent": 14,
-  "url_sym": -22,
-  "cjk_rare": 17,
-  "long_words": 15,
-  "ws": 4,
-  "zh_num": -22,
-  "punct": 11,
-  "hex_bin": 16,
-  "fr": -22,
-  "ru": 13,
-  "mixed_code_zh": -22,
-  "emoji_flags": -22,
-  "thai": -22,
-  "floats": 17,
-  "html": -22,
-  "quotes2": 11
- },
- "vision": {
-  "fit": {
-   "kind": "grid",
-   "patch": 32,
-   "const": 1,
-   "exact": 2,
-   "of": 7,
-   "formula": "ceil(w/32)*ceil(h/32)+1"
+  "model": "gpt-6-luna",
+  "meta": {
+    "measured": "2026-11-03",
+    "source": "stealthprint case pulse-alpha seed",
+    "gateway": "opencode go (/zen/go/v1, direct)",
+    "count_integrity_measured": "2026-11-04",
+    "count_integrity_source": "count-check with zero-usage retry, go via relay",
+    "l1_dropped_zero_usage": [
+      "code",
+      "rare_uni",
+      "url_sym",
+      "zh_num",
+      "fr",
+      "mixed_code_zh",
+      "emoji_flags",
+      "thai",
+      "html"
+    ]
   },
-  "tokens": {
-   "32x32": 2,
-   "64x64": 5,
-   "256x256": 77,
-   "512x512": 308,
-   "1024x1024": 1229,
-   "2048x2048": 4916,
-   "1024x256": 308
+  "l1_delta": {
+    "en_pangram": 10,
+    "zh_long": 18,
+    "emoji_zwj": 21,
+    "digits": 17,
+    "ja": 7,
+    "ko": 4,
+    "code_indent": 14,
+    "cjk_rare": 17,
+    "long_words": 15,
+    "ws": 4,
+    "punct": 11,
+    "hex_bin": 16,
+    "ru": 13,
+    "floats": 17,
+    "quotes2": 11
+  },
+  "vision": {
+    "fit": {
+      "kind": "grid",
+      "patch": 32,
+      "const": 1,
+      "exact": 2,
+      "of": 7,
+      "formula": "ceil(w/32)*ceil(h/32)+1"
+    },
+    "tokens": {
+      "32x32": 2,
+      "64x64": 5,
+      "256x256": 77,
+      "512x512": 308,
+      "1024x1024": 1229,
+      "2048x2048": 4916,
+      "1024x256": 308
+    }
+  },
+  "errors": {
+    "tags": [],
+    "limits": {}
+  },
+  "count_integrity": {
+    "status": "trusted",
+    "reasons": [],
+    "letters": {
+      "a": 7,
+      "b": 7,
+      "c": 7,
+      "d": 7,
+      "e": 7,
+      "f": 7,
+      "g": 7,
+      "h": 7
+    },
+    "letter_spread": 0,
+    "repeat_stable": true,
+    "anchor": 7,
+    "pairs": [
+      {
+        "a": 13,
+        "b": 13,
+        "ab": 20,
+        "residual": 0
+      },
+      {
+        "a": 18,
+        "b": 13,
+        "ab": 25,
+        "residual": 0
+      }
+    ],
+    "failures": {}
   }
- },
- "errors": {
-  "tags": [],
-  "limits": {}
- }
 }

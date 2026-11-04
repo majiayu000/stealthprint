@@ -10,7 +10,7 @@ import struct
 import zlib
 
 from .i18n import t
-from .client import require_openai
+from .client import nonzero_prompt_tokens, require_openai
 
 FILL = "The quiet harbor town woke slowly under a gray sky, and fishermen checked their nets. "
 EMOJI_ZWJ = "👨‍👩‍👧‍👦 🏳️‍🌈 👍🏽"
@@ -165,13 +165,13 @@ def tokenizer_differential(client, probes=None, tokenizers_dir="tok", verbose=Tr
     if api_delta is None:
         if verbose:
             print(t("tok.querying", n=len(items)))
-        base_api, err = client.prompt_tokens([{"role": "user", "content": base}])
+        base_api, err = nonzero_prompt_tokens(client, [{"role": "user", "content": base}])
         if err:
             raise RuntimeError("base request failed: %s" % err)
 
         api_delta = {}
         for name, text in items:
-            pt, e = client.prompt_tokens([{"role": "user", "content": base + text}])
+            pt, e = nonzero_prompt_tokens(client, [{"role": "user", "content": base + text}])
             if e:
                 failures[name] = e
                 if verbose:

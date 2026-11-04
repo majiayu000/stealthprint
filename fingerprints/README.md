@@ -21,8 +21,10 @@ Profile fields (all optional except `model`):
 `match` verdicts: `match` only when every hard layer both profiles share agrees
 fully (L1 24/24, all vision sizes, segmentation F1 = 1); `partial` when some do;
 `different` otherwise; `no_overlap` when no hard layer is usable. Vision counts of
-zero at every size and non-per-token streams are not evidence. Profiles seeded before
-`count-check` have no `count_integrity`, so their counts are compared unchecked. A `match` says the measured surfaces are identical, not that
+zero at every size and non-per-token streams are not evidence. 2026-11-04: every profile except
+`pixel-canary` carries a `count_integrity` result (all `trusted`); `pixel-canary` is on
+another gateway and stays unchecked. L1 probes retry zero usage now; `meta.l1_dropped_zero_usage`
+lists probes removed from the two GPT profiles because a seeded 0 had become delta -22. A `match` says the measured surfaces are identical, not that
 weights, training data or vendor are proven identical.
 
 Seed (2026-11-03): 23 named models on OpenCode Zen free tier and Go plan, plus the

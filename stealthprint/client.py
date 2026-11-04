@@ -232,6 +232,21 @@ class ChatClient:
         return [m['id'] for m in d['data'] if isinstance(m, dict) and m.get('id')], None
 
 
+ZERO_USAGE_ATTEMPTS = 3
+
+
+def nonzero_prompt_tokens(client, messages, **kwargs):
+    """prompt_tokens for text that must cost tokens, retrying intermittent zero usage.
+
+    Some lines report 0 on a fraction of requests; as a measurement that becomes a
+    large negative delta. Layers where 0 is a real answer use prompt_tokens directly."""
+    for _ in range(ZERO_USAGE_ATTEMPTS):
+        count, error = client.prompt_tokens(messages, **kwargs)
+        if error or count > 0:
+            return count, error
+    return None, {'http': 200, 'body': 'prompt tokens stayed 0 after %d attempts' % ZERO_USAGE_ATTEMPTS}
+
+
 def parse_sse_chunks(raw):
     """Split an SSE chat stream into its individual content deltas."""
     out = {'chunks': [], 'reasoning_chunks': 0, 'usage': None, 'finish_reason': None}

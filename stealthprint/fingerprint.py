@@ -15,7 +15,7 @@ import math
 import os
 import re
 
-from .client import require_openai
+from .client import nonzero_prompt_tokens, require_openai
 from .layers import png_b64, load_local_tokenizers
 
 # ------------------------------------------------------------------ segmentation
@@ -343,7 +343,7 @@ def count_integrity(client, extra=None, verbose=True):
     failures = {}
 
     def count(text):
-        pt, err = client.prompt_tokens([{"role": "user", "content": text}], max_tokens=16, extra=extra)
+        pt, err = nonzero_prompt_tokens(client, [{"role": "user", "content": text}], max_tokens=16, extra=extra)
         if err:
             failures[text[:40]] = str(err.get("body"))[:300]
             return None
