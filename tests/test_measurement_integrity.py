@@ -159,7 +159,7 @@ class DownloadTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             self.run_script(directory, fetch)
             saved = {p.name: p.read_bytes() for p in Path(directory).iterdir()}
-            self.assertEqual(len(json.loads(saved['sources.lock'])), 11)
+            self.assertEqual(len(json.loads(saved['sources.lock'])), 48)
             urls.clear()
             self.run_script(directory, fetch)
             self.assertTrue(all('/resolve/revision-123/' in url for url in urls))
@@ -195,6 +195,8 @@ class HTTPBoundaryTests(unittest.TestCase):
             with self.subTest(status=status):
                 class Handler(BaseHTTPRequestHandler):
                     def do_POST(self):
+                        # An unread body makes close() send RST instead of a clean EOF.
+                        self.rfile.read(int(self.headers.get('Content-Length', 0)))
                         self.send_response(status)
                         self.send_header('Content-Length', '100')
                         self.end_headers()
@@ -237,6 +239,7 @@ class HTTPBoundaryTests(unittest.TestCase):
         body = {'error': {'code': 502, 'message': 'provider_unavailable'}}
         class Handler(BaseHTTPRequestHandler):
             def do_POST(self):
+                self.rfile.read(int(self.headers.get('Content-Length', 0)))
                 self.send_response(200); self.end_headers()
                 self.wfile.write(json.dumps(body).encode())
             def log_message(self, *args): pass

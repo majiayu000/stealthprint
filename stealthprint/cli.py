@@ -91,12 +91,29 @@ def build_parser():
     p = sub.add_parser("count-check", parents=[common],
                        help="check usage behaves like a real tokenizer count (exit 1 if untrusted)")
     p.add_argument("--extra", default=None, help=extra_help)
+    p = sub.add_parser("truncation", parents=[common],
+                       help="token boundaries from max_tokens cuts; works when usage counts are untrusted")
+    p.add_argument("--tokenizers", default="tok", help="dir of local tokenizer candidates")
+    p.add_argument("--extra", default=None, help=extra_help)
+    p.add_argument("--texts", default="t3", help="comma list of bundled texts: t1,t2,t3")
+    p.add_argument("--effort", default="auto", help="reasoning_effort: auto (lowest that leaves text), default (send none), or a value")
+    p.add_argument("--step", type=int, default=2, help="max_tokens increment between requests")
+    p.add_argument("--max-requests", type=int, default=80, help="request cap per text")
+    p.add_argument("--no-stream", action="store_true", help="skip the streamed echo used for model-to-model comparison")
+    p = sub.add_parser("sentinel", parents=[common],
+                       help="re-measure a stored profile and report changes (exit 1 if changed)")
+    p.add_argument("--library", default="fingerprints", help="dir of profile JSON files")
+    p.add_argument("--tokenizers", default="tok", help="dir of local tokenizer candidates")
+    p.add_argument("--extra", default=None, help=extra_help)
+    p.add_argument("--l1-probes", type=int, default=8, help="how many stored L1 probes to re-measure")
+    p.add_argument("--out", default=None, help="append one JSON line per run here")
     p = sub.add_parser("profile", parents=[common],
-                       help="run count-check+tokenizer+segment+leaks+vision-grid and write one profile JSON")
+                       help="run count-check+tokenizer+segment+leaks+vision-grid and write one profile JSON; adds truncation when counts are untrusted")
     p.add_argument("--tokenizers", default="tok", help="dir of local tokenizer.json candidates")
     p.add_argument("--extra", default=None, help=extra_help)
     p.add_argument("--out", required=True, help="profile JSON path (e.g. fingerprints/<model>.json)")
-    p.add_argument("--skip", default="", help="comma list of layers to skip: integrity,l1,segment,leaks,vision")
+    p.add_argument("--skip", default="", help="comma list of layers to skip: integrity,l1,segment,leaks,vision,truncation")
+    p.add_argument("--with-truncation", action="store_true", help="run truncation even when counts are trusted")
     p = sub.add_parser("match", parents=[common], help="offline: compare a profile JSON against a library dir")
     p.add_argument("profile_path", help="target profile JSON")
     p.add_argument("--library", default="fingerprints", help="dir of profile JSON files")
@@ -145,7 +162,7 @@ def main(argv=None):
     except (ValueError, RuntimeError, OSError) as error:
         sys.exit(str(error))
     emit(r, args.json)
-    return 1 if r.get("error") or r.get("status") in ("incomplete", "unstable_counts", "untrusted") else 0
+    return 1 if r.get("error") or r.get("status") in ("incomplete", "unstable_counts", "untrusted", "changed") else 0
 
 
 def run(args, client):
@@ -180,7 +197,7 @@ def run(args, client):
     elif args.cmd == "catalog":
         peers = [x.strip() for x in args.peers.split(",")] if args.peers else None
         r = layers.catalog_ab(client, peers=peers, family=args.family)
-    elif args.cmd in ("count-check", "segment", "leaks", "vision-grid", "profile"):
+    elif args.cmd in ("count-check", "segment", "leaks", "vision-grid", "profile", "truncation", "sentinel"):
         from . import fingerprint
         extra = json.loads(args.extra) if args.extra else None
         if extra is not None and not isinstance(extra, dict):
@@ -193,6 +210,21 @@ def run(args, client):
             r = fingerprint.error_leaks(client, extra=extra)
         elif args.cmd == "vision-grid":
             r = fingerprint.vision_grid(client, extra=extra)
+        elif args.cmd == "truncation":
+            from . import truncation
+            r = truncation.truncation_probe(client, tokenizers_dir=args.tokenizers, extra=extra,
+                                            text_ids=[x.strip() for x in args.texts.split(",") if x.strip()],
+                                            effort=args.effort, step=args.step, max_requests=args.max_requests,
+                                            stream=not args.no_stream)
+        elif args.cmd == "sentinel":
+            stored = fingerprint.load_library(args.library).get(args.model)
+            if stored is None:
+                raise ValueError("no stored profile for %s in %s" % (args.model, args.library))
+            r = fingerprint.sentinel(client, stored, load_probes(), tokenizers_dir=args.tokenizers,
+                                     l1_probes=args.l1_probes, extra=extra)
+            if args.out:
+                with open(args.out, "a", encoding="utf-8") as fh:
+                    fh.write(json.dumps(r, ensure_ascii=False) + "\n")
         else:
             skip = {s.strip() for s in args.skip.split(",") if s.strip()}
             integrity = None if "integrity" in skip else fingerprint.count_integrity(client, extra=extra)
@@ -202,8 +234,12 @@ def run(args, client):
                 client, tokenizers_dir=args.tokenizers, extra=extra)
             leaks = None if "leaks" in skip else fingerprint.error_leaks(client, extra=extra)
             vision = None if "vision" in skip else fingerprint.vision_grid(client, extra=extra)
+            trunc = None
+            if "truncation" not in skip and (args.with_truncation or (integrity or {}).get("status") == "untrusted"):
+                from . import truncation
+                trunc = truncation.truncation_probe(client, tokenizers_dir=args.tokenizers, extra=extra)
             r = fingerprint.build_profile(args.model, l1=l1, seg=seg, leaks=leaks, vision=vision,
-                                          meta={"base_url": client.base_url}, integrity=integrity)
+                                          meta={"base_url": client.base_url}, integrity=integrity, trunc=trunc)
             with open(args.out, "w", encoding="utf-8") as fh:
                 json.dump(r, fh, ensure_ascii=False, indent=1)
     elif args.cmd == "survey":

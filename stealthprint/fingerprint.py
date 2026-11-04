@@ -5,6 +5,7 @@ error_leaks   -- upstream error text: serving-stack and vendor signatures, limit
 vision_grid   -- image token cost over sizes, fitted to ceil(w/p)*ceil(h/p)+c
 count_integrity -- is usage a real tokenizer count? Run before trusting count layers
 profile/match -- one JSON profile per model; compare a target against a library
+sentinel      -- re-measure a stored profile cheaply and report whether it changed
 
 All results are plain dicts with stable English keys.
 """
@@ -16,7 +17,8 @@ import os
 import re
 
 from .client import nonzero_prompt_tokens, require_openai
-from .layers import png_b64, load_local_tokenizers
+from . import truncation as truncation_layer
+from .layers import encode_len, png_b64, load_local_tokenizers, tokenizer_differential, visible_lengths
 
 # ------------------------------------------------------------------ segmentation
 ECHO_PROMPT = ("Output exactly the text between the markers, character for character, "
@@ -79,25 +81,17 @@ def f1(tp, fp, fn):
 
 
 def local_pieces(name, tk, text):
-    """Text pieces a local tokenizer produces (bytes merged back to whole chars)."""
-    if name in ("o200k_base", "cl100k_base") or hasattr(tk, "decode_single_token_bytes"):
-        out, buf = [], b""
-        for token in tk.encode(text, disallowed_special=()):
-            buf += tk.decode_single_token_bytes(token)
-            try:
-                out.append(buf.decode("utf-8"))
-                buf = b""
-            except UnicodeDecodeError:
-                continue
-        return out
-    enc = tk.encode(text, add_special_tokens=False)
-    return [text[a:b] for a, b in enc.offsets]
+    """Text pieces a local tokenizer lets a model emit (bytes merged back to whole chars)."""
+    pieces, start = [], 0
+    for end in visible_lengths(name, tk, text):
+        if end > start:
+            pieces.append(text[start:end])
+            start = end
+    return pieces
 
 
 def is_single_token(name, tk, text):
-    if name in ("o200k_base", "cl100k_base") or hasattr(tk, "decode_single_token_bytes"):
-        return len(tk.encode(text, disallowed_special=())) == 1
-    return len(tk.encode(text, add_special_tokens=False).ids) == 1
+    return encode_len(name, tk, text) == 1
 
 
 def key_pattern_from_pieces(samples):
@@ -392,11 +386,41 @@ def count_integrity(client, extra=None, verbose=True):
 
 
 # ------------------------------------------------------------------ profiles
-def build_profile(model, l1=None, seg=None, leaks=None, vision=None, meta=None, integrity=None):
+def l1_candidates(l1):
+    """Local tokenizers matching every L1 probe."""
+    ranking = (l1 or {}).get("ranking") or {}
+    return sorted(n for n, r in ranking.items() if r.get("total") and r.get("exact") == r.get("total"))
+
+
+def tokenizer_candidates(integrity=None, l1=None, trunc=None):
+    """Tokenizers the evidence allows, or None when it cannot narrow them.
+
+    L1 needs trusted counts. Truncation needs enough cuts to reject candidates. When both
+    are usable only tokenizers passing both remain."""
+    sets = []
+    if l1 and (integrity or {}).get("status") != "untrusted":
+        found = l1_candidates(l1)
+        if found:
+            sets.append(set(found))
+    if trunc and trunc.get("evidence") == "strong":
+        sets.append(set(trunc.get("passing") or []))
+    if not sets:
+        return None
+    return sorted(set.intersection(*sets))
+
+
+def build_profile(model, l1=None, seg=None, leaks=None, vision=None, meta=None, integrity=None, trunc=None):
     """Assemble a comparable profile from whatever layers were measured."""
     prof = {"model": model, "meta": meta or {}}
     if integrity:
         prof["count_integrity"] = integrity
+    if trunc:
+        prof["truncation"] = {"effort": trunc.get("effort"), "cuts": trunc.get("cuts"),
+                              "evidence": trunc.get("evidence"), "passing": trunc.get("passing"),
+                              "texts": trunc.get("texts")}
+    candidates = tokenizer_candidates(integrity, l1, trunc)
+    if candidates is not None:
+        prof["tokenizer_candidates"] = candidates
     if l1:
         prof["l1_delta"] = l1.get("api_delta") or l1
     if seg:
@@ -414,6 +438,23 @@ def build_profile(model, l1=None, seg=None, leaks=None, vision=None, meta=None, 
 
 def counts_untrusted(profile):
     return (profile.get("count_integrity") or {}).get("status") == "untrusted"
+
+
+def truncation_conflicts(a, b):
+    """Check each profile's cuts against the other's streamed boundaries on shared texts.
+
+    Works with no local tokenizer, so closed models can be compared. Only a per-token
+    stream gives every boundary: two sets of cuts alone cannot contradict each other."""
+    checked = conflicts = 0
+    ta, tb = (a.get("truncation") or {}).get("texts") or {}, (b.get("truncation") or {}).get("texts") or {}
+    for text_id in set(ta) & set(tb):
+        for cuts_of, stream_of in ((ta[text_id], tb[text_id]), (tb[text_id], ta[text_id])):
+            boundaries = (stream_of.get("stream") or {}).get("boundaries")
+            if boundaries:
+                cuts = {c for _, c in cuts_of.get("observations") or []}
+                checked += len(cuts)
+                conflicts += len(cuts - set(boundaries))
+    return {"checked": checked, "conflicts": conflicts} if checked else None
 
 
 def compare_profiles(a, b):
@@ -445,6 +486,16 @@ def compare_profiles(a, b):
             out["vision_uncounted"] = True
         elif keys:
             out["vision"] = {"exact": sum(va[k] == vb[k] for k in keys), "of": len(keys)}
+    boundary = truncation_conflicts(a, b)
+    if boundary:
+        out["truncation_boundary"] = boundary
+    ca, cb = a.get("tokenizer_candidates"), b.get("tokenizer_candidates")
+    if ca is not None and cb is not None:
+        shared = sorted(set(ca) & set(cb))
+        if shared:
+            out["tokenizer_shared"] = shared
+        else:
+            out["tokenizer_disjoint"] = True
     ea, eb = (a.get("errors") or {}).get("tags"), (b.get("errors") or {}).get("tags")
     if ea and eb:
         sa_, sb_ = set(ea), set(eb)
@@ -453,7 +504,10 @@ def compare_profiles(a, b):
 
 
 def same_model_verdict(cmp):
-    """'match' only when every compared hard layer agrees fully."""
+    """'match' only when every compared hard layer agrees fully.
+
+    Tokenizer candidates are weaker: a shared open tokenizer does not make the same
+    model, so sharing one is reported as tokenizer_match and never as match."""
     hard = []
     if "l1" in cmp:
         hard.append(cmp["l1"]["exact"] == cmp["l1"]["of"])
@@ -461,9 +515,16 @@ def same_model_verdict(cmp):
         hard.append(cmp["vision"]["exact"] == cmp["vision"]["of"])
     if "segmentation_f1" in cmp:
         hard.append(cmp["segmentation_f1"] >= 0.999)
-    if not hard:
-        return "no_overlap"
-    return "match" if all(hard) else ("partial" if any(hard) else "different")
+    boundary = cmp.get("truncation_boundary")
+    if boundary and (boundary["conflicts"] or boundary["checked"] >= truncation_layer.MIN_CUTS_FOR_EVIDENCE):
+        hard.append(boundary["conflicts"] == 0)
+    if hard:
+        return "match" if all(hard) else ("partial" if any(hard) else "different")
+    if cmp.get("tokenizer_shared"):
+        return "tokenizer_match"
+    if cmp.get("tokenizer_disjoint"):
+        return "different"
+    return "no_overlap"
 
 
 def load_library(path):
@@ -484,6 +545,51 @@ def match_profile(target, library):
         l1 = cmp.get("l1", {})
         score = (l1.get("exact", 0) / l1["of"]) if l1.get("of") else 0.0
         rows.append({"model": name, "verdict": same_model_verdict(cmp), "l1_ratio": round(score, 3), **cmp})
-    order = {"match": 0, "partial": 1, "different": 2, "no_overlap": 3}
+    order = {"match": 0, "tokenizer_match": 1, "partial": 2, "different": 3, "no_overlap": 4}
     rows.sort(key=lambda r: (order[r["verdict"]], -r["l1_ratio"]))
     return rows
+
+
+# ------------------------------------------------------------------ sentinel
+SENTINEL_L1_PROBES = 8
+SENTINEL_LADDER_REQUESTS = 30
+
+
+def sentinel(client, stored, probes, tokenizers_dir="tok", l1_probes=SENTINEL_L1_PROBES, extra=None, verbose=True):
+    """Re-measure a stored profile cheaply: status unchanged, changed or unverifiable.
+
+    Count behaviour is compared first, since a line that starts or stops estimating has
+    changed by itself. Trusted counts then re-run part of L1; untrusted counts re-run a
+    short truncation ladder against the stored tokenizer candidates."""
+    now = count_integrity(client, extra=extra, verbose=verbose)
+    was = (stored.get("count_integrity") or {}).get("status")
+    out = {"model": stored.get("model"), "count_was": was, "count_now": now["status"], "changes": []}
+    if was and was != now["status"] and now["status"] != "incomplete":
+        out["changes"].append("count integrity %s -> %s" % (was, now["status"]))
+    delta = stored.get("l1_delta") or {}
+    usable = now["status"] == "trusted" and was != "untrusted"
+    if usable and delta:
+        chosen = [(name, text) for name, text in probes["probes"] if name in delta][:l1_probes]
+        result = tokenizer_differential(client, probes={"base": probes["base"], "probes": chosen},
+                                        verbose=False, local={})
+        different = {k: [delta[k], v] for k, v in result["api_delta"].items() if delta[k] != v}
+        out["l1_checked"] = len(result["api_delta"])
+        out["l1_different"] = different
+        if different:
+            out["changes"].append("L1 changed on %d of %d probes" % (len(different), len(result["api_delta"])))
+    elif stored.get("tokenizer_candidates"):
+        trunc = truncation_layer.truncation_probe(client, tokenizers_dir=tokenizers_dir, extra=extra,
+                                                  max_requests=SENTINEL_LADDER_REQUESTS, stream=False, verbose=False)
+        out["truncation_cuts"] = trunc["cuts"]
+        if trunc["cuts"]:
+            kept = sorted(set(trunc["passing"]) & set(stored["tokenizer_candidates"]))
+            out["candidates_still_passing"] = kept
+            if not kept:
+                out["changes"].append("no stored tokenizer candidate passes truncation any more")
+    else:
+        out["unverifiable"] = "stored profile has no usable L1 or tokenizer candidates"
+    out["status"] = "changed" if out["changes"] else ("unverifiable" if out.get("unverifiable") or
+                                                      not (out.get("l1_checked") or out.get("truncation_cuts")) else "unchanged")
+    if verbose:
+        print("sentinel %s: %s %s" % (out["model"], out["status"], out["changes"] or ""))
+    return out
