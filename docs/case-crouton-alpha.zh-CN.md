@@ -48,6 +48,13 @@
 
 数据和评分脚本：[case-crouton-truncation.json](case-crouton-truncation.json)、`scripts/truncation_score.py`。
 
+复现（2026-11-05）：
+- 词表按 `tokenizers.lock` 从零下载后，用存档数据重算，结果不变；候选增加 `kimi-k2` 后共 50 份。`llama4` 取自 `unsloth/Llama-4-Scout-17B-16E-Instruct`，因为 `meta-llama` 仓库需要授权。
+- 用 `stealthprint profile` 和不含本地规则文件的信封全新测一次：52 个断点，仍然只有 `llama4` 通过，但领先第二名只有 1 处。单次运行的区分力有限，要看三段文本合计的结果。
+- 自身一致性：GPT-6、DeepSeek、Grok 自己的 124 个断点都落在自己的流式边界上。
+- 断点只能否定词表，不能肯定：GPT-6 的 33 个断点也全落在 DeepSeek 的流式边界上。
+- `max_tokens` 在 Grok 上不严格：32 个断点，`llama4` 等词表每个都超预算，所以 Grok 的结果只能作否定证据。
+
 局限：
 - 只比了 49 份本地词表，没有的词表无法排除，比如 Meta 更新的闭源模型。
 - 词表可以被其他团队复用，所以这不证明权重或厂商。
@@ -95,6 +102,8 @@ Zen 线的 `muse-spark-1.3`、`muse-wonder-1.0` 没测。
 ## 工具待修
 
 - `opencode_relay.mjs` 的 `MIN_TOKENS` 原先只在 Go 模式生效，现已对两条线都生效；本案当时用的是 scratch 补丁副本。
+- 2026-11-05 发现抓包信封带有 `~/.claude/CLAUDE.md` 全文和项目路径，抓包脚本现在默认删除；此前带信封的请求很可能也发送过它们（旧信封已不在，无法核实）。
+- GPT 线的 0 计数查清了：直连也出现，整份 usage 和计费都是 0，部分文本反复出现，不是中继造成的。
 - 已加 `count-check`：`profile` 会先跑它，`match` 不再用不可信的计数层下判定。
 - 指纹库复测（2026-11-04）：Zen 免费线和 Go 线共 24 个档案全部 `trusted`，只有 Crouton 不通过。`pixel-canary` 在 Cline 网关，没测。
 - 复测同时发现 GPT 线部分请求 `prompt_tokens` 报 0（这次 96 次里重试 3 次，种子档案里 25 次有 4 次和 9 次），曾被记成 L1 的 -22。现在 L1、自检、survey 遇 0 重试，库里两个 GPT 档案的脏值已删（gpt-5.6-luna 4 个、gpt-6-luna 9 个）。
