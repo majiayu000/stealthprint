@@ -5,6 +5,7 @@ import unittest
 from unittest import mock
 
 from stealthprint import fingerprint as fp
+from stealthprint import layers
 from stealthprint.client import ChatClient, parse_sse_chunks
 
 
@@ -128,6 +129,20 @@ class FakeCounter:
         if text in self.fail:
             return None, {"http": 500, "body": "boom"}
         return self.overhead + self.counter(text), None
+
+
+class TokenizerDifferentialExtraTests(unittest.TestCase):
+    def test_request_overrides_reach_every_l1_request(self):
+        seen = []
+
+        class Client(FakeCounter):
+            def prompt_tokens(self, messages, max_tokens=1, extra=None):
+                seen.append(extra)
+                return super().prompt_tokens(messages, max_tokens, extra)
+
+        layers.tokenizer_differential(Client(len), probes={"base": "b ", "probes": [["p", "x"]]},
+                                      verbose=False, local={}, extra={"max_tokens": 16})
+        self.assertEqual(seen, [{"max_tokens": 16}] * 2)
 
 
 class CountIntegrityTests(unittest.TestCase):

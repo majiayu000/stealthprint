@@ -51,7 +51,7 @@ function aggregate(raw) {
 }
 
 Bun.serve({
-  port, idleTimeout: 255,
+  hostname: '127.0.0.1', port, idleTimeout: 255,
   async fetch(req) {
     const url = new URL(req.url);
     if (req.method === 'GET') {

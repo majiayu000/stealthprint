@@ -242,7 +242,7 @@ def run(args, client):
                     save()
 
             layer("integrity", "integrity", lambda: fingerprint.count_integrity(client, extra=extra))
-            layer("l1", "l1", lambda: layers.tokenizer_differential(client, probes=load_probes(), tokenizers_dir=args.tokenizers))
+            layer("l1", "l1", lambda: layers.tokenizer_differential(client, probes=load_probes(), tokenizers_dir=args.tokenizers, extra=extra))
             layer("seg", "segment", lambda: fingerprint.segmentation(client, tokenizers_dir=args.tokenizers, extra=extra))
             layer("leaks", "leaks", lambda: fingerprint.error_leaks(client, extra=extra))
             layer("vision", "vision", lambda: fingerprint.vision_grid(client, extra=extra))

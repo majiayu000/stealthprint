@@ -242,6 +242,11 @@ class CompareTests(unittest.TestCase):
     def test_two_sets_of_cuts_cannot_contradict(self):
         self.assertNotIn("truncation_boundary", fp.compare_profiles(truncated(cuts=[1, 2]), truncated(cuts=[3, 4])))
 
+    def test_l1_profiles_without_shared_probes_are_not_compared(self):
+        cmp = fp.compare_profiles({"l1_delta": {"a": 1}}, {"l1_delta": {"b": 1}})
+        self.assertNotIn("l1", cmp)
+        self.assertEqual(fp.same_model_verdict(cmp), "no_overlap")
+
     def test_shared_tokenizer_is_never_reported_as_the_same_model(self):
         cmp = fp.compare_profiles({"tokenizer_candidates": ["llama4"]}, {"tokenizer_candidates": ["llama4", "x"]})
         self.assertEqual(cmp["tokenizer_shared"], ["llama4"])
@@ -305,10 +310,29 @@ class SentinelTests(unittest.TestCase):
 
     def test_untrusted_profile_is_checked_through_truncation(self):
         stored = {"model": "m", "count_integrity": {"status": "untrusted"}, "tokenizer_candidates": ["llama4"]}
-        same, _ = self.run_sentinel(stored, status="untrusted", trunc={"cuts": 20, "passing": ["llama4"]})
+        ranking = {"llama4": {}, "o200k_base": {}}
+        same, _ = self.run_sentinel(stored, status="untrusted",
+                                    trunc={"cuts": 20, "passing": ["llama4"], "ranking": ranking})
         self.assertEqual(same["status"], "unchanged")
-        moved, _ = self.run_sentinel(stored, status="untrusted", trunc={"cuts": 20, "passing": ["o200k_base"]})
+        moved, _ = self.run_sentinel(stored, status="untrusted",
+                                     trunc={"cuts": 20, "passing": ["o200k_base"], "ranking": ranking})
         self.assertEqual(moved["status"], "changed")
+
+    def test_stored_candidate_missing_locally_is_unverifiable_not_changed(self):
+        stored = {"model": "m", "count_integrity": {"status": "untrusted"}, "tokenizer_candidates": ["llama4"]}
+        out, _ = self.run_sentinel(stored, status="untrusted",
+                                   trunc={"cuts": 20, "passing": ["o200k_base"], "ranking": {"o200k_base": {}}})
+        self.assertEqual(out["status"], "unverifiable")
+        self.assertIn("llama4", out["unverifiable"])
+
+    def test_trusted_l1_forwards_request_overrides(self):
+        stored = {"model": "m", "count_integrity": {"status": "trusted"}, "l1_delta": {"p1": 1, "p2": 2}}
+        client = mock.Mock()
+        l1 = {"api_delta": {"p1": 1, "p2": 2}, "ranking": {}}
+        with mock.patch.object(fp, "count_integrity", return_value={"status": "trusted"}), \
+             mock.patch.object(fp, "tokenizer_differential", return_value=l1) as measured:
+            fp.sentinel(client, stored, PROBES, l1_probes=2, extra={"max_tokens": 16}, verbose=False)
+        self.assertEqual(measured.call_args.kwargs["extra"], {"max_tokens": 16})
 
     def test_nothing_to_compare_is_unverifiable_not_unchanged(self):
         out, _ = self.run_sentinel({"model": "m", "count_integrity": {"status": "untrusted"}}, status="untrusted")

@@ -467,7 +467,8 @@ def compare_profiles(a, b):
     da, db = a.get("l1_delta"), b.get("l1_delta")
     if da and db and not untrusted:
         keys = [k for k in da if k in db]
-        out["l1"] = {"exact": sum(da[k] == db[k] for k in keys), "of": len(keys)}
+        if keys:
+            out["l1"] = {"exact": sum(da[k] == db[k] for k in keys), "of": len(keys)}
     sa, sb = a.get("segmentation"), b.get("segmentation")
     if sa and sb and (sa.get("per_token_chunks") is False or sb.get("per_token_chunks") is False):
         out["segmentation_unusable"] = True
@@ -573,7 +574,7 @@ def sentinel(client, stored, probes, tokenizers_dir="tok", l1_probes=SENTINEL_L1
     if usable and delta:
         chosen = [(name, text) for name, text in probes["probes"] if name in delta][:l1_probes]
         result = tokenizer_differential(client, probes={"base": probes["base"], "probes": chosen},
-                                        verbose=False, local={})
+                                        verbose=False, local={}, extra=extra)
         different = {k: [delta[k], v] for k, v in result["api_delta"].items() if delta[k] != v}
         out["l1_checked"] = len(result["api_delta"])
         out["l1_different"] = different
@@ -583,7 +584,10 @@ def sentinel(client, stored, probes, tokenizers_dir="tok", l1_probes=SENTINEL_L1
         trunc = truncation_layer.truncation_probe(client, tokenizers_dir=tokenizers_dir, extra=extra,
                                                   max_requests=SENTINEL_LADDER_REQUESTS, stream=False, verbose=False)
         out["truncation_cuts"] = trunc["cuts"]
-        if trunc["cuts"]:
+        untested = sorted(set(stored["tokenizer_candidates"]) - set(trunc.get("ranking") or {}))
+        if untested:
+            out["unverifiable"] = "stored tokenizer candidates not available locally: " + ", ".join(untested)
+        elif trunc["cuts"]:
             kept = sorted(set(trunc["passing"]) & set(stored["tokenizer_candidates"]))
             out["candidates_still_passing"] = kept
             if not kept:

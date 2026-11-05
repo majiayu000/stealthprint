@@ -189,7 +189,7 @@ def tokenizer_sources(directory, local):
 
 # ------------------------------------------------------------------ L1 + L2
 def tokenizer_differential(client, probes=None, tokenizers_dir="tok", verbose=True,
-                           base_api=None, api_delta=None, local=None):
+                           base_api=None, api_delta=None, local=None, extra=None):
     """L1: delta = T(base+probe) - T(base) from usage.prompt_tokens, compared
     against local open tokenizer.json files + tiktoken encodings."""
     local = load_local_tokenizers(tokenizers_dir) if local is None else local
@@ -215,13 +215,13 @@ def tokenizer_differential(client, probes=None, tokenizers_dir="tok", verbose=Tr
     if api_delta is None:
         if verbose:
             print(t("tok.querying", n=len(items)))
-        base_api, err = nonzero_prompt_tokens(client, [{"role": "user", "content": base}])
+        base_api, err = nonzero_prompt_tokens(client, [{"role": "user", "content": base}], extra=extra)
         if err:
             raise RuntimeError("base request failed: %s" % err)
 
         api_delta = {}
         for name, text in items:
-            pt, e = nonzero_prompt_tokens(client, [{"role": "user", "content": base + text}])
+            pt, e = nonzero_prompt_tokens(client, [{"role": "user", "content": base + text}], extra=extra)
             if e:
                 failures[name] = e
                 if verbose:
