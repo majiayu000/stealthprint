@@ -1,0 +1,77 @@
+{
+  "model": "step-5-preview",
+  "meta": {
+    "measured": "2026-11-03",
+    "source": "stealthprint case pulse-alpha seed",
+    "gateway": "opencode go (/zen/go/v1, direct)",
+    "count_integrity_measured": "2026-11-04",
+    "count_integrity_source": "count-check summary line, go via relay"
+  },
+  "l1_delta": {
+    "en_pangram": 10,
+    "zh_long": 14,
+    "code": 19,
+    "emoji_zwj": 20,
+    "rare_uni": 15,
+    "digits": 17,
+    "ja": 10,
+    "ko": 7,
+    "code_indent": 14,
+    "url_sym": 21,
+    "cjk_rare": 18,
+    "long_words": 14,
+    "ws": 5,
+    "zh_num": 14,
+    "punct": 9,
+    "hex_bin": 14,
+    "fr": 16,
+    "ru": 13,
+    "mixed_code_zh": 24,
+    "emoji_flags": 24,
+    "thai": 8,
+    "floats": 17,
+    "html": 15,
+    "quotes2": 10
+  },
+  "vision": {
+    "fit": {
+      "kind": "grid",
+      "patch": 20,
+      "const": 2,
+      "exact": 1,
+      "of": 7,
+      "formula": "ceil(w/20)*ceil(h/20)+2"
+    },
+    "tokens": {
+      "32x32": 171,
+      "64x64": 171,
+      "256x256": 171,
+      "512x512": 171,
+      "1024x1024": 504,
+      "2048x2048": 1502,
+      "1024x256": 337
+    }
+  },
+  "errors": {
+    "tags": [],
+    "limits": {}
+  },
+  "count_integrity": {
+    "status": "trusted",
+    "reasons": [],
+    "letter_spread": 0,
+    "repeat_stable": true,
+    "pairs": [
+      {
+        "residual": 0
+      },
+      {
+        "residual": 0
+      }
+    ]
+  },
+  "tokenizer_candidates": [
+    "deepseek",
+    "step3"
+  ]
+}

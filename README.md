@@ -166,15 +166,43 @@ Data keys stay English regardless of display language.
 | L6 vision | `vision` | Color answers and token counts across image sizes; fixed counts do not identify an encoder. `--repeats N` records outcomes, not a model mixing rate |
 | L6 video | `video` | Does the model accept native video (`video_url`) vs unknown `type: video` vs mp4-as-image? |
 | L7 catalog | `catalog` | Same-gateway A/B: wrapper offset, special-token delta, `reasoning_effort=none`, one image vs named siblings (`--peers` / `--family`) |
+| L1b segmentation | `segment` | The model's own token boundaries: on servers that flush one token per SSE chunk, chunks are tokens (checked via a constant completion_tokens offset); boundary F1 vs local vocabs plus a key-token pattern |
+| L4b error leaks | `leaks` | Upstream error text for invalid params: serving framework (SGLang/vLLM), PD disaggregation, Rust serde, vendor API signatures, leaked output/context limits |
+| L6b vision grid | `vision-grid` | Image token cost over 7 sizes fitted to `ceil(w/p)*ceil(h/p)+c`; patch size, constant and (no) resizing fingerprint the encoder |
+| count check | `count-check` | Does usage behave like a tokenizer: letters cost the same, concatenation adds up, repeats match. On failure (exit 1), L1 and vision counts can neither identify nor exclude a model |
+| truncation | `truncation` | Token boundaries read from where `max_tokens` cuts an echo, so it works when usage is untrusted. A tokenizer passes only if every cut is a boundary and none is over budget. Picks the lowest accepted `reasoning_effort` and widens the budget while thinking eats it. A pass is not unique proof: another tokenizer may split these texts the same way |
+| profiles | `profile` / `match` | Run the count check+L1+L1b+L4b+L6b into `fingerprints/<model>.json`, adding truncation when counts are untrusted (`--with-truncation` forces it); `match` compares offline against the library (see [fingerprints/README.md](fingerprints/README.md)) |
+| sentinel | `sentinel` | Re-measure a stored profile cheaply (about 25 requests): `unchanged`, `changed` (exit 1) or `unverifiable`. Schedule it yourself, e.g. with cron and `--out sentinel.jsonl`; each run spends quota |
 
 Self-identification ("who are you"), prompt injection, censorship probes and
 emoji density are deliberately **not** implemented as layers — for stealth
 models, self-descriptions are frequently bait. See the case study for why.
 
+### OpenCode Zen free tier / Go plan access (2026-11)
+
+The October `--shell opencode-free` recipe no longer works: the free tier now serves
+only bun-originated requests carrying the real opencode system prompt and tools
+(Python/curl replays of identical bytes get 429 `FreeUsageLimitError`); the Go line
+answers non-bun clients with Cloudflare 1010 and requires `x-opencode-session`. Use the
+local relay instead:
+
+```bash
+python3 -I scripts/opencode_capture.py --model opencode/<free-model> --out envelope.json  # capture; drops Authorization and local identity
+bun scripts/opencode_relay.mjs free envelope.json 8898      # free tier; key read from opencode auth.json at runtime
+bun scripts/opencode_relay.mjs go 8897                      # Go plan (MIN_TOKENS=16 for GPT lines)
+stealthprint --base-url http://127.0.0.1:8898/v1 --model <free-model> --api-key x profile --out fingerprints/<free-model>.json
+```
+
+Every replayed free-tier request resends the envelope, so `opencode_capture.py` removes
+rule files such as `~/.claude/CLAUDE.md`, the working directory, home path, user and host
+names and the skill list unless `--raw` is given. Read the envelope before use: this covers
+known patterns only. Capture through a Chat Completions model and pass the target model in
+each request; a model served through `/responses` is not captured directly.
+
 ## Fetching comparison tokenizers
 
 ```bash
-./fetch_tokenizers.sh            # downloads open tokenizer.json candidates into tok/
+./fetch_tokenizers.sh            # downloads the 48 pinned candidates in tokenizers.lock into tok/
 ```
 
 Downloads freeze the resolved revision and SHA-256 in `tok/sources.lock`; failures preserve existing files and return a nonzero exit status. Gated or non-JSON candidates are reported as unavailable, not silently substituted. Use a new directory to investigate newer revisions.

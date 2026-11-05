@@ -1,0 +1,76 @@
+{
+  "model": "flint-40b-free",
+  "meta": {
+    "measured": "2026-11-03",
+    "source": "stealthprint case pulse-alpha seed",
+    "gateway": "opencode zen free (/zen/v1, envelope)",
+    "count_integrity_measured": "2026-11-04",
+    "count_integrity_source": "count-check, zen free via relay"
+  },
+  "l1_delta": {
+    "en_pangram": 10,
+    "zh_long": 19,
+    "code": 18,
+    "emoji_zwj": 21,
+    "rare_uni": 15,
+    "digits": 17,
+    "ja": 10,
+    "ko": 7,
+    "code_indent": 14,
+    "url_sym": 18,
+    "cjk_rare": 16,
+    "long_words": 14,
+    "ws": 4,
+    "zh_num": 16,
+    "punct": 12,
+    "hex_bin": 16,
+    "fr": 13,
+    "ru": 16,
+    "mixed_code_zh": 24,
+    "emoji_flags": 23,
+    "thai": 12,
+    "floats": 17,
+    "html": 15,
+    "quotes2": 12
+  },
+  "errors": {
+    "tags": [
+      "sglang"
+    ],
+    "limits": {
+      "max_completion": 262144
+    }
+  },
+  "count_integrity": {
+    "status": "trusted",
+    "reasons": [],
+    "letters": {
+      "a": 24680,
+      "b": 24680,
+      "c": 24680,
+      "d": 24680,
+      "e": 24680,
+      "f": 24680,
+      "g": 24680,
+      "h": 24680
+    },
+    "letter_spread": 0,
+    "repeat_stable": true,
+    "anchor": 24680,
+    "pairs": [
+      {
+        "a": 24686,
+        "b": 24685,
+        "ab": 24692,
+        "residual": 0
+      },
+      {
+        "a": 24691,
+        "b": 24686,
+        "ab": 24698,
+        "residual": 0
+      }
+    ],
+    "failures": {}
+  }
+}

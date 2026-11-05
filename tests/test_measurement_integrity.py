@@ -10,7 +10,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
 from unittest import mock
 
-from stealthprint.client import ChatClient, retryable
+from stealthprint.client import ChatClient, nonzero_prompt_tokens, retryable
 from stealthprint import layers, probes_extra, survey
 from stealthprint.cli import main
 
@@ -62,6 +62,20 @@ class IntegrityTests(unittest.TestCase):
             r = layers.needle_test(c, prompt_tokens_size=100, verbose=False)
         self.assertFalse(r['exact'])
         self.assertEqual(r['recovered'], '1/3')
+
+    def test_zero_prompt_tokens_retries_then_returns_real_count(self):
+        c = self.client()
+        with mock.patch.object(c, 'prompt_tokens', side_effect=[(0, None), (22, None)]) as count:
+            self.assertEqual(nonzero_prompt_tokens(c, []), (22, None))
+        self.assertEqual(count.call_count, 2)
+
+    def test_persistent_zero_prompt_tokens_is_an_error_not_a_count(self):
+        c = self.client()
+        with mock.patch.object(c, 'prompt_tokens', return_value=(0, None)) as count:
+            value, error = nonzero_prompt_tokens(c, [])
+        self.assertIsNone(value)
+        self.assertIn('stayed 0', error['body'])
+        self.assertEqual(count.call_count, 3)
 
     def test_anthropic_total_includes_cache(self):
         c = self.client(transport='anthropic')
@@ -145,7 +159,7 @@ class DownloadTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             self.run_script(directory, fetch)
             saved = {p.name: p.read_bytes() for p in Path(directory).iterdir()}
-            self.assertEqual(len(json.loads(saved['sources.lock'])), 11)
+            self.assertEqual(len(json.loads(saved['sources.lock'])), 48)
             urls.clear()
             self.run_script(directory, fetch)
             self.assertTrue(all('/resolve/revision-123/' in url for url in urls))
@@ -181,6 +195,8 @@ class HTTPBoundaryTests(unittest.TestCase):
             with self.subTest(status=status):
                 class Handler(BaseHTTPRequestHandler):
                     def do_POST(self):
+                        # An unread body makes close() send RST instead of a clean EOF.
+                        self.rfile.read(int(self.headers.get('Content-Length', 0)))
                         self.send_response(status)
                         self.send_header('Content-Length', '100')
                         self.end_headers()
@@ -223,6 +239,7 @@ class HTTPBoundaryTests(unittest.TestCase):
         body = {'error': {'code': 502, 'message': 'provider_unavailable'}}
         class Handler(BaseHTTPRequestHandler):
             def do_POST(self):
+                self.rfile.read(int(self.headers.get('Content-Length', 0)))
                 self.send_response(200); self.end_headers()
                 self.wfile.write(json.dumps(body).encode())
             def log_message(self, *args): pass

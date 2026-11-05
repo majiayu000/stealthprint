@@ -1,0 +1,265 @@
+{
+  "model": "muse-spark-1.2-contributor",
+  "count_integrity": {
+    "status": "trusted",
+    "reasons": [],
+    "letters": {
+      "a": 9,
+      "b": 9,
+      "c": 9,
+      "d": 9,
+      "e": 9,
+      "f": 9,
+      "g": 9,
+      "h": 9
+    },
+    "letter_spread": 0,
+    "repeat_stable": true,
+    "anchor": 9,
+    "pairs": [
+      {
+        "a": 15,
+        "b": 15,
+        "ab": 22,
+        "residual": 0
+      },
+      {
+        "a": 20,
+        "b": 15,
+        "ab": 27,
+        "residual": 0
+      }
+    ],
+    "failures": {}
+  },
+  "l1_delta": {
+    "en_pangram": 10,
+    "zh_long": 15,
+    "code": 18,
+    "emoji_zwj": 20,
+    "rare_uni": 15,
+    "digits": 17,
+    "ja": 10,
+    "ko": 4,
+    "code_indent": 14,
+    "url_sym": 18,
+    "cjk_rare": 19,
+    "long_words": 14,
+    "ws": 4,
+    "zh_num": 15,
+    "punct": 12,
+    "hex_bin": 16,
+    "fr": 12,
+    "ru": 11,
+    "mixed_code_zh": 24,
+    "emoji_flags": 25,
+    "thai": 6,
+    "floats": 17,
+    "html": 15,
+    "quotes2": 12
+  },
+  "meta": {
+    "measured": "2026-11-04",
+    "gateway": "opencode go (/zen/go/v1, direct, MIN_TOKENS=16)",
+    "source": "stealthprint tokenizer + count-check",
+    "l1_top": "llama4 24/24",
+    "truncation_measured": "2026-11-05"
+  },
+  "truncation": {
+    "effort": "minimal",
+    "cuts": 32,
+    "evidence": "strong",
+    "margin": 1,
+    "passing": [
+      "deepseek",
+      "gemma3",
+      "gemma3n",
+      "llama4",
+      "sealion",
+      "step3",
+      "typhoon"
+    ],
+    "texts": {
+      "t3": {
+        "observations": [
+          [
+            155,
+            190
+          ],
+          [
+            388,
+            34
+          ],
+          [
+            390,
+            34
+          ],
+          [
+            492,
+            182
+          ],
+          [
+            395,
+            67
+          ],
+          [
+            397,
+            53
+          ],
+          [
+            499,
+            193
+          ],
+          [
+            401,
+            10
+          ],
+          [
+            403,
+            15
+          ],
+          [
+            405,
+            103
+          ],
+          [
+            407,
+            91
+          ],
+          [
+            409,
+            115
+          ],
+          [
+            411,
+            100
+          ],
+          [
+            413,
+            122
+          ],
+          [
+            519,
+            156
+          ],
+          [
+            417,
+            116
+          ],
+          [
+            419,
+            138
+          ],
+          [
+            421,
+            132
+          ],
+          [
+            423,
+            142
+          ],
+          [
+            425,
+            146
+          ],
+          [
+            427,
+            144
+          ],
+          [
+            429,
+            4
+          ],
+          [
+            431,
+            146
+          ],
+          [
+            433,
+            147
+          ],
+          [
+            435,
+            153
+          ],
+          [
+            437,
+            155
+          ],
+          [
+            439,
+            146
+          ],
+          [
+            441,
+            153
+          ],
+          [
+            443,
+            155
+          ],
+          [
+            445,
+            145
+          ],
+          [
+            447,
+            155
+          ],
+          [
+            449,
+            158
+          ],
+          [
+            451,
+            158
+          ],
+          [
+            453,
+            160
+          ],
+          [
+            455,
+            167
+          ],
+          [
+            457,
+            162
+          ],
+          [
+            459,
+            156
+          ],
+          [
+            461,
+            165
+          ],
+          [
+            463,
+            151
+          ],
+          [
+            465,
+            168
+          ]
+        ],
+        "stats": {
+          "requests": 60,
+          "empty": 20,
+          "deviated": 0,
+          "errors": 0,
+          "stop": "max_requests",
+          "last_error": null
+        },
+        "stream": {
+          "per_token": false,
+          "chunks": 24,
+          "visible_tokens": 346
+        }
+      }
+    }
+  },
+  "tokenizer_candidates": [
+    "llama4"
+  ]
+}

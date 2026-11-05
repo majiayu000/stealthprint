@@ -1,0 +1,78 @@
+{
+  "model": "kimi-k3.1-pro",
+  "meta": {
+    "measured": "2026-11-03",
+    "source": "stealthprint case pulse-alpha seed",
+    "gateway": "opencode go (/zen/go/v1, direct)",
+    "count_integrity_measured": "2026-11-04",
+    "count_integrity_source": "count-check summary line, go via relay"
+  },
+  "l1_delta": {
+    "en_pangram": 10,
+    "zh_long": 14,
+    "code": 18,
+    "emoji_zwj": 23,
+    "rare_uni": 15,
+    "digits": 17,
+    "ja": 11,
+    "ko": 8,
+    "code_indent": 14,
+    "url_sym": 18,
+    "cjk_rare": 18,
+    "long_words": 16,
+    "ws": 4,
+    "zh_num": 14,
+    "punct": 12,
+    "hex_bin": 16,
+    "fr": 17,
+    "ru": 20,
+    "mixed_code_zh": 24,
+    "emoji_flags": 23,
+    "thai": 14,
+    "floats": 17,
+    "html": 15,
+    "quotes2": 10
+  },
+  "vision": {
+    "fit": {
+      "kind": "grid",
+      "patch": 27,
+      "const": 8,
+      "exact": 4,
+      "of": 7,
+      "formula": "ceil(w/27)*ceil(h/27)+8"
+    },
+    "tokens": {
+      "32x32": 12,
+      "64x64": 17,
+      "256x256": 108,
+      "512x512": 369,
+      "1024x1024": 1379,
+      "2048x2048": 5486,
+      "1024x256": 379
+    }
+  },
+  "errors": {
+    "tags": [
+      "moonshot_api"
+    ],
+    "limits": {}
+  },
+  "count_integrity": {
+    "status": "trusted",
+    "reasons": [],
+    "letter_spread": 0,
+    "repeat_stable": true,
+    "pairs": [
+      {
+        "residual": 0
+      },
+      {
+        "residual": 0
+      }
+    ]
+  },
+  "tokenizer_candidates": [
+    "kimi-k2"
+  ]
+}

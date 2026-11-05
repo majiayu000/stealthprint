@@ -14,7 +14,7 @@ from datetime import datetime, timezone
 
 from .i18n import t, load_probes
 from .layers import encode_len, load_local_tokenizers, tokenizer_sources
-from .client import retryable, require_openai
+from .client import nonzero_prompt_tokens, retryable, require_openai
 
 # 12-probe discriminating subset used by the 2026-09-17 census.
 SURVEY_PROBES = ["zh_long", "emoji_zwj", "digits", "ja", "ko", "fr", "ru", "thai",
@@ -43,7 +43,7 @@ def classify_error(err):
 def _pt_chat(client, text, retries, delay):
     err = {"http": None, "body": "not called"}
     for attempt in range(retries + 1):
-        pt, err = client.prompt_tokens([{"role": "user", "content": text}], max_tokens=16)
+        pt, err = nonzero_prompt_tokens(client, [{"role": "user", "content": text}], max_tokens=16)
         if pt is not None:
             return pt, None
         if not retryable(err) or attempt == retries:

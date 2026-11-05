@@ -142,13 +142,35 @@ CATALOGS["ja"] = {"cli.tok": "L1 トークナイザ差分 ...", ...}
 | L6 视觉 | `vision` | 核对单一颜色答案及不同尺寸的计数；固定开销不能确认编码器。`--repeats N` 记录结果分布，不推算模型混挂率 |
 | L6 视频 | `video` | 是否接受原生视频（`video_url`）vs 未知 `type: video` vs 把 mp4 当图 |
 | L7 目录 | `catalog` | 同网关 A/B：wrapper 差、特殊 token 差分、`reasoning_effort=none`、一张图，对照具名兄弟（`--peers` / `--family`） |
+| L1b 流式切分 | `segment` | 模型自己怎么切词？逐 token 流式的服务每个 SSE chunk 是一个 token；用 completion_tokens 校验 offset 恒定后，与本地词表逐边界比 F1，并给出关键 token 模式 |
+| L4b 错误泄露 | `leaks` | 非法参数的上游报错原文：推理框架（SGLang/vLLM）、PD 分离、Rust serde、各厂商官方 API 签名，以及泄露的输出/上下文上限 |
+| L6b 视觉网格 | `vision-grid` | 7 个尺寸的图片 token 开销，拟合 `ceil(w/p)*ceil(h/p)+c`；补丁尺寸、常数和是否缩放都是编码器指纹 |
+| 计数自检 | `count-check` | usage 是不是真词表计数：单字母同价、拼接可叠加、重复一致；不通过（退出码 1）时，L1 和视觉计数既不能认定也不能排除模型 |
+| 档案 | `profile` / `match` | 一次跑计数自检+L1+L1b+L4b+L6b 写入 `fingerprints/<model>.json`；`match` 离线与指纹库逐层比对（见 [fingerprints/README.md](fingerprints/README.md)） |
+| 截断边界 | `truncation` | 看 `max_tokens` 把复述切断在哪，读出真实 token 边界，usage 不可信时也能用。所有断点都在边界上且不超预算，词表才算通过。会自动选最低可用的 `reasoning_effort`，思考吃掉预算时自动放大。通过不等于唯一证明：别的词表可能恰好切得一样 |
+| 复测 | `sentinel` | 低成本重测已有档案（约 25 次请求）：`unchanged`、`changed`（退出码 1）或 `unverifiable`。需要自己定时，比如 cron 加 `--out sentinel.jsonl`；每次都消耗额度 |
 
 刻意**不实现**：自称探针（「你是谁」）、注入、审查探针、emoji 密度——对 stealth 模型来说自我介绍经常是诱饵。原因见案例报告。
+
+### OpenCode Zen 免费档 / Go 线访问（2026-11）
+
+10 月的 `--shell opencode-free` 配方已失效：免费档现在只放行 bun 发出的、带真实 opencode
+system prompt 和 tools 的请求（Python/curl 重放同样字节得 429 `FreeUsageLimitError`）；Go 线对非 bun
+客户端返回 Cloudflare 1010，并要求 `x-opencode-session`。改用本地中继：
+
+```bash
+python3 -I scripts/opencode_capture.py --model opencode/<free-model> --out envelope.json  # 抓真实请求，去掉 Authorization 和本地信息
+bun scripts/opencode_relay.mjs free envelope.json 8898      # 免费档；key 运行时读 opencode auth.json
+bun scripts/opencode_relay.mjs go 8897                      # Go 线（MIN_TOKENS=16 适配 GPT 线）
+stealthprint --base-url http://127.0.0.1:8898/v1 --model <free-model> --api-key x profile --out fingerprints/<free-model>.json
+```
+
+免费档每次重放都会重发信封，所以 `opencode_capture.py` 默认删除 `~/.claude/CLAUDE.md` 这类规则文件、工作目录、主目录路径、用户名、主机名和技能列表，加 `--raw` 才保留。使用前请自己读一遍信封：这里只覆盖已知模式。要用走 Chat Completions 的模型来抓，再在请求里指定目标模型；走 `/responses` 的模型抓不到。
 
 ## 拉取对照词表
 
 ```bash
-./fetch_tokenizers.sh            # 下载开源 tokenizer.json 候选到 tok/
+./fetch_tokenizers.sh            # 按 tokenizers.lock 下载 48 份固定版本的候选到 tok/
 ```
 
 下载脚本把解析到的 revision 和 SHA-256 固定到 `tok/sources.lock`；下载失败保留已有文件并返回非零状态。门禁或非 JSON 格式的候选明确列为未下载，不用其他词表替代；更新研究使用新目录。

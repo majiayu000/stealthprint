@@ -10,7 +10,7 @@ import struct
 import zlib
 
 from .i18n import t
-from .client import require_openai
+from .client import nonzero_prompt_tokens, require_openai
 
 FILL = "The quiet harbor town woke slowly under a gray sky, and fishermen checked their nets. "
 EMOJI_ZWJ = "👨‍👩‍👧‍👦 🏳️‍🌈 👍🏽"
@@ -84,10 +84,54 @@ def _classify_multimodal(err, answer="", reasoning=""):
     return "ok_other", ans[:120]
 
 
+def is_tiktoken(name, tk):
+    return name in ("o200k_base", "cl100k_base") or hasattr(tk, "decode_tokens_bytes")
+
+
 def encode_len(name, tk, text):
-    if name in ("o200k_base", "cl100k_base"):
+    if is_tiktoken(name, tk):
         return len(tk.encode(text, disallowed_special=()))
     return len(tk.encode(text, add_special_tokens=False).ids)
+
+
+def visible_lengths(name, tk, text):
+    """Visible characters after each token of text.
+
+    A token ending inside a multibyte character shows nothing until the character
+    completes. Hugging Face offsets give the whole character to such a token, so
+    they report boundaries a model cannot emit; decoding prefixes does not."""
+    if is_tiktoken(name, tk):
+        out, seen = [], b""
+        for piece in tk.decode_tokens_bytes(tk.encode(text, disallowed_special=())):
+            seen += piece
+            out.append(len(seen.decode("utf-8", errors="ignore")))
+        return out
+    encoding = tk.encode(text, add_special_tokens=False)
+    if hasattr(tk, "decode"):
+        out = []
+        for k in range(1, len(encoding.ids) + 1):
+            shown = tk.decode(encoding.ids[:k], skip_special_tokens=False).rstrip("\ufffd")
+            if not text.startswith(shown):
+                break  # this decoder rewrites text (e.g. strips spaces): keep offsets
+            out.append(len(shown))
+        else:
+            return out
+    return [end for _, end in encoding.offsets]
+
+
+# Tiktoken-format vocabularies need their published split pattern.
+TIKTOKEN_PATTERNS = {
+    "kimi-k2": "|".join([
+        r"""[\p{Han}]+""",
+        r"""[^\r\n\p{L}\p{N}]?[\p{Lu}\p{Lt}\p{Lm}\p{Lo}\p{M}&&[^\p{Han}]]*[\p{Ll}\p{Lm}\p{Lo}\p{M}&&[^\p{Han}]]+(?i:'s|'t|'re|'ve|'m|'ll|'d)?""",
+        r"""[^\r\n\p{L}\p{N}]?[\p{Lu}\p{Lt}\p{Lm}\p{Lo}\p{M}&&[^\p{Han}]]+[\p{Ll}\p{Lm}\p{Lo}\p{M}&&[^\p{Han}]]*(?i:'s|'t|'re|'ve|'m|'ll|'d)?""",
+        r"""\p{N}{1,3}""",
+        r""" ?[^\s\p{L}\p{N}]+[\r\n]*""",
+        r"""\s*[\r\n]+""",
+        r"""\s+(?!\S)""",
+        r"""\s+""",
+    ]),
+}
 
 
 def load_local_tokenizers(tokenizers_dir="tok"):
@@ -99,10 +143,11 @@ def load_local_tokenizers(tokenizers_dir="tok"):
     local = {}
     if os.path.isdir(tokenizers_dir):
         for filename in sorted(os.listdir(tokenizers_dir)):
+            path = os.path.join(tokenizers_dir, filename)
             if filename.endswith(".json"):
                 # Keep filesystem failures fatal; only parsing a readable
                 # candidate is optional.
-                with open(os.path.join(tokenizers_dir, filename), "rb") as stream:
+                with open(path, "rb") as stream:
                     serialized = stream.read()
                 try:
                     local[filename[:-5]] = Tokenizer.from_str(serialized.decode("utf-8"))
@@ -111,6 +156,11 @@ def load_local_tokenizers(tokenizers_dir="tok"):
                     # unsupported models. File I/O happens outside this handler.
                     logging.getLogger(__name__).warning(
                         "Skipping tokenizer candidate %r: %s", filename, error)
+            elif filename.endswith(".tiktoken") and filename[:-9] in TIKTOKEN_PATTERNS:
+                from tiktoken.load import load_tiktoken_bpe
+                local[filename[:-9]] = tiktoken.Encoding(
+                    name=filename[:-9], pat_str=TIKTOKEN_PATTERNS[filename[:-9]],
+                    mergeable_ranks=load_tiktoken_bpe(path), special_tokens={})
     local["o200k_base"] = tiktoken.get_encoding("o200k_base")
     local["cl100k_base"] = tiktoken.get_encoding("cl100k_base")
     return local
@@ -125,7 +175,7 @@ def tokenizer_sources(directory, local):
         with open(manifest, encoding="utf-8") as stream:
             published = json.load(stream)
     for name in local:
-        filename = os.path.join(directory, name + ".json")
+        filename = os.path.join(directory, name + (".tiktoken" if name in TIKTOKEN_PATTERNS else ".json"))
         if name in ("o200k_base", "cl100k_base"):
             sources[name] = {"encoding": name, "tiktoken_version": version("tiktoken")}
         elif os.path.isfile(filename):
@@ -139,7 +189,7 @@ def tokenizer_sources(directory, local):
 
 # ------------------------------------------------------------------ L1 + L2
 def tokenizer_differential(client, probes=None, tokenizers_dir="tok", verbose=True,
-                           base_api=None, api_delta=None, local=None):
+                           base_api=None, api_delta=None, local=None, extra=None):
     """L1: delta = T(base+probe) - T(base) from usage.prompt_tokens, compared
     against local open tokenizer.json files + tiktoken encodings."""
     local = load_local_tokenizers(tokenizers_dir) if local is None else local
@@ -165,13 +215,13 @@ def tokenizer_differential(client, probes=None, tokenizers_dir="tok", verbose=Tr
     if api_delta is None:
         if verbose:
             print(t("tok.querying", n=len(items)))
-        base_api, err = client.prompt_tokens([{"role": "user", "content": base}])
+        base_api, err = nonzero_prompt_tokens(client, [{"role": "user", "content": base}], extra=extra)
         if err:
             raise RuntimeError("base request failed: %s" % err)
 
         api_delta = {}
         for name, text in items:
-            pt, e = client.prompt_tokens([{"role": "user", "content": base + text}])
+            pt, e = nonzero_prompt_tokens(client, [{"role": "user", "content": base + text}], extra=extra)
             if e:
                 failures[name] = e
                 if verbose:

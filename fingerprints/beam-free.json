@@ -1,0 +1,82 @@
+{
+  "model": "beam-free",
+  "meta": {
+    "measured": "2026-11-03",
+    "source": "stealthprint case pulse-alpha seed",
+    "gateway": "opencode zen free (/zen/v1, envelope)",
+    "count_integrity_measured": "2026-11-04",
+    "count_integrity_source": "count-check, zen free via relay"
+  },
+  "l1_delta": {
+    "en_pangram": 10,
+    "zh_long": 15,
+    "code": 18,
+    "emoji_zwj": 20,
+    "rare_uni": 17,
+    "digits": 32,
+    "ja": 6,
+    "ko": 5,
+    "code_indent": 14,
+    "url_sym": 18,
+    "cjk_rare": 13,
+    "long_words": 16,
+    "ws": 4,
+    "zh_num": 17,
+    "punct": 12,
+    "hex_bin": 17,
+    "fr": 15,
+    "ru": 16,
+    "mixed_code_zh": 24,
+    "emoji_flags": 18,
+    "thai": 10,
+    "floats": 31,
+    "html": 15,
+    "quotes2": 10
+  },
+  "errors": {
+    "tags": [],
+    "limits": {
+      "max_completion": 1048576
+    }
+  },
+  "count_integrity": {
+    "status": "trusted",
+    "reasons": [],
+    "letters": {
+      "a": 24584,
+      "b": 24584,
+      "c": 24584,
+      "d": 24584,
+      "e": 24584,
+      "f": 24584,
+      "g": 24584,
+      "h": 24584
+    },
+    "letter_spread": 0,
+    "repeat_stable": true,
+    "anchor": 24584,
+    "pairs": [
+      {
+        "a": 24590,
+        "b": 24590,
+        "ab": 24597,
+        "residual": 0
+      },
+      {
+        "a": 24595,
+        "b": 24590,
+        "ab": 24602,
+        "residual": 0
+      }
+    ],
+    "failures": {}
+  },
+  "tokenizer_candidates": [
+    "baichuan",
+    "dots3",
+    "dotsllm1",
+    "mimo-v2.5",
+    "qwen3",
+    "qwen3next"
+  ]
+}

@@ -176,3 +176,19 @@ Cline SDK 的 [usage 实现](https://github.com/cline/cline/blob/main/sdk/packag
 **三项差分 0/3 一致**，并且两侧重复中文基准各自完全稳定。Pixel Canary 在新 CLI 路径下相对其正常完成的空基线，仍得到中文 15、emoji 33、数字 33、泰文 6，与第一轮直接 API 的四条结果一致。
 
 这组证据不支持 Pixel Canary 与本次 Gemini 3.8 Flash 端点具有相同计数指纹。它不能排除 Google 使用不同词表、不同计数方式的其他模型，更不能识别未公开的代际或具体 checkpoint。同客户端、同网关减小了跨网关差异，但仍保留模型专属预处理/计数层的可能性。当前身份继续保持 **unknown**。
+
+## 2026-11-03 补充：对上 Qwen 3.7/3.8 闭源词表（23/24）
+
+在 pulse-alpha 调查中建立的指纹库里，用本案存档的 24 条 API delta 离线比对
+（`stealthprint match fingerprints/pixel-canary.json`）：
+
+| 对照（opencode Go，2026-11-03 实测） | 与 pixel-canary 一致 |
+|---|---|
+| qwen3.8-max、qwen3.8-flash、qwen3.7-plus（三者向量逐项全同） | **23/24** |
+| 其余 22 个具名模型（Gemini、GLM、Nemotron、GPT、Claude、Kimi 等） | ≤4/24 |
+
+唯一不同是 `thai`（pixel-canary 6，Qwen 线 3）。Qwen 3.7/3.8 闭源线的向量与开源 Qwen3 词表不同（qwen3.8-max
+对开源 Qwen3 仅个位数匹配），这解释了 9 月对开源 Qwen3 只有 2/24。
+
+**判定（中高置信）**：pixel-canary 使用 Qwen 3.7/3.8 闭源线同一套词表（或其小版本）。thai 一条差异未解释
+（可能是 Cline 网关计数或词表修订）；pixel-canary 已不可访问，无法重测；不能据此定到具体型号。
