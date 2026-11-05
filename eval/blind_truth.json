@@ -1,0 +1,31 @@
+{
+  "_note": "Named OpenRouter models with a known tokenizer family. expected = local candidate name from fetch_tokenizers.sh (or o200k_base/cl100k_base); null = no local candidate exists, so the correct verdict is no match. Candidates in one equivalence group ship the same vocabulary and cannot be told apart by L1.",
+  "equivalent": [["glm5", "glm53"], ["qwen3", "mimo-v2.5", "dots3"]],
+  "models": {
+    "deepseek/deepseek-v3.2": "deepseek",
+    "deepseek/deepseek-chat-v3.1": "deepseek",
+    "deepseek/deepseek-v4-flash": "deepseek",
+    "z-ai/glm-5": "glm5",
+    "z-ai/glm-5.3-flash": "glm53",
+    "qwen/qwen3-235b-a22b-2507": "qwen3",
+    "qwen/qwen3-32b": "qwen3",
+    "minimax/minimax-m2": "minimax",
+    "minimax/minimax-m3": "minimax",
+    "meta-llama/llama-3.3-70b-instruct": "llama3",
+    "meta-llama/llama-3.1-8b-instruct": "llama3",
+    "meta-llama/llama-4-maverick": "llama4",
+    "mistralai/mistral-nemo": "mistral-nemo-tekken",
+    "moonshotai/kimi-k2": "kimi-k2",
+    "moonshotai/kimi-k2-0905": "kimi-k2",
+    "xiaomi/mimo-v2.5": "mimo-v2.5",
+    "openai/gpt-4o-mini": "o200k_base",
+    "openai/gpt-4.1-mini": "o200k_base",
+    "openai/gpt-oss-120b": "o200k_base",
+    "openai/gpt-3.5-turbo": "cl100k_base",
+    "anthropic/claude-haiku-4.5": null,
+    "google/gemini-2.5-flash": null,
+    "google/gemma-3-27b-it": null,
+    "cohere/command-a": null,
+    "amazon/nova-lite-v1": null
+  }
+}

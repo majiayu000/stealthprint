@@ -1,0 +1,32 @@
+{
+  "_note": "OpenCode Go line (https://opencode.ai/zen/go/v1). vocab = the local candidate whose deltas equal the model's official Hugging Face tokenizer.json on all 24 probes (checked 2026-10-20), or null when no candidate matches; vendor = who ships the model. Closed models are negatives only when no public tokenizer exists. observe = measured and reported, not scored.",
+  "base_url": "https://opencode.ai/zen/go/v1",
+  "equivalent": [["glm5", "glm53"], ["qwen3", "mimo-v2.5", "dots3"]],
+  "candidate_vendor": {"deepseek": "deepseek", "glm5": "zhipu", "glm53": "zhipu", "qwen3": "qwen", "mimo-v2.5": "xiaomi",
+                       "dots3": "rednote", "minimax": "minimax", "llama3": "meta", "mistral-nemo-tekken": "mistral",
+                       "o200k_base": "openai", "cl100k_base": "openai"},
+  "models": {
+    "deepseek-v4-pro": {"vocab": "deepseek", "vendor": "deepseek", "hf": "deepseek-ai/DeepSeek-V4-Pro"},
+    "deepseek-v4.1-flash": {"vocab": "deepseek", "vendor": "deepseek", "hf": "deepseek-ai/DeepSeek-V4.1-Flash"},
+    "glm-5.1": {"vocab": "glm5", "vendor": "zhipu", "hf": "zai-org/GLM-5.1"},
+    "glm-5.2": {"vocab": "glm5", "vendor": "zhipu", "hf": "zai-org/GLM-5.2"},
+    "glm-5.3": {"vocab": "glm5", "vendor": "zhipu", "hf": "zai-org/GLM-5.3"},
+    "glm-5.3-flash": {"vocab": "glm53", "vendor": "zhipu", "hf": "zai-org/GLM-5.3-Flash"},
+    "mimo-v2.5": {"vocab": "mimo-v2.5", "vendor": "xiaomi", "hf": "XiaomiMiMo/MiMo-V2.5"},
+    "mimo-v2.5-pro": {"vocab": "mimo-v2.5", "vendor": "xiaomi", "hf": "XiaomiMiMo/MiMo-V2.5-Pro"},
+    "minimax-m2.5": {"vocab": "minimax", "vendor": "minimax", "hf": "MiniMaxAI/MiniMax-M2.5"},
+    "minimax-m2.7": {"vocab": "minimax", "vendor": "minimax", "hf": "MiniMaxAI/MiniMax-M2.7"},
+    "minimax-m3": {"vocab": "minimax", "vendor": "minimax", "hf": "MiniMaxAI/MiniMax-M3"},
+    "step-5-preview": {"vocab": "deepseek", "vendor": "stepfun", "hf": "stepfun-ai/Step-5-Preview"},
+    "hy4-preview": {"vocab": null, "vendor": "tencent", "hf": "tencent/Hy4-preview"},
+    "longcat-2.0": {"vocab": null, "vendor": "meituan", "hf": "meituan-longcat/LongCat-2.0"},
+    "kimi-k2.6": {"vocab": null, "vendor": "moonshot", "note": "tiktoken-format vocabulary, not in the candidate set"},
+    "kimi-k3": {"vocab": null, "vendor": "moonshot", "note": "tiktoken-format vocabulary, not in the candidate set"},
+    "claude-haiku-5-5": {"vocab": null, "vendor": "anthropic"},
+    "gemini-4-argon-contributor": {"vocab": null, "vendor": "google"},
+    "grok-4.6": {"vocab": null, "vendor": "xai"},
+    "grok-4.7": {"vocab": null, "vendor": "xai"}
+  },
+  "observe": ["omen-alpha", "minimax-m3.1-flash-free", "beam-free", "longcat-2.5-preview-free",
+              "muse-spark-1.3-contributor", "gpt-6-luna", "qwen3.8-max", "qwen3.8-flash", "mimo-v2.6-pro", "hy3"]
+}
