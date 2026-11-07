@@ -101,9 +101,10 @@ class VisionFitTests(unittest.TestCase):
 
 class ProfileMatchTests(unittest.TestCase):
     def test_match_requires_all_hard_layers(self):
-        a = {"model": "a", "l1_delta": {"x": 1, "y": 2}, "vision": {"tokens": {"64x64": 7}}}
-        same = {"model": "b", "l1_delta": {"x": 1, "y": 2}, "vision": {"tokens": {"64x64": 7}}}
-        other = {"model": "c", "l1_delta": {"x": 1, "y": 3}, "vision": {"tokens": {"64x64": 9}}}
+        l1 = {"p%d" % i: i for i in range(8)}
+        a = {"model": "a", "l1_delta": l1, "vision": {"tokens": {"64x64": 7, "256x256": 9}}}
+        same = {"model": "b", "l1_delta": dict(l1), "vision": {"tokens": {"64x64": 7, "256x256": 9}}}
+        other = {"model": "c", "l1_delta": dict(l1, p0=99), "vision": {"tokens": {"64x64": 9, "256x256": 1}}}
         rows = fp.match_profile(a, {"a": a, "b": same, "c": other})
         self.assertEqual([r["model"] for r in rows], ["b", "c"])
         self.assertEqual(rows[0]["verdict"], "match")
@@ -198,14 +199,49 @@ class CountIntegrityTests(unittest.TestCase):
 
 
 class EvidenceExclusionTests(unittest.TestCase):
-    L1 = {"x": 1, "y": 2}
+    L1 = {"p%d" % i: i for i in range(8)}
+
+    def test_thin_agreement_is_insufficient_not_match(self):
+        a = {"model": "a", "l1_delta": {"x": 1, "y": 2}}
+        b = {"model": "b", "l1_delta": {"x": 1, "y": 2}}
+        rows = fp.match_profile(a, {"b": b})
+        self.assertEqual(rows[0]["verdict"], "insufficient")
+        self.assertEqual(fp.match_status(rows), "insufficient")
+
+    def test_thin_disagreement_still_refutes(self):
+        a = {"model": "a", "l1_delta": {"x": 1, "y": 2}}
+        b = {"model": "b", "l1_delta": {"x": 1, "y": 3}}
+        rows = fp.match_profile(a, {"b": b})
+        self.assertEqual(rows[0]["verdict"], "different")
+        self.assertEqual(fp.match_status(rows), "no_match")
+
+    def test_thin_vision_does_not_upgrade_full_l1_conflict(self):
+        a = {"model": "a", "l1_delta": self.L1, "vision": {"tokens": {"64x64": 7}}}
+        b = {"model": "b", "l1_delta": dict(self.L1, p0=99), "vision": {"tokens": {"64x64": 7}}}
+        self.assertEqual(fp.match_profile(a, {"b": b})[0]["verdict"], "different")
+
+    def test_no_overlap_means_both_sides_have_other_evidence(self):
+        a = {"model": "a", "l1_delta": self.L1}
+        b = {"model": "b", "vision": {"tokens": {"64x64": 7, "256x256": 9}}}
+        rows = fp.match_profile(a, {"b": b})
+        self.assertEqual(rows[0]["verdict"], "no_overlap")
+        self.assertEqual(fp.match_status(rows), "insufficient")
+
+    def test_response_meta_is_recorded_but_never_compared(self):
+        meta = {"responses": 3, "header_names": {"server": 3}}
+        prof = fp.build_profile("m", response_meta=meta)
+        self.assertEqual(prof["response_meta"], meta)
+        self.assertNotIn("response_meta", fp.build_profile("m", response_meta={"responses": 0}))
+        a = dict(prof, l1_delta=self.L1)
+        b = {"model": "b", "l1_delta": self.L1, "response_meta": {"responses": 1, "header_names": {"via": 1}}}
+        self.assertEqual(fp.match_profile(a, {"b": b})[0]["verdict"], "match")
 
     def test_untrusted_target_drops_count_layers(self):
         target = {"model": "t", "count_integrity": {"status": "untrusted"}, "l1_delta": self.L1,
                   "vision": {"tokens": {"64x64": 7}}}
         peer = {"model": "p", "l1_delta": {"x": 9, "y": 9}, "vision": {"tokens": {"64x64": 9}}}
         row = fp.match_profile(target, {"p": peer})[0]
-        self.assertEqual(row["verdict"], "no_overlap")
+        self.assertEqual(row["verdict"], "insufficient")
         self.assertTrue(row["count_untrusted"])
         self.assertNotIn("l1", row)
         self.assertNotIn("vision", row)
@@ -213,7 +249,7 @@ class EvidenceExclusionTests(unittest.TestCase):
     def test_untrusted_library_entry_drops_count_layers(self):
         target = {"model": "t", "l1_delta": self.L1}
         peer = {"model": "p", "l1_delta": self.L1, "count_integrity": {"status": "untrusted"}}
-        self.assertEqual(fp.match_profile(target, {"p": peer})[0]["verdict"], "no_overlap")
+        self.assertEqual(fp.match_profile(target, {"p": peer})[0]["verdict"], "insufficient")
 
     def test_trusted_and_unchecked_profiles_still_compare(self):
         target = {"model": "t", "count_integrity": {"status": "trusted"}, "l1_delta": self.L1}
@@ -234,7 +270,7 @@ class EvidenceExclusionTests(unittest.TestCase):
         per_token = {"per_token_chunks": True, "samples": [{"name": "s", "pieces": ["ab", " cd"]}]}
         row = fp.match_profile({"model": "a", "segmentation": batched},
                                {"b": {"model": "b", "segmentation": per_token}})[0]
-        self.assertEqual(row["verdict"], "no_overlap")
+        self.assertEqual(row["verdict"], "insufficient")
         self.assertTrue(row["segmentation_unusable"])
         self.assertNotIn("segmentation_f1", row)
 

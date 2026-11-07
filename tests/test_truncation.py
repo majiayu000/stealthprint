@@ -232,7 +232,7 @@ class CompareTests(unittest.TestCase):
         cuts = list(range(2, 80, 2))
         cmp = fp.compare_profiles(truncated(cuts=cuts), truncated(boundaries=list(range(1, 100))))
         self.assertEqual(cmp["truncation_boundary"], {"checked": len(cuts), "conflicts": 0})
-        self.assertEqual(fp.same_model_verdict(cmp), "no_overlap")
+        self.assertEqual(fp.same_model_verdict(cmp), "insufficient")
 
     def test_a_cut_off_the_other_models_boundaries_is_a_conflict(self):
         cmp = fp.compare_profiles(truncated(cuts=[3, 5]), truncated(boundaries=[2, 4, 5]))
@@ -254,9 +254,9 @@ class CompareTests(unittest.TestCase):
 
     def test_models_with_no_local_tokenizer_are_not_called_different(self):
         cmp = fp.compare_profiles({"tokenizer_candidates": []}, {"tokenizer_candidates": []})
-        self.assertEqual(fp.same_model_verdict(cmp), "no_overlap")
+        self.assertEqual(fp.same_model_verdict(cmp), "insufficient")
         cmp = fp.compare_profiles({"tokenizer_candidates": []}, {"tokenizer_candidates": ["llama4"]})
-        self.assertEqual(fp.same_model_verdict(cmp), "no_overlap")
+        self.assertEqual(fp.same_model_verdict(cmp), "insufficient")
 
     def test_disjoint_tokenizers_are_different(self):
         cmp = fp.compare_profiles({"tokenizer_candidates": ["a"]}, {"tokenizer_candidates": ["b"]})

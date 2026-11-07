@@ -27,6 +27,18 @@ const UA = 'opencode/1.19.2 ai-sdk/provider-utils/4.0.23 runtime/bun/1.3.14';
 const SES = process.env.SES || env?.headers?.['x-opencode-session'] || 'ses_' + Date.now().toString(16) + 'relay';
 let counter = 0;
 
+// The caller's response metadata must describe upstream, not this relay. Cookie
+// values never leave here; the name alone is kept.
+function upstreamHeaders(r, contentType) {
+  const out = new Headers();
+  for (const [name, value] of r.headers) {
+    if (['content-length', 'content-encoding', 'transfer-encoding', 'connection'].includes(name)) continue;
+    out.append(name, name === 'set-cookie' ? 'dropped' : value);
+  }
+  out.set('content-type', contentType);
+  return out;
+}
+
 function msgId() {
   const id = ((BigInt(Date.now()) * 0x1000n + BigInt(++counter % 4096)) & ((1n << 48n) - 1n)).toString(16).padStart(12, '0');
   const abc = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -87,10 +99,10 @@ Bun.serve({
     const raw = await r.text();
     log?.write(JSON.stringify({ t: new Date().toISOString(), mode, model: body.model, status: r.status,
       err: r.status !== 200 ? raw.slice(0, 300) : undefined }) + '\n');
-    if (r.status !== 200) return new Response(raw, { status: r.status, headers: { 'content-type': 'application/json' } });
+    if (r.status !== 200) return new Response(raw, { status: r.status, headers: upstreamHeaders(r, 'application/json') });
     const isSSE = (r.headers.get('content-type') || '').includes('event-stream') || raw.startsWith('data:') || raw.startsWith(':');
-    if (wantStream) return new Response(raw, { status: 200, headers: { 'content-type': 'text/event-stream' } });
-    return Response.json(isSSE ? aggregate(raw) : JSON.parse(raw));
+    if (wantStream) return new Response(raw, { status: 200, headers: upstreamHeaders(r, 'text/event-stream') });
+    return Response.json(isSSE ? aggregate(raw) : JSON.parse(raw), { headers: upstreamHeaders(r, 'application/json') });
   },
 });
 console.error(`opencode relay (${mode}) on http://127.0.0.1:${port}/v1`);

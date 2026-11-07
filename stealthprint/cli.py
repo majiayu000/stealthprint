@@ -156,8 +156,9 @@ def main(argv=None):
             for r in rows:
                 print("%-30s %-10s %s" % (r["model"], r["verdict"],
                                           {k: v for k, v in r.items() if k not in ("model", "verdict")}))
-        emit({"target": target.get("model"), "target_count_integrity": integrity, "matches": rows}, args.json)
-        return 0
+        status = fingerprint.match_status(rows)
+        emit({"target": target.get("model"), "target_count_integrity": integrity, "status": status, "matches": rows}, args.json)
+        return fingerprint.MATCH_EXIT[status]
     if args.cmd == "watch":
         try:
             with contextlib.redirect_stdout(sys.stderr) if args.json else contextlib.nullcontext():
@@ -268,7 +269,8 @@ def run(args, client):
 
             def save():
                 # Written after every layer, so an interrupted run keeps what it paid for.
-                result = fingerprint.build_profile(args.model, meta={"base_url": client.base_url}, **measured)
+                result = fingerprint.build_profile(args.model, meta={"base_url": client.base_url},
+                                                   response_meta=client.response_meta(), **measured)
                 with open(args.out, "w", encoding="utf-8") as fh:
                     json.dump(result, fh, ensure_ascii=False, indent=1)
                 return result

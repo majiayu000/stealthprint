@@ -9,6 +9,7 @@ with the same retry budget (the Muse line only speaks the Responses API).
 
 import json
 import os
+import threading
 import time
 from datetime import datetime, timezone
 
@@ -19,6 +20,30 @@ from .client import nonzero_prompt_tokens, retryable, require_openai
 # 12-probe discriminating subset used by the 2026-09-17 census.
 SURVEY_PROBES = ["zh_long", "emoji_zwj", "digits", "ja", "ko", "fr", "ru", "thai",
                  "code_indent", "url_sym", "cjk_rare", "mixed_code_zh"]
+
+
+class BudgetExhausted(RuntimeError):
+    pass
+
+
+class RequestBudget:
+    """Hard request cap that survives resumed runs; spent is saved before each send."""
+
+    def __init__(self, limit, path):
+        self.limit, self.path = limit, path
+        self.spent = 0
+        self._lock = threading.Lock()
+        if os.path.exists(path):
+            with open(path, encoding="utf-8") as stream:
+                self.spent = int(stream.read().strip() or 0)
+
+    def take(self):
+        with self._lock:
+            if self.spent >= self.limit:
+                raise BudgetExhausted("request budget of %d used up" % self.limit)
+            self.spent += 1
+            with open(self.path, "w", encoding="utf-8") as stream:
+                stream.write(str(self.spent))
 
 
 def classify_error(err):
