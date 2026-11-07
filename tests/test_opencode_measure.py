@@ -25,6 +25,22 @@ def fake_run(counts):
 
 
 class OpencodeMeasureTests(unittest.TestCase):
+    def test_stdin_is_closed_and_title_requests_are_off(self):
+        run = mock.Mock(side_effect=fake_run(lambda t: 700))
+        with mock.patch.object(om.subprocess, "run", run):
+            om.prompt_tokens("m", "text", "cfg", "/tmp")
+        self.assertIs(run.call_args.kwargs["stdin"], subprocess.DEVNULL)
+        self.assertTrue(om.AGENT_CONFIG["agent"]["title"]["disable"])
+
+    def test_budget_stops_before_another_run(self):
+        from stealthprint.survey import BudgetExhausted
+        budget = mock.Mock()
+        budget.take.side_effect = [None, BudgetExhausted("spent")]
+        run = mock.Mock(side_effect=fake_run(lambda t: 700))
+        with mock.patch.object(om.subprocess, "run", run), self.assertRaises(BudgetExhausted):
+            om.measure("m", "base", [("a", "x")], "cfg", None, budget=budget)
+        self.assertEqual(run.call_count, 1)
+
     def test_counts_include_cache_and_cancel_fixed_overhead(self):
         probes = [("a", "xy"), ("b", "xyz")]
         with mock.patch.object(om.subprocess, "run", fake_run(lambda t: 700 + len(t))):

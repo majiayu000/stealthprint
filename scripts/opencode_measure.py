@@ -51,6 +51,7 @@ def prompt_tokens(model, text, config, workdir, timeout=300):
     try:
         proc = subprocess.run(["opencode", "run", "--pure", "--agent", "probe", "-m", model,
                                "--format", "json", "--dir", workdir, text], cwd=workdir, env=env,
+                              stdin=subprocess.DEVNULL,  # an open stdin makes opencode wait for it until the timeout
                               capture_output=True, text=True, timeout=timeout)
     except subprocess.TimeoutExpired:
         return None, "timeout"
