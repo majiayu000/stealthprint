@@ -18,6 +18,7 @@ Profile fields (all optional except `model`):
 | `segmentation` | L1b | streamed pieces per echoed text + key-token pattern |
 | `errors` | L4b | error-text signature tags and leaked numeric limits |
 | `vision` | L6b | image token cost per size + fitted `ceil(w/p)*ceil(h/p)+c` |
+| `response_meta` | — | recorded only, never compared: counts of response header names, allowlisted header values, response id prefixes, echoed models and stop reasons |
 | `meta` | — | measurement date, gateway, source |
 
 `match` verdicts: `match` only when every hard layer both profiles share agrees
@@ -26,8 +27,11 @@ fully (L1 24/24, all vision sizes, segmentation F1 = 1); `partial` when some do;
 hard layer. The absence of such a conflict does not count as agreement: cuts can refute a
 tokenizer but not confirm one.
 With no hard layer, `tokenizer_match` means the tokenizer candidates overlap, which an open
-tokenizer allows for unrelated models; disjoint non-empty candidates are `different`; `no_overlap`
-means nothing is usable. An empty candidate list means no local tokenizer fits, which says
+tokenizer allows for unrelated models; disjoint non-empty candidates are `different`. `insufficient` means one side has no usable
+evidence, or the only agreement rests on too few points (fewer than 8 shared L1 probes or 2 vision sizes);
+a disagreement on few points still counts. `no_overlap` means both sides have evidence but share no layer.
+The command exits 0 when any profile is a `match`, 3 when comparisons found none, and 4 when nothing could
+be compared; `--json` carries the same result as `status`. An empty candidate list means no local tokenizer fits, which says
 nothing about the other model. Vision counts of
 zero at every size and non-per-token streams are not evidence. 2026-11-05: every profile except
 `pixel-canary` carries a `count_integrity` result; only `crouton-alpha-free` is `untrusted`.

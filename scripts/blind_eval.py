@@ -6,7 +6,7 @@ score: read that JSONL and grade each verdict against the truth file. The
        verdict is computed from count deltas alone; model names never reach
        the scorer, so the test is blind by construction.
 
-    python scripts/blind_eval.py run --base-url https://openrouter.ai/api/v1 --out blind.jsonl
+    python scripts/blind_eval.py run --base-url https://openrouter.ai/api/v1 --out blind.jsonl --max-requests 400
     python scripts/blind_eval.py score blind.jsonl
 """
 import argparse
@@ -107,6 +107,8 @@ def main(argv=None):
     p.add_argument("--api-key", default=os.environ.get("STEALTHPRINT_API_KEY"))
     p.add_argument("--tokenizers", default="tok")
     p.add_argument("--out", required=True)
+    p.add_argument("--max-requests", type=int, required=True,
+                   help="hard cap on requests, counted across resumes in <out>.budget")
     p.add_argument("--truth", default=TRUTH)
     p = sub.add_parser("score")
     p.add_argument("jsonl", nargs="+", help="one or more measurement files; later rows win")
@@ -120,12 +122,24 @@ def main(argv=None):
             sys.exit("run needs --base-url and --api-key (or STEALTHPRINT_BASE_URL / STEALTHPRINT_API_KEY)")
         from stealthprint.client import ChatClient
         from stealthprint import survey
+        from stealthprint.survey import BudgetExhausted, RequestBudget
+
+        budget = RequestBudget(args.max_requests, args.out + ".budget")
+
+        class BudgetedClient(ChatClient):
+            def request(self, *a, **k):
+                budget.take()
+                return super().request(*a, **k)
 
         def factory(model):
-            return ChatClient(model=model or "probe", base_url=args.base_url, api_key=args.api_key)
+            return BudgetedClient(model=model or "probe", base_url=args.base_url, api_key=args.api_key)
 
         models = sorted(truth["models"]) + [m for m in truth.get("observe", []) if m not in truth["models"]]
-        survey.run_survey(factory, models, tokenizers_dir=args.tokenizers, out_path=args.out)
+        try:
+            survey.run_survey(factory, models, tokenizers_dir=args.tokenizers, out_path=args.out)
+        except BudgetExhausted as error:
+            print("stopped: %s; finished rows are kept in %s" % (error, args.out), file=sys.stderr)
+        print("requests sent: %d of %d" % (budget.spent, budget.limit), file=sys.stderr)
         return
     latest = {}
     for path in args.jsonl:

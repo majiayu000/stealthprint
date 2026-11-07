@@ -69,6 +69,8 @@ Every identity parameter can also be passed per command:
 Global flags work before or after the subcommand. Add `--json` for
 JSON only on stdout; progress goes to stderr. Use `--record requests.jsonl`
 to preserve timestamped requests, raw responses and errors without authentication headers.
+Response headers are saved by name; values are kept only for `content-type`, `server`, `via`,
+`x-powered-by` and `x-*-model`, so cookies and trace ids stay out of the file.
 
 ## Watching catalogs for new models
 
@@ -188,7 +190,7 @@ Data keys stay English regardless of display language.
 | L6b vision grid | `vision-grid` | Image token cost over 7 sizes fitted to `ceil(w/p)*ceil(h/p)+c`; patch size, constant and (no) resizing fingerprint the encoder |
 | count check | `count-check` | Does usage behave like a tokenizer: letters cost the same, concatenation adds up, repeats match. On failure (exit 1), L1 and vision counts can neither identify nor exclude a model |
 | truncation | `truncation` | Token boundaries read from where `max_tokens` cuts an echo, so it works when usage is untrusted. A tokenizer passes only if every cut is a boundary and none is over budget. Picks the lowest accepted `reasoning_effort` and widens the budget while thinking eats it. A pass is not unique proof: another tokenizer may split these texts the same way |
-| profiles | `profile` / `match` | Run the count check+L1+L1b+L4b+L6b into `fingerprints/<model>.json`, adding truncation when counts are untrusted (`--with-truncation` forces it); `match` compares offline against the library (see [fingerprints/README.md](fingerprints/README.md)) |
+| profiles | `profile` / `match` | Run the count check+L1+L1b+L4b+L6b into `fingerprints/<model>.json`, adding truncation when counts are untrusted (`--with-truncation` forces it); `match` compares offline against the library (see [fingerprints/README.md](fingerprints/README.md))  Exits 0 on a match, 3 on no match, 4 on insufficient evidence. |
 | sentinel | `sentinel` | Re-measure a stored profile cheaply (about 25 requests): `unchanged`, `changed` (exit 1) or `unverifiable`. Schedule it yourself, e.g. with cron and `--out sentinel.jsonl`; each run spends quota |
 
 Self-identification ("who are you"), prompt injection, censorship probes and
@@ -264,14 +266,6 @@ Worked cases and an unresolved investigation, with measurement details:
   [中文](docs/case-union-alpha.zh-CN.md)
 
 - **pixel-canary — identity unresolved** (2026-09-26): candidate-tokenizer and named-model comparisons did not establish identity. See the [Chinese investigation and measurement links](docs/case-pixel-canary.zh-CN.md) for limits and unsuccessful comparisons.
-
-## Prior art
-
-Methodology builds on `iSimplifyMe/tokenizer-fingerprint`,
-`LuD1161/ox-alpha-identification-public`, and `unclecode/modelprint`.
-stealthprint adds: heterogeneous-backend detection, vision ground-truth
-protocol, wrapper-constant verification, video modality probes, same-gateway
-catalog A/B, and multilingual probe sets.
 
 ## License
 

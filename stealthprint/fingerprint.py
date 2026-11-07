@@ -409,9 +409,12 @@ def tokenizer_candidates(integrity=None, l1=None, trunc=None):
     return sorted(set.intersection(*sets))
 
 
-def build_profile(model, l1=None, seg=None, leaks=None, vision=None, meta=None, integrity=None, trunc=None):
+def build_profile(model, l1=None, seg=None, leaks=None, vision=None, meta=None, integrity=None, trunc=None,
+                  response_meta=None):
     """Assemble a comparable profile from whatever layers were measured."""
     prof = {"model": model, "meta": meta or {}}
+    if response_meta and response_meta.get("responses"):
+        prof["response_meta"] = response_meta  # recorded only; match does not read it yet
     if integrity:
         prof["count_integrity"] = integrity
     if trunc:
@@ -458,12 +461,29 @@ def truncation_conflicts(a, b):
     return {"checked": checked, "conflicts": conflicts} if checked else None
 
 
+def has_usable_evidence(profile):
+    """Could this profile take part in a hard or tokenizer comparison at all?"""
+    if profile.get("tokenizer_candidates"):
+        return True
+    seg = profile.get("segmentation") or {}
+    if seg.get("samples") and seg.get("per_token_chunks") is not False:
+        return True
+    if any((t.get("stream") or {}).get("boundaries") for t in ((profile.get("truncation") or {}).get("texts") or {}).values()):
+        return True
+    if counts_untrusted(profile):
+        return False
+    tokens = (profile.get("vision") or {}).get("tokens") or {}
+    return bool(profile.get("l1_delta")) or any(isinstance(v, int) and v != 0 for v in tokens.values())
+
+
 def compare_profiles(a, b):
     """Per-layer agreement between two profiles (only layers with usable evidence)."""
     out = {}
     untrusted = counts_untrusted(a) or counts_untrusted(b)
     if untrusted:
         out["count_untrusted"] = True
+    if not (has_usable_evidence(a) and has_usable_evidence(b)):
+        out["evidence_missing"] = True
     da, db = a.get("l1_delta"), b.get("l1_delta")
     if da and db and not untrusted:
         keys = [k for k in da if k in db]
@@ -505,16 +525,28 @@ def compare_profiles(a, b):
     return out
 
 
+# Agreement on fewer shared points than this is too thin to count as evidence.
+# Disagreement always counts: one trusted differing count already refutes a match.
+MIN_SHARED_L1 = 8
+MIN_SHARED_VISION = 2
+
+
 def same_model_verdict(cmp):
-    """'match' only when every compared hard layer agrees fully.
+    """'match' only when every compared hard layer agrees fully, on enough points.
 
     Tokenizer candidates are weaker: a shared open tokenizer does not make the same
-    model, so sharing one is reported as tokenizer_match and never as match."""
+    model, so sharing one is reported as tokenizer_match and never as match.
+    'insufficient' means the evidence was too thin or absent on one side;
+    'no_overlap' means both sides have evidence but no layer in common."""
     hard = []
-    if "l1" in cmp:
-        hard.append(cmp["l1"]["exact"] == cmp["l1"]["of"])
-    if "vision" in cmp:
-        hard.append(cmp["vision"]["exact"] == cmp["vision"]["of"])
+    thin = False
+    for layer, minimum in (("l1", MIN_SHARED_L1), ("vision", MIN_SHARED_VISION)):
+        if layer in cmp:
+            agrees = cmp[layer]["exact"] == cmp[layer]["of"]
+            if agrees and cmp[layer]["of"] < minimum:
+                thin = True
+            else:
+                hard.append(agrees)
     if "segmentation_f1" in cmp:
         hard.append(cmp["segmentation_f1"] >= 0.999)
     # Cuts can refute a tokenizer but not confirm one: GPT-6's 33 cuts all sat on
@@ -527,7 +559,7 @@ def same_model_verdict(cmp):
         return "tokenizer_match"
     if cmp.get("tokenizer_disjoint"):
         return "different"
-    return "no_overlap"
+    return "insufficient" if thin or cmp.get("evidence_missing") else "no_overlap"
 
 
 def load_library(path):
@@ -548,9 +580,20 @@ def match_profile(target, library):
         l1 = cmp.get("l1", {})
         score = (l1.get("exact", 0) / l1["of"]) if l1.get("of") else 0.0
         rows.append({"model": name, "verdict": same_model_verdict(cmp), "l1_ratio": round(score, 3), **cmp})
-    order = {"match": 0, "tokenizer_match": 1, "partial": 2, "different": 3, "no_overlap": 4}
+    order = {"match": 0, "tokenizer_match": 1, "partial": 2, "different": 3, "no_overlap": 4, "insufficient": 5}
     rows.sort(key=lambda r: (order[r["verdict"]], -r["l1_ratio"]))
     return rows
+
+
+MATCH_EXIT = {"match": 0, "no_match": 3, "insufficient": 4}
+
+
+def match_status(rows):
+    """Overall result of a library comparison, for scripts and exit codes."""
+    verdicts = {r["verdict"] for r in rows}
+    if "match" in verdicts:
+        return "match"
+    return "no_match" if verdicts & {"tokenizer_match", "partial", "different"} else "insufficient"
 
 
 # ------------------------------------------------------------------ sentinel

@@ -10,7 +10,7 @@ before and after the probes, and the row is marked incomplete when they differ.
 
 Rows match `stealthprint survey` JSONL, so scripts/blind_eval.py can score them.
 
-    python scripts/opencode_measure.py --truth eval/blind_truth_opencode_go.json --out go.jsonl
+    python scripts/opencode_measure.py --truth eval/blind_truth_opencode_go.json --out go.jsonl --max-requests 400
 """
 import argparse
 import json
@@ -24,11 +24,12 @@ from datetime import datetime, timezone
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from stealthprint.i18n import load_probes  # noqa: E402
 from stealthprint.layers import encode_len, load_local_tokenizers, tokenizer_sources  # noqa: E402
-from stealthprint.survey import SURVEY_PROBES, _score  # noqa: E402
+from stealthprint.survey import SURVEY_PROBES, BudgetExhausted, RequestBudget, _score  # noqa: E402
 
 AGENT_CONFIG = {
     "$schema": "https://opencode.ai/config.json",
-    "agent": {"probe": {"mode": "primary", "description": "token-count probe, no tools",
+    # opencode otherwise sends a second model request per run to write a session title.
+    "agent": {"title": {"disable": True}, "probe": {"mode": "primary", "description": "token-count probe, no tools",
                         "prompt": "Reply with the single word: ok", "tools": {"*": False}}},
 }
 
@@ -50,6 +51,7 @@ def prompt_tokens(model, text, config, workdir, timeout=300):
     try:
         proc = subprocess.run(["opencode", "run", "--pure", "--agent", "probe", "-m", model,
                                "--format", "json", "--dir", workdir, text], cwd=workdir, env=env,
+                              stdin=subprocess.DEVNULL,  # an open stdin makes opencode wait for it until the timeout
                               capture_output=True, text=True, timeout=timeout)
     except subprocess.TimeoutExpired:
         return None, "timeout"
@@ -59,7 +61,10 @@ def prompt_tokens(model, text, config, workdir, timeout=300):
         except ValueError:
             continue
         if event.get("type") == "error":
-            return None, json.dumps(event.get("error"))[:300]
+            error = event.get("error") or {}
+            data = error.get("data") or {}  # data.responseHeaders is left out of saved rows
+            return None, json.dumps({"name": error.get("name"), "message": data.get("message"),
+                                     "statusCode": data.get("statusCode")})[:300]
         if event.get("type") == "step_finish":
             tokens = event["part"].get("tokens") or {}
             cache = tokens.get("cache") or {}
@@ -68,12 +73,14 @@ def prompt_tokens(model, text, config, workdir, timeout=300):
     return None, (proc.stderr.strip()[-300:] or "no step_finish event (exit %d)" % proc.returncode)
 
 
-def measure(model, base, probes, config, workroot, retries=1):
+def measure(model, base, probes, config, workroot, retries=1, budget=None):
     workdir = tempfile.mkdtemp(prefix="sp-oc-", dir=workroot)
 
     def count(text):
         error = None
         for _ in range(retries + 1):
+            if budget:
+                budget.take()
             value, error = prompt_tokens(model, text, config, workdir)
             if value is not None:
                 return value, None
@@ -103,6 +110,8 @@ def main(argv=None):
     ap.add_argument("--tokenizers", default="tok")
     ap.add_argument("--out", required=True)
     ap.add_argument("--workers", type=int, default=4)
+    ap.add_argument("--max-requests", type=int, required=True,
+                    help="hard cap on opencode runs, counted across resumes in <out>.budget")
     ap.add_argument("--only", default=None, help="comma-separated model ids")
     ap.add_argument("--workroot", default=None, help="parent for empty run directories; keep it outside git repos")
     args = ap.parse_args(argv)
@@ -133,8 +142,10 @@ def main(argv=None):
                   "provider": args.provider, "probes": SURVEY_PROBES,
                   "tokenizers": tokenizer_sources(args.tokenizers, local)}
 
+    budget = RequestBudget(args.max_requests, args.out + ".budget")
+
     def job(model):
-        row = measure("%s/%s" % (args.provider, model), base, probes, config, args.workroot)
+        row = measure("%s/%s" % (args.provider, model), base, probes, config, args.workroot, budget=budget)
         row["model"] = model
         if row.get("deltas"):
             scores = {n: s for n in local
@@ -150,8 +161,12 @@ def main(argv=None):
         print("%-28s complete=%s best=%s %s/%s base=%s/%s" % (model, row["complete"], best, s.get("exact"),
               s.get("n"), row.get("base_api"), row.get("base_api_after")), flush=True)
 
-    with ThreadPoolExecutor(max_workers=max(1, args.workers)) as pool:
-        list(pool.map(job, todo))
+    try:
+        with ThreadPoolExecutor(max_workers=max(1, args.workers)) as pool:
+            list(pool.map(job, todo))
+    except BudgetExhausted as error:
+        print("stopped: %s; finished rows are kept in %s" % (error, args.out), file=sys.stderr)
+    print("opencode runs started: %d of %d" % (budget.spent, budget.limit), file=sys.stderr)
 
 
 if __name__ == "__main__":

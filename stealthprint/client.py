@@ -1,6 +1,7 @@
 import json
 import http.client
 import os
+import re
 import threading
 import time
 import urllib.error
@@ -40,6 +41,41 @@ def retryable(error):
     return bool((error or {}).get('transport_error')) or status is None or status == 429 or (isinstance(status, int) and status >= 500)
 
 
+# Header values kept verbatim, along with x-...-model. Every other header is recorded by name only, so
+# cookies, trace ids and account hints never reach a saved file.
+RESPONSE_HEADER_VALUES = frozenset({'content-type', 'server', 'via', 'x-powered-by'})
+_ID_PREFIX = re.compile(r'^([A-Za-z]+[-_])')
+
+
+def response_headers(headers):
+    """{lowercase name: value or None}; only allowlisted values survive."""
+    out = {}
+    for name in (headers.keys() if headers is not None else ()):
+        low = name.lower()
+        # A gateway's own routing header (x-...-model) says what it claims to have served.
+        keep = low in RESPONSE_HEADER_VALUES or (low.startswith('x-') and low.endswith('-model'))
+        out[low] = headers.get(name)[:120] if keep and headers.get(name) else None
+    return out
+
+
+def response_body_meta(parsed):
+    """Response id prefix (never the id), echoed model and stop reasons."""
+    if not isinstance(parsed, dict):
+        return {}
+    meta = {}
+    rid = parsed.get('id')
+    if isinstance(rid, str):
+        found = _ID_PREFIX.match(rid)
+        meta['id_prefix'] = found.group(1) if found else '(no prefix)'
+    if isinstance(parsed.get('model'), str):
+        meta['model'] = parsed['model'][:120]
+    reasons = [c.get('finish_reason') for c in parsed.get('choices') or [] if isinstance(c, dict)]
+    if isinstance(parsed.get('stop_reason'), str):
+        reasons.append(parsed['stop_reason'])
+    meta['finish_reasons'] = [r for r in reasons if isinstance(r, str)]
+    return meta
+
+
 class ChatClient:
     """Explicit endpoint client; Anthropic support is limited to text counting.
 
@@ -76,6 +112,9 @@ class ChatClient:
         self.timeout = timeout
         self.record_path = record_path
         self._record_lock = threading.Lock()
+        self._meta_lock = threading.Lock()
+        self._meta = {'responses': 0, 'header_names': {}, 'header_values': {}, 'id_prefixes': {},
+                      'models': {}, 'finish_reasons': {}}
         self._opener = urllib.request.build_opener(_NoRedirect())
         if record_path:
             # Check the destination before any billable request.
@@ -127,7 +166,7 @@ class ChatClient:
                                      headers=self._headers(), method=method)
         started = datetime.now(timezone.utc).isoformat()
         clock = time.monotonic()
-        parsed = error = status = None
+        parsed = error = status = headers = None
         raw = ''
         try:
             try:
@@ -136,6 +175,7 @@ class ChatClient:
                 response = exc
             with response:
                 status = response.status
+                headers = response_headers(response.headers)
                 raw = response.read().decode('utf-8', errors='replace')
                 if isinstance(response, urllib.error.HTTPError):
                     error = {'http': status, 'body': raw}
@@ -158,14 +198,39 @@ class ChatClient:
             error = {'http': status, 'body': '%s: %s' % (type(exc).__name__, exc)}
             if isinstance(exc, (OSError, http.client.HTTPException)):
                 error['transport_error'] = True
+        self._note_response(headers, parsed)
         if self.record_path:
             row = {'started_at': started, 'duration_seconds': time.monotonic() - clock,
                    'method': method, 'url': self.base_url + path, 'transport': self.transport,
                    'session_id': self.session_id, 'shell': self.shell, 'request': body, 'http': status,
-                   'response': parsed, 'raw_response': raw, 'error': error}
+                   'response_headers': headers, 'response': parsed, 'raw_response': raw, 'error': error}
             with self._record_lock, open(self.record_path, 'a', encoding='utf-8') as stream:
                 stream.write(json.dumps(row, ensure_ascii=False) + '\n')
         return (None, error) if error else (parsed, None)
+
+    def _note_response(self, headers, parsed):
+        if headers is None:
+            return
+        meta = response_body_meta(parsed)
+        with self._meta_lock:
+            m = self._meta
+            m['responses'] += 1
+            for name, value in headers.items():
+                m['header_names'][name] = m['header_names'].get(name, 0) + 1
+                if value is not None:
+                    values = m['header_values'].setdefault(name, {})
+                    values[value] = values.get(value, 0) + 1
+            if 'id_prefix' in meta:
+                m['id_prefixes'][meta['id_prefix']] = m['id_prefixes'].get(meta['id_prefix'], 0) + 1
+            if 'model' in meta:
+                m['models'][meta['model']] = m['models'].get(meta['model'], 0) + 1
+            for reason in meta.get('finish_reasons', ()):
+                m['finish_reasons'][reason] = m['finish_reasons'].get(reason, 0) + 1
+
+    def response_meta(self):
+        """Counts of what the endpoint returned in this client's lifetime (JSON-safe copy)."""
+        with self._meta_lock:
+            return json.loads(json.dumps(self._meta))
 
     def chat(self, messages, max_tokens=1, extra=None, timeout=None, model=None):
         body = {'model': model or self.model, 'messages': messages, 'max_tokens': max_tokens}

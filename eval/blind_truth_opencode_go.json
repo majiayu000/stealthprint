@@ -1,32 +1,184 @@
 {
-  "_note": "OpenCode Go line (https://opencode.ai/zen/go/v1). vocab = the local candidate whose deltas equal the model's official Hugging Face tokenizer.json on all 24 probes (checked 2026-10-20), or null when no candidate matches; vendor = who ships the model. Closed models are negatives only when no public tokenizer exists. observe = measured and reported, not scored.",
-  "base_url": "https://opencode.ai/zen/go/v1",
-  "equivalent": [["glm5", "glm53"], ["qwen3", "mimo-v2.5", "dots3"]],
-  "candidate_vendor": {"deepseek": "deepseek", "glm5": "zhipu", "glm53": "zhipu", "qwen3": "qwen", "mimo-v2.5": "xiaomi",
-                       "dots3": "rednote", "minimax": "minimax", "llama3": "meta", "mistral-nemo-tekken": "mistral",
-                       "o200k_base": "openai", "cl100k_base": "openai"},
-  "models": {
-    "deepseek-v4-pro": {"vocab": "deepseek", "vendor": "deepseek", "hf": "deepseek-ai/DeepSeek-V4-Pro"},
-    "deepseek-v4.1-flash": {"vocab": "deepseek", "vendor": "deepseek", "hf": "deepseek-ai/DeepSeek-V4.1-Flash"},
-    "glm-5.1": {"vocab": "glm5", "vendor": "zhipu", "hf": "zai-org/GLM-5.1"},
-    "glm-5.2": {"vocab": "glm5", "vendor": "zhipu", "hf": "zai-org/GLM-5.2"},
-    "glm-5.3": {"vocab": "glm5", "vendor": "zhipu", "hf": "zai-org/GLM-5.3"},
-    "glm-5.3-flash": {"vocab": "glm53", "vendor": "zhipu", "hf": "zai-org/GLM-5.3-Flash"},
-    "mimo-v2.5": {"vocab": "mimo-v2.5", "vendor": "xiaomi", "hf": "XiaomiMiMo/MiMo-V2.5"},
-    "mimo-v2.5-pro": {"vocab": "mimo-v2.5", "vendor": "xiaomi", "hf": "XiaomiMiMo/MiMo-V2.5-Pro"},
-    "minimax-m2.5": {"vocab": "minimax", "vendor": "minimax", "hf": "MiniMaxAI/MiniMax-M2.5"},
-    "minimax-m2.7": {"vocab": "minimax", "vendor": "minimax", "hf": "MiniMaxAI/MiniMax-M2.7"},
-    "minimax-m3": {"vocab": "minimax", "vendor": "minimax", "hf": "MiniMaxAI/MiniMax-M3"},
-    "step-5-preview": {"vocab": "deepseek", "vendor": "stepfun", "hf": "stepfun-ai/Step-5-Preview"},
-    "hy4-preview": {"vocab": null, "vendor": "tencent", "hf": "tencent/Hy4-preview"},
-    "longcat-2.0": {"vocab": null, "vendor": "meituan", "hf": "meituan-longcat/LongCat-2.0"},
-    "kimi-k2.6": {"vocab": null, "vendor": "moonshot", "note": "tiktoken-format vocabulary, not in the candidate set"},
-    "kimi-k3": {"vocab": null, "vendor": "moonshot", "note": "tiktoken-format vocabulary, not in the candidate set"},
-    "claude-haiku-5-5": {"vocab": null, "vendor": "anthropic"},
-    "gemini-4-argon-contributor": {"vocab": null, "vendor": "google"},
-    "grok-4.6": {"vocab": null, "vendor": "xai"},
-    "grok-4.7": {"vocab": null, "vendor": "xai"}
+ "_note": "OpenCode Go line (https://opencode.ai/zen/go/v1), re-derived 2026-11-07 against the 48 locked candidates before measuring. vocab = a local candidate whose deltas equal the official Hugging Face tokenizer.json on all 24 bundled probes (null when none does); candidates with identical deltas form an equivalent group and cannot be told apart. Closed models with no published vocabulary are negatives only for vendors whose vocabulary is not a candidate. Closed lines that may reuse a published vocabulary (Qwen, GPT, Muse) are observed, not graded.",
+ "base_url": "https://opencode.ai/zen/go/v1",
+ "equivalent": [
+  [
+   "apertus",
+   "apriel",
+   "krutrim",
+   "mistral-nemo-tekken",
+   "mistral-small31",
+   "nemotron-nano2"
+  ],
+  [
+   "baichuan",
+   "dots3",
+   "dotsllm1",
+   "mimo-v2.5",
+   "qwen3",
+   "qwen3next"
+  ],
+  [
+   "deepseek",
+   "step3"
+  ],
+  [
+   "gemma3",
+   "gemma3n",
+   "sealion",
+   "typhoon"
+  ],
+  [
+   "glm5",
+   "glm53"
+  ],
+  [
+   "cl100k_base",
+   "granite4",
+   "olmo3",
+   "phi4"
+  ],
+  [
+   "hunyuan-a13b",
+   "hunyuan-mt",
+   "hunyuan7b"
+  ],
+  [
+   "kanana",
+   "llama3",
+   "swallow"
+  ],
+  [
+   "ling2",
+   "ring1t"
+  ],
+  [
+   "minimax",
+   "minimax-m2"
+  ]
+ ],
+ "candidate_vendor": {
+  "deepseek": "deepseek",
+  "glm5": "zhipu",
+  "glm53": "zhipu",
+  "qwen3": "qwen",
+  "mimo-v2.5": "xiaomi",
+  "dots3": "rednote",
+  "minimax": "minimax",
+  "llama3": "meta",
+  "mistral-nemo-tekken": "mistral",
+  "o200k_base": "openai",
+  "cl100k_base": "openai",
+  "step3": "stepfun",
+  "minimax-m2": "minimax",
+  "hunyuan18": "tencent",
+  "qwen3next": "qwen",
+  "baichuan": "baichuan",
+  "dotsllm1": "rednote",
+  "kimi-k2": "moonshot"
+ },
+ "models": {
+  "deepseek-v4-pro": {
+   "vocab": "deepseek",
+   "vendor": "deepseek",
+   "hf": "deepseek-ai/DeepSeek-V4-Pro",
+   "tokenizer_sha256": "8f9f37ca37fdc4f5fd36d5cf4d3b0e8392edb4e894fd10cc0d70b4957c8633cf"
   },
-  "observe": ["omen-alpha", "minimax-m3.1-flash-free", "beam-free", "longcat-2.5-preview-free",
-              "muse-spark-1.3-contributor", "gpt-6-luna", "qwen3.8-max", "qwen3.8-flash", "mimo-v2.6-pro", "hy3"]
+  "deepseek-v4.1-flash": {
+   "vocab": "deepseek",
+   "vendor": "deepseek",
+   "hf": "deepseek-ai/DeepSeek-V4.1-Flash",
+   "tokenizer_sha256": "c90dfa01249db1be4245780a052ede752e1361c612ac6d08e2bdada7d599476b"
+  },
+  "glm-5.2": {
+   "vocab": "glm5",
+   "vendor": "zhipu",
+   "hf": "zai-org/GLM-5.2",
+   "tokenizer_sha256": "19e773648cb4e65de8660ea6365e10acca112d42a854923df93db4a6f333a82d"
+  },
+  "glm-5.3": {
+   "vocab": "glm5",
+   "vendor": "zhipu",
+   "hf": "zai-org/GLM-5.3",
+   "tokenizer_sha256": "19e773648cb4e65de8660ea6365e10acca112d42a854923df93db4a6f333a82d"
+  },
+  "glm-5.3-flash": {
+   "vocab": "glm5",
+   "vendor": "zhipu",
+   "hf": "zai-org/GLM-5.3-Flash",
+   "tokenizer_sha256": "19e773648cb4e65de8660ea6365e10acca112d42a854923df93db4a6f333a82d"
+  },
+  "minimax-m3": {
+   "vocab": "minimax",
+   "vendor": "minimax",
+   "hf": "MiniMaxAI/MiniMax-M3",
+   "tokenizer_sha256": "bb1f1626cf01448f1e3b6036d0a061ffc66c91d9046aada14ea23a5441b5ad6e"
+  },
+  "minimax-m3.1-flash": {
+   "vocab": "minimax",
+   "vendor": "minimax",
+   "hf": "MiniMaxAI/MiniMax-M3.1-Flash",
+   "tokenizer_sha256": "bb1f1626cf01448f1e3b6036d0a061ffc66c91d9046aada14ea23a5441b5ad6e"
+  },
+  "step-5-preview": {
+   "vocab": "step3",
+   "vendor": "stepfun",
+   "hf": "stepfun-ai/Step-5-Preview",
+   "tokenizer_sha256": "b564c620eb77fa11d0926011c2202347d6cfc358d79724ee04ae7007e13636f0"
+  },
+  "hy3": {
+   "vocab": "hunyuan18",
+   "vendor": "tencent",
+   "hf": "tencent/Hy3",
+   "tokenizer_sha256": "446e0b59cd941637c0ddfd84e12ee1f49480fd12097f86a9d2fec8ebd0c7ff6c"
+  },
+  "hy4-preview": {
+   "vocab": null,
+   "vendor": "tencent",
+   "hf": "tencent/Hy4-preview",
+   "tokenizer_sha256": "ff67615de6e6ee073a20bd1fe3a776053e821573f4ae566aeb8e9d43de801201"
+  },
+  "longcat-2.0": {
+   "vocab": null,
+   "vendor": "meituan",
+   "hf": "meituan-longcat/LongCat-2.0",
+   "tokenizer_sha256": "7b1163a456094f3c86c1a32f7b4153d603c589f4c05c3aedbb4d8ad8e0419e7d"
+  },
+  "kimi-k2.7-code": {
+   "vocab": "kimi-k2",
+   "vendor": "moonshot",
+   "hf": "moonshotai/Kimi-K2.7-Code",
+   "tiktoken_sha256": "b6c497a7469b33ced9c38afb1ad6e47f03f5e5dc05f15930799210ec050c5103"
+  },
+  "claude-haiku-5-5": {
+   "vocab": null,
+   "vendor": "anthropic",
+   "note": "no published vocabulary"
+  },
+  "gemini-4-argon": {
+   "vocab": null,
+   "vendor": "google",
+   "note": "no published vocabulary"
+  },
+  "grok-4.7": {
+   "vocab": null,
+   "vendor": "xai",
+   "note": "no published vocabulary"
+  }
+ },
+ "observe": [
+  "kimi-k3",
+  "kimi-k3.1-pro"
+ ],
+ "not_listed_2026_11_07": [
+  "gemini-4-argon-contributor",
+  "glm-5.1",
+  "grok-4.6",
+  "kimi-k2.6",
+  "mimo-v2.5",
+  "mimo-v2.5-pro",
+  "minimax-m2.5",
+  "minimax-m2.7"
+ ],
+ "_correction_2026_11_07": "Measured under the registered truth first (commit 013da2b). The Kimi entries were wrong: the kimi-k2 candidate is in the set and its tiktoken.model is byte-identical to Kimi-K2.7-Code's and Kimi-K3's. kimi-k2.7-code now expects kimi-k2. kimi-k3 and kimi-k3.1-pro moved to observe: K3 ships the same vocabulary file with different tokenizer code and measured 6/12; K3.1 has no published files. mimo-v2.5 and mimo-v2.5-pro returned 410 deprecated."
 }

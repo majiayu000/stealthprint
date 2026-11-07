@@ -136,10 +136,6 @@ stealthprint catalog --family glm
 
 ---
 
-## 前人工作
-
-方法延续自：`iSimplifyMe/tokenizer-fingerprint`（95 探针 + 词表拉取）、`LuD1161/ox-alpha-identification-public`（44 鉴别串案卷）、`unclecode/modelprint`（浏览器探针）。本案在这些之上新增：异构后端池检测、视觉真值协议、wrapper 常数验证法、视频模态探针、同网关目录对照。
-
 ## License
 
 MIT
