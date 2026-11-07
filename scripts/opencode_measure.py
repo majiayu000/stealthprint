@@ -28,7 +28,8 @@ from stealthprint.survey import SURVEY_PROBES, BudgetExhausted, RequestBudget, _
 
 AGENT_CONFIG = {
     "$schema": "https://opencode.ai/config.json",
-    "agent": {"probe": {"mode": "primary", "description": "token-count probe, no tools",
+    # opencode otherwise sends a second model request per run to write a session title.
+    "agent": {"title": {"disable": True}, "probe": {"mode": "primary", "description": "token-count probe, no tools",
                         "prompt": "Reply with the single word: ok", "tools": {"*": False}}},
 }
 
