@@ -217,10 +217,6 @@ stealthprint --base-url http://127.0.0.1:8898/v1 --model <free-model> --api-key 
 
 - **pixel-canary — 身份未确定**（2026-09-26）：候选词表与具名模型对照尚未确定身份，见[调查记录与测量数据](docs/case-pixel-canary.zh-CN.md)，包含失败对照和推断边界。
 
-## 前人工作
-
-方法延续自 `iSimplifyMe/tokenizer-fingerprint`、`LuD1161/ox-alpha-identification-public`、`unclecode/modelprint`。stealthprint 新增：异构后端检测、视觉真值协议、wrapper 常数验证法、视频模态探针、同网关目录对照、多语言探针集。
-
 ## License
 
 MIT

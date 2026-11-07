@@ -267,14 +267,6 @@ Worked cases and an unresolved investigation, with measurement details:
 
 - **pixel-canary — identity unresolved** (2026-09-26): candidate-tokenizer and named-model comparisons did not establish identity. See the [Chinese investigation and measurement links](docs/case-pixel-canary.zh-CN.md) for limits and unsuccessful comparisons.
 
-## Prior art
-
-Methodology builds on `iSimplifyMe/tokenizer-fingerprint`,
-`LuD1161/ox-alpha-identification-public`, and `unclecode/modelprint`.
-stealthprint adds: heterogeneous-backend detection, vision ground-truth
-protocol, wrapper-constant verification, video modality probes, same-gateway
-catalog A/B, and multilingual probe sets.
-
 ## License
 
 MIT
