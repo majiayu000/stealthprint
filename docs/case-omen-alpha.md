@@ -184,14 +184,6 @@ emoji density. Stealth models' self-introductions are frequently bait.
 
 ---
 
-## Prior art
-
-Methodology extends: `iSimplifyMe/tokenizer-fingerprint` (95 probes + vocab
-fetching), `LuD1161/ox-alpha-identification-public` (44 discrimination strings),
-`unclecode/modelprint` (browser probes). This case adds: heterogeneous-backend
-pool detection, vision ground-truth protocol, wrapper-constant verification,
-video modality probes, and same-gateway catalog A/B.
-
 ## License
 
 MIT
