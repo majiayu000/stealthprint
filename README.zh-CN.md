@@ -72,7 +72,7 @@ stealthprint survey --out census.jsonl     # 网关普查：目录可达性分�
                                            # jsonl 断点续跑、Muse 系 /responses 自动回退）
 ```
 
-也可以每条命令显式传参：`stealthprint --base-url ... --model ... --api-key ... tokenizer`。全局 flag 放在子命令前后都可以。加 `--json` 后 stdout 只输出 JSON，进度写入 stderr；`--record requests.jsonl` 逐请求保存时间、输入、原始响应和错误，不记录认证头。
+也可以每条命令显式传参：`stealthprint --base-url ... --model ... --api-key ... tokenizer`。全局 flag 放在子命令前后都可以。加 `--json` 后 stdout 只输出 JSON，进度写入 stderr；`--record requests.jsonl` 逐请求保存时间、输入、原始响应和错误，不记录认证头。响应头只存名称，取值仅保留 `content-type`、`server`、`via`、`x-powered-by` 和 `x-*-model`，cookie 和追踪 ID 不落盘。
 
 ## 监测模型目录
 
@@ -156,7 +156,7 @@ CATALOGS["ja"] = {"cli.tok": "L1 トークナイザ差分 ...", ...}
 | L4b 错误泄露 | `leaks` | 非法参数的上游报错原文：推理框架（SGLang/vLLM）、PD 分离、Rust serde、各厂商官方 API 签名，以及泄露的输出/上下文上限 |
 | L6b 视觉网格 | `vision-grid` | 7 个尺寸的图片 token 开销，拟合 `ceil(w/p)*ceil(h/p)+c`；补丁尺寸、常数和是否缩放都是编码器指纹 |
 | 计数自检 | `count-check` | usage 是不是真词表计数：单字母同价、拼接可叠加、重复一致；不通过（退出码 1）时，L1 和视觉计数既不能认定也不能排除模型 |
-| 档案 | `profile` / `match` | 一次跑计数自检+L1+L1b+L4b+L6b 写入 `fingerprints/<model>.json`；`match` 离线与指纹库逐层比对（见 [fingerprints/README.md](fingerprints/README.md)） |
+| 档案 | `profile` / `match` | 一次跑计数自检+L1+L1b+L4b+L6b 写入 `fingerprints/<model>.json`；`match` 离线与指纹库逐层比对，退出码 0 为匹配、3 为未匹配、4 为证据不足（见 [fingerprints/README.md](fingerprints/README.md)） |
 | 截断边界 | `truncation` | 看 `max_tokens` 把复述切断在哪，读出真实 token 边界，usage 不可信时也能用。所有断点都在边界上且不超预算，词表才算通过。会自动选最低可用的 `reasoning_effort`，思考吃掉预算时自动放大。通过不等于唯一证明：别的词表可能恰好切得一样 |
 | 复测 | `sentinel` | 低成本重测已有档案（约 25 次请求）：`unchanged`、`changed`（退出码 1）或 `unverifiable`。需要自己定时，比如 cron 加 `--out sentinel.jsonl`；每次都消耗额度 |
 

@@ -74,7 +74,8 @@
   "hunyuan18": "tencent",
   "qwen3next": "qwen",
   "baichuan": "baichuan",
-  "dotsllm1": "rednote"
+  "dotsllm1": "rednote",
+  "kimi-k2": "moonshot"
  },
  "models": {
   "deepseek-v4-pro": {
@@ -106,18 +107,6 @@
    "vendor": "zhipu",
    "hf": "zai-org/GLM-5.3-Flash",
    "tokenizer_sha256": "19e773648cb4e65de8660ea6365e10acca112d42a854923df93db4a6f333a82d"
-  },
-  "mimo-v2.5": {
-   "vocab": "mimo-v2.5",
-   "vendor": "xiaomi",
-   "hf": "XiaomiMiMo/MiMo-V2.5",
-   "tokenizer_sha256": "633518aad78f9f61bae2ae420d621215754a4424c918b052cd8c22a3b59e99d2"
-  },
-  "mimo-v2.5-pro": {
-   "vocab": "mimo-v2.5",
-   "vendor": "xiaomi",
-   "hf": "XiaomiMiMo/MiMo-V2.5-Pro",
-   "tokenizer_sha256": "cdd40b08814d626d2ab1eb36c7ca66521a96bce4d478cf1375a4d45fe03e1cf9"
   },
   "minimax-m3": {
    "vocab": "minimax",
@@ -155,20 +144,11 @@
    "hf": "meituan-longcat/LongCat-2.0",
    "tokenizer_sha256": "7b1163a456094f3c86c1a32f7b4153d603c589f4c05c3aedbb4d8ad8e0419e7d"
   },
-  "kimi-k3": {
-   "vocab": null,
-   "vendor": "moonshot",
-   "note": "tiktoken-format vocabulary, not in the candidate set"
-  },
-  "kimi-k3.1-pro": {
-   "vocab": null,
-   "vendor": "moonshot",
-   "note": "no published vocabulary; earlier Kimi vocabularies are tiktoken-format and not in the candidate set"
-  },
   "kimi-k2.7-code": {
-   "vocab": null,
+   "vocab": "kimi-k2",
    "vendor": "moonshot",
-   "note": "tiktoken-format vocabulary, not in the candidate set"
+   "hf": "moonshotai/Kimi-K2.7-Code",
+   "tiktoken_sha256": "b6c497a7469b33ced9c38afb1ad6e47f03f5e5dc05f15930799210ec050c5103"
   },
   "claude-haiku-5-5": {
    "vocab": null,
@@ -186,13 +166,19 @@
    "note": "no published vocabulary"
   }
  },
- "observe": [],
+ "observe": [
+  "kimi-k3",
+  "kimi-k3.1-pro"
+ ],
  "not_listed_2026_11_07": [
   "gemini-4-argon-contributor",
   "glm-5.1",
   "grok-4.6",
   "kimi-k2.6",
+  "mimo-v2.5",
+  "mimo-v2.5-pro",
   "minimax-m2.5",
   "minimax-m2.7"
- ]
+ ],
+ "_correction_2026_11_07": "Measured under the registered truth first (commit 013da2b). The Kimi entries were wrong: the kimi-k2 candidate is in the set and its tiktoken.model is byte-identical to Kimi-K2.7-Code's and Kimi-K3's. kimi-k2.7-code now expects kimi-k2. kimi-k3 and kimi-k3.1-pro moved to observe: K3 ships the same vocabulary file with different tokenizer code and measured 6/12; K3.1 has no published files. mimo-v2.5 and mimo-v2.5-pro returned 410 deprecated."
 }

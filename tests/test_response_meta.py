@@ -31,6 +31,7 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("Server", "edge-1")
         self.send_header("Set-Cookie", "session=COOKIESECRET")
         self.send_header("X-Request-Id", "TRACESECRET")
+        self.send_header("X-Zen-Model", "upstream-7")
         self.send_header("Content-Type", "application/json")
         self.end_headers()
         self.wfile.write(json.dumps(BODY).encode())
@@ -56,6 +57,7 @@ class CaptureTests(unittest.TestCase):
             row = json.loads(path.read_text())
         headers = row["response_headers"]
         self.assertEqual(headers["server"], "edge-1")
+        self.assertEqual(headers["x-zen-model"], "upstream-7")
         self.assertIsNone(headers["set-cookie"])
         self.assertIsNone(headers["x-request-id"])
         self.assertNotIn("COOKIESECRET", json.dumps(headers))

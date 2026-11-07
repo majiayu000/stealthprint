@@ -41,7 +41,7 @@ def retryable(error):
     return bool((error or {}).get('transport_error')) or status is None or status == 429 or (isinstance(status, int) and status >= 500)
 
 
-# Header values kept verbatim. Every other header is recorded by name only, so
+# Header values kept verbatim, along with x-...-model. Every other header is recorded by name only, so
 # cookies, trace ids and account hints never reach a saved file.
 RESPONSE_HEADER_VALUES = frozenset({'content-type', 'server', 'via', 'x-powered-by'})
 _ID_PREFIX = re.compile(r'^([A-Za-z]+[-_])')
@@ -52,7 +52,9 @@ def response_headers(headers):
     out = {}
     for name in (headers.keys() if headers is not None else ()):
         low = name.lower()
-        out[low] = headers.get(name)[:120] if low in RESPONSE_HEADER_VALUES and headers.get(name) else None
+        # A gateway's own routing header (x-...-model) says what it claims to have served.
+        keep = low in RESPONSE_HEADER_VALUES or (low.startswith('x-') and low.endswith('-model'))
+        out[low] = headers.get(name)[:120] if keep and headers.get(name) else None
     return out
 
 

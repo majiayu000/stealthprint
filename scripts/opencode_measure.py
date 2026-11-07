@@ -61,7 +61,10 @@ def prompt_tokens(model, text, config, workdir, timeout=300):
         except ValueError:
             continue
         if event.get("type") == "error":
-            return None, json.dumps(event.get("error"))[:300]
+            error = event.get("error") or {}
+            data = error.get("data") or {}  # data.responseHeaders is left out of saved rows
+            return None, json.dumps({"name": error.get("name"), "message": data.get("message"),
+                                     "statusCode": data.get("statusCode")})[:300]
         if event.get("type") == "step_finish":
             tokens = event["part"].get("tokens") or {}
             cache = tokens.get("cache") or {}
