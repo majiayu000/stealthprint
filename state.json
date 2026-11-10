@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-09T20:48:45.868641+00:00",
+  "checked_at": "2026-11-10T02:59:00.989990+00:00",
   "events": [
     {
       "after": {
@@ -114970,12 +114970,2294 @@
       "observed_at": "2026-11-09T20:48:45.868641+00:00",
       "published_at": null,
       "source_id": "anthropic-sdk"
+    },
+    {
+      "after": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "DeepSeek"
+        },
+        "canonical_slug": "deepseek/deepseek-v4-pro-20260423",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "DeepSeek: DeepSeek V4 Pro 0423",
+        "pricing": {
+          "completion": "0.00000191052",
+          "input_cache_read": "0.000000079605",
+          "prompt": "0.00000095526"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_completion_tokens",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/deepseek/deepseek-v4-pro"
+      },
+      "before": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "DeepSeek"
+        },
+        "canonical_slug": "deepseek/deepseek-v4-pro-20260423",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "DeepSeek: DeepSeek V4 Pro 0423",
+        "pricing": {
+          "completion": "0.000001777932",
+          "input_cache_read": "0.0000000740805",
+          "prompt": "0.000000888966"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_completion_tokens",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/deepseek/deepseek-v4-pro"
+      },
+      "before_evidence": "evidence/4fdfe671864a1e148da338351afa0cbf5255c495312958d36d8847920bc918cb.json.gz",
+      "entity_id": "deepseek/deepseek-v4-pro",
+      "evidence": "evidence/d27b461684b2323f3a26f6c3285fb8626e505e80a0edfa476e99e3e077bc6826.json.gz",
+      "id": "8758dbe191de4820e62ddd3a",
+      "kind": "changed",
+      "observed_at": "2026-11-10T02:59:00.989990+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "image",
+            "text",
+            "video"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+video->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Gemma"
+        },
+        "canonical_slug": "google/gemma-4-26b-a4b-it-20260403",
+        "context_length": 262144,
+        "expiration_date": null,
+        "name": "Google: Gemma 4 26B A4B ",
+        "pricing": {
+          "completion": "0.0000001",
+          "input_cache_read": "0.000000046",
+          "prompt": "0.00000008"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_completion_tokens",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/google/gemma-4-26b-a4b-it"
+      },
+      "before": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "image",
+            "text",
+            "video"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+video->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Gemma"
+        },
+        "canonical_slug": "google/gemma-4-26b-a4b-it-20260403",
+        "context_length": 262144,
+        "expiration_date": null,
+        "name": "Google: Gemma 4 26B A4B ",
+        "pricing": {
+          "completion": "0.000000255",
+          "input_cache_read": "0.0000000425",
+          "prompt": "0.0000000765"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_completion_tokens",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/google/gemma-4-26b-a4b-it"
+      },
+      "before_evidence": "evidence/4fdfe671864a1e148da338351afa0cbf5255c495312958d36d8847920bc918cb.json.gz",
+      "entity_id": "google/gemma-4-26b-a4b-it",
+      "evidence": "evidence/d27b461684b2323f3a26f6c3285fb8626e505e80a0edfa476e99e3e077bc6826.json.gz",
+      "id": "0d1df3464cfaaf1e1f19b01d",
+      "kind": "changed",
+      "observed_at": "2026-11-10T02:59:00.989990+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": "llama3",
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Llama3"
+        },
+        "canonical_slug": "meta-llama/llama-3.3-70b-instruct",
+        "context_length": 131072,
+        "expiration_date": null,
+        "name": "Meta: Llama 3.3 70B Instruct",
+        "pricing": {
+          "completion": "0.00000071",
+          "input_cache_read": "0.00000071",
+          "prompt": "0.00000071"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/meta-llama/llama-3.3-70b-instruct"
+      },
+      "before": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": "llama3",
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Llama3"
+        },
+        "canonical_slug": "meta-llama/llama-3.3-70b-instruct",
+        "context_length": 131072,
+        "expiration_date": null,
+        "name": "Meta: Llama 3.3 70B Instruct",
+        "pricing": {
+          "completion": "0.00000079",
+          "input_cache_read": "0.000000295",
+          "prompt": "0.00000059"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/meta-llama/llama-3.3-70b-instruct"
+      },
+      "before_evidence": "evidence/4fdfe671864a1e148da338351afa0cbf5255c495312958d36d8847920bc918cb.json.gz",
+      "entity_id": "meta-llama/llama-3.3-70b-instruct",
+      "evidence": "evidence/d27b461684b2323f3a26f6c3285fb8626e505e80a0edfa476e99e3e077bc6826.json.gz",
+      "id": "b1efc243ea1db3acdb690300",
+      "kind": "changed",
+      "observed_at": "2026-11-10T02:59:00.989990+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image",
+            "video"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+video->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "minimax/minimax-m3.1-flash-20261019",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "MiniMax: MiniMax M3.1 Flash",
+        "pricing": {
+          "completion": "0.0000006",
+          "input_cache_read": "0.000000015",
+          "overrides": [
+            {
+              "completion": "0.0000003",
+              "input_cache_read": "0.0000000075",
+              "prompt": "0.000000075",
+              "utc_end": 100,
+              "utc_start": 1500
+            },
+            {
+              "completion": "0.0000006",
+              "input_cache_read": "0.000000015",
+              "prompt": "0.00000015",
+              "utc_end": 1500,
+              "utc_start": 100
+            }
+          ],
+          "prompt": "0.00000015"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/minimax/minimax-m3.1-flash"
+      },
+      "before": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image",
+            "video"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+video->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "minimax/minimax-m3.1-flash-20261019",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "MiniMax: MiniMax M3.1 Flash",
+        "pricing": {
+          "completion": "0.0000003",
+          "input_cache_read": "0.0000000075",
+          "overrides": [
+            {
+              "completion": "0.0000003",
+              "input_cache_read": "0.0000000075",
+              "prompt": "0.000000075",
+              "utc_end": 100,
+              "utc_start": 1500
+            },
+            {
+              "completion": "0.0000006",
+              "input_cache_read": "0.000000015",
+              "prompt": "0.00000015",
+              "utc_end": 1500,
+              "utc_start": 100
+            }
+          ],
+          "prompt": "0.000000075"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/minimax/minimax-m3.1-flash"
+      },
+      "before_evidence": "evidence/4fdfe671864a1e148da338351afa0cbf5255c495312958d36d8847920bc918cb.json.gz",
+      "entity_id": "minimax/minimax-m3.1-flash",
+      "evidence": "evidence/d27b461684b2323f3a26f6c3285fb8626e505e80a0edfa476e99e3e077bc6826.json.gz",
+      "id": "4370bd34c1296706e4892f5a",
+      "kind": "changed",
+      "observed_at": "2026-11-10T02:59:00.989990+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "GPT"
+        },
+        "canonical_slug": "openai/gpt-oss-20b",
+        "context_length": 131072,
+        "expiration_date": null,
+        "name": "OpenAI: gpt-oss-20b",
+        "pricing": {
+          "completion": "0.00000013",
+          "input_cache_read": "0.00000003",
+          "prompt": "0.00000003"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/openai/gpt-oss-20b"
+      },
+      "before": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "GPT"
+        },
+        "canonical_slug": "openai/gpt-oss-20b",
+        "context_length": 131072,
+        "expiration_date": null,
+        "name": "OpenAI: gpt-oss-20b",
+        "pricing": {
+          "completion": "0.00000009",
+          "input_cache_read": "0.000000009",
+          "prompt": "0.000000018"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/openai/gpt-oss-20b"
+      },
+      "before_evidence": "evidence/4fdfe671864a1e148da338351afa0cbf5255c495312958d36d8847920bc918cb.json.gz",
+      "entity_id": "openai/gpt-oss-20b",
+      "evidence": "evidence/d27b461684b2323f3a26f6c3285fb8626e505e80a0edfa476e99e3e077bc6826.json.gz",
+      "id": "bd2ce2bd677158f11fd86a6a",
+      "kind": "changed",
+      "observed_at": "2026-11-10T02:59:00.989990+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": "qwen3",
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Qwen3"
+        },
+        "canonical_slug": "qwen/qwen3-14b-04-28",
+        "context_length": 40960,
+        "expiration_date": null,
+        "name": "Qwen: Qwen3 14B",
+        "pricing": {
+          "completion": "0.00000022",
+          "prompt": "0.0000001"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/qwen/qwen3-14b"
+      },
+      "before": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": "qwen3",
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Qwen3"
+        },
+        "canonical_slug": "qwen/qwen3-14b-04-28",
+        "context_length": 40960,
+        "expiration_date": null,
+        "name": "Qwen: Qwen3 14B",
+        "pricing": {
+          "completion": "0.00000024",
+          "prompt": "0.00000012"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/qwen/qwen3-14b"
+      },
+      "before_evidence": "evidence/4fdfe671864a1e148da338351afa0cbf5255c495312958d36d8847920bc918cb.json.gz",
+      "entity_id": "qwen/qwen3-14b",
+      "evidence": "evidence/d27b461684b2323f3a26f6c3285fb8626e505e80a0edfa476e99e3e077bc6826.json.gz",
+      "id": "d62b4bd7ca3792fbee123256",
+      "kind": "changed",
+      "observed_at": "2026-11-10T02:59:00.989990+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "ricursiveai/ripple-65b-preview-20261104",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "Ricursive: Ripple 65B Preview",
+        "pricing": {
+          "completion": "0.0000006",
+          "input_cache_read": "0.00000005",
+          "prompt": "0.0000002"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/ricursiveai/ripple-65b-preview"
+      },
+      "before": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "ricursiveai/ripple-65b-preview-20261104",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "Ricursive: Ripple 65B Preview",
+        "pricing": {
+          "completion": "0.0000006",
+          "input_cache_read": "0.00000005",
+          "prompt": "0.0000002"
+        },
+        "supported_parameters": [
+          "include_reasoning",
+          "logprobs",
+          "max_tokens",
+          "reasoning",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/ricursiveai/ripple-65b-preview"
+      },
+      "before_evidence": "evidence/4fdfe671864a1e148da338351afa0cbf5255c495312958d36d8847920bc918cb.json.gz",
+      "entity_id": "ricursiveai/ripple-65b-preview",
+      "evidence": "evidence/d27b461684b2323f3a26f6c3285fb8626e505e80a0edfa476e99e3e077bc6826.json.gz",
+      "id": "2c54ccacd8be1c96826ce32d",
+      "kind": "changed",
+      "observed_at": "2026-11-10T02:59:00.989990+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": null,
+      "before": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image",
+            "video",
+            "file",
+            "audio"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+file+audio+video->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "stealth/crouton-alpha",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "Crouton Alpha",
+        "pricing": {
+          "completion": "0",
+          "prompt": "0"
+        },
+        "supported_parameters": [
+          "include_reasoning",
+          "max_tokens",
+          "reasoning",
+          "reasoning_effort",
+          "response_format",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/stealth/crouton-alpha"
+      },
+      "before_evidence": "evidence/4fdfe671864a1e148da338351afa0cbf5255c495312958d36d8847920bc918cb.json.gz",
+      "entity_id": "stealth/crouton-alpha",
+      "evidence": "evidence/d27b461684b2323f3a26f6c3285fb8626e505e80a0edfa476e99e3e077bc6826.json.gz",
+      "id": "66cba8526de1a5323dc0827f",
+      "kind": "missing",
+      "observed_at": "2026-11-10T02:59:00.989990+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "tencent/hy3-20260706",
+        "context_length": 262144,
+        "expiration_date": null,
+        "name": "Tencent: Hy3",
+        "pricing": {
+          "completion": "0.000000528",
+          "input_cache_read": "0.000000033",
+          "overrides": [
+            {
+              "completion": "0.000000528",
+              "input_cache_read": "0.000000033",
+              "prompt": "0.000000132",
+              "utc_end": 1600,
+              "utc_start": 0
+            },
+            {
+              "completion": "0.00000033",
+              "input_cache_read": "0.000000020625",
+              "prompt": "0.0000000825",
+              "utc_end": 0,
+              "utc_start": 1600
+            }
+          ],
+          "prompt": "0.000000132"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "max_completion_tokens",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/tencent/hy3"
+      },
+      "before": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "tencent/hy3-20260706",
+        "context_length": 262144,
+        "expiration_date": null,
+        "name": "Tencent: Hy3",
+        "pricing": {
+          "completion": "0.00000033",
+          "input_cache_read": "0.000000020625",
+          "overrides": [
+            {
+              "completion": "0.000000528",
+              "input_cache_read": "0.000000033",
+              "prompt": "0.000000132",
+              "utc_end": 1600,
+              "utc_start": 0
+            },
+            {
+              "completion": "0.00000033",
+              "input_cache_read": "0.000000020625",
+              "prompt": "0.0000000825",
+              "utc_end": 0,
+              "utc_start": 1600
+            }
+          ],
+          "prompt": "0.0000000825"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "max_completion_tokens",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/tencent/hy3"
+      },
+      "before_evidence": "evidence/4fdfe671864a1e148da338351afa0cbf5255c495312958d36d8847920bc918cb.json.gz",
+      "entity_id": "tencent/hy3",
+      "evidence": "evidence/d27b461684b2323f3a26f6c3285fb8626e505e80a0edfa476e99e3e077bc6826.json.gz",
+      "id": "142343e0ff649001531cbd54",
+      "kind": "changed",
+      "observed_at": "2026-11-10T02:59:00.989990+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "tencent/hy4-preview-20260827",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "Tencent: Hy4 preview",
+        "pricing": {
+          "completion": "0.000002501",
+          "input_cache_read": "0.000000042",
+          "overrides": [
+            {
+              "completion": "0.000002501",
+              "input_cache_read": "0.000000042",
+              "prompt": "0.000000834",
+              "utc_end": 1600,
+              "utc_start": 0
+            },
+            {
+              "completion": "0.0000022509",
+              "input_cache_read": "0.0000000378",
+              "prompt": "0.0000007506",
+              "utc_end": 0,
+              "utc_start": 1600
+            }
+          ],
+          "prompt": "0.000000834"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_completion_tokens",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/tencent/hy4-preview"
+      },
+      "before": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "tencent/hy4-preview-20260827",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "Tencent: Hy4 preview",
+        "pricing": {
+          "completion": "0.0000022509",
+          "input_cache_read": "0.0000000378",
+          "overrides": [
+            {
+              "completion": "0.000002501",
+              "input_cache_read": "0.000000042",
+              "prompt": "0.000000834",
+              "utc_end": 1600,
+              "utc_start": 0
+            },
+            {
+              "completion": "0.0000022509",
+              "input_cache_read": "0.0000000378",
+              "prompt": "0.0000007506",
+              "utc_end": 0,
+              "utc_start": 1600
+            }
+          ],
+          "prompt": "0.0000007506"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_completion_tokens",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/tencent/hy4-preview"
+      },
+      "before_evidence": "evidence/4fdfe671864a1e148da338351afa0cbf5255c495312958d36d8847920bc918cb.json.gz",
+      "entity_id": "tencent/hy4-preview",
+      "evidence": "evidence/d27b461684b2323f3a26f6c3285fb8626e505e80a0edfa476e99e3e077bc6826.json.gz",
+      "id": "4ab39c09d676b17f558458e9",
+      "kind": "changed",
+      "observed_at": "2026-11-10T02:59:00.989990+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image"
+          ],
+          "instruct_type": null,
+          "modality": "text+image->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "thinkingmachines/inkling-2-small-20261107",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "Thinking Machines: Inkling 2 Small (free)",
+        "pricing": {
+          "completion": "0",
+          "prompt": "0"
+        },
+        "supported_parameters": [
+          "include_reasoning",
+          "max_tokens",
+          "reasoning",
+          "reasoning_effort",
+          "seed",
+          "stop",
+          "temperature",
+          "tools",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/thinkingmachines/inkling-2-small:free"
+      },
+      "before": null,
+      "before_evidence": "evidence/4fdfe671864a1e148da338351afa0cbf5255c495312958d36d8847920bc918cb.json.gz",
+      "entity_id": "thinkingmachines/inkling-2-small:free",
+      "evidence": "evidence/d27b461684b2323f3a26f6c3285fb8626e505e80a0edfa476e99e3e077bc6826.json.gz",
+      "id": "6372234b658f09f508f14e56",
+      "kind": "added",
+      "observed_at": "2026-11-10T02:59:00.989990+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0,
+          "input": 0,
+          "output": 0
+        },
+        "limit": {
+          "context": 1048576,
+          "output": 270000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "video",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Crouton Alpha Free",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0,
+          "input": 0,
+          "output": 0
+        },
+        "limit": {
+          "context": 1048576,
+          "output": 270000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "video",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Crouton Alpha Free",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/ab24bfef2587859d7a3447f71a4ee8fe10821282a12aafdde6d13e9c80fd384d.json.gz",
+      "entity_id": "crouton-alpha-free",
+      "evidence": "evidence/12d6f36932ce2a5ba290ef3eb6e25e8aa18a2c003ebcdd56b61bbe7bc343a3c1.json.gz",
+      "id": "39d4308f6bf578e3b1fc4ac7",
+      "kind": "changed",
+      "observed_at": "2026-11-10T02:59:00.989990+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "google/gemini-3.6-flash",
+        "cost": {
+          "cache_read": 0.075,
+          "input": 0.75,
+          "input_audio": 0.75,
+          "output": 3.75
+        },
+        "limit": {
+          "context": 1048576,
+          "output": 65536
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "video",
+            "audio",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Gemini 3.6 Flash",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": "google/gemini-3.6-flash",
+        "cost": {
+          "cache_read": 0.15,
+          "input": 1.5,
+          "input_audio": 1.5,
+          "output": 7.5
+        },
+        "limit": {
+          "context": 1048576,
+          "output": 65536
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "video",
+            "audio",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Gemini 3.6 Flash",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/ab24bfef2587859d7a3447f71a4ee8fe10821282a12aafdde6d13e9c80fd384d.json.gz",
+      "entity_id": "gemini-3.6-flash",
+      "evidence": "evidence/12d6f36932ce2a5ba290ef3eb6e25e8aa18a2c003ebcdd56b61bbe7bc343a3c1.json.gz",
+      "id": "1f33e9c264abec29ce4771ab",
+      "kind": "changed",
+      "observed_at": "2026-11-10T02:59:00.989990+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "google/gemini-3.7-flash",
+        "cost": {
+          "cache_read": 0.075,
+          "input": 0.75,
+          "input_audio": 0.75,
+          "output": 3.75
+        },
+        "limit": {
+          "context": 1048576,
+          "output": 65536
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "video",
+            "audio",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Gemini 3.7 Flash",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": "google/gemini-3.7-flash",
+        "cost": {
+          "cache_read": 0.15,
+          "input": 1.5,
+          "input_audio": 1.5,
+          "output": 7.5
+        },
+        "limit": {
+          "context": 1048576,
+          "output": 65536
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "video",
+            "audio",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Gemini 3.7 Flash",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/ab24bfef2587859d7a3447f71a4ee8fe10821282a12aafdde6d13e9c80fd384d.json.gz",
+      "entity_id": "gemini-3.7-flash",
+      "evidence": "evidence/12d6f36932ce2a5ba290ef3eb6e25e8aa18a2c003ebcdd56b61bbe7bc343a3c1.json.gz",
+      "id": "88cd3840d6a961f49b6eca17",
+      "kind": "changed",
+      "observed_at": "2026-11-10T02:59:00.989990+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "google/gemini-3.8-flash",
+        "cost": {
+          "cache_read": 0.075,
+          "input": 0.75,
+          "input_audio": 0.75,
+          "output": 3.75
+        },
+        "limit": {
+          "context": 1048576,
+          "output": 65536
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "video",
+            "audio",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Gemini 3.8 Flash",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": "google/gemini-3.8-flash",
+        "cost": {
+          "cache_read": 0.15,
+          "input": 1.5,
+          "input_audio": 1.5,
+          "output": 7.5
+        },
+        "limit": {
+          "context": 1048576,
+          "output": 65536
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "video",
+            "audio",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Gemini 3.8 Flash",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/ab24bfef2587859d7a3447f71a4ee8fe10821282a12aafdde6d13e9c80fd384d.json.gz",
+      "entity_id": "gemini-3.8-flash",
+      "evidence": "evidence/12d6f36932ce2a5ba290ef3eb6e25e8aa18a2c003ebcdd56b61bbe7bc343a3c1.json.gz",
+      "id": "a24f305de841e26df53cd143",
+      "kind": "changed",
+      "observed_at": "2026-11-10T02:59:00.989990+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "minimax/MiniMax-M3.1-Flash",
+        "cost": {
+          "cache_read": 0,
+          "input": 0,
+          "output": 0
+        },
+        "limit": {
+          "context": 1000000,
+          "output": 512000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "video"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "MiniMax M3.1 Flash Free",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": "minimax/MiniMax-M3.1-Flash",
+        "cost": {
+          "cache_read": 0,
+          "input": 0,
+          "output": 0
+        },
+        "limit": {
+          "context": 1000000,
+          "output": 512000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "video"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "MiniMax M3.1 Flash Free",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/ab24bfef2587859d7a3447f71a4ee8fe10821282a12aafdde6d13e9c80fd384d.json.gz",
+      "entity_id": "minimax-m3.1-flash-free",
+      "evidence": "evidence/12d6f36932ce2a5ba290ef3eb6e25e8aa18a2c003ebcdd56b61bbe7bc343a3c1.json.gz",
+      "id": "f94cdbf0fac19e844a7bac57",
+      "kind": "changed",
+      "observed_at": "2026-11-10T02:59:00.989990+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "meta/muse-ember-1.0",
+        "cost": {
+          "cache_read": 0.004,
+          "cache_write": 0,
+          "input": 0.1,
+          "output": 0.5
+        },
+        "limit": {
+          "context": 1048576,
+          "output": 270000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "video",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Muse Ember 1.0",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": null,
+        "cost": {
+          "cache_read": 0.004,
+          "cache_write": 0,
+          "input": 0.1,
+          "output": 0.5
+        },
+        "limit": {
+          "context": 1048576,
+          "output": 270000
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "video",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Muse Ember 1.0",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/ab24bfef2587859d7a3447f71a4ee8fe10821282a12aafdde6d13e9c80fd384d.json.gz",
+      "entity_id": "muse-ember-1.0",
+      "evidence": "evidence/12d6f36932ce2a5ba290ef3eb6e25e8aa18a2c003ebcdd56b61bbe7bc343a3c1.json.gz",
+      "id": "7a8de799207f1dc4e995dd36",
+      "kind": "changed",
+      "observed_at": "2026-11-10T02:59:00.989990+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "files": [
+          ".gitattributes",
+          "LICENSE",
+          "README.md",
+          "chat_template.jinja",
+          "config.json",
+          "encoding/README.md",
+          "encoding/encoding.py",
+          "encoding/test_encoding.py",
+          "encoding/tests/test_input_1.json",
+          "encoding/tests/test_input_2.json",
+          "encoding/tests/test_input_3.json",
+          "encoding/tests/test_input_4.json",
+          "encoding/tests/test_input_5.json",
+          "encoding/tests/test_output_1.txt",
+          "encoding/tests/test_output_2.txt",
+          "encoding/tests/test_output_3.txt",
+          "encoding/tests/test_output_4.txt",
+          "encoding/tests/test_output_5.txt",
+          "inference/README.md",
+          "inference/config.json",
+          "inference/convert.py",
+          "inference/engram.py",
+          "inference/examples/example.txt",
+          "inference/examples/example_harmony.json",
+          "inference/examples/images/carrots.jpeg",
+          "inference/examples/images/corn.jpeg",
+          "inference/generate.py",
+          "inference/image_processor.py",
+          "inference/kernel.py",
+          "inference/model.py",
+          "inference/requirements.txt",
+          "inference/run.sh",
+          "inference/vision.py",
+          "model-00001-of-00048.safetensors",
+          "model-00002-of-00048.safetensors",
+          "model-00003-of-00048.safetensors",
+          "model-00004-of-00048.safetensors",
+          "model-00005-of-00048.safetensors",
+          "model-00006-of-00048.safetensors",
+          "model-00007-of-00048.safetensors",
+          "model-00008-of-00048.safetensors",
+          "model-00009-of-00048.safetensors",
+          "model-00010-of-00048.safetensors",
+          "model-00011-of-00048.safetensors",
+          "model-00012-of-00048.safetensors",
+          "model-00013-of-00048.safetensors",
+          "model-00014-of-00048.safetensors",
+          "model-00015-of-00048.safetensors",
+          "model-00016-of-00048.safetensors",
+          "model-00017-of-00048.safetensors",
+          "model-00018-of-00048.safetensors",
+          "model-00019-of-00048.safetensors",
+          "model-00020-of-00048.safetensors",
+          "model-00021-of-00048.safetensors",
+          "model-00022-of-00048.safetensors",
+          "model-00023-of-00048.safetensors",
+          "model-00024-of-00048.safetensors",
+          "model-00025-of-00048.safetensors",
+          "model-00026-of-00048.safetensors",
+          "model-00027-of-00048.safetensors",
+          "model-00028-of-00048.safetensors",
+          "model-00029-of-00048.safetensors",
+          "model-00030-of-00048.safetensors",
+          "model-00031-of-00048.safetensors",
+          "model-00032-of-00048.safetensors",
+          "model-00033-of-00048.safetensors",
+          "model-00034-of-00048.safetensors",
+          "model-00035-of-00048.safetensors",
+          "model-00036-of-00048.safetensors",
+          "model-00037-of-00048.safetensors",
+          "model-00038-of-00048.safetensors",
+          "model-00039-of-00048.safetensors",
+          "model-00040-of-00048.safetensors",
+          "model-00041-of-00048.safetensors",
+          "model-00042-of-00048.safetensors",
+          "model-00043-of-00048.safetensors",
+          "model-00044-of-00048.safetensors",
+          "model-00045-of-00048.safetensors",
+          "model-00046-of-00048.safetensors",
+          "model-00047-of-00048.safetensors",
+          "model-00048-of-00048.safetensors",
+          "model.safetensors.index.json",
+          "tokenizer.json",
+          "tokenizer_config.json"
+        ],
+        "gated": false,
+        "name": "deepseek-ai/DeepSeek-V4.1-Flash-1017",
+        "pipeline_tag": "image-text-to-text",
+        "revision": "08c8657f02291e11b6f6b63e0e16014f8e748518",
+        "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash-1017"
+      },
+      "before": {
+        "files": [
+          ".gitattributes",
+          "LICENSE",
+          "README.md",
+          "config.json",
+          "encoding/README.md",
+          "encoding/encoding.py",
+          "encoding/test_encoding.py",
+          "encoding/tests/test_input_1.json",
+          "encoding/tests/test_input_2.json",
+          "encoding/tests/test_input_3.json",
+          "encoding/tests/test_input_4.json",
+          "encoding/tests/test_input_5.json",
+          "encoding/tests/test_output_1.txt",
+          "encoding/tests/test_output_2.txt",
+          "encoding/tests/test_output_3.txt",
+          "encoding/tests/test_output_4.txt",
+          "encoding/tests/test_output_5.txt",
+          "inference/README.md",
+          "inference/config.json",
+          "inference/convert.py",
+          "inference/engram.py",
+          "inference/examples/example.txt",
+          "inference/examples/example_harmony.json",
+          "inference/examples/images/carrots.jpeg",
+          "inference/examples/images/corn.jpeg",
+          "inference/generate.py",
+          "inference/image_processor.py",
+          "inference/kernel.py",
+          "inference/model.py",
+          "inference/requirements.txt",
+          "inference/run.sh",
+          "inference/vision.py",
+          "model-00001-of-00048.safetensors",
+          "model-00002-of-00048.safetensors",
+          "model-00003-of-00048.safetensors",
+          "model-00004-of-00048.safetensors",
+          "model-00005-of-00048.safetensors",
+          "model-00006-of-00048.safetensors",
+          "model-00007-of-00048.safetensors",
+          "model-00008-of-00048.safetensors",
+          "model-00009-of-00048.safetensors",
+          "model-00010-of-00048.safetensors",
+          "model-00011-of-00048.safetensors",
+          "model-00012-of-00048.safetensors",
+          "model-00013-of-00048.safetensors",
+          "model-00014-of-00048.safetensors",
+          "model-00015-of-00048.safetensors",
+          "model-00016-of-00048.safetensors",
+          "model-00017-of-00048.safetensors",
+          "model-00018-of-00048.safetensors",
+          "model-00019-of-00048.safetensors",
+          "model-00020-of-00048.safetensors",
+          "model-00021-of-00048.safetensors",
+          "model-00022-of-00048.safetensors",
+          "model-00023-of-00048.safetensors",
+          "model-00024-of-00048.safetensors",
+          "model-00025-of-00048.safetensors",
+          "model-00026-of-00048.safetensors",
+          "model-00027-of-00048.safetensors",
+          "model-00028-of-00048.safetensors",
+          "model-00029-of-00048.safetensors",
+          "model-00030-of-00048.safetensors",
+          "model-00031-of-00048.safetensors",
+          "model-00032-of-00048.safetensors",
+          "model-00033-of-00048.safetensors",
+          "model-00034-of-00048.safetensors",
+          "model-00035-of-00048.safetensors",
+          "model-00036-of-00048.safetensors",
+          "model-00037-of-00048.safetensors",
+          "model-00038-of-00048.safetensors",
+          "model-00039-of-00048.safetensors",
+          "model-00040-of-00048.safetensors",
+          "model-00041-of-00048.safetensors",
+          "model-00042-of-00048.safetensors",
+          "model-00043-of-00048.safetensors",
+          "model-00044-of-00048.safetensors",
+          "model-00045-of-00048.safetensors",
+          "model-00046-of-00048.safetensors",
+          "model-00047-of-00048.safetensors",
+          "model-00048-of-00048.safetensors",
+          "model.safetensors.index.json",
+          "tokenizer.json",
+          "tokenizer_config.json"
+        ],
+        "gated": false,
+        "name": "deepseek-ai/DeepSeek-V4.1-Flash-1017",
+        "pipeline_tag": "image-text-to-text",
+        "revision": "1bae0e1088993b9b82de08f59de5be5a34e42170",
+        "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash-1017"
+      },
+      "before_evidence": "evidence/6bbc45fcbff786856fb471a6ecde13eb9009ff9a2b38472acd42349a50b79bd9.json.gz",
+      "entity_id": "deepseek-ai/DeepSeek-V4.1-Flash-1017",
+      "evidence": "evidence/2c6f1bc5bf72f20e764cd508f7e392ba3c3af9d794ff31ad98bcd90b3ee682b4.json.gz",
+      "id": "132842c8c80622aa52f1ce95",
+      "kind": "changed",
+      "observed_at": "2026-11-10T02:59:00.989990+00:00",
+      "published_at": null,
+      "source_id": "huggingface-deepseek"
+    },
+    {
+      "after": {
+        "files": [
+          ".gitattributes",
+          "FL2VA/audio_vae/config.json",
+          "FL2VA/audio_vae/config.yaml",
+          "FL2VA/audio_vae/dac_activations.py",
+          "FL2VA/audio_vae/dac_alias_free_act.py",
+          "FL2VA/audio_vae/dac_alias_free_filter.py",
+          "FL2VA/audio_vae/dac_alias_free_resample.py",
+          "FL2VA/audio_vae/dac_attn_proj.py",
+          "FL2VA/audio_vae/dac_audio_vae.py",
+          "FL2VA/audio_vae/dac_bigvgan.py",
+          "FL2VA/audio_vae/dac_utils.py",
+          "FL2VA/audio_vae/metadata.json",
+          "FL2VA/audio_vae/minimax_h3_audio_vae.py",
+          "FL2VA/audio_vae/model.safetensors",
+          "FL2VA/model_index.json",
+          "FL2VA/processor/chat_template.json",
+          "FL2VA/processor/merges.txt",
+          "FL2VA/processor/preprocessor_config.json",
+          "FL2VA/processor/tokenizer.json",
+          "FL2VA/processor/tokenizer_config.json",
+          "FL2VA/processor/video_preprocessor_config.json",
+          "FL2VA/processor/vocab.json",
+          "FL2VA/text_encoder/chat_template.json",
+          "FL2VA/text_encoder/config.json",
+          "FL2VA/text_encoder/merges.txt",
+          "FL2VA/text_encoder/model-00001-of-00014.safetensors",
+          "FL2VA/text_encoder/model-00002-of-00014.safetensors",
+          "FL2VA/text_encoder/model-00003-of-00014.safetensors",
+          "FL2VA/text_encoder/model-00004-of-00014.safetensors",
+          "FL2VA/text_encoder/model-00005-of-00014.safetensors",
+          "FL2VA/text_encoder/model-00006-of-00014.safetensors",
+          "FL2VA/text_encoder/model-00007-of-00014.safetensors",
+          "FL2VA/text_encoder/model-00008-of-00014.safetensors",
+          "FL2VA/text_encoder/model-00009-of-00014.safetensors",
+          "FL2VA/text_encoder/model-00010-of-00014.safetensors",
+          "FL2VA/text_encoder/model-00011-of-00014.safetensors",
+          "FL2VA/text_encoder/model-00012-of-00014.safetensors",
+          "FL2VA/text_encoder/model-00013-of-00014.safetensors",
+          "FL2VA/text_encoder/model-00014-of-00014.safetensors",
+          "FL2VA/text_encoder/model.safetensors.index.json",
+          "FL2VA/text_encoder/preprocessor_config.json",
+          "FL2VA/text_encoder/tokenizer.json",
+          "FL2VA/text_encoder/tokenizer_config.json",
+          "FL2VA/text_encoder/video_preprocessor_config.json",
+          "FL2VA/text_encoder/vocab.json",
+          "FL2VA/tokenizer/merges.txt",
+          "FL2VA/tokenizer/tokenizer.json",
+          "FL2VA/tokenizer/tokenizer_config.json",
+          "FL2VA/tokenizer/vocab.json",
+          "FL2VA/transformer/config.json",
+          "FL2VA/transformer/model-00001-of-00013.safetensors",
+          "FL2VA/transformer/model-00002-of-00013.safetensors",
+          "FL2VA/transformer/model-00003-of-00013.safetensors",
+          "FL2VA/transformer/model-00004-of-00013.safetensors",
+          "FL2VA/transformer/model-00005-of-00013.safetensors",
+          "FL2VA/transformer/model-00006-of-00013.safetensors",
+          "FL2VA/transformer/model-00007-of-00013.safetensors",
+          "FL2VA/transformer/model-00008-of-00013.safetensors",
+          "FL2VA/transformer/model-00009-of-00013.safetensors",
+          "FL2VA/transformer/model-00010-of-00013.safetensors",
+          "FL2VA/transformer/model-00011-of-00013.safetensors",
+          "FL2VA/transformer/model-00012-of-00013.safetensors",
+          "FL2VA/transformer/model-00013-of-00013.safetensors",
+          "FL2VA/transformer/model.safetensors.index.json",
+          "FL2VA/video_vae/attention.py",
+          "FL2VA/video_vae/base_module.py",
+          "FL2VA/video_vae/config.json",
+          "FL2VA/video_vae/conv.py",
+          "FL2VA/video_vae/flash.py",
+          "FL2VA/video_vae/func.py",
+          "FL2VA/video_vae/klvae.py",
+          "FL2VA/video_vae/minimax_h3_video_vae.py",
+          "FL2VA/video_vae/norm.py",
+          "FL2VA/video_vae/normalize.py",
+          "FL2VA/video_vae/parallel.py",
+          "FL2VA/video_vae/source/config.json",
+          "FL2VA/video_vae/source/model.safetensors",
+          "FL2VA/video_vae/utils.py",
+          "FL2VA/video_vae/vae_cnn.py",
+          "FL2VA/video_vae/vae_module.py",
+          "FL2VA/video_vae/vae_processor.py",
+          "FL2VA/video_vae/vae_vit.py",
+          "LICENSE",
+          "README.md",
+          "Ref2VA/audio_vae/config.json",
+          "Ref2VA/audio_vae/config.yaml",
+          "Ref2VA/audio_vae/dac_activations.py",
+          "Ref2VA/audio_vae/dac_alias_free_act.py",
+          "Ref2VA/audio_vae/dac_alias_free_filter.py",
+          "Ref2VA/audio_vae/dac_alias_free_resample.py",
+          "Ref2VA/audio_vae/dac_attn_proj.py",
+          "Ref2VA/audio_vae/dac_audio_vae.py",
+          "Ref2VA/audio_vae/dac_bigvgan.py",
+          "Ref2VA/audio_vae/dac_utils.py",
+          "Ref2VA/audio_vae/metadata.json",
+          "Ref2VA/audio_vae/minimax_h3_audio_vae.py",
+          "Ref2VA/audio_vae/model.safetensors",
+          "Ref2VA/model_index.json",
+          "Ref2VA/processor/chat_template.json",
+          "Ref2VA/processor/merges.txt",
+          "Ref2VA/processor/preprocessor_config.json",
+          "Ref2VA/processor/tokenizer.json",
+          "Ref2VA/processor/tokenizer_config.json",
+          "Ref2VA/processor/video_preprocessor_config.json",
+          "Ref2VA/processor/vocab.json",
+          "Ref2VA/text_encoder/chat_template.json",
+          "Ref2VA/text_encoder/config.json",
+          "Ref2VA/text_encoder/merges.txt",
+          "Ref2VA/text_encoder/model-00001-of-00014.safetensors",
+          "Ref2VA/text_encoder/model-00002-of-00014.safetensors",
+          "Ref2VA/text_encoder/model-00003-of-00014.safetensors",
+          "Ref2VA/text_encoder/model-00004-of-00014.safetensors",
+          "Ref2VA/text_encoder/model-00005-of-00014.safetensors",
+          "Ref2VA/text_encoder/model-00006-of-00014.safetensors",
+          "Ref2VA/text_encoder/model-00007-of-00014.safetensors",
+          "Ref2VA/text_encoder/model-00008-of-00014.safetensors",
+          "Ref2VA/text_encoder/model-00009-of-00014.safetensors",
+          "Ref2VA/text_encoder/model-00010-of-00014.safetensors",
+          "Ref2VA/text_encoder/model-00011-of-00014.safetensors",
+          "Ref2VA/text_encoder/model-00012-of-00014.safetensors",
+          "Ref2VA/text_encoder/model-00013-of-00014.safetensors",
+          "Ref2VA/text_encoder/model-00014-of-00014.safetensors",
+          "Ref2VA/text_encoder/model.safetensors.index.json",
+          "Ref2VA/text_encoder/preprocessor_config.json",
+          "Ref2VA/text_encoder/tokenizer.json",
+          "Ref2VA/text_encoder/tokenizer_config.json",
+          "Ref2VA/text_encoder/video_preprocessor_config.json",
+          "Ref2VA/text_encoder/vocab.json",
+          "Ref2VA/tokenizer/merges.txt",
+          "Ref2VA/tokenizer/tokenizer.json",
+          "Ref2VA/tokenizer/tokenizer_config.json",
+          "Ref2VA/tokenizer/vocab.json",
+          "Ref2VA/transformer/config.json",
+          "Ref2VA/transformer/model-00001-of-00013.safetensors",
+          "Ref2VA/transformer/model-00002-of-00013.safetensors",
+          "Ref2VA/transformer/model-00003-of-00013.safetensors",
+          "Ref2VA/transformer/model-00004-of-00013.safetensors",
+          "Ref2VA/transformer/model-00005-of-00013.safetensors",
+          "Ref2VA/transformer/model-00006-of-00013.safetensors",
+          "Ref2VA/transformer/model-00007-of-00013.safetensors",
+          "Ref2VA/transformer/model-00008-of-00013.safetensors",
+          "Ref2VA/transformer/model-00009-of-00013.safetensors",
+          "Ref2VA/transformer/model-00010-of-00013.safetensors",
+          "Ref2VA/transformer/model-00011-of-00013.safetensors",
+          "Ref2VA/transformer/model-00012-of-00013.safetensors",
+          "Ref2VA/transformer/model-00013-of-00013.safetensors",
+          "Ref2VA/transformer/model.safetensors.index.json",
+          "Ref2VA/video_vae/attention.py",
+          "Ref2VA/video_vae/base_module.py",
+          "Ref2VA/video_vae/config.json",
+          "Ref2VA/video_vae/conv.py",
+          "Ref2VA/video_vae/flash.py",
+          "Ref2VA/video_vae/func.py",
+          "Ref2VA/video_vae/klvae.py",
+          "Ref2VA/video_vae/minimax_h3_video_vae.py",
+          "Ref2VA/video_vae/norm.py",
+          "Ref2VA/video_vae/normalize.py",
+          "Ref2VA/video_vae/parallel.py",
+          "Ref2VA/video_vae/source/config.json",
+          "Ref2VA/video_vae/source/model.safetensors",
+          "Ref2VA/video_vae/utils.py",
+          "Ref2VA/video_vae/vae_cnn.py",
+          "Ref2VA/video_vae/vae_module.py",
+          "Ref2VA/video_vae/vae_processor.py",
+          "Ref2VA/video_vae/vae_vit.py",
+          "assets/fl2va.mp4",
+          "assets/full-arch.png",
+          "assets/h3_direct_2k.mp4",
+          "assets/h3_direct_768p.mp4",
+          "assets/i2va.mp4",
+          "assets/i2va_2k.mp4",
+          "assets/i2va_direct_2k.mp4",
+          "assets/i2va_direct_768p.mp4",
+          "assets/minimax-h3.png",
+          "assets/overview.png",
+          "assets/r2va.mp4",
+          "assets/r2va_2k.mp4",
+          "assets/r2va_direct_2k.mp4",
+          "assets/r2va_direct_768p.mp4",
+          "assets/ref2va.mp4",
+          "assets/t2va.mp4",
+          "assets/t2va_2k.mp4",
+          "audio_scheduler/scheduler_config.json",
+          "audio_vae/config.json",
+          "audio_vae/diffusion_pytorch_model.safetensors",
+          "docs/QA-about-License.md",
+          "docs/VIDEO_PROMPT_WRITING_GUIDE_base_en.md",
+          "docs/VIDEO_PROMPT_WRITING_GUIDE_ref_en.md",
+          "model_index.json",
+          "modular_model_index.json",
+          "processor/chat_template.json",
+          "processor/merges.txt",
+          "processor/preprocessor_config.json",
+          "processor/tokenizer.json",
+          "processor/tokenizer_config.json",
+          "processor/video_preprocessor_config.json",
+          "processor/vocab.json",
+          "scheduler/scheduler_config.json",
+          "scripts/readme/full-2k-i2va-h3-base.sh",
+          "scripts/readme/full-2k-i2va-h3-context-ir.sh",
+          "scripts/readme/full-2k-i2va-h3-regenerate-2k.sh",
+          "scripts/readme/full-2k-i2va-reference-2k-result-by-directly-calling-open-platform-api.sh",
+          "scripts/readme/full-2k-i2va-reference-768p-result-by-directly-calling-open-platform-api.sh",
+          "scripts/readme/full-2k-ref2va-h3-api-2k-in-open-platform-for-reference.sh",
+          "scripts/readme/full-2k-ref2va-h3-base.sh",
+          "scripts/readme/full-2k-ref2va-h3-context-ir.sh",
+          "scripts/readme/full-2k-ref2va-reference-2k-result-by-directly-calling-open-platform-api.sh",
+          "scripts/readme/full-2k-ref2va-reference-768p-result-by-directly-calling-open-platform-api.sh",
+          "scripts/readme/full-2k-t2va-h3-base.sh",
+          "scripts/readme/full-2k-t2va-h3-context-ir.sh",
+          "scripts/readme/full-2k-t2va-h3-regenerate-2k.sh",
+          "scripts/readme/full-2k-t2va-reference-2k-result-by-directly-calling-open-platform-api.sh",
+          "scripts/readme/full-2k-t2va-reference-768p-result-by-directly-calling-open-platform-api.sh",
+          "scripts/readme/reproducible-768p-fl2va-request.sh",
+          "scripts/readme/reproducible-768p-ref2va-request.sh",
+          "scripts/readme/reproducible-768p-t2va-request.sh",
+          "text_encoder/chat_template.json",
+          "text_encoder/config.json",
+          "text_encoder/merges.txt",
+          "text_encoder/model-00001-of-00014.safetensors",
+          "text_encoder/model-00002-of-00014.safetensors",
+          "text_encoder/model-00003-of-00014.safetensors",
+          "text_encoder/model-00004-of-00014.safetensors",
+          "text_encoder/model-00005-of-00014.safetensors",
+          "text_encoder/model-00006-of-00014.safetensors",
+          "text_encoder/model-00007-of-00014.safetensors",
+          "text_encoder/model-00008-of-00014.safetensors",
+          "text_encoder/model-00009-of-00014.safetensors",
+          "text_encoder/model-00010-of-00014.safetensors",
+          "text_encoder/model-00011-of-00014.safetensors",
+          "text_encoder/model-00012-of-00014.safetensors",
+          "text_encoder/model-00013-of-00014.safetensors",
+          "text_encoder/model-00014-of-00014.safetensors",
+          "text_encoder/model.safetensors.index.json",
+          "text_encoder/preprocessor_config.json",
+          "text_encoder/tokenizer.json",
+          "text_encoder/tokenizer_config.json",
+          "text_encoder/video_preprocessor_config.json",
+          "text_encoder/vocab.json",
+          "tokenizer/merges.txt",
+          "tokenizer/tokenizer.json",
+          "tokenizer/tokenizer_config.json",
+          "tokenizer/vocab.json",
+          "transformer/config.json",
+          "transformer/diffusion_pytorch_model-00001-of-00014.safetensors",
+          "transformer/diffusion_pytorch_model-00002-of-00014.safetensors",
+          "transformer/diffusion_pytorch_model-00003-of-00014.safetensors",
+          "transformer/diffusion_pytorch_model-00004-of-00014.safetensors",
+          "transformer/diffusion_pytorch_model-00005-of-00014.safetensors",
+          "transformer/diffusion_pytorch_model-00006-of-00014.safetensors",
+          "transformer/diffusion_pytorch_model-00007-of-00014.safetensors",
+          "transformer/diffusion_pytorch_model-00008-of-00014.safetensors",
+          "transformer/diffusion_pytorch_model-00009-of-00014.safetensors",
+          "transformer/diffusion_pytorch_model-00010-of-00014.safetensors",
+          "transformer/diffusion_pytorch_model-00011-of-00014.safetensors",
+          "transformer/diffusion_pytorch_model-00012-of-00014.safetensors",
+          "transformer/diffusion_pytorch_model-00013-of-00014.safetensors",
+          "transformer/diffusion_pytorch_model-00014-of-00014.safetensors",
+          "transformer/diffusion_pytorch_model.safetensors.index.json",
+          "transformer_ref/config.json",
+          "transformer_ref/diffusion_pytorch_model-00001-of-00014.safetensors",
+          "transformer_ref/diffusion_pytorch_model-00002-of-00014.safetensors",
+          "transformer_ref/diffusion_pytorch_model-00003-of-00014.safetensors",
+          "transformer_ref/diffusion_pytorch_model-00004-of-00014.safetensors",
+          "transformer_ref/diffusion_pytorch_model-00005-of-00014.safetensors",
+          "transformer_ref/diffusion_pytorch_model-00006-of-00014.safetensors",
+          "transformer_ref/diffusion_pytorch_model-00007-of-00014.safetensors",
+          "transformer_ref/diffusion_pytorch_model-00008-of-00014.safetensors",
+          "transformer_ref/diffusion_pytorch_model-00009-of-00014.safetensors",
+          "transformer_ref/diffusion_pytorch_model-00010-of-00014.safetensors",
+          "transformer_ref/diffusion_pytorch_model-00011-of-00014.safetensors",
+          "transformer_ref/diffusion_pytorch_model-00012-of-00014.safetensors",
+          "transformer_ref/diffusion_pytorch_model-00013-of-00014.safetensors",
+          "transformer_ref/diffusion_pytorch_model-00014-of-00014.safetensors",
+          "transformer_ref/diffusion_pytorch_model.safetensors.index.json",
+          "vae/config.json",
+          "vae/diffusion_pytorch_model-00001-of-00003.safetensors",
+          "vae/diffusion_pytorch_model-00002-of-00003.safetensors",
+          "vae/diffusion_pytorch_model-00003-of-00003.safetensors",
+          "vae/diffusion_pytorch_model.safetensors.index.json"
+        ],
+        "gated": false,
+        "name": "MiniMaxAI/MiniMax-H3",
+        "pipeline_tag": "image-text-to-video",
+        "revision": "0919fb684102ef115126612f3fbb84d1027e7317",
+        "url": "https://huggingface.co/MiniMaxAI/MiniMax-H3"
+      },
+      "before": {
+        "files": [
+          ".gitattributes",
+          "FL2VA/audio_vae/config.json",
+          "FL2VA/audio_vae/config.yaml",
+          "FL2VA/audio_vae/dac_activations.py",
+          "FL2VA/audio_vae/dac_alias_free_act.py",
+          "FL2VA/audio_vae/dac_alias_free_filter.py",
+          "FL2VA/audio_vae/dac_alias_free_resample.py",
+          "FL2VA/audio_vae/dac_attn_proj.py",
+          "FL2VA/audio_vae/dac_audio_vae.py",
+          "FL2VA/audio_vae/dac_bigvgan.py",
+          "FL2VA/audio_vae/dac_utils.py",
+          "FL2VA/audio_vae/metadata.json",
+          "FL2VA/audio_vae/minimax_h3_audio_vae.py",
+          "FL2VA/audio_vae/model.safetensors",
+          "FL2VA/model_index.json",
+          "FL2VA/processor/chat_template.json",
+          "FL2VA/processor/merges.txt",
+          "FL2VA/processor/preprocessor_config.json",
+          "FL2VA/processor/tokenizer.json",
+          "FL2VA/processor/tokenizer_config.json",
+          "FL2VA/processor/video_preprocessor_config.json",
+          "FL2VA/processor/vocab.json",
+          "FL2VA/text_encoder/chat_template.json",
+          "FL2VA/text_encoder/config.json",
+          "FL2VA/text_encoder/merges.txt",
+          "FL2VA/text_encoder/model-00001-of-00014.safetensors",
+          "FL2VA/text_encoder/model-00002-of-00014.safetensors",
+          "FL2VA/text_encoder/model-00003-of-00014.safetensors",
+          "FL2VA/text_encoder/model-00004-of-00014.safetensors",
+          "FL2VA/text_encoder/model-00005-of-00014.safetensors",
+          "FL2VA/text_encoder/model-00006-of-00014.safetensors",
+          "FL2VA/text_encoder/model-00007-of-00014.safetensors",
+          "FL2VA/text_encoder/model-00008-of-00014.safetensors",
+          "FL2VA/text_encoder/model-00009-of-00014.safetensors",
+          "FL2VA/text_encoder/model-00010-of-00014.safetensors",
+          "FL2VA/text_encoder/model-00011-of-00014.safetensors",
+          "FL2VA/text_encoder/model-00012-of-00014.safetensors",
+          "FL2VA/text_encoder/model-00013-of-00014.safetensors",
+          "FL2VA/text_encoder/model-00014-of-00014.safetensors",
+          "FL2VA/text_encoder/model.safetensors.index.json",
+          "FL2VA/text_encoder/preprocessor_config.json",
+          "FL2VA/text_encoder/tokenizer.json",
+          "FL2VA/text_encoder/tokenizer_config.json",
+          "FL2VA/text_encoder/video_preprocessor_config.json",
+          "FL2VA/text_encoder/vocab.json",
+          "FL2VA/tokenizer/merges.txt",
+          "FL2VA/tokenizer/tokenizer.json",
+          "FL2VA/tokenizer/tokenizer_config.json",
+          "FL2VA/tokenizer/vocab.json",
+          "FL2VA/transformer/config.json",
+          "FL2VA/transformer/model-00001-of-00013.safetensors",
+          "FL2VA/transformer/model-00002-of-00013.safetensors",
+          "FL2VA/transformer/model-00003-of-00013.safetensors",
+          "FL2VA/transformer/model-00004-of-00013.safetensors",
+          "FL2VA/transformer/model-00005-of-00013.safetensors",
+          "FL2VA/transformer/model-00006-of-00013.safetensors",
+          "FL2VA/transformer/model-00007-of-00013.safetensors",
+          "FL2VA/transformer/model-00008-of-00013.safetensors",
+          "FL2VA/transformer/model-00009-of-00013.safetensors",
+          "FL2VA/transformer/model-00010-of-00013.safetensors",
+          "FL2VA/transformer/model-00011-of-00013.safetensors",
+          "FL2VA/transformer/model-00012-of-00013.safetensors",
+          "FL2VA/transformer/model-00013-of-00013.safetensors",
+          "FL2VA/transformer/model.safetensors.index.json",
+          "FL2VA/video_vae/attention.py",
+          "FL2VA/video_vae/base_module.py",
+          "FL2VA/video_vae/config.json",
+          "FL2VA/video_vae/conv.py",
+          "FL2VA/video_vae/flash.py",
+          "FL2VA/video_vae/func.py",
+          "FL2VA/video_vae/klvae.py",
+          "FL2VA/video_vae/minimax_h3_video_vae.py",
+          "FL2VA/video_vae/norm.py",
+          "FL2VA/video_vae/normalize.py",
+          "FL2VA/video_vae/parallel.py",
+          "FL2VA/video_vae/source/config.json",
+          "FL2VA/video_vae/source/model.safetensors",
+          "FL2VA/video_vae/utils.py",
+          "FL2VA/video_vae/vae_cnn.py",
+          "FL2VA/video_vae/vae_module.py",
+          "FL2VA/video_vae/vae_processor.py",
+          "FL2VA/video_vae/vae_vit.py",
+          "LICENSE",
+          "README.md",
+          "Ref2VA/audio_vae/config.json",
+          "Ref2VA/audio_vae/config.yaml",
+          "Ref2VA/audio_vae/dac_activations.py",
+          "Ref2VA/audio_vae/dac_alias_free_act.py",
+          "Ref2VA/audio_vae/dac_alias_free_filter.py",
+          "Ref2VA/audio_vae/dac_alias_free_resample.py",
+          "Ref2VA/audio_vae/dac_attn_proj.py",
+          "Ref2VA/audio_vae/dac_audio_vae.py",
+          "Ref2VA/audio_vae/dac_bigvgan.py",
+          "Ref2VA/audio_vae/dac_utils.py",
+          "Ref2VA/audio_vae/metadata.json",
+          "Ref2VA/audio_vae/minimax_h3_audio_vae.py",
+          "Ref2VA/audio_vae/model.safetensors",
+          "Ref2VA/model_index.json",
+          "Ref2VA/processor/chat_template.json",
+          "Ref2VA/processor/merges.txt",
+          "Ref2VA/processor/preprocessor_config.json",
+          "Ref2VA/processor/tokenizer.json",
+          "Ref2VA/processor/tokenizer_config.json",
+          "Ref2VA/processor/video_preprocessor_config.json",
+          "Ref2VA/processor/vocab.json",
+          "Ref2VA/text_encoder/chat_template.json",
+          "Ref2VA/text_encoder/config.json",
+          "Ref2VA/text_encoder/merges.txt",
+          "Ref2VA/text_encoder/model-00001-of-00014.safetensors",
+          "Ref2VA/text_encoder/model-00002-of-00014.safetensors",
+          "Ref2VA/text_encoder/model-00003-of-00014.safetensors",
+          "Ref2VA/text_encoder/model-00004-of-00014.safetensors",
+          "Ref2VA/text_encoder/model-00005-of-00014.safetensors",
+          "Ref2VA/text_encoder/model-00006-of-00014.safetensors",
+          "Ref2VA/text_encoder/model-00007-of-00014.safetensors",
+          "Ref2VA/text_encoder/model-00008-of-00014.safetensors",
+          "Ref2VA/text_encoder/model-00009-of-00014.safetensors",
+          "Ref2VA/text_encoder/model-00010-of-00014.safetensors",
+          "Ref2VA/text_encoder/model-00011-of-00014.safetensors",
+          "Ref2VA/text_encoder/model-00012-of-00014.safetensors",
+          "Ref2VA/text_encoder/model-00013-of-00014.safetensors",
+          "Ref2VA/text_encoder/model-00014-of-00014.safetensors",
+          "Ref2VA/text_encoder/model.safetensors.index.json",
+          "Ref2VA/text_encoder/preprocessor_config.json",
+          "Ref2VA/text_encoder/tokenizer.json",
+          "Ref2VA/text_encoder/tokenizer_config.json",
+          "Ref2VA/text_encoder/video_preprocessor_config.json",
+          "Ref2VA/text_encoder/vocab.json",
+          "Ref2VA/tokenizer/merges.txt",
+          "Ref2VA/tokenizer/tokenizer.json",
+          "Ref2VA/tokenizer/tokenizer_config.json",
+          "Ref2VA/tokenizer/vocab.json",
+          "Ref2VA/transformer/config.json",
+          "Ref2VA/transformer/model-00001-of-00013.safetensors",
+          "Ref2VA/transformer/model-00002-of-00013.safetensors",
+          "Ref2VA/transformer/model-00003-of-00013.safetensors",
+          "Ref2VA/transformer/model-00004-of-00013.safetensors",
+          "Ref2VA/transformer/model-00005-of-00013.safetensors",
+          "Ref2VA/transformer/model-00006-of-00013.safetensors",
+          "Ref2VA/transformer/model-00007-of-00013.safetensors",
+          "Ref2VA/transformer/model-00008-of-00013.safetensors",
+          "Ref2VA/transformer/model-00009-of-00013.safetensors",
+          "Ref2VA/transformer/model-00010-of-00013.safetensors",
+          "Ref2VA/transformer/model-00011-of-00013.safetensors",
+          "Ref2VA/transformer/model-00012-of-00013.safetensors",
+          "Ref2VA/transformer/model-00013-of-00013.safetensors",
+          "Ref2VA/transformer/model.safetensors.index.json",
+          "Ref2VA/video_vae/attention.py",
+          "Ref2VA/video_vae/base_module.py",
+          "Ref2VA/video_vae/config.json",
+          "Ref2VA/video_vae/conv.py",
+          "Ref2VA/video_vae/flash.py",
+          "Ref2VA/video_vae/func.py",
+          "Ref2VA/video_vae/klvae.py",
+          "Ref2VA/video_vae/minimax_h3_video_vae.py",
+          "Ref2VA/video_vae/norm.py",
+          "Ref2VA/video_vae/normalize.py",
+          "Ref2VA/video_vae/parallel.py",
+          "Ref2VA/video_vae/source/config.json",
+          "Ref2VA/video_vae/source/model.safetensors",
+          "Ref2VA/video_vae/utils.py",
+          "Ref2VA/video_vae/vae_cnn.py",
+          "Ref2VA/video_vae/vae_module.py",
+          "Ref2VA/video_vae/vae_processor.py",
+          "Ref2VA/video_vae/vae_vit.py",
+          "assets/fl2va.mp4",
+          "assets/full-arch.png",
+          "assets/h3_direct_2k.mp4",
+          "assets/h3_direct_768p.mp4",
+          "assets/i2va.mp4",
+          "assets/i2va_2k.mp4",
+          "assets/i2va_direct_2k.mp4",
+          "assets/i2va_direct_768p.mp4",
+          "assets/minimax-h3.png",
+          "assets/overview.png",
+          "assets/r2va.mp4",
+          "assets/r2va_2k.mp4",
+          "assets/r2va_direct_2k.mp4",
+          "assets/r2va_direct_768p.mp4",
+          "assets/ref2va.mp4",
+          "assets/t2va.mp4",
+          "assets/t2va_2k.mp4",
+          "audio_scheduler/scheduler_config.json",
+          "audio_vae/config.json",
+          "audio_vae/diffusion_pytorch_model.safetensors",
+          "docs/QA-about-License.md",
+          "docs/VIDEO_PROMPT_WRITING_GUIDE_base_en.md",
+          "docs/VIDEO_PROMPT_WRITING_GUIDE_ref_en.md",
+          "model_index.json",
+          "modular_model_index.json",
+          "processor/chat_template.json",
+          "processor/merges.txt",
+          "processor/preprocessor_config.json",
+          "processor/tokenizer.json",
+          "processor/tokenizer_config.json",
+          "processor/video_preprocessor_config.json",
+          "processor/vocab.json",
+          "scheduler/scheduler_config.json",
+          "scripts/readme/full-2k-i2va-h3-base.sh",
+          "scripts/readme/full-2k-i2va-h3-context-ir.sh",
+          "scripts/readme/full-2k-i2va-h3-regenerate-2k.sh",
+          "scripts/readme/full-2k-i2va-reference-2k-result-by-directly-calling-open-platform-api.sh",
+          "scripts/readme/full-2k-i2va-reference-768p-result-by-directly-calling-open-platform-api.sh",
+          "scripts/readme/full-2k-ref2va-h3-api-2k-in-open-platform-for-reference.sh",
+          "scripts/readme/full-2k-ref2va-h3-base.sh",
+          "scripts/readme/full-2k-ref2va-h3-context-ir.sh",
+          "scripts/readme/full-2k-ref2va-reference-2k-result-by-directly-calling-open-platform-api.sh",
+          "scripts/readme/full-2k-ref2va-reference-768p-result-by-directly-calling-open-platform-api.sh",
+          "scripts/readme/full-2k-t2va-h3-base.sh",
+          "scripts/readme/full-2k-t2va-h3-context-ir.sh",
+          "scripts/readme/full-2k-t2va-h3-regenerate-2k.sh",
+          "scripts/readme/full-2k-t2va-reference-2k-result-by-directly-calling-open-platform-api.sh",
+          "scripts/readme/full-2k-t2va-reference-768p-result-by-directly-calling-open-platform-api.sh",
+          "scripts/readme/reproducible-768p-fl2va-request.sh",
+          "scripts/readme/reproducible-768p-ref2va-request.sh",
+          "scripts/readme/reproducible-768p-t2va-request.sh",
+          "text_encoder/chat_template.json",
+          "text_encoder/config.json",
+          "text_encoder/merges.txt",
+          "text_encoder/model-00001-of-00014.safetensors",
+          "text_encoder/model-00002-of-00014.safetensors",
+          "text_encoder/model-00003-of-00014.safetensors",
+          "text_encoder/model-00004-of-00014.safetensors",
+          "text_encoder/model-00005-of-00014.safetensors",
+          "text_encoder/model-00006-of-00014.safetensors",
+          "text_encoder/model-00007-of-00014.safetensors",
+          "text_encoder/model-00008-of-00014.safetensors",
+          "text_encoder/model-00009-of-00014.safetensors",
+          "text_encoder/model-00010-of-00014.safetensors",
+          "text_encoder/model-00011-of-00014.safetensors",
+          "text_encoder/model-00012-of-00014.safetensors",
+          "text_encoder/model-00013-of-00014.safetensors",
+          "text_encoder/model-00014-of-00014.safetensors",
+          "text_encoder/model.safetensors.index.json",
+          "text_encoder/preprocessor_config.json",
+          "text_encoder/tokenizer.json",
+          "text_encoder/tokenizer_config.json",
+          "text_encoder/video_preprocessor_config.json",
+          "text_encoder/vocab.json",
+          "tokenizer/merges.txt",
+          "tokenizer/tokenizer.json",
+          "tokenizer/tokenizer_config.json",
+          "tokenizer/vocab.json",
+          "transformer/config.json",
+          "transformer/diffusion_pytorch_model-00001-of-00014.safetensors",
+          "transformer/diffusion_pytorch_model-00002-of-00014.safetensors",
+          "transformer/diffusion_pytorch_model-00003-of-00014.safetensors",
+          "transformer/diffusion_pytorch_model-00004-of-00014.safetensors",
+          "transformer/diffusion_pytorch_model-00005-of-00014.safetensors",
+          "transformer/diffusion_pytorch_model-00006-of-00014.safetensors",
+          "transformer/diffusion_pytorch_model-00007-of-00014.safetensors",
+          "transformer/diffusion_pytorch_model-00008-of-00014.safetensors",
+          "transformer/diffusion_pytorch_model-00009-of-00014.safetensors",
+          "transformer/diffusion_pytorch_model-00010-of-00014.safetensors",
+          "transformer/diffusion_pytorch_model-00011-of-00014.safetensors",
+          "transformer/diffusion_pytorch_model-00012-of-00014.safetensors",
+          "transformer/diffusion_pytorch_model-00013-of-00014.safetensors",
+          "transformer/diffusion_pytorch_model-00014-of-00014.safetensors",
+          "transformer/diffusion_pytorch_model.safetensors.index.json",
+          "transformer_ref/config.json",
+          "transformer_ref/diffusion_pytorch_model-00001-of-00014.safetensors",
+          "transformer_ref/diffusion_pytorch_model-00002-of-00014.safetensors",
+          "transformer_ref/diffusion_pytorch_model-00003-of-00014.safetensors",
+          "transformer_ref/diffusion_pytorch_model-00004-of-00014.safetensors",
+          "transformer_ref/diffusion_pytorch_model-00005-of-00014.safetensors",
+          "transformer_ref/diffusion_pytorch_model-00006-of-00014.safetensors",
+          "transformer_ref/diffusion_pytorch_model-00007-of-00014.safetensors",
+          "transformer_ref/diffusion_pytorch_model-00008-of-00014.safetensors",
+          "transformer_ref/diffusion_pytorch_model-00009-of-00014.safetensors",
+          "transformer_ref/diffusion_pytorch_model-00010-of-00014.safetensors",
+          "transformer_ref/diffusion_pytorch_model-00011-of-00014.safetensors",
+          "transformer_ref/diffusion_pytorch_model-00012-of-00014.safetensors",
+          "transformer_ref/diffusion_pytorch_model-00013-of-00014.safetensors",
+          "transformer_ref/diffusion_pytorch_model-00014-of-00014.safetensors",
+          "transformer_ref/diffusion_pytorch_model.safetensors.index.json",
+          "vae/config.json",
+          "vae/diffusion_pytorch_model-00001-of-00003.safetensors",
+          "vae/diffusion_pytorch_model-00002-of-00003.safetensors",
+          "vae/diffusion_pytorch_model-00003-of-00003.safetensors",
+          "vae/diffusion_pytorch_model.safetensors.index.json"
+        ],
+        "gated": false,
+        "name": "MiniMaxAI/MiniMax-H3",
+        "pipeline_tag": "image-text-to-video",
+        "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+        "url": "https://huggingface.co/MiniMaxAI/MiniMax-H3"
+      },
+      "before_evidence": "evidence/7fe532bb7efdc2202b4d0f3fd7c51955fcf0b5e3bdff32fc10e3fa43aa604344.json.gz",
+      "entity_id": "MiniMaxAI/MiniMax-H3",
+      "evidence": "evidence/03d38de6064ef0e7cca0957120e3f41d498c7b63f90b2d8324498f95c78c3a35.json.gz",
+      "id": "cc6d27c210ad1ed5c4a147bd",
+      "kind": "changed",
+      "observed_at": "2026-11-10T02:59:00.989990+00:00",
+      "published_at": null,
+      "source_id": "huggingface-minimax"
     }
   ],
   "sources": {
     "aitracker-catalog": {
       "baseline_at": "2026-10-19T22:29:44.347714+00:00",
-      "checked_at": "2026-11-09T20:48:45.868641+00:00",
+      "checked_at": "2026-11-10T02:59:00.989990+00:00",
       "error": null,
       "etag": "W/\"b9c4-1cDFsHXfGOHoTQVrhrMgM74wzhc\"",
       "evidence": "evidence/02d739d7558209ac30f5acf91223de67af4f524315973804f013ff6718c8399b.json.gz",
@@ -116113,23 +118395,23 @@
       "kind": "tracker",
       "last_changed_at": "2026-11-09T20:48:45.868641+00:00",
       "last_modified": null,
-      "last_success_at": "2026-11-09T20:48:45.868641+00:00",
+      "last_success_at": "2026-11-10T02:59:00.989990+00:00",
       "name": "AI Tracker 目录",
-      "next_check_at": "2026-11-09T21:03:45.868641+00:00",
+      "next_check_at": "2026-11-10T03:14:00.989990+00:00",
       "url": "https://live.aitracker.bot/api/model-pages"
     },
     "aitracker-feed": {
-      "checked_at": "2026-11-09T20:48:45.868641+00:00",
+      "checked_at": "2026-11-10T02:59:00.989990+00:00",
       "error": "ValueError: Source has an empty or duplicate identifier",
       "interval": 300,
       "kind": "feed",
       "name": "AI Tracker 消息",
-      "next_check_at": "2026-11-09T20:53:45.868641+00:00",
+      "next_check_at": "2026-11-10T03:04:00.989990+00:00",
       "url": "https://live.aitracker.bot/feeds/all.json"
     },
     "anthropic-sdk": {
       "baseline_at": "2026-10-19T18:04:35.626127+00:00",
-      "checked_at": "2026-11-09T20:48:45.868641+00:00",
+      "checked_at": "2026-11-10T02:59:00.989990+00:00",
       "error": null,
       "etag": "\"170712be972c4d31797654cf8892e4641d3d99a7\"",
       "evidence": "evidence/4bdac803732bb95e1c35b8d4b732dde2f4e0c623d319716981c755f72835dd9a.json.gz",
@@ -116168,9 +118450,9 @@
       "kind": "sdk",
       "last_changed_at": "2026-11-09T20:48:45.868641+00:00",
       "last_modified": "Mon, 09 Nov 2026 18:50:29 GMT",
-      "last_success_at": "2026-11-09T20:48:45.868641+00:00",
+      "last_success_at": "2026-11-10T02:59:00.989990+00:00",
       "name": "Anthropic SDK",
-      "next_check_at": "2026-11-09T21:03:45.868641+00:00",
+      "next_check_at": "2026-11-10T03:14:00.989990+00:00",
       "url": "https://api.github.com/repos/anthropics/anthropic-sdk-python/contents/src/anthropic/types/model.py?ref=main"
     },
     "gemini-cli-build": {
@@ -116181,7 +118463,7 @@
         "version": "0.67.0"
       },
       "baseline_at": "2026-10-28T06:21:39.408622+00:00",
-      "checked_at": "2026-11-09T20:48:45.868641+00:00",
+      "checked_at": "2026-11-10T02:59:00.989990+00:00",
       "error": null,
       "etag": null,
       "evidence": "evidence/34990d549efc87e793c5e23b41b96317609dfe08af05409c8711f8e946118196.json.gz",
@@ -116295,17 +118577,17 @@
       "kind": "gemini-build",
       "last_changed_at": "2026-10-28T06:21:39.408622+00:00",
       "last_modified": null,
-      "last_success_at": "2026-11-09T20:48:45.868641+00:00",
+      "last_success_at": "2026-11-10T02:59:00.989990+00:00",
       "name": "Gemini CLI · 公开构建",
-      "next_check_at": "2026-11-09T21:48:45.868641+00:00",
+      "next_check_at": "2026-11-10T03:59:00.989990+00:00",
       "url": "https://registry.npmjs.org/@google/gemini-cli-core/latest"
     },
     "huggingface-deepseek": {
       "baseline_at": "2026-10-19T18:04:35.626127+00:00",
-      "checked_at": "2026-11-09T20:48:45.868641+00:00",
+      "checked_at": "2026-11-10T02:59:00.989990+00:00",
       "error": null,
-      "etag": "W/\"44ddf-TvJ8y486BRcgmnWHhnuZUo2lHm4\"",
-      "evidence": "evidence/6bbc45fcbff786856fb471a6ecde13eb9009ff9a2b38472acd42349a50b79bd9.json.gz",
+      "etag": "W/\"44e14-21vAhUzqXuEgKRcZZBbGHDBI7hY\"",
+      "evidence": "evidence/2c6f1bc5bf72f20e764cd508f7e392ba3c3af9d794ff31ad98bcd90b3ee682b4.json.gz",
       "interval": 900,
       "inventory": {
         "deepseek-ai/DeepSeek-Coder-V2-Base": {
@@ -121022,6 +123304,7 @@
             ".gitattributes",
             "LICENSE",
             "README.md",
+            "chat_template.jinja",
             "config.json",
             "encoding/README.md",
             "encoding/encoding.py",
@@ -121106,7 +123389,7 @@
           "gated": false,
           "name": "deepseek-ai/DeepSeek-V4.1-Flash-1017",
           "pipeline_tag": "image-text-to-text",
-          "revision": "1bae0e1088993b9b82de08f59de5be5a34e42170",
+          "revision": "08c8657f02291e11b6f6b63e0e16014f8e748518",
           "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash-1017"
         },
         "deepseek-ai/ESFT-gate-code-lite": {
@@ -122202,19 +124485,19 @@
         }
       },
       "kind": "huggingface",
-      "last_changed_at": "2026-10-19T18:04:35.626127+00:00",
+      "last_changed_at": "2026-11-10T02:59:00.989990+00:00",
       "last_modified": null,
-      "last_success_at": "2026-11-09T20:48:45.868641+00:00",
+      "last_success_at": "2026-11-10T02:59:00.989990+00:00",
       "name": "Hugging Face · DeepSeek",
-      "next_check_at": "2026-11-09T21:03:45.868641+00:00",
+      "next_check_at": "2026-11-10T03:14:00.989990+00:00",
       "url": "https://huggingface.co/api/models?author=deepseek-ai&sort=lastModified&direction=-1&limit=100&full=true"
     },
     "huggingface-minimax": {
       "baseline_at": "2026-10-28T06:21:39.408622+00:00",
-      "checked_at": "2026-11-09T20:48:45.868641+00:00",
+      "checked_at": "2026-11-10T02:59:00.989990+00:00",
       "error": null,
-      "etag": "W/\"36b21-WjxKWC/nuIsx9L5E98trw7sZQj0\"",
-      "evidence": "evidence/7fe532bb7efdc2202b4d0f3fd7c51955fcf0b5e3bdff32fc10e3fa43aa604344.json.gz",
+      "etag": "W/\"36b3f-oRR+A+gAyg1geg4RuCI3zgoMIIs\"",
+      "evidence": "evidence/03d38de6064ef0e7cca0957120e3f41d498c7b63f90b2d8324498f95c78c3a35.json.gz",
       "interval": 900,
       "inventory": {
         "MiniMaxAI/MiniMax-H3": {
@@ -122503,7 +124786,7 @@
           "gated": false,
           "name": "MiniMaxAI/MiniMax-H3",
           "pipeline_tag": "image-text-to-video",
-          "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+          "revision": "0919fb684102ef115126612f3fbb84d1027e7317",
           "url": "https://huggingface.co/MiniMaxAI/MiniMax-H3"
         },
         "MiniMaxAI/MiniMax-M1-40k": {
@@ -126751,18 +129034,18 @@
         }
       },
       "kind": "huggingface",
-      "last_changed_at": "2026-11-05T01:45:56.247734+00:00",
+      "last_changed_at": "2026-11-10T02:59:00.989990+00:00",
       "last_modified": null,
-      "last_success_at": "2026-11-09T20:48:45.868641+00:00",
+      "last_success_at": "2026-11-10T02:59:00.989990+00:00",
       "name": "Hugging Face · MiniMax",
-      "next_check_at": "2026-11-09T21:03:45.868641+00:00",
+      "next_check_at": "2026-11-10T03:14:00.989990+00:00",
       "url": "https://huggingface.co/api/models?author=MiniMaxAI&sort=lastModified&direction=-1&limit=100&full=true"
     },
     "huggingface-mistral": {
       "baseline_at": "2026-10-28T06:21:39.408622+00:00",
-      "checked_at": "2026-11-09T20:48:45.868641+00:00",
+      "checked_at": "2026-11-10T02:59:00.989990+00:00",
       "error": null,
-      "etag": "W/\"2e31e-1JG5tQaHKWj1JcsYUy1Ur1zsUt4\"",
+      "etag": "W/\"2e36a-TmCz+gH9UxapAFrL7ow0uqaN40U\"",
       "evidence": "evidence/d7c6e22ca72e1b05cc27b75ee1b44e21011374981c22bf8a2411c8b4136ca9b4.json.gz",
       "interval": 900,
       "inventory": {
@@ -130363,16 +132646,16 @@
       "kind": "huggingface",
       "last_changed_at": "2026-11-02T18:33:43.558594+00:00",
       "last_modified": null,
-      "last_success_at": "2026-11-09T20:48:45.868641+00:00",
+      "last_success_at": "2026-11-10T02:59:00.989990+00:00",
       "name": "Hugging Face · Mistral",
-      "next_check_at": "2026-11-09T21:03:45.868641+00:00",
+      "next_check_at": "2026-11-10T03:14:00.989990+00:00",
       "url": "https://huggingface.co/api/models?author=mistralai&sort=lastModified&direction=-1&limit=100&full=true"
     },
     "huggingface-moonshot": {
       "baseline_at": "2026-10-28T06:21:39.408622+00:00",
-      "checked_at": "2026-11-09T20:48:45.868641+00:00",
+      "checked_at": "2026-11-10T02:59:00.989990+00:00",
       "error": null,
-      "etag": "W/\"11115-Bnnq90u/IqDHm6r+nWCluWgov3Q\"",
+      "etag": "W/\"11115-ylR7j3wDOW7NCV+Qi4xEwcgGK+s\"",
       "evidence": "evidence/68039946b1a4116469741b8ea340ed08fb7d4225293beaadfde6c37d5142c9cc.json.gz",
       "interval": 900,
       "inventory": {
@@ -131862,16 +134145,16 @@
       "kind": "huggingface",
       "last_changed_at": "2026-11-05T08:34:04.869045+00:00",
       "last_modified": null,
-      "last_success_at": "2026-11-09T20:48:45.868641+00:00",
+      "last_success_at": "2026-11-10T02:59:00.989990+00:00",
       "name": "Hugging Face · Moonshot",
-      "next_check_at": "2026-11-09T21:03:45.868641+00:00",
+      "next_check_at": "2026-11-10T03:14:00.989990+00:00",
       "url": "https://huggingface.co/api/models?author=moonshotai&sort=lastModified&direction=-1&limit=100&full=true"
     },
     "huggingface-qwen": {
       "baseline_at": "2026-10-28T06:21:39.408622+00:00",
-      "checked_at": "2026-11-09T20:48:45.868641+00:00",
+      "checked_at": "2026-11-10T02:59:00.989990+00:00",
       "error": null,
-      "etag": "W/\"3667d-Ma3pdaoaWJ3cPRxfLr2ConuzYLs\"",
+      "etag": "W/\"3667d-Jwcf6yeNYzjh1ro2WrFxWVvnYOI\"",
       "evidence": "evidence/e185689da46ba99bf7ac2db7b1352f0a7bd1b5f2e9cd0737118dd3c11df2663b.json.gz",
       "interval": 900,
       "inventory": {
@@ -147730,17 +150013,17 @@
       "kind": "huggingface",
       "last_changed_at": "2026-11-07T07:49:59.568354+00:00",
       "last_modified": null,
-      "last_success_at": "2026-11-09T20:48:45.868641+00:00",
+      "last_success_at": "2026-11-10T02:59:00.989990+00:00",
       "name": "Hugging Face · Qwen",
-      "next_check_at": "2026-11-09T21:03:45.868641+00:00",
+      "next_check_at": "2026-11-10T03:14:00.989990+00:00",
       "url": "https://huggingface.co/api/models?author=Qwen&sort=lastModified&direction=-1&limit=100&full=true"
     },
     "models-dev": {
       "baseline_at": "2026-10-19T18:04:35.626127+00:00",
-      "checked_at": "2026-11-09T20:48:45.868641+00:00",
+      "checked_at": "2026-11-10T02:59:00.989990+00:00",
       "error": null,
-      "etag": "\"2e3954964d1b2ff924b9e71ce0ea460a\"",
-      "evidence": "evidence/ab24bfef2587859d7a3447f71a4ee8fe10821282a12aafdde6d13e9c80fd384d.json.gz",
+      "etag": "\"1d231fb600e4ca853de0c2fed3a25e50\"",
+      "evidence": "evidence/12d6f36932ce2a5ba290ef3eb6e25e8aa18a2c003ebcdd56b61bbe7bc343a3c1.json.gz",
       "interval": 900,
       "inventory": {
         "beam-free": {
@@ -148375,7 +150658,7 @@
           },
           "name": "Crouton Alpha Free",
           "reasoning": true,
-          "status": null,
+          "status": "deprecated",
           "url": "https://models.dev/#opencode"
         },
         "deepseek-v4-flash": {
@@ -148773,10 +151056,10 @@
         "gemini-3.6-flash": {
           "canonical_model_id": "google/gemini-3.6-flash",
           "cost": {
-            "cache_read": 0.15,
-            "input": 1.5,
-            "input_audio": 1.5,
-            "output": 7.5
+            "cache_read": 0.075,
+            "input": 0.75,
+            "input_audio": 0.75,
+            "output": 3.75
           },
           "limit": {
             "context": 1048576,
@@ -148802,10 +151085,10 @@
         "gemini-3.7-flash": {
           "canonical_model_id": "google/gemini-3.7-flash",
           "cost": {
-            "cache_read": 0.15,
-            "input": 1.5,
-            "input_audio": 1.5,
-            "output": 7.5
+            "cache_read": 0.075,
+            "input": 0.75,
+            "input_audio": 0.75,
+            "output": 3.75
           },
           "limit": {
             "context": 1048576,
@@ -148831,10 +151114,10 @@
         "gemini-3.8-flash": {
           "canonical_model_id": "google/gemini-3.8-flash",
           "cost": {
-            "cache_read": 0.15,
-            "input": 1.5,
-            "input_audio": 1.5,
-            "output": 7.5
+            "cache_read": 0.075,
+            "input": 0.75,
+            "input_audio": 0.75,
+            "output": 3.75
           },
           "limit": {
             "context": 1048576,
@@ -150950,7 +153233,7 @@
           },
           "name": "MiniMax M3.1 Flash Free",
           "reasoning": true,
-          "status": "deprecated",
+          "status": null,
           "url": "https://models.dev/#opencode"
         },
         "mistral-large-4": {
@@ -150979,7 +153262,7 @@
           "url": "https://models.dev/#opencode"
         },
         "muse-ember-1.0": {
-          "canonical_model_id": null,
+          "canonical_model_id": "meta/muse-ember-1.0",
           "cost": {
             "cache_read": 0.004,
             "cache_write": 0,
@@ -151577,16 +153860,16 @@
         }
       },
       "kind": "models-dev",
-      "last_changed_at": "2026-11-09T20:48:45.868641+00:00",
+      "last_changed_at": "2026-11-10T02:59:00.989990+00:00",
       "last_modified": null,
-      "last_success_at": "2026-11-09T20:48:45.868641+00:00",
+      "last_success_at": "2026-11-10T02:59:00.989990+00:00",
       "name": "models.dev · OpenCode",
-      "next_check_at": "2026-11-09T21:03:45.868641+00:00",
+      "next_check_at": "2026-11-10T03:14:00.989990+00:00",
       "url": "https://models.dev/api.json"
     },
     "openai-sdk": {
       "baseline_at": "2026-10-19T18:04:35.626127+00:00",
-      "checked_at": "2026-11-09T20:48:45.868641+00:00",
+      "checked_at": "2026-11-10T02:59:00.989990+00:00",
       "error": null,
       "etag": "\"80c8ac6a810f914ec1cddca65284c5f9d0847f3d\"",
       "evidence": "evidence/59a67eb94a0e7d0ce8c9229c56218ea67b5ad9e6ac963fd8e59e8146a3110749.json.gz",
@@ -151695,17 +153978,17 @@
       "kind": "sdk",
       "last_changed_at": "2026-10-28T15:16:32.595548+00:00",
       "last_modified": "Wed, 28 Oct 2026 11:52:37 GMT",
-      "last_success_at": "2026-11-09T20:48:45.868641+00:00",
+      "last_success_at": "2026-11-10T02:59:00.989990+00:00",
       "name": "OpenAI SDK",
-      "next_check_at": "2026-11-09T21:03:45.868641+00:00",
+      "next_check_at": "2026-11-10T03:14:00.989990+00:00",
       "url": "https://api.github.com/repos/openai/openai-python/contents/src/openai/types/shared/chat_model.py?ref=main"
     },
     "openrouter": {
       "baseline_at": "2026-10-19T18:04:35.626127+00:00",
-      "checked_at": "2026-11-09T20:48:45.868641+00:00",
+      "checked_at": "2026-11-10T02:59:00.989990+00:00",
       "error": null,
       "etag": null,
-      "evidence": "evidence/4fdfe671864a1e148da338351afa0cbf5255c495312958d36d8847920bc918cb.json.gz",
+      "evidence": "evidence/d27b461684b2323f3a26f6c3285fb8626e505e80a0edfa476e99e3e077bc6826.json.gz",
       "interval": 300,
       "inventory": {
         "aion-labs/aion-2.0": {
@@ -154550,9 +156833,9 @@
           "expiration_date": null,
           "name": "DeepSeek: DeepSeek V4 Pro 0423",
           "pricing": {
-            "completion": "0.000001777932",
-            "input_cache_read": "0.0000000740805",
-            "prompt": "0.000000888966"
+            "completion": "0.00000191052",
+            "input_cache_read": "0.000000079605",
+            "prompt": "0.00000095526"
           },
           "supported_parameters": [
             "frequency_penalty",
@@ -156651,9 +158934,9 @@
           "expiration_date": null,
           "name": "Google: Gemma 4 26B A4B ",
           "pricing": {
-            "completion": "0.000000255",
-            "input_cache_read": "0.0000000425",
-            "prompt": "0.0000000765"
+            "completion": "0.0000001",
+            "input_cache_read": "0.000000046",
+            "prompt": "0.00000008"
           },
           "supported_parameters": [
             "frequency_penalty",
@@ -157672,9 +159955,9 @@
           "expiration_date": null,
           "name": "Meta: Llama 3.3 70B Instruct",
           "pricing": {
-            "completion": "0.00000079",
-            "input_cache_read": "0.000000295",
-            "prompt": "0.00000059"
+            "completion": "0.00000071",
+            "input_cache_read": "0.00000071",
+            "prompt": "0.00000071"
           },
           "supported_parameters": [
             "frequency_penalty",
@@ -158441,8 +160724,8 @@
           "expiration_date": null,
           "name": "MiniMax: MiniMax M3.1 Flash",
           "pricing": {
-            "completion": "0.0000003",
-            "input_cache_read": "0.0000000075",
+            "completion": "0.0000006",
+            "input_cache_read": "0.000000015",
             "overrides": [
               {
                 "completion": "0.0000003",
@@ -158459,7 +160742,7 @@
                 "utc_start": 100
               }
             ],
-            "prompt": "0.000000075"
+            "prompt": "0.00000015"
           },
           "supported_parameters": [
             "frequency_penalty",
@@ -164464,9 +166747,9 @@
           "expiration_date": null,
           "name": "OpenAI: gpt-oss-20b",
           "pricing": {
-            "completion": "0.00000009",
-            "input_cache_read": "0.000000009",
-            "prompt": "0.000000018"
+            "completion": "0.00000013",
+            "input_cache_read": "0.00000003",
+            "prompt": "0.00000003"
           },
           "supported_parameters": [
             "frequency_penalty",
@@ -165672,8 +167955,8 @@
           "expiration_date": null,
           "name": "Qwen: Qwen3 14B",
           "pricing": {
-            "completion": "0.00000024",
-            "prompt": "0.00000012"
+            "completion": "0.00000022",
+            "prompt": "0.0000001"
           },
           "supported_parameters": [
             "frequency_penalty",
@@ -167663,10 +169946,15 @@
             "prompt": "0.0000002"
           },
           "supported_parameters": [
+            "frequency_penalty",
             "include_reasoning",
+            "logit_bias",
             "logprobs",
             "max_tokens",
+            "min_p",
+            "presence_penalty",
             "reasoning",
+            "repetition_penalty",
             "response_format",
             "seed",
             "stop",
@@ -167972,45 +170260,6 @@
           ],
           "url": "https://openrouter.ai/scaledown/summarize"
         },
-        "stealth/crouton-alpha": {
-          "alias_target": null,
-          "architecture": {
-            "input_modalities": [
-              "text",
-              "image",
-              "video",
-              "file",
-              "audio"
-            ],
-            "instruct_type": null,
-            "modality": "text+image+file+audio+video->text",
-            "output_modalities": [
-              "text"
-            ],
-            "tokenizer": "Other"
-          },
-          "canonical_slug": "stealth/crouton-alpha",
-          "context_length": 1048576,
-          "expiration_date": null,
-          "name": "Crouton Alpha",
-          "pricing": {
-            "completion": "0",
-            "prompt": "0"
-          },
-          "supported_parameters": [
-            "include_reasoning",
-            "max_tokens",
-            "reasoning",
-            "reasoning_effort",
-            "response_format",
-            "structured_outputs",
-            "temperature",
-            "tool_choice",
-            "tools",
-            "top_p"
-          ],
-          "url": "https://openrouter.ai/stealth/crouton-alpha"
-        },
         "stepfun/step-3.5-flash": {
           "alias_target": null,
           "architecture": {
@@ -168281,8 +170530,8 @@
           "expiration_date": null,
           "name": "Tencent: Hy3",
           "pricing": {
-            "completion": "0.00000033",
-            "input_cache_read": "0.000000020625",
+            "completion": "0.000000528",
+            "input_cache_read": "0.000000033",
             "overrides": [
               {
                 "completion": "0.000000528",
@@ -168299,7 +170548,7 @@
                 "utc_start": 1600
               }
             ],
-            "prompt": "0.0000000825"
+            "prompt": "0.000000132"
           },
           "supported_parameters": [
             "frequency_penalty",
@@ -168415,8 +170664,8 @@
           "expiration_date": null,
           "name": "Tencent: Hy4 preview",
           "pricing": {
-            "completion": "0.0000022509",
-            "input_cache_read": "0.0000000378",
+            "completion": "0.000002501",
+            "input_cache_read": "0.000000042",
             "overrides": [
               {
                 "completion": "0.000002501",
@@ -168433,7 +170682,7 @@
                 "utc_start": 1600
               }
             ],
-            "prompt": "0.0000007506"
+            "prompt": "0.000000834"
           },
           "supported_parameters": [
             "frequency_penalty",
@@ -168620,6 +170869,41 @@
             "top_p"
           ],
           "url": "https://openrouter.ai/thinkingmachines/inkling"
+        },
+        "thinkingmachines/inkling-2-small:free": {
+          "alias_target": null,
+          "architecture": {
+            "input_modalities": [
+              "text",
+              "image"
+            ],
+            "instruct_type": null,
+            "modality": "text+image->text",
+            "output_modalities": [
+              "text"
+            ],
+            "tokenizer": "Other"
+          },
+          "canonical_slug": "thinkingmachines/inkling-2-small-20261107",
+          "context_length": 1048576,
+          "expiration_date": null,
+          "name": "Thinking Machines: Inkling 2 Small (free)",
+          "pricing": {
+            "completion": "0",
+            "prompt": "0"
+          },
+          "supported_parameters": [
+            "include_reasoning",
+            "max_tokens",
+            "reasoning",
+            "reasoning_effort",
+            "seed",
+            "stop",
+            "temperature",
+            "tools",
+            "top_p"
+          ],
+          "url": "https://openrouter.ai/thinkingmachines/inkling-2-small:free"
         },
         "thinkingmachines/inkling-small": {
           "alias_target": null,
@@ -171533,11 +173817,11 @@
         }
       },
       "kind": "openrouter",
-      "last_changed_at": "2026-11-09T20:48:45.868641+00:00",
+      "last_changed_at": "2026-11-10T02:59:00.989990+00:00",
       "last_modified": null,
-      "last_success_at": "2026-11-09T20:48:45.868641+00:00",
+      "last_success_at": "2026-11-10T02:59:00.989990+00:00",
       "name": "OpenRouter · 文本输出",
-      "next_check_at": "2026-11-09T20:53:45.868641+00:00",
+      "next_check_at": "2026-11-10T03:04:00.989990+00:00",
       "url": "https://openrouter.ai/api/v1/models"
     }
   }
