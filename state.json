@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-14T15:59:22.597029+00:00",
+  "checked_at": "2026-11-14T20:33:39.583442+00:00",
   "events": [
     {
       "after": {
@@ -137633,12 +137633,810 @@
       "observed_at": "2026-11-14T15:59:22.597029+00:00",
       "published_at": null,
       "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": "deepseek-r1",
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "DeepSeek"
+        },
+        "canonical_slug": "deepseek/deepseek-r1-0528",
+        "context_length": 163840,
+        "expiration_date": null,
+        "name": "DeepSeek: R1 0528",
+        "pricing": {
+          "completion": "0.000002286",
+          "prompt": "0.000000571"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/deepseek/deepseek-r1-0528"
+      },
+      "before": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": "deepseek-r1",
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "DeepSeek"
+        },
+        "canonical_slug": "deepseek/deepseek-r1-0528",
+        "context_length": 163840,
+        "expiration_date": null,
+        "name": "DeepSeek: R1 0528",
+        "pricing": {
+          "completion": "0.00000215",
+          "input_cache_read": "0.00000035",
+          "prompt": "0.0000005"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/deepseek/deepseek-r1-0528"
+      },
+      "before_evidence": "evidence/0823c5fd466f9c743f80977407fa5b75c53c5f928b3007d7f89484001dc566ad.json.gz",
+      "entity_id": "deepseek/deepseek-r1-0528",
+      "evidence": "evidence/0cfb4d86d19551bd3b4d9b568cc4b954a51ef1f329d5685d8d83410c2d878d7b.json.gz",
+      "id": "18f8189f4851d8a21024db72",
+      "kind": "changed",
+      "observed_at": "2026-11-14T20:33:39.583442+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image",
+            "video"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+video->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Qwen3"
+        },
+        "canonical_slug": "qwen/qwen3.5-9b-20260310",
+        "context_length": 262144,
+        "expiration_date": null,
+        "name": "Qwen: Qwen3.5-9B",
+        "pricing": {
+          "completion": "0.0000002",
+          "input_cache_read": "0.000000123",
+          "prompt": "0.000000136"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_completion_tokens",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/qwen/qwen3.5-9b"
+      },
+      "before": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image",
+            "video"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+video->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Qwen3"
+        },
+        "canonical_slug": "qwen/qwen3.5-9b-20260310",
+        "context_length": 262144,
+        "expiration_date": null,
+        "name": "Qwen: Qwen3.5-9B",
+        "pricing": {
+          "completion": "0.00000025",
+          "input_cache_read": "0.000000153",
+          "prompt": "0.00000017"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_completion_tokens",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/qwen/qwen3.5-9b"
+      },
+      "before_evidence": "evidence/0823c5fd466f9c743f80977407fa5b75c53c5f928b3007d7f89484001dc566ad.json.gz",
+      "entity_id": "qwen/qwen3.5-9b",
+      "evidence": "evidence/0cfb4d86d19551bd3b4d9b568cc4b954a51ef1f329d5685d8d83410c2d878d7b.json.gz",
+      "id": "16c2771122c86406a03399c1",
+      "kind": "changed",
+      "observed_at": "2026-11-14T20:33:39.583442+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "tencent/hy3-20260706",
+        "context_length": 262144,
+        "expiration_date": null,
+        "name": "Tencent: Hy3",
+        "pricing": {
+          "completion": "0.00000033",
+          "input_cache_read": "0.000000020625",
+          "overrides": [
+            {
+              "completion": "0.000000528",
+              "input_cache_read": "0.000000033",
+              "prompt": "0.000000132",
+              "utc_end": 1600,
+              "utc_start": 0
+            },
+            {
+              "completion": "0.00000033",
+              "input_cache_read": "0.000000020625",
+              "prompt": "0.0000000825",
+              "utc_end": 0,
+              "utc_start": 1600
+            }
+          ],
+          "prompt": "0.0000000825"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "max_completion_tokens",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/tencent/hy3"
+      },
+      "before": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "tencent/hy3-20260706",
+        "context_length": 262144,
+        "expiration_date": null,
+        "name": "Tencent: Hy3",
+        "pricing": {
+          "completion": "0.000000528",
+          "input_cache_read": "0.000000033",
+          "overrides": [
+            {
+              "completion": "0.000000528",
+              "input_cache_read": "0.000000033",
+              "prompt": "0.000000132",
+              "utc_end": 1600,
+              "utc_start": 0
+            },
+            {
+              "completion": "0.00000033",
+              "input_cache_read": "0.000000020625",
+              "prompt": "0.0000000825",
+              "utc_end": 0,
+              "utc_start": 1600
+            }
+          ],
+          "prompt": "0.000000132"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "max_completion_tokens",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/tencent/hy3"
+      },
+      "before_evidence": "evidence/0823c5fd466f9c743f80977407fa5b75c53c5f928b3007d7f89484001dc566ad.json.gz",
+      "entity_id": "tencent/hy3",
+      "evidence": "evidence/0cfb4d86d19551bd3b4d9b568cc4b954a51ef1f329d5685d8d83410c2d878d7b.json.gz",
+      "id": "322dd8ecb1309e42c6db9c2b",
+      "kind": "changed",
+      "observed_at": "2026-11-14T20:33:39.583442+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "tencent/hy4-preview-20260827",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "Tencent: Hy4 preview",
+        "pricing": {
+          "completion": "0.0000022509",
+          "input_cache_read": "0.0000000378",
+          "overrides": [
+            {
+              "completion": "0.000002501",
+              "input_cache_read": "0.000000042",
+              "prompt": "0.000000834",
+              "utc_end": 1600,
+              "utc_start": 0
+            },
+            {
+              "completion": "0.0000022509",
+              "input_cache_read": "0.0000000378",
+              "prompt": "0.0000007506",
+              "utc_end": 0,
+              "utc_start": 1600
+            }
+          ],
+          "prompt": "0.0000007506"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_completion_tokens",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/tencent/hy4-preview"
+      },
+      "before": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "tencent/hy4-preview-20260827",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "Tencent: Hy4 preview",
+        "pricing": {
+          "completion": "0.000002501",
+          "input_cache_read": "0.000000042",
+          "overrides": [
+            {
+              "completion": "0.000002501",
+              "input_cache_read": "0.000000042",
+              "prompt": "0.000000834",
+              "utc_end": 1600,
+              "utc_start": 0
+            },
+            {
+              "completion": "0.0000022509",
+              "input_cache_read": "0.0000000378",
+              "prompt": "0.0000007506",
+              "utc_end": 0,
+              "utc_start": 1600
+            }
+          ],
+          "prompt": "0.000000834"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_completion_tokens",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/tencent/hy4-preview"
+      },
+      "before_evidence": "evidence/0823c5fd466f9c743f80977407fa5b75c53c5f928b3007d7f89484001dc566ad.json.gz",
+      "entity_id": "tencent/hy4-preview",
+      "evidence": "evidence/0cfb4d86d19551bd3b4d9b568cc4b954a51ef1f329d5685d8d83410c2d878d7b.json.gz",
+      "id": "a5cd75bd03e00b6078df37dd",
+      "kind": "changed",
+      "observed_at": "2026-11-14T20:33:39.583442+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "z-ai/glm-5.1-20260406",
+        "context_length": 204800,
+        "expiration_date": "2026-11-20",
+        "name": "Z.ai: GLM 5.1",
+        "pricing": {
+          "completion": "0.0000044",
+          "input_cache_read": "0.00000026",
+          "prompt": "0.0000014"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/z-ai/glm-5.1"
+      },
+      "before": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "z-ai/glm-5.1-20260406",
+        "context_length": 204800,
+        "expiration_date": null,
+        "name": "Z.ai: GLM 5.1",
+        "pricing": {
+          "completion": "0.0000044",
+          "input_cache_read": "0.00000026",
+          "prompt": "0.0000014"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/z-ai/glm-5.1"
+      },
+      "before_evidence": "evidence/0823c5fd466f9c743f80977407fa5b75c53c5f928b3007d7f89484001dc566ad.json.gz",
+      "entity_id": "z-ai/glm-5.1",
+      "evidence": "evidence/0cfb4d86d19551bd3b4d9b568cc4b954a51ef1f329d5685d8d83410c2d878d7b.json.gz",
+      "id": "de13cea1004e1c45d227450a",
+      "kind": "changed",
+      "observed_at": "2026-11-14T20:33:39.583442+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "z-ai/glm-5.2-20260616",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "Z.ai: GLM 5.2 (batch)",
+        "pricing": {
+          "completion": "0.000001068",
+          "input_cache_read": "0.000000117",
+          "prompt": "0.000000347"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/z-ai/glm-5.2:batch"
+      },
+      "before": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "z-ai/glm-5.2-20260616",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "Z.ai: GLM 5.2 (batch)",
+        "pricing": {
+          "completion": "0.000000989",
+          "input_cache_read": "0.000000109",
+          "prompt": "0.000000322"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/z-ai/glm-5.2:batch"
+      },
+      "before_evidence": "evidence/0823c5fd466f9c743f80977407fa5b75c53c5f928b3007d7f89484001dc566ad.json.gz",
+      "entity_id": "z-ai/glm-5.2:batch",
+      "evidence": "evidence/0cfb4d86d19551bd3b4d9b568cc4b954a51ef1f329d5685d8d83410c2d878d7b.json.gz",
+      "id": "bc9e0e648b1d4f76cd157476",
+      "kind": "changed",
+      "observed_at": "2026-11-14T20:33:39.583442+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "canonical_model_id": "tencent/hy3",
+        "cost": {
+          "cache_read": 0,
+          "input": 0,
+          "output": 0
+        },
+        "limit": {
+          "context": 190000,
+          "output": 64000
+        },
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Hy3 Free",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": "tencent/hy3",
+        "cost": {
+          "cache_read": 0,
+          "input": 0,
+          "output": 0
+        },
+        "limit": {
+          "context": 190000,
+          "input": 192000,
+          "output": 64000
+        },
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Hy3 Free",
+        "reasoning": true,
+        "status": "deprecated",
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/95871ca1aafc24233bfe0c27980f918450e4dca5fb4ea86d9d0a025bea573236.json.gz",
+      "entity_id": "hy3-free",
+      "evidence": "evidence/647db05fa0084a7a982ac7165522fa3fc9b30fb2187ebf00b49b616581017dfc.json.gz",
+      "id": "9de47b5192b4a2ccd845f6aa",
+      "kind": "changed",
+      "observed_at": "2026-11-14T20:33:39.583442+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "canonical_model_id": "moonshotai/kimi-k3",
+        "cost": {
+          "cache_read": 0.3,
+          "cache_write": 3,
+          "input": 3,
+          "output": 15
+        },
+        "limit": {
+          "context": 1048576,
+          "output": 1048576
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "video"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Kimi K3",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before": {
+        "canonical_model_id": "moonshotai/kimi-k3",
+        "cost": {
+          "cache_read": 0.3,
+          "cache_write": 3,
+          "input": 3,
+          "output": 15
+        },
+        "limit": {
+          "context": 1048576,
+          "output": 131072
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "video"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "name": "Kimi K3",
+        "reasoning": true,
+        "status": null,
+        "url": "https://models.dev/#opencode"
+      },
+      "before_evidence": "evidence/95871ca1aafc24233bfe0c27980f918450e4dca5fb4ea86d9d0a025bea573236.json.gz",
+      "entity_id": "kimi-k3",
+      "evidence": "evidence/647db05fa0084a7a982ac7165522fa3fc9b30fb2187ebf00b49b616581017dfc.json.gz",
+      "id": "a4532dd6b70dade2dde2724e",
+      "kind": "changed",
+      "observed_at": "2026-11-14T20:33:39.583442+00:00",
+      "published_at": null,
+      "source_id": "models-dev"
     }
   ],
   "sources": {
     "aitracker-catalog": {
       "baseline_at": "2026-10-19T22:29:44.347714+00:00",
-      "checked_at": "2026-11-14T15:59:22.597029+00:00",
+      "checked_at": "2026-11-14T20:33:39.583442+00:00",
       "error": null,
       "etag": "W/\"c730-MdulNmse3//HS9ySRMryyqUiBHw\"",
       "evidence": "evidence/20fde0239d27a132bf1b19dcaa44b54212a18a4527991d97873e7ac4f2b2a8de.json.gz",
@@ -138854,23 +139652,23 @@
       "kind": "tracker",
       "last_changed_at": "2026-11-13T09:59:34.156116+00:00",
       "last_modified": null,
-      "last_success_at": "2026-11-14T15:59:22.597029+00:00",
+      "last_success_at": "2026-11-14T20:33:39.583442+00:00",
       "name": "AI Tracker 目录",
-      "next_check_at": "2026-11-14T16:14:22.597029+00:00",
+      "next_check_at": "2026-11-14T20:48:39.583442+00:00",
       "url": "https://live.aitracker.bot/api/model-pages"
     },
     "aitracker-feed": {
-      "checked_at": "2026-11-14T15:59:22.597029+00:00",
+      "checked_at": "2026-11-14T20:33:39.583442+00:00",
       "error": "ValueError: Source has an empty or duplicate identifier",
       "interval": 300,
       "kind": "feed",
       "name": "AI Tracker 消息",
-      "next_check_at": "2026-11-14T16:04:22.597029+00:00",
+      "next_check_at": "2026-11-14T20:38:39.583442+00:00",
       "url": "https://live.aitracker.bot/feeds/all.json"
     },
     "anthropic-sdk": {
       "baseline_at": "2026-10-19T18:04:35.626127+00:00",
-      "checked_at": "2026-11-14T15:59:22.597029+00:00",
+      "checked_at": "2026-11-14T20:33:39.583442+00:00",
       "error": null,
       "etag": "\"170712be972c4d31797654cf8892e4641d3d99a7\"",
       "evidence": "evidence/4bdac803732bb95e1c35b8d4b732dde2f4e0c623d319716981c755f72835dd9a.json.gz",
@@ -138909,9 +139707,9 @@
       "kind": "sdk",
       "last_changed_at": "2026-11-09T20:48:45.868641+00:00",
       "last_modified": "Mon, 09 Nov 2026 18:50:29 GMT",
-      "last_success_at": "2026-11-14T15:59:22.597029+00:00",
+      "last_success_at": "2026-11-14T20:33:39.583442+00:00",
       "name": "Anthropic SDK",
-      "next_check_at": "2026-11-14T16:14:22.597029+00:00",
+      "next_check_at": "2026-11-14T20:48:39.583442+00:00",
       "url": "https://api.github.com/repos/anthropics/anthropic-sdk-python/contents/src/anthropic/types/model.py?ref=main"
     },
     "gemini-cli-build": {
@@ -138922,7 +139720,7 @@
         "version": "0.68.0"
       },
       "baseline_at": "2026-10-28T06:21:39.408622+00:00",
-      "checked_at": "2026-11-14T15:59:22.597029+00:00",
+      "checked_at": "2026-11-14T20:33:39.583442+00:00",
       "error": null,
       "etag": null,
       "evidence": "evidence/34990d549efc87e793c5e23b41b96317609dfe08af05409c8711f8e946118196.json.gz",
@@ -139036,16 +139834,16 @@
       "kind": "gemini-build",
       "last_changed_at": "2026-10-28T06:21:39.408622+00:00",
       "last_modified": null,
-      "last_success_at": "2026-11-14T15:59:22.597029+00:00",
+      "last_success_at": "2026-11-14T20:33:39.583442+00:00",
       "name": "Gemini CLI · 公开构建",
-      "next_check_at": "2026-11-14T16:59:22.597029+00:00",
+      "next_check_at": "2026-11-14T21:33:39.583442+00:00",
       "url": "https://registry.npmjs.org/@google/gemini-cli-core/latest"
     },
     "huggingface-deepseek": {
       "baseline_at": "2026-10-19T18:04:35.626127+00:00",
-      "checked_at": "2026-11-14T15:59:22.597029+00:00",
+      "checked_at": "2026-11-14T20:33:39.583442+00:00",
       "error": null,
-      "etag": "W/\"44e15-WkD6ARPG07Jj94he423tiD2N3ck\"",
+      "etag": "W/\"44e15-lBHtRAg+QxWN3s5jXG3P2IaKs7Q\"",
       "evidence": "evidence/2c6f1bc5bf72f20e764cd508f7e392ba3c3af9d794ff31ad98bcd90b3ee682b4.json.gz",
       "interval": 900,
       "inventory": {
@@ -144946,16 +145744,16 @@
       "kind": "huggingface",
       "last_changed_at": "2026-11-10T02:59:00.989990+00:00",
       "last_modified": null,
-      "last_success_at": "2026-11-14T15:59:22.597029+00:00",
+      "last_success_at": "2026-11-14T20:33:39.583442+00:00",
       "name": "Hugging Face · DeepSeek",
-      "next_check_at": "2026-11-14T16:14:22.597029+00:00",
+      "next_check_at": "2026-11-14T20:48:39.583442+00:00",
       "url": "https://huggingface.co/api/models?author=deepseek-ai&sort=lastModified&direction=-1&limit=100&full=true"
     },
     "huggingface-minimax": {
       "baseline_at": "2026-10-28T06:21:39.408622+00:00",
-      "checked_at": "2026-11-14T15:59:22.597029+00:00",
+      "checked_at": "2026-11-14T20:33:39.583442+00:00",
       "error": null,
-      "etag": "W/\"388f3-eoIP53jg9gpJ3bk/ic8g/O2N8d8\"",
+      "etag": "W/\"388f3-NXWguRVrsc2mUeczVVsGKYQTTGk\"",
       "evidence": "evidence/2bd3dff1081dea7eee83f29bf8311328ecb654c1cd38ff89c1ed9167e84b432d.json.gz",
       "interval": 900,
       "inventory": {
@@ -149635,16 +150433,16 @@
       "kind": "huggingface",
       "last_changed_at": "2026-11-12T07:38:36.706465+00:00",
       "last_modified": null,
-      "last_success_at": "2026-11-14T15:59:22.597029+00:00",
+      "last_success_at": "2026-11-14T20:33:39.583442+00:00",
       "name": "Hugging Face · MiniMax",
-      "next_check_at": "2026-11-14T16:14:22.597029+00:00",
+      "next_check_at": "2026-11-14T20:48:39.583442+00:00",
       "url": "https://huggingface.co/api/models?author=MiniMaxAI&sort=lastModified&direction=-1&limit=100&full=true"
     },
     "huggingface-mistral": {
       "baseline_at": "2026-10-28T06:21:39.408622+00:00",
-      "checked_at": "2026-11-14T15:59:22.597029+00:00",
+      "checked_at": "2026-11-14T20:33:39.583442+00:00",
       "error": null,
-      "etag": "W/\"2e36a-WUkjRh6FdaS0YHBOVGq+DX2c6Co\"",
+      "etag": "W/\"2e36a-rU9I8w0Y7qI1+j8q9aVe8Vm7kJw\"",
       "evidence": "evidence/d7c6e22ca72e1b05cc27b75ee1b44e21011374981c22bf8a2411c8b4136ca9b4.json.gz",
       "interval": 900,
       "inventory": {
@@ -153245,16 +154043,16 @@
       "kind": "huggingface",
       "last_changed_at": "2026-11-02T18:33:43.558594+00:00",
       "last_modified": null,
-      "last_success_at": "2026-11-14T15:59:22.597029+00:00",
+      "last_success_at": "2026-11-14T20:33:39.583442+00:00",
       "name": "Hugging Face · Mistral",
-      "next_check_at": "2026-11-14T16:14:22.597029+00:00",
+      "next_check_at": "2026-11-14T20:48:39.583442+00:00",
       "url": "https://huggingface.co/api/models?author=mistralai&sort=lastModified&direction=-1&limit=100&full=true"
     },
     "huggingface-moonshot": {
       "baseline_at": "2026-10-28T06:21:39.408622+00:00",
-      "checked_at": "2026-11-14T15:59:22.597029+00:00",
+      "checked_at": "2026-11-14T20:33:39.583442+00:00",
       "error": null,
-      "etag": "W/\"11116-KlsSOAlwTwTH01eW7hwUzu26ANc\"",
+      "etag": "W/\"11116-04PBJXa/n8ufMcV+1+KF/7mdtOE\"",
       "evidence": "evidence/68039946b1a4116469741b8ea340ed08fb7d4225293beaadfde6c37d5142c9cc.json.gz",
       "interval": 900,
       "inventory": {
@@ -154744,16 +155542,16 @@
       "kind": "huggingface",
       "last_changed_at": "2026-11-05T08:34:04.869045+00:00",
       "last_modified": null,
-      "last_success_at": "2026-11-14T15:59:22.597029+00:00",
+      "last_success_at": "2026-11-14T20:33:39.583442+00:00",
       "name": "Hugging Face · Moonshot",
-      "next_check_at": "2026-11-14T16:14:22.597029+00:00",
+      "next_check_at": "2026-11-14T20:48:39.583442+00:00",
       "url": "https://huggingface.co/api/models?author=moonshotai&sort=lastModified&direction=-1&limit=100&full=true"
     },
     "huggingface-qwen": {
       "baseline_at": "2026-10-28T06:21:39.408622+00:00",
-      "checked_at": "2026-11-14T15:59:22.597029+00:00",
+      "checked_at": "2026-11-14T20:33:39.583442+00:00",
       "error": null,
-      "etag": "W/\"36679-BsbUV8wdUB/CY6x4lk8zvwW2ogs\"",
+      "etag": "W/\"36679-V0KV6uDV9ewyx4l09Y3oFq42TzU\"",
       "evidence": "evidence/e185689da46ba99bf7ac2db7b1352f0a7bd1b5f2e9cd0737118dd3c11df2663b.json.gz",
       "interval": 900,
       "inventory": {
@@ -170612,17 +171410,17 @@
       "kind": "huggingface",
       "last_changed_at": "2026-11-07T07:49:59.568354+00:00",
       "last_modified": null,
-      "last_success_at": "2026-11-14T15:59:22.597029+00:00",
+      "last_success_at": "2026-11-14T20:33:39.583442+00:00",
       "name": "Hugging Face · Qwen",
-      "next_check_at": "2026-11-14T16:14:22.597029+00:00",
+      "next_check_at": "2026-11-14T20:48:39.583442+00:00",
       "url": "https://huggingface.co/api/models?author=Qwen&sort=lastModified&direction=-1&limit=100&full=true"
     },
     "models-dev": {
       "baseline_at": "2026-10-19T18:04:35.626127+00:00",
-      "checked_at": "2026-11-14T15:59:22.597029+00:00",
+      "checked_at": "2026-11-14T20:33:39.583442+00:00",
       "error": null,
-      "etag": "\"cd6306210d8182d401597795d3c1e7b7\"",
-      "evidence": "evidence/95871ca1aafc24233bfe0c27980f918450e4dca5fb4ea86d9d0a025bea573236.json.gz",
+      "etag": "\"3babfc21f65e1415058bff0f791ed14e\"",
+      "evidence": "evidence/647db05fa0084a7a982ac7165522fa3fc9b30fb2187ebf00b49b616581017dfc.json.gz",
       "interval": 900,
       "inventory": {
         "beam-free": {
@@ -173057,7 +173855,6 @@
           },
           "limit": {
             "context": 190000,
-            "input": 192000,
             "output": 64000
           },
           "modalities": {
@@ -173309,7 +174106,7 @@
           },
           "limit": {
             "context": 1048576,
-            "output": 131072
+            "output": 1048576
           },
           "modalities": {
             "input": [
@@ -174535,16 +175332,16 @@
         }
       },
       "kind": "models-dev",
-      "last_changed_at": "2026-11-12T22:16:32.559972+00:00",
+      "last_changed_at": "2026-11-14T20:33:39.583442+00:00",
       "last_modified": null,
-      "last_success_at": "2026-11-14T15:59:22.597029+00:00",
+      "last_success_at": "2026-11-14T20:33:39.583442+00:00",
       "name": "models.dev · OpenCode",
-      "next_check_at": "2026-11-14T16:14:22.597029+00:00",
+      "next_check_at": "2026-11-14T20:48:39.583442+00:00",
       "url": "https://models.dev/api.json"
     },
     "openai-sdk": {
       "baseline_at": "2026-10-19T18:04:35.626127+00:00",
-      "checked_at": "2026-11-14T15:59:22.597029+00:00",
+      "checked_at": "2026-11-14T20:33:39.583442+00:00",
       "error": null,
       "etag": "\"80c8ac6a810f914ec1cddca65284c5f9d0847f3d\"",
       "evidence": "evidence/59a67eb94a0e7d0ce8c9229c56218ea67b5ad9e6ac963fd8e59e8146a3110749.json.gz",
@@ -174653,17 +175450,17 @@
       "kind": "sdk",
       "last_changed_at": "2026-10-28T15:16:32.595548+00:00",
       "last_modified": "Wed, 28 Oct 2026 11:52:37 GMT",
-      "last_success_at": "2026-11-14T15:59:22.597029+00:00",
+      "last_success_at": "2026-11-14T20:33:39.583442+00:00",
       "name": "OpenAI SDK",
-      "next_check_at": "2026-11-14T16:14:22.597029+00:00",
+      "next_check_at": "2026-11-14T20:48:39.583442+00:00",
       "url": "https://api.github.com/repos/openai/openai-python/contents/src/openai/types/shared/chat_model.py?ref=main"
     },
     "openrouter": {
       "baseline_at": "2026-10-19T18:04:35.626127+00:00",
-      "checked_at": "2026-11-14T15:59:22.597029+00:00",
+      "checked_at": "2026-11-14T20:33:39.583442+00:00",
       "error": null,
       "etag": null,
-      "evidence": "evidence/0823c5fd466f9c743f80977407fa5b75c53c5f928b3007d7f89484001dc566ad.json.gz",
+      "evidence": "evidence/0cfb4d86d19551bd3b4d9b568cc4b954a51ef1f329d5685d8d83410c2d878d7b.json.gz",
       "interval": 300,
       "inventory": {
         "aion-labs/aion-2.0": {
@@ -177094,9 +177891,8 @@
           "expiration_date": null,
           "name": "DeepSeek: R1 0528",
           "pricing": {
-            "completion": "0.00000215",
-            "input_cache_read": "0.00000035",
-            "prompt": "0.0000005"
+            "completion": "0.000002286",
+            "prompt": "0.000000571"
           },
           "supported_parameters": [
             "frequency_penalty",
@@ -189705,9 +190501,9 @@
           "expiration_date": null,
           "name": "Qwen: Qwen3.5-9B",
           "pricing": {
-            "completion": "0.00000025",
-            "input_cache_read": "0.000000153",
-            "prompt": "0.00000017"
+            "completion": "0.0000002",
+            "input_cache_read": "0.000000123",
+            "prompt": "0.000000136"
           },
           "supported_parameters": [
             "frequency_penalty",
@@ -191458,8 +192254,8 @@
           "expiration_date": null,
           "name": "Tencent: Hy3",
           "pricing": {
-            "completion": "0.000000528",
-            "input_cache_read": "0.000000033",
+            "completion": "0.00000033",
+            "input_cache_read": "0.000000020625",
             "overrides": [
               {
                 "completion": "0.000000528",
@@ -191476,7 +192272,7 @@
                 "utc_start": 1600
               }
             ],
-            "prompt": "0.000000132"
+            "prompt": "0.0000000825"
           },
           "supported_parameters": [
             "frequency_penalty",
@@ -191592,8 +192388,8 @@
           "expiration_date": null,
           "name": "Tencent: Hy4 preview",
           "pricing": {
-            "completion": "0.000002501",
-            "input_cache_read": "0.000000042",
+            "completion": "0.0000022509",
+            "input_cache_read": "0.0000000378",
             "overrides": [
               {
                 "completion": "0.000002501",
@@ -191610,7 +192406,7 @@
                 "utc_start": 1600
               }
             ],
-            "prompt": "0.000000834"
+            "prompt": "0.0000007506"
           },
           "supported_parameters": [
             "frequency_penalty",
@@ -193371,7 +194167,7 @@
           },
           "canonical_slug": "z-ai/glm-5.1-20260406",
           "context_length": 204800,
-          "expiration_date": null,
+          "expiration_date": "2026-11-20",
           "name": "Z.ai: GLM 5.1",
           "pricing": {
             "completion": "0.0000044",
@@ -193466,9 +194262,9 @@
           "expiration_date": null,
           "name": "Z.ai: GLM 5.2 (batch)",
           "pricing": {
-            "completion": "0.000000989",
-            "input_cache_read": "0.000000109",
-            "prompt": "0.000000322"
+            "completion": "0.000001068",
+            "input_cache_read": "0.000000117",
+            "prompt": "0.000000347"
           },
           "supported_parameters": [
             "frequency_penalty",
@@ -194787,11 +195583,11 @@
         }
       },
       "kind": "openrouter",
-      "last_changed_at": "2026-11-14T15:59:22.597029+00:00",
-      "last_modified": null,
-      "last_success_at": "2026-11-14T15:59:22.597029+00:00",
+      "last_changed_at": "2026-11-14T20:33:39.583442+00:00",
+      "last_modified": "Sat, 14 Nov 2026 20:32:05 GMT",
+      "last_success_at": "2026-11-14T20:33:39.583442+00:00",
       "name": "OpenRouter · 文本输出",
-      "next_check_at": "2026-11-14T16:04:22.597029+00:00",
+      "next_check_at": "2026-11-14T20:38:39.583442+00:00",
       "url": "https://openrouter.ai/api/v1/models"
     }
   }
