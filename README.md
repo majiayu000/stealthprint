@@ -83,7 +83,9 @@ stealthprint watch --fingerprint --base-url https://openrouter.ai/api/v1 --api-k
 Each run stores the catalog under `watch-state/<source>/latest.json` and appends
 `added` / `removed` events to `sightings.jsonl`. The first run is a silent baseline.
 Run it from cron. `--fingerprint` adds L1 survey evidence to new ids (billable);
-`--webhook URL` posts new events. A sighting says when an id appeared, not who
+`--webhook URL` posts new events. A redirect from the catalog or the webhook is
+reported as an error and never followed, so the key stays with the host you named.
+A sighting says when an id appeared, not who
 built it, and `stealth_hint` is a naming heuristic.
 [Backtest on 180 archived OpenRouter catalogs](docs/watch-backtest.zh-CN.md):
 all 10 confirmed stealth releases appeared before launch, median 7 days early.

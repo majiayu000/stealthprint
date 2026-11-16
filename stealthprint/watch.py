@@ -7,8 +7,11 @@ who made the model; run the fingerprint layers on new ids for that.
 import json
 import os
 import re
+import urllib.error
 import urllib.request
 from datetime import datetime, timezone
+
+from .client import _NoRedirect
 
 SOURCES = {
     "openrouter": "https://openrouter.ai/api/v1/models",
@@ -28,12 +31,31 @@ def resolve_source(source):
     raise ValueError("unknown source %r (use %s or a catalog URL)" % (source, ", ".join(SOURCES)))
 
 
+_OPENER = urllib.request.build_opener(_NoRedirect())
+
+
+def _open(request, timeout):
+    """Open without following redirects, like ChatClient.
+
+    urllib would resend the catalog key to whatever host the redirect names, and would
+    turn a redirected webhook POST into a GET without the events that still answers 200."""
+    try:
+        return _OPENER.open(request, timeout=timeout)
+    except urllib.error.HTTPError as error:
+        location = error.headers.get("Location") if 300 <= error.code < 400 else None
+        if not location:
+            raise
+        error.close()
+        raise RuntimeError("HTTP %d redirect to %s was not followed; use the final URL"
+                           % (error.code, location)) from None
+
+
 def fetch_catalog(url, api_key=None, timeout=60):
     """GET an OpenAI-compatible model list and return its `data` entries."""
     headers = {"Accept": "application/json", "User-Agent": "stealthprint-watch"}
     if api_key:
         headers["Authorization"] = "Bearer " + api_key
-    with urllib.request.urlopen(urllib.request.Request(url, headers=headers), timeout=timeout) as response:
+    with _open(urllib.request.Request(url, headers=headers), timeout) as response:
         payload = json.loads(response.read().decode("utf-8"))
     data = payload.get("data") if isinstance(payload, dict) else None
     if not isinstance(data, list):
@@ -129,5 +151,5 @@ def post_webhook(url, events, timeout=30):
     body = json.dumps({"events": events}, ensure_ascii=False).encode("utf-8")
     request = urllib.request.Request(url, data=body, method="POST",
                                      headers={"Content-Type": "application/json"})
-    with urllib.request.urlopen(request, timeout=timeout) as response:
+    with _open(request, timeout) as response:
         return response.status
