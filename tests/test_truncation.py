@@ -353,6 +353,45 @@ class SentinelTests(unittest.TestCase):
         self.assertEqual(out["status"], "unverifiable")
 
 
+class SentinelCliTests(unittest.TestCase):
+    # A scheduled job reads exit 1 as "the model changed", so a run that failed must not use it.
+    STORED = {"model": "m", "count_integrity": {"status": "trusted"}, "l1_delta": {"p1": 1, "p2": 2}}
+
+    def run_cli(self, model="m", **l1):
+        import contextlib
+        import io
+        import tempfile
+        from stealthprint.cli import main
+        with tempfile.TemporaryDirectory() as d:
+            (Path(d) / "m.json").write_text(json.dumps(self.STORED))
+            out = Path(d) / "sentinel.jsonl"
+            with mock.patch.object(fp, "count_integrity", return_value={"status": "trusted"}), \
+                 mock.patch.object(fp, "tokenizer_differential", **l1), \
+                 contextlib.redirect_stderr(io.StringIO()), contextlib.redirect_stdout(io.StringIO()):
+                try:
+                    code = main(["--base-url", "http://127.0.0.1:1", "--model", model, "--api-key", "k",
+                                 "sentinel", "--library", d, "--out", str(out)])
+                except SystemExit as stop:
+                    code = stop.code
+            rows = [json.loads(line) for line in out.read_text().splitlines()] if out.exists() else []
+        return code, rows
+
+    def test_changed_exits_one_and_unchanged_exits_zero(self):
+        code, rows = self.run_cli(return_value={"api_delta": {"p1": 1, "p2": 9}})
+        self.assertEqual((code, rows[0]["status"]), (1, "changed"))
+        code, rows = self.run_cli(return_value={"api_delta": {"p1": 1, "p2": 2}})
+        self.assertEqual((code, rows[0]["status"]), (0, "unchanged"))
+
+    def test_failed_measurement_is_recorded_and_does_not_exit_like_a_change(self):
+        code, rows = self.run_cli(side_effect=RuntimeError("base request failed: {'http': 503}"))
+        self.assertEqual(code, 2)
+        self.assertEqual(rows, [{"model": "m", "status": "error", "error": "base request failed: {'http': 503}"}])
+
+    def test_missing_stored_profile_does_not_exit_like_a_change(self):
+        code, rows = self.run_cli(model="other", return_value={"api_delta": {}})
+        self.assertEqual((code, rows), (2, []))
+
+
 class ProfileCliTests(unittest.TestCase):
     def test_partial_profile_survives_a_failing_layer(self):
         import contextlib

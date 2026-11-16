@@ -9,6 +9,18 @@ from .i18n import set_lang, get_lang, VALID_LANGS, load_probes, t
 from . import layers, probes_extra, survey, watch
 
 
+# sentinel is run from schedulers that read exit 1 as "the model changed".
+SENTINEL_ERROR_EXIT = 2
+
+
+def fail(args, message):
+    """Stop on an error. A sentinel run that failed is not a change, so it does not exit 1."""
+    if args.cmd == "sentinel":
+        print(message, file=sys.stderr)
+        sys.exit(SENTINEL_ERROR_EXIT)
+    sys.exit(message)
+
+
 def make_client(args):
     try:
         return ChatClient(model=args.model, base_url=args.base_url, api_key=args.api_key,
@@ -16,7 +28,7 @@ def make_client(args):
                           shell=getattr(args, "shell", None),
                           session_id=getattr(args, "session_id", None))
     except (ValueError, OSError) as e:
-        sys.exit(str(e))
+        fail(args, str(e))
 
 
 def emit(result, as_json):
@@ -114,7 +126,7 @@ def build_parser():
     p.add_argument("--max-requests", type=int, default=80, help="request cap per text")
     p.add_argument("--no-stream", action="store_true", help="skip the streamed echo used for model-to-model comparison")
     p = sub.add_parser("sentinel", parents=[common],
-                       help="re-measure a stored profile and report changes (exit 1 if changed)")
+                       help="re-measure a stored profile and report changes (exit 1 if changed, 2 if the run failed)")
     p.add_argument("--library", default="fingerprints", help="dir of profile JSON files")
     p.add_argument("--tokenizers", default="tok", help="dir of local tokenizer candidates")
     p.add_argument("--extra", default=None, help=extra_help)
@@ -190,17 +202,19 @@ def main(argv=None):
         emit(r, args.json)
         return 0
     if not args.model and args.cmd != "survey":
-        sys.exit(t("err.no_model"))
+        fail(args, t("err.no_model"))
     client = make_client(args)
 
     if args.transport == "anthropic" and args.cmd not in ("tokenizer", "wrapper"):
-        sys.exit("Anthropic CLI supports tokenizer/wrapper text counts only")
+        fail(args, "Anthropic CLI supports tokenizer/wrapper text counts only")
     try:
         with contextlib.redirect_stdout(sys.stderr) if args.json else contextlib.nullcontext():
             r = run(args, client)
     except (ValueError, RuntimeError, OSError) as error:
-        sys.exit(str(error))
+        fail(args, str(error))
     emit(r, args.json)
+    if args.cmd == "sentinel" and r["status"] == "error":
+        return SENTINEL_ERROR_EXIT
     return 1 if r.get("error") or r.get("status") in ("incomplete", "unstable_counts", "untrusted", "changed") else 0
 
 
@@ -285,8 +299,13 @@ def run(args, client):
             stored = fingerprint.load_library(args.library).get(args.model)
             if stored is None:
                 raise ValueError("no stored profile for %s in %s" % (args.model, args.library))
-            r = fingerprint.sentinel(client, stored, load_probes(), tokenizers_dir=args.tokenizers,
-                                     l1_probes=args.l1_probes, extra=extra)
+            try:
+                r = fingerprint.sentinel(client, stored, load_probes(), tokenizers_dir=args.tokenizers,
+                                         l1_probes=args.l1_probes, extra=extra)
+            except (ValueError, RuntimeError, OSError) as error:
+                # A run that could not finish says nothing about the model, but it still gets its line in --out.
+                print("sentinel %s: error %s" % (args.model, error), file=sys.stderr)
+                r = {"model": args.model, "status": "error", "error": str(error)}
             if args.out:
                 with open(args.out, "a", encoding="utf-8") as fh:
                     fh.write(json.dumps(r, ensure_ascii=False) + "\n")
