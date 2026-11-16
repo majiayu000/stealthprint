@@ -24,6 +24,19 @@ def emit(result, as_json):
         print(json.dumps(result, ensure_ascii=False, indent=2, default=str))
 
 
+def write_json(path, value):
+    """Replace path in one step: a failed or interrupted write leaves the previous file whole."""
+    temporary = path + ".tmp"
+    try:
+        with open(temporary, "w", encoding="utf-8") as fh:
+            json.dump(value, fh, ensure_ascii=False, indent=1)
+        os.replace(temporary, path)
+    except BaseException:
+        with contextlib.suppress(OSError):
+            os.remove(temporary)
+        raise
+
+
 def build_parser():
     # CLI help language follows env at parse time; output messages follow --lang.
     ap = argparse.ArgumentParser(prog="stealthprint", description=t("cli.desc"))
@@ -111,7 +124,9 @@ def build_parser():
                        help="run count-check+tokenizer+segment+leaks+vision-grid and write one profile JSON; adds truncation when counts are untrusted")
     p.add_argument("--tokenizers", default="tok", help="dir of local tokenizer.json candidates")
     p.add_argument("--extra", default=None, help=extra_help)
-    p.add_argument("--out", required=True, help="profile JSON path (e.g. fingerprints/<model>.json)")
+    p.add_argument("--out", required=True,
+                   help="profile JSON path (e.g. fingerprints/<model>.json); an existing file is replaced only "
+                        "when the run finishes, until then progress is kept in <path>.partial")
     p.add_argument("--skip", default="", help="comma list of layers to skip: integrity,l1,segment,leaks,vision,truncation")
     p.add_argument("--with-truncation", action="store_true", help="run truncation even when counts are trusted")
     p = sub.add_parser("match", parents=[common], help="offline: compare a profile JSON against a library dir")
@@ -266,13 +281,17 @@ def run(args, client):
         else:
             skip = {s.strip() for s in args.skip.split(",") if s.strip()}
             measured = {}
+            # A profile already at --out is replaced only by a run that finishes. Until then
+            # progress goes beside it, so a failed re-profile cannot wipe the stored layers.
+            progress = args.out + ".partial" if os.path.exists(args.out) else args.out
+            if progress != args.out:
+                print("%s exists: kept until this run finishes, progress is saved to %s" % (args.out, progress))
 
-            def save():
+            def save(path=progress):
                 # Written after every layer, so an interrupted run keeps what it paid for.
                 result = fingerprint.build_profile(args.model, meta={"base_url": client.base_url},
                                                    response_meta=client.response_meta(), **measured)
-                with open(args.out, "w", encoding="utf-8") as fh:
-                    json.dump(result, fh, ensure_ascii=False, indent=1)
+                write_json(path, result)
                 return result
 
             def layer(key, name, measure):
@@ -288,7 +307,10 @@ def run(args, client):
             if args.with_truncation or (measured.get("integrity") or {}).get("status") == "untrusted":
                 from . import truncation
                 layer("trunc", "truncation", lambda: truncation.truncation_probe(client, tokenizers_dir=args.tokenizers, extra=extra))
-            r = save()
+            r = save(args.out)
+            if progress != args.out:
+                with contextlib.suppress(FileNotFoundError):
+                    os.remove(progress)
     elif args.cmd == "survey":
         from .client import require_openai
         require_openai(client)

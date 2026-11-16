@@ -385,6 +385,68 @@ class ProfileCliTests(unittest.TestCase):
             probe.assert_called_once()
             self.assertEqual(json.loads(out.read_text())["tokenizer_candidates"], ["llama4"])
 
+    STORED = {"model": "m", "meta": {}, "l1_delta": {"p1": 1}, "vision": {"fit": None, "tokens": {"64x64": 7}}}
+
+    def test_failed_rerun_leaves_the_existing_profile_alone(self):
+        import contextlib
+        import io
+        import tempfile
+        from stealthprint.cli import main
+        with tempfile.TemporaryDirectory() as d:
+            out = Path(d) / "p.json"
+            out.write_text(json.dumps(self.STORED))
+            with mock.patch.object(fp, "count_integrity", return_value={"status": "incomplete"}), \
+                 mock.patch("stealthprint.layers.tokenizer_differential", side_effect=RuntimeError("base request failed")), \
+                 contextlib.redirect_stderr(io.StringIO()), contextlib.redirect_stdout(io.StringIO()), \
+                 self.assertRaises(SystemExit):
+                main(["--base-url", "http://127.0.0.1:1", "--model", "m", "--api-key", "k",
+                      "profile", "--out", str(out)])
+            self.assertEqual(json.loads(out.read_text()), self.STORED)
+            partial = json.loads(Path(str(out) + ".partial").read_text())
+            self.assertEqual(partial["count_integrity"]["status"], "incomplete")
+
+    def test_finished_rerun_replaces_the_existing_profile(self):
+        import contextlib
+        import io
+        import os
+        import tempfile
+        from stealthprint.cli import main
+        with tempfile.TemporaryDirectory() as d:
+            out = Path(d) / "p.json"
+            out.write_text(json.dumps(self.STORED))
+            with mock.patch.object(fp, "count_integrity", return_value={"status": "trusted"}), \
+                 contextlib.redirect_stdout(io.StringIO()):
+                main(["--base-url", "http://127.0.0.1:1", "--model", "m", "--api-key", "k", "profile",
+                      "--out", str(out), "--skip", "l1,segment,leaks,vision"])
+            self.assertEqual(json.loads(out.read_text())["count_integrity"]["status"], "trusted")
+            self.assertEqual(os.listdir(d), ["p.json"])
+
+    def test_interrupted_write_keeps_the_last_complete_save(self):
+        import contextlib
+        import io
+        import os
+        import tempfile
+        from stealthprint.cli import main
+        real_dump, dumps = json.dump, []
+
+        def dump(value, stream, **kwargs):
+            dumps.append(value)
+            if len(dumps) == 2:
+                stream.write('{"model": "m", "count_in')
+                raise KeyboardInterrupt
+            real_dump(value, stream, **kwargs)
+
+        with tempfile.TemporaryDirectory() as d:
+            out = Path(d) / "p.json"
+            with mock.patch.object(fp, "count_integrity", return_value={"status": "trusted"}), \
+                 mock.patch.object(fp, "error_leaks", return_value={"tags": ["vllm"], "limits": {}}), \
+                 mock.patch.object(json, "dump", side_effect=dump), \
+                 contextlib.redirect_stdout(io.StringIO()), self.assertRaises(KeyboardInterrupt):
+                main(["--base-url", "http://127.0.0.1:1", "--model", "m", "--api-key", "k", "profile",
+                      "--out", str(out), "--skip", "l1,segment,vision"])
+            self.assertEqual(json.loads(out.read_text())["count_integrity"]["status"], "trusted")
+            self.assertEqual(os.listdir(d), ["p.json"])
+
 
 class ScrubTests(unittest.TestCase):
     def setUp(self):
