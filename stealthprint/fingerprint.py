@@ -16,7 +16,7 @@ import math
 import os
 import re
 
-from .client import nonzero_prompt_tokens, require_openai
+from .client import ZERO_USAGE_ATTEMPTS, nonzero_prompt_tokens, require_openai
 from . import truncation as truncation_layer
 from .layers import encode_len, png_b64, load_local_tokenizers, tokenizer_differential, visible_lengths
 
@@ -291,7 +291,8 @@ def fit_grid_formula(points, patches=range(8, 129), max_const=64):
 def vision_grid(client, sizes=None, rgb=(220, 30, 30), extra=None, verbose=True):
     require_openai(client)
     q = "What single color fills this image? Answer with one word."
-    base, err = client.prompt_tokens([{"role": "user", "content": q}], max_tokens=64, extra=extra)
+    # An image may add 0 tokens, but no request costs 0 in total: that is a dropped usage report.
+    base, err = nonzero_prompt_tokens(client, [{"role": "user", "content": q}], max_tokens=64, extra=extra)
     if err:
         return {"error": "text-only control failed", "detail": str(err.get("body"))[:300]}
     rows = []
@@ -299,7 +300,12 @@ def vision_grid(client, sizes=None, rgb=(220, 30, 30), extra=None, verbose=True)
         msg = [{"role": "user", "content": [
             {"type": "text", "text": q},
             {"type": "image_url", "image_url": {"url": "data:image/png;base64," + png_b64((w, h), rgb)}}]}]
-        d, err = client.chat(msg, max_tokens=64, extra=extra)
+        for _ in range(ZERO_USAGE_ATTEMPTS):
+            d, err = client.chat(msg, max_tokens=64, extra=extra)
+            if err or d["usage"]["prompt_tokens"] > 0:
+                break
+        else:
+            err = {"body": "prompt tokens stayed 0 after %d attempts" % ZERO_USAGE_ATTEMPTS}
         if err:
             rows.append({"size": "%dx%d" % (w, h), "w": w, "h": h, "error": str(err.get("body"))[:200]})
         else:
