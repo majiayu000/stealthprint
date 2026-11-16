@@ -82,7 +82,8 @@ stealthprint watch --fingerprint --base-url https://openrouter.ai/api/v1 --api-k
 
 Each run stores the catalog under `watch-state/<source>/latest.json` and appends
 `added` / `removed` events to `sightings.jsonl`. The first run is a silent baseline.
-Run it from cron. `--fingerprint` adds L1 survey evidence to new ids (billable);
+Run it from cron. A run that starts while another is still working on the same source
+exits with an error and does nothing. `--fingerprint` adds L1 survey evidence to new ids (billable);
 `--webhook URL` posts new events. A redirect from the catalog or the webhook is
 reported as an error and never followed, so the key stays with the host you named.
 Events the webhook did not accept stay in `webhook-pending.jsonl` and are sent again

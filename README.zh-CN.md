@@ -82,7 +82,7 @@ stealthprint watch --source https://api.example.com/v1/models --api-key ... --st
 stealthprint watch --fingerprint --base-url https://openrouter.ai/api/v1 --api-key ... --tokenizers tok/
 ```
 
-每次运行把目录保存到 `watch-state/<source>/latest.json`，并把 `added` / `removed` 事件追加到 `sightings.jsonl`。第一次运行只记录基线，不产生事件。适合放进 cron 定时跑。`--fingerprint` 会对新增 id 跑 L1 survey 并附上证据（会产生费用）；`--webhook URL` 会把新事件推送出去。目录或 webhook 返回重定向时直接报错、不跟随，key 不会被带到别的主机。webhook 没收下的事件留在 `webhook-pending.jsonl`，下次带 `--webhook` 运行时重发，所以接收端可能收到同一事件两次。sighting 只说明某个 id 何时出现，不说明它是谁做的；`stealth_hint` 只是按命名规则做的提示。[基于 180 份 OpenRouter 历史目录的回测](docs/watch-backtest.zh-CN.md)显示：10 个已确认的 stealth 发布全部早于官方发布，中位提前 7 天。`scripts/blind_eval.py` 用具名模型测 L1 结论的准确率。
+每次运行把目录保存到 `watch-state/<source>/latest.json`，并把 `added` / `removed` 事件追加到 `sightings.jsonl`。第一次运行只记录基线，不产生事件。适合放进 cron 定时跑；同一个 source 上一次运行还没结束时，新启动的运行直接报错退出，什么也不做。`--fingerprint` 会对新增 id 跑 L1 survey 并附上证据（会产生费用）；`--webhook URL` 会把新事件推送出去。目录或 webhook 返回重定向时直接报错、不跟随，key 不会被带到别的主机。webhook 没收下的事件留在 `webhook-pending.jsonl`，下次带 `--webhook` 运行时重发，所以接收端可能收到同一事件两次。sighting 只说明某个 id 何时出现，不说明它是谁做的；`stealth_hint` 只是按命名规则做的提示。[基于 180 份 OpenRouter 历史目录的回测](docs/watch-backtest.zh-CN.md)显示：10 个已确认的 stealth 发布全部早于官方发布，中位提前 7 天。`scripts/blind_eval.py` 用具名模型测 L1 结论的准确率。
 
 ## 第一次调查：先比较分词器，再选择大探针
 

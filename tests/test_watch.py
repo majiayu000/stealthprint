@@ -8,6 +8,7 @@ import threading
 import unittest
 from datetime import datetime, timezone
 from http.server import BaseHTTPRequestHandler, HTTPServer
+from unittest import mock
 
 from stealthprint import watch
 from stealthprint.cli import main
@@ -85,6 +86,90 @@ class WatchTests(unittest.TestCase):
         self.assertEqual(deliver(), 1)
         self.assertEqual([(e["event"], e["model"]) for e in sent[0]], [("removed", "b/y")])
         self.assertFalse(os.path.exists(pending))
+
+    def test_a_pass_that_overlaps_another_does_nothing(self):
+        # cron starts the next pass while --fingerprint is still probing the last one's new ids
+        watch.run_watch(self.state, fetch=catalog("a/x"), verbose=False)
+        probed, refused = [], []
+
+        def overlapping(call):
+            try:
+                call()
+            except RuntimeError as error:
+                refused.append(str(error))
+
+        def on_added(ids):
+            probed.append(ids)
+            overlapping(lambda: watch.run_watch(self.state, fetch=catalog("a/x", "n/new"),
+                                                on_added=probed.append, verbose=False))
+            overlapping(lambda: watch.deliver_webhook(self.state, "openrouter", "hook", post=probed.append))
+
+        watch.run_watch(self.state, fetch=catalog("a/x", "n/new"), on_added=on_added,
+                        queue_webhook=True, verbose=False)
+        self.assertEqual(probed, [["n/new"]])
+        self.assertEqual([e["model"] for e in self.sightings()], ["n/new"])
+        self.assertEqual([("still running" in message) for message in refused], [True, True])
+        # the lock goes with the pass, so the next one runs
+        self.assertEqual(watch.run_watch(self.state, fetch=catalog("a/x"), verbose=False)["removed"], ["n/new"])
+
+    def interrupted_pass(self, *ids):
+        """A pass that appends its sightings and dies before latest.json moves."""
+        probed = []
+        with mock.patch.object(watch.os, "replace", side_effect=OSError("killed here")):
+            with self.assertRaisesRegex(OSError, "killed here"):
+                watch.run_watch(self.state, fetch=catalog(*ids), on_added=probed.append, verbose=False)
+        return probed
+
+    def test_a_pass_that_died_before_latest_moved_is_not_recorded_twice(self):
+        watch.run_watch(self.state, fetch=catalog("a/x", "b/y"), verbose=False)
+        probed = self.interrupted_pass("a/x", "n/new")
+        recorded = [("added", "n/new"), ("removed", "b/y")]
+        self.assertEqual([(e["event"], e["model"]) for e in self.sightings()], recorded)
+        r = watch.run_watch(self.state, fetch=catalog("a/x", "n/new"), on_added=probed.append, verbose=False)
+        self.assertEqual(r["events"], [])
+        self.assertEqual(probed, [["n/new"]])               # not probed, and billed, a second time
+        self.assertEqual([(e["event"], e["model"]) for e in self.sightings()], recorded)
+
+    def test_the_pass_after_an_interrupted_one_records_only_what_changed_since(self):
+        watch.run_watch(self.state, fetch=catalog("a/x", "b/y"), verbose=False)
+        self.interrupted_pass("a/x", "n/new")
+        # n/new is gone again and b/y is still gone: only the first is news
+        r = watch.run_watch(self.state, fetch=catalog("a/x", "n/later"), verbose=False)
+        self.assertEqual((r["added"], r["removed"]), (["n/later"], ["n/new"]))
+        self.assertEqual([(e["event"], e["model"]) for e in self.sightings()],
+                         [("added", "n/new"), ("removed", "b/y"), ("added", "n/later"), ("removed", "n/new")])
+
+    def test_a_pass_that_died_between_its_two_logs_still_reaches_the_webhook(self):
+        # an event that is in sightings.jsonl is not found again, so the queue must not be the later write
+        watch.run_watch(self.state, fetch=catalog("a/x"), verbose=False)
+        appends = []
+
+        def second_append_fails(path, mode="r", **kwargs):
+            if "a" in mode and path.endswith(".jsonl"):
+                appends.append(path)
+                if len(appends) == 2:
+                    raise OSError("killed here")
+            return open(path, mode, **kwargs)
+
+        with mock.patch.object(watch, "open", second_append_fails, create=True):
+            with self.assertRaisesRegex(OSError, "killed here"):
+                watch.run_watch(self.state, fetch=catalog("a/x", "n/new"), queue_webhook=True, verbose=False)
+        watch.run_watch(self.state, fetch=catalog("a/x", "n/new"), queue_webhook=True, verbose=False)
+        sent = []
+        watch.deliver_webhook(self.state, "openrouter", "hook", post=lambda url, events: sent.extend(events))
+        self.assertIn("n/new", [e["model"] for e in sent])
+        self.assertEqual([e["model"] for e in self.sightings()], ["n/new"])
+
+    def test_sightings_from_before_the_snapshot_are_not_replayed(self):
+        # latest.json written before it recorded how much of sightings.jsonl it covers
+        directory = os.path.join(self.state, "openrouter")
+        os.makedirs(directory)
+        with open(os.path.join(directory, "latest.json"), "w", encoding="utf-8") as stream:
+            json.dump({"source": "openrouter", "models": {"a/x": {}}}, stream)
+        with open(os.path.join(directory, "sightings.jsonl"), "w", encoding="utf-8") as stream:
+            stream.write(json.dumps({"event": "removed", "model": "a/x"}) + "\n")   # a/x came back later
+        r = watch.run_watch(self.state, fetch=catalog("a/x", "n/new"), verbose=False)
+        self.assertEqual((r["added"], r["removed"]), (["n/new"], []))
 
     def test_empty_catalog_keeps_previous_snapshot(self):
         watch.run_watch(self.state, fetch=catalog("a/x"), verbose=False)
