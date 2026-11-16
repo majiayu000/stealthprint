@@ -175,6 +175,8 @@ bun scripts/opencode_relay.mjs go 8897                      # Go 线（MIN_TOKEN
 stealthprint --base-url http://127.0.0.1:8898/v1 --model <free-model> --api-key x profile --out fingerprints/<free-model>.json
 ```
 
+中继手里拿着你的 key，所以只服务本机程序：带 `Origin` 头、`Host` 不是 `127.0.0.1` / `localhost`、或 POST 不是 `application/json` 的请求一律拒绝，浏览器里打开的网页因此花不了这个 key。它运行期间本机其他程序仍然能用，用完就关掉。
+
 免费档每次重放都会重发信封，所以 `opencode_capture.py` 默认删除 `~/.claude/CLAUDE.md` 这类规则文件、工作目录、主目录路径、用户名、主机名和技能列表，加 `--raw` 才保留。使用前请自己读一遍信封：这里只覆盖已知模式。要用走 Chat Completions 的模型来抓，再在请求里指定目标模型；走 `/responses` 的模型抓不到。
 
 ## 拉取对照词表

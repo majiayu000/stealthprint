@@ -216,6 +216,11 @@ bun scripts/opencode_relay.mjs go 8897                      # Go plan (MIN_TOKEN
 stealthprint --base-url http://127.0.0.1:8898/v1 --model <free-model> --api-key x profile --out fingerprints/<free-model>.json
 ```
 
+The relay holds your key, so it serves local programs only: a request with an `Origin`
+header, a `Host` other than `127.0.0.1` / `localhost`, or a POST that is not
+`application/json` is refused, which keeps a web page open in your browser from spending
+the key. Any other program on the machine can still use it while it runs; stop it when done.
+
 Every replayed free-tier request resends the envelope, so `opencode_capture.py` removes
 rule files such as `~/.claude/CLAUDE.md`, the working directory, home path, user and host
 names and the skill list unless `--raw` is given. Read the envelope before use: this covers

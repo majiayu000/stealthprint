@@ -10,6 +10,7 @@
 // Cloudflare 1010. stealthprint then talks plain OpenAI to http://127.0.0.1:<port>/v1.
 //
 // The API key is read at runtime from opencode's auth.json and never logged.
+// Web pages are refused (see refusal); any other program on this machine can use the key while the relay runs.
 // Env: OPENCODE_AUTH (auth.json path), SES (Go session id), MIN_TOKENS (floor for
 // max_tokens on either line, e.g. 16 for GPT models), RELAY_LOG (JSONL status log).
 import fs from 'fs';
@@ -62,9 +63,23 @@ function aggregate(raw) {
   return { ...meta, object: 'chat.completion', choices: [{ index: 0, message, finish_reason: finish }], usage: usage || {} };
 }
 
+// Binding to 127.0.0.1 does not keep web pages out: a cross-site POST with a form content
+// type needs no preflight, and DNS rebinding turns this server into the page's own origin.
+// Browsers mark their requests (Origin, Sec-Fetch-Site), cannot send application/json
+// cross-site without a preflight, and put the rebound name in Host. stealthprint does none of that.
+function refusal(req) {
+  const host = (req.headers.get('host') || '').toLowerCase().replace(/:\d+$/, '');
+  if (!['127.0.0.1', 'localhost'].includes(host)) return [403, 'Host must be 127.0.0.1 or localhost'];
+  if (req.headers.has('origin') || !['none', null].includes(req.headers.get('sec-fetch-site'))) return [403, 'requests from web pages are refused'];
+  if (req.method !== 'GET' && !(req.headers.get('content-type') || '').toLowerCase().startsWith('application/json')) return [415, 'Content-Type must be application/json'];
+  return null;
+}
+
 Bun.serve({
   hostname: '127.0.0.1', port, idleTimeout: 255,
   async fetch(req) {
+    const refused = refusal(req);
+    if (refused) return Response.json({ error: { message: 'opencode relay: ' + refused[1] } }, { status: refused[0] });
     const url = new URL(req.url);
     if (req.method === 'GET') {
       if (mode === 'free') return Response.json({ object: 'list', data: [{ id: env.body.model, object: 'model' }] });
