@@ -1,5 +1,6 @@
 """Catalog watch regressions with a synthetic catalog; no network."""
 import contextlib
+import errno
 import io
 import json
 import os
@@ -159,6 +160,63 @@ class WatchTests(unittest.TestCase):
         watch.deliver_webhook(self.state, "openrouter", "hook", post=lambda url, events: sent.extend(events))
         self.assertIn("n/new", [e["model"] for e in sent])
         self.assertEqual([e["model"] for e in self.sightings()], ["n/new"])
+
+    def pass_cut_short(self, state, fetch, cut_inside, **options):
+        """A pass whose first write to a log stops one byte into `cut_inside`, as on a full disk."""
+        class CutShort:
+            def __init__(self, path):
+                self.path = path
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *error):
+                return False
+
+            def write(self, text):
+                data = text.encode("utf-8")
+                with open(self.path, "ab") as stream:
+                    stream.write(data[:data.index(cut_inside) + 1])
+                raise OSError(errno.ENOSPC, "No space left on device")
+
+        def appending(path, mode="r", **kwargs):
+            if "a" in mode and path.endswith(".jsonl"):
+                return CutShort(path)
+            return open(path, mode, **kwargs)
+
+        with mock.patch.object(watch, "open", appending, create=True):
+            with self.assertRaisesRegex(OSError, "No space left"):
+                watch.run_watch(state, fetch=fetch, verbose=False, **options)
+
+    def test_events_queued_behind_a_write_cut_short_are_still_delivered(self):
+        # latest.json did not move, so the next pass finds both ids again and queues them behind the half line
+        def named(*ids):
+            return lambda url, api_key=None: [{"id": i, "name": "模型 " + i} for i in ids]
+
+        for cut_inside in (b'"model"', "模".encode("utf-8")):   # the second stops inside a character
+            with self.subTest(cut_inside=cut_inside), tempfile.TemporaryDirectory() as state:
+                pending = os.path.join(state, "openrouter", watch.WEBHOOK_PENDING)
+                watch.run_watch(state, fetch=named("a/x"), verbose=False)
+                self.pass_cut_short(state, named("a/x", "n/new", "n/other"), cut_inside, queue_webhook=True)
+                with open(pending, "rb") as stream:
+                    self.assertFalse(stream.read().endswith(b"\n"))
+                watch.run_watch(state, fetch=named("a/x", "n/new", "n/other"), queue_webhook=True, verbose=False)
+                sent = []
+                watch.deliver_webhook(state, "openrouter", "hook", post=lambda url, events: sent.extend(events))
+                self.assertEqual([e["model"] for e in sent], ["n/new", "n/other"])
+                self.assertFalse(os.path.exists(pending))
+
+    def test_a_sighting_recorded_behind_a_write_cut_short_keeps_its_own_line(self):
+        watch.run_watch(self.state, fetch=catalog("a/x", "b/y"), verbose=False)
+        self.pass_cut_short(self.state, catalog("a/x", "n/new"), b'"removed"')   # n/new is whole, b/y is half a line
+        r = watch.run_watch(self.state, fetch=catalog("a/x", "n/new"), verbose=False)
+        self.assertEqual((r["added"], r["removed"]), ([], ["b/y"]))
+        whole = []
+        with open(os.path.join(self.state, "openrouter", "sightings.jsonl"), "rb") as stream:
+            for line in stream:
+                with contextlib.suppress(ValueError):
+                    whole.append(json.loads(line))
+        self.assertEqual([(e["event"], e["model"]) for e in whole], [("added", "n/new"), ("removed", "b/y")])
 
     def test_sightings_from_before_the_snapshot_are_not_replayed(self):
         # latest.json written before it recorded how much of sightings.jsonl it covers

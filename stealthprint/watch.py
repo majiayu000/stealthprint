@@ -138,6 +138,21 @@ def _known_ids(latest, sightings_path):
     return known
 
 
+def _append_lines(path, lines):
+    """Append whole lines to a log, starting on a line of their own.
+
+    A write cut short by a full disk or a power cut leaves half a line at the end of the file.
+    Written straight after it, the first new event would share that line and no reader could
+    parse it: missing from sightings.jsonl, skipped by deliver_webhook and never posted."""
+    cut_short = False
+    if os.path.exists(path) and os.path.getsize(path):
+        with open(path, "rb") as stream:
+            stream.seek(-1, os.SEEK_END)
+            cut_short = stream.read(1) != b"\n"
+    with open(path, "a", encoding="utf-8") as stream:
+        stream.write(("\n" if cut_short else "") + lines)
+
+
 def run_watch(state_dir, source="openrouter", api_key=None, fetch=fetch_catalog, now=None,
               on_added=None, verbose=True, queue_webhook=False):
     """One polling pass. The first pass stores a baseline and emits no events.
@@ -186,8 +201,7 @@ def run_watch(state_dir, source="openrouter", api_key=None, fetch=fetch_catalog,
             # Queued before latest.json moves on: once it has, no later pass sees these events again.
             # The queue comes first: an event already in sightings.jsonl is not found again.
             for path in ((os.path.join(directory, WEBHOOK_PENDING),) if queue_webhook else ()) + (sightings_path,):
-                with open(path, "a", encoding="utf-8") as stream:
-                    stream.write(lines)
+                _append_lines(path, lines)
         temporary = latest_path + ".tmp"
         with open(temporary, "w", encoding="utf-8") as stream:
             # sightings_bytes: how much of sightings.jsonl this snapshot accounts for, see _known_ids.
@@ -230,12 +244,14 @@ def deliver_webhook(state_dir, source, url, post=post_webhook):
         if not os.path.exists(path):
             return 0
         events = []
-        with open(path, encoding="utf-8") as stream:
+        with open(path, "rb") as stream:  # bytes: a write can stop inside a character, and text mode raises on it
             for line in stream:
                 try:
                     events.append(json.loads(line))
                 except ValueError:
-                    continue  # cut short by a crash; that pass never moved latest.json, so the event comes back
+                    # Cut short when the disk filled up or the process died. That pass never moved
+                    # latest.json, so the next one finds the event again and queues it whole.
+                    continue
         if events:
             post(url, events)
         os.remove(path)
