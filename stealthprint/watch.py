@@ -20,6 +20,9 @@ SOURCES = {
 # Naming hints only; a hint is a reason to look, not a claim about identity.
 STEALTH_HINT = re.compile(r"(^stealth/|^openrouter/(?!auto)|-alpha\b|-beta\b|cloaked|anonymous)", re.I)
 
+# Events waiting for a webhook to accept them, beside sightings.jsonl.
+WEBHOOK_PENDING = "webhook-pending.jsonl"
+
 
 def resolve_source(source):
     """Return (name, url) for a known source name or an explicit catalog URL."""
@@ -88,11 +91,12 @@ def _iso(ts):
 
 
 def run_watch(state_dir, source="openrouter", api_key=None, fetch=fetch_catalog, now=None,
-              on_added=None, verbose=True):
+              on_added=None, verbose=True, queue_webhook=False):
     """One polling pass. The first pass stores a baseline and emits no events.
 
     state_dir/<source>/latest.json  last catalog index
     state_dir/<source>/sightings.jsonl  appended added/removed events
+    state_dir/<source>/webhook-pending.jsonl  the same events, with queue_webhook, until deliver_webhook sends them
     on_added(ids) may return {id: evidence} which is stored on the event.
     """
     name, url = resolve_source(source)
@@ -127,9 +131,11 @@ def run_watch(state_dir, source="openrouter", api_key=None, fetch=fetch_catalog,
                        "stealth_hint": bool(STEALTH_HINT.search(model))})
 
     if events:
-        with open(os.path.join(directory, "sightings.jsonl"), "a", encoding="utf-8") as stream:
-            for event in events:
-                stream.write(json.dumps(event, ensure_ascii=False) + "\n")
+        lines = "".join(json.dumps(event, ensure_ascii=False) + "\n" for event in events)
+        # Queued before latest.json moves on: once it has, no later pass sees these events again.
+        for filename in ("sightings.jsonl",) + ((WEBHOOK_PENDING,) if queue_webhook else ()):
+            with open(os.path.join(directory, filename), "a", encoding="utf-8") as stream:
+                stream.write(lines)
     temporary = latest_path + ".tmp"
     with open(temporary, "w", encoding="utf-8") as stream:
         json.dump({"source": name, "url": url, "observed_at": observed_at, "models": current},
@@ -153,3 +159,24 @@ def post_webhook(url, events, timeout=30):
                                      headers={"Content-Type": "application/json"})
     with _open(request, timeout) as response:
         return response.status
+
+
+def deliver_webhook(state_dir, source, url, post=post_webhook):
+    """POST every queued event, then clear the queue; return how many were sent.
+
+    A failed POST raises and leaves the queue alone, so the next pass sends those events
+    again along with its own. A receiver can therefore see an event twice."""
+    path = os.path.join(state_dir, resolve_source(source)[0], WEBHOOK_PENDING)
+    if not os.path.exists(path):
+        return 0
+    events = []
+    with open(path, encoding="utf-8") as stream:
+        for line in stream:
+            try:
+                events.append(json.loads(line))
+            except ValueError:
+                continue  # cut short by a crash; that pass never moved latest.json, so the event comes back
+    if events:
+        post(url, events)
+    os.remove(path)
+    return len(events)

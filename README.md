@@ -85,6 +85,8 @@ Each run stores the catalog under `watch-state/<source>/latest.json` and appends
 Run it from cron. `--fingerprint` adds L1 survey evidence to new ids (billable);
 `--webhook URL` posts new events. A redirect from the catalog or the webhook is
 reported as an error and never followed, so the key stays with the host you named.
+Events the webhook did not accept stay in `webhook-pending.jsonl` and are sent again
+on the next `--webhook` run, so a receiver can see an event twice.
 A sighting says when an id appeared, not who
 built it, and `stealth_hint` is a naming heuristic.
 [Backtest on 180 archived OpenRouter catalogs](docs/watch-backtest.zh-CN.md):

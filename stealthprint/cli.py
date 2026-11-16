@@ -148,7 +148,8 @@ def build_parser():
     p.add_argument("--fingerprint", action="store_true",
                    help="L1-probe added ids via --base-url/--api-key (billable requests)")
     p.add_argument("--tokenizers", default="tok", help="dir of local tokenizer.json candidates")
-    p.add_argument("--webhook", default=None, help="POST new events as JSON to this URL (off by default)")
+    p.add_argument("--webhook", default=None, help="POST new events as JSON to this URL (off by default); "
+                        "events it did not accept are sent again on the next run")
     return ap
 
 
@@ -212,9 +213,14 @@ def run_watch(args):
                         "mode": row.get("mode")} for m, row in measured.items()}
 
     catalog_key = args.api_key if args.source != "openrouter" else None
-    r = watch.run_watch(args.state, source=args.source, api_key=catalog_key, on_added=on_added)
-    if args.webhook and r["events"]:
-        watch.post_webhook(args.webhook, r["events"])
+    r = watch.run_watch(args.state, source=args.source, api_key=catalog_key, on_added=on_added,
+                        queue_webhook=bool(args.webhook))
+    if args.webhook:
+        # The queue also holds what an earlier pass could not deliver.
+        try:
+            watch.deliver_webhook(args.state, args.source, args.webhook)
+        except (RuntimeError, OSError) as error:
+            sys.exit("webhook failed, events stay queued for the next run: %s" % error)
     return r
 
 

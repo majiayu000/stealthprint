@@ -1,4 +1,6 @@
 """Catalog watch regressions with a synthetic catalog; no network."""
+import contextlib
+import io
 import json
 import os
 import tempfile
@@ -8,6 +10,7 @@ from datetime import datetime, timezone
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 from stealthprint import watch
+from stealthprint.cli import main
 
 
 def catalog(*ids):
@@ -64,6 +67,24 @@ class WatchTests(unittest.TestCase):
         self.assertEqual(seen, [["n/new"]])
         added = [e for e in self.sightings() if e["event"] == "added"]
         self.assertEqual(added[0]["evidence"], {"l1_best": "glm5"})
+
+    def test_events_are_queued_only_for_a_webhook(self):
+        pending = os.path.join(self.state, "openrouter", watch.WEBHOOK_PENDING)
+        sent = []
+
+        def deliver():
+            return watch.deliver_webhook(self.state, "openrouter", "hook", post=lambda url, events: sent.append(events))
+
+        watch.run_watch(self.state, fetch=catalog("a/x"), verbose=False)
+        watch.run_watch(self.state, fetch=catalog("a/x", "b/y"), verbose=False)
+        self.assertFalse(os.path.exists(pending))
+        self.assertEqual((deliver(), sent), (0, []))
+        watch.run_watch(self.state, fetch=catalog("a/x"), queue_webhook=True, verbose=False)
+        with open(pending, "a", encoding="utf-8") as stream:
+            stream.write('{"event": "add')        # a write cut short must not block the queue
+        self.assertEqual(deliver(), 1)
+        self.assertEqual([(e["event"], e["model"]) for e in sent[0]], [("removed", "b/y")])
+        self.assertFalse(os.path.exists(pending))
 
     def test_empty_catalog_keeps_previous_snapshot(self):
         watch.run_watch(self.state, fetch=catalog("a/x"), verbose=False)
@@ -145,6 +166,34 @@ class LoopbackTests(unittest.TestCase):
         self.assertEqual(watch.post_webhook(url + "/hook", [{"event": "added", "model": "n/new"}]), 204)
         self.assertEqual([(r["method"], r["path"], json.loads(r["body"])) for r in seen],
                          [("POST", "/hook", {"events": [{"event": "added", "model": "n/new"}]})])
+
+    def test_events_a_webhook_did_not_accept_are_sent_on_the_next_run(self):
+        ids, hook_status = ["a/x"], [503]
+        catalog_url, _ = self.serve(lambda *request: (
+            200, {}, json.dumps({"data": [{"id": i} for i in ids]}).encode()))
+        hook_url, hooked = self.serve(lambda *request: (hook_status[0], {}, b""))
+
+        def run():
+            with contextlib.redirect_stdout(io.StringIO()):
+                return main(["watch", "--source", catalog_url + "/v1/models", "--state", state,
+                             "--webhook", hook_url + "/hook"])
+
+        def delivered():
+            return [[e["model"] for e in json.loads(r["body"])["events"]] for r in hooked]
+
+        with tempfile.TemporaryDirectory() as state:
+            self.assertEqual(run(), 0)                      # baseline
+            ids.append("stealth/new-alpha")
+            with self.assertRaises(SystemExit) as failed:   # the webhook is down for this pass
+                run()
+            self.assertIn("503", str(failed.exception.code))
+            self.assertEqual(delivered(), [["stealth/new-alpha"]])
+            hook_status[0] = 200
+            ids.append("b/later")
+            self.assertEqual(run(), 0)
+            self.assertEqual(delivered()[1:], [["stealth/new-alpha", "b/later"]])
+            self.assertEqual(run(), 0)                      # nothing is sent twice
+            self.assertEqual(len(hooked), 2)
 
 
 if __name__ == "__main__":
