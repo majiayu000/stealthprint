@@ -125,6 +125,27 @@ class MatchExitTests(unittest.TestCase):
             with contextlib.redirect_stdout(io.StringIO()):
                 self.assertEqual(main(["match", str(path), "--library", d, "--json"]), 4)
 
+    def test_missing_library_is_an_error_not_a_verdict(self):
+        # A mistyped --library, or the default "fingerprints" outside a checkout, compared nothing.
+        with tempfile.TemporaryDirectory() as d:
+            path = Path(d) / "t.json"
+            path.write_text(json.dumps({"model": "t", "l1_delta": self.L1}))
+            for flags in ([], ["--json"]):
+                out = io.StringIO()
+                with contextlib.redirect_stdout(out), self.assertRaises(SystemExit) as raised:
+                    main(["match", str(path), "--library", str(Path(d) / "fingerprnts")] + flags)
+                self.assertIn("fingerprnts", str(raised.exception.code))
+                self.assertEqual(out.getvalue(), "")
+
+    def test_nothing_to_compare_is_said_aloud(self):
+        with tempfile.TemporaryDirectory() as d:
+            path = Path(d) / "t.json"
+            path.write_text(json.dumps({"model": "t", "l1_delta": self.L1}))
+            out = io.StringIO()
+            with contextlib.redirect_stdout(out):
+                self.assertEqual(main(["match", str(path), "--library", d]), 4)
+            self.assertIn("no other profile", out.getvalue())
+
 
 class BudgetTests(unittest.TestCase):
     def test_cap_holds_across_resumes(self):

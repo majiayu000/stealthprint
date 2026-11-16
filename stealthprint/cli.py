@@ -162,6 +162,10 @@ def main(argv=None):
     set_lang(args.lang)
     if args.cmd == "match":
         from . import fingerprint
+        if not os.path.isdir(args.library):
+            # Exit 4 means the comparison lacked evidence; a library that is not there compared nothing.
+            sys.exit("no library directory at %s: pass --library a directory of profile JSON files "
+                     "(fingerprints/ in the repository)" % args.library)
         with open(args.profile_path, encoding="utf-8") as fh:
             target = json.load(fh)
         rows = fingerprint.match_profile(target, fingerprint.load_library(args.library))
@@ -169,6 +173,8 @@ def main(argv=None):
         if not args.json:
             if fingerprint.counts_untrusted(target):
                 print("target usage counts are untrusted: L1 and vision excluded from every verdict")
+            if not rows:
+                print("no other profile in %s to compare against" % args.library)
             for r in rows:
                 print("%-30s %-10s %s" % (r["model"], r["verdict"],
                                           {k: v for k, v in r.items() if k not in ("model", "verdict")}))
