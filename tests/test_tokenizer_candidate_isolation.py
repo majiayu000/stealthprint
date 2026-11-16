@@ -1,4 +1,5 @@
 """Local candidate failures must not discard unrelated comparison evidence."""
+import base64
 import hashlib
 import json
 import tempfile
@@ -108,6 +109,32 @@ class CandidateIsolationTests(unittest.TestCase):
                 after = layers.tokenizer_sources(directory, layers.load_local_tokenizers(directory))
             with self.assertRaisesRegex(ValueError, 'configuration differs'):
                 survey._done_models(saved, {'tokenizers': after})
+
+    def test_replaced_tiktoken_vocabulary_is_read_from_the_file(self):
+        try:
+            import tiktoken
+            import tokenizers  # noqa: F401
+        except ImportError:
+            self.skipTest('optional tokenizer dependencies are not installed')
+
+        def write(path, merges):
+            ranks = [bytes([byte]) for byte in range(256)] + merges
+            path.write_bytes(b''.join(base64.b64encode(token) + b' %d\n' % rank for rank, token in enumerate(ranks)))
+
+        with tempfile.TemporaryDirectory() as directory, tempfile.TemporaryDirectory() as cache:
+            path = Path(directory) / 'kimi-k2.tiktoken'
+            # Built-in encodings are stubbed and tiktoken's path cache starts empty: no downloads.
+            with mock.patch.object(tiktoken, 'get_encoding', lambda name: name), \
+                 mock.patch.dict('os.environ', {'TIKTOKEN_CACHE_DIR': cache}):
+                write(path, [b'th', b'the'])
+                first = layers.load_local_tokenizers(directory)
+                self.assertEqual(layers.encode_len('kimi-k2', first['kimi-k2'], 'the'), 1)
+                # Same path, other vocabulary: a re-fetched pin, or another checkout's tok/.
+                write(path, [b'th'])
+                second = layers.load_local_tokenizers(directory)
+                self.assertEqual(layers.encode_len('kimi-k2', second['kimi-k2'], 'the'), 2)
+                self.assertEqual(layers.tokenizer_sources(directory, second)['kimi-k2']['sha256'],
+                                 hashlib.sha256(path.read_bytes()).hexdigest())
 
     def test_missing_dependency_still_fails(self):
         with mock.patch.dict('sys.modules', {'tokenizers': None}):

@@ -134,6 +134,16 @@ TIKTOKEN_PATTERNS = {
 }
 
 
+def read_tiktoken_ranks(path):
+    """Merge ranks of a .tiktoken vocabulary, read from the file itself.
+
+    tiktoken's loader caches by path string: a file replaced at the same path would keep
+    its old vocabulary while tokenizer_sources records the hash of the new one."""
+    with open(path, "rb") as stream:
+        rows = [line.split() for line in stream.read().splitlines() if line]
+    return {base64.b64decode(token): int(rank) for token, rank in rows}
+
+
 def load_local_tokenizers(tokenizers_dir="tok"):
     try:
         from tokenizers import Tokenizer
@@ -157,10 +167,9 @@ def load_local_tokenizers(tokenizers_dir="tok"):
                     logging.getLogger(__name__).warning(
                         "Skipping tokenizer candidate %r: %s", filename, error)
             elif filename.endswith(".tiktoken") and filename[:-9] in TIKTOKEN_PATTERNS:
-                from tiktoken.load import load_tiktoken_bpe
                 local[filename[:-9]] = tiktoken.Encoding(
                     name=filename[:-9], pat_str=TIKTOKEN_PATTERNS[filename[:-9]],
-                    mergeable_ranks=load_tiktoken_bpe(path), special_tokens={})
+                    mergeable_ranks=read_tiktoken_ranks(path), special_tokens={})
     local["o200k_base"] = tiktoken.get_encoding("o200k_base")
     local["cl100k_base"] = tiktoken.get_encoding("cl100k_base")
     return local
