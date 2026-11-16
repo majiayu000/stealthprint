@@ -349,6 +349,17 @@ class SegmentationLayerTests(unittest.TestCase):
         self.assertFalse(out["per_token_chunks"])
         self.assertIn("warning", out)
 
+    def test_tokenizers_load_before_any_streamed_request(self):
+        # A missing dependency or unreadable candidate must stop the run before requests are paid for.
+        def fake(messages, max_tokens=0, extra=None):
+            return {"chunks": ["The", " quick"], "usage": {"completion_tokens": 2}}, None
+        with mock.patch.object(fp, "load_local_tokenizers", side_effect=RuntimeError("missing dependency")), \
+             mock.patch.object(self.client, "stream_chat", side_effect=fake) as stream, \
+             self.assertRaises(RuntimeError):
+            fp.segmentation(self.client, tokenizers_dir="tok", texts=[("a", "The quick"), ("b", "The quick")],
+                            verbose=False)
+        stream.assert_not_called()
+
 
 if __name__ == "__main__":
     unittest.main()

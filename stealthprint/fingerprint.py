@@ -124,6 +124,8 @@ def segmentation(client, tokenizers_dir="tok", texts=None, extra=None, verbose=T
     chunk; the spread of that offset is reported, not assumed."""
     require_openai(client)
     texts = texts or SEGMENT_TEXTS
+    # Load candidates before any billable request.
+    local = load_local_tokenizers(tokenizers_dir) if tokenizers_dir is not None else {}
     samples, failures = [], []
     for name, text in texts:
         d, err = client.stream_chat([{"role": "user", "content": ECHO_PROMPT % text}],
@@ -154,7 +156,6 @@ def segmentation(client, tokenizers_dir="tok", texts=None, extra=None, verbose=T
                           "chunks may batch several tokens and boundary scores are unreliable")
     if tokenizers_dir is None or not usable:
         return out
-    local = load_local_tokenizers(tokenizers_dir)
     for name, tk in local.items():
         tp = fp = fn = identical = 0
         for row in usable:
