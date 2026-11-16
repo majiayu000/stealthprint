@@ -1,8 +1,11 @@
 """opencode CLI adapter: event parsing and base stability, with a fake CLI."""
+import contextlib
 import importlib.util
+import io
 import json
 import os
 import subprocess
+import tempfile
 import unittest
 from types import SimpleNamespace
 from unittest import mock
@@ -40,6 +43,22 @@ class OpencodeMeasureTests(unittest.TestCase):
         with mock.patch.object(om.subprocess, "run", run), self.assertRaises(BudgetExhausted):
             om.measure("m", "base", [("a", "x")], "cfg", None, budget=budget)
         self.assertEqual(run.call_count, 1)
+
+    def test_a_budget_file_without_a_count_stops_before_any_run(self):
+        run = mock.Mock(side_effect=fake_run(lambda t: 700))
+        with tempfile.TemporaryDirectory() as d:
+            out, truth, tokenizers = (os.path.join(d, name) for name in ("x.jsonl", "truth.json", "tok"))
+            os.mkdir(tokenizers)
+            with open(truth, "w", encoding="utf-8") as stream:
+                json.dump({"models": {"m": None}}, stream)
+            with open(out + ".budget", "w", encoding="utf-8"):
+                pass            # emptied by a save that was cut short
+            with mock.patch.object(om.subprocess, "run", run), contextlib.redirect_stderr(io.StringIO()):
+                with self.assertRaises(SystemExit) as stopped:
+                    om.main(["--truth", truth, "--tokenizers", tokenizers, "--out", out, "--max-requests", "5",
+                             "--workroot", d])
+        self.assertIn("x.jsonl.budget", str(stopped.exception.code))
+        self.assertEqual([call.args[0][1] for call in run.call_args_list], ["--version"])
 
     def test_counts_include_cache_and_cancel_fixed_overhead(self):
         probes = [("a", "xy"), ("b", "xyz")]

@@ -142,7 +142,10 @@ def main(argv=None):
                   "provider": args.provider, "probes": SURVEY_PROBES,
                   "tokenizers": tokenizer_sources(args.tokenizers, local)}
 
-    budget = RequestBudget(args.max_requests, args.out + ".budget")
+    try:
+        budget = RequestBudget(args.max_requests, args.out + ".budget")
+    except BudgetExhausted as error:
+        sys.exit(str(error))
 
     def job(model):
         row = measure("%s/%s" % (args.provider, model), base, probes, config, args.workroot, budget=budget)

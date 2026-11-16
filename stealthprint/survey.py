@@ -7,6 +7,7 @@ vocab candidates. Models whose /chat/completions fails fall back to /responses
 with the same retry budget (the Muse line only speaks the Responses API).
 """
 
+import contextlib
 import json
 import os
 import threading
@@ -16,6 +17,11 @@ from datetime import datetime, timezone
 from .i18n import t, load_probes
 from .layers import encode_len, load_local_tokenizers, tokenizer_sources
 from .client import nonzero_prompt_tokens, retryable, require_openai
+
+try:
+    import fcntl
+except ImportError:  # Windows has no flock; runs sharing a budget file can then overshoot by the takes in flight
+    fcntl = None
 
 # 12-probe discriminating subset used by the 2026-09-17 census.
 SURVEY_PROBES = ["zh_long", "emoji_zwj", "digits", "ja", "ko", "fr", "ru", "thai",
@@ -27,23 +33,46 @@ class BudgetExhausted(RuntimeError):
 
 
 class RequestBudget:
-    """Hard request cap that survives resumed runs; spent is saved before each send."""
+    """Hard request cap that survives resumed runs; spent is saved before each send.
+
+    The count is the one in the file: each take reads it again under <path>.lock, so runs
+    that share a file share one cap, and replaces the file whole, so a save that fails
+    leaves the last count. A file without a count stops the run instead of counting as 0."""
 
     def __init__(self, limit, path):
         self.limit, self.path = limit, path
-        self.spent = 0
         self._lock = threading.Lock()
-        if os.path.exists(path):
-            with open(path, encoding="utf-8") as stream:
-                self.spent = int(stream.read().strip() or 0)
+        self.spent = self._saved()
+
+    def _saved(self):
+        if not os.path.exists(self.path):
+            return 0
+        text = None
+        try:
+            with open(self.path, encoding="utf-8") as stream:
+                text = stream.read()
+            spent = int(text)
+        except ValueError:
+            spent = -1
+        if spent < 0:
+            raise BudgetExhausted("%s holds no usable request count (%r), so the cap cannot be checked; write the "
+                                  "number of requests already sent into it, or delete it to start from 0"
+                                  % (self.path, text))
+        return spent
 
     def take(self):
-        with self._lock:
+        with self._lock, open(self.path + ".lock", "a") as lock:
+            if fcntl:
+                with contextlib.suppress(OSError):  # a filesystem without flock: as on Windows
+                    fcntl.flock(lock, fcntl.LOCK_EX)
+            self.spent = max(self.spent, self._saved())
             if self.spent >= self.limit:
                 raise BudgetExhausted("request budget of %d used up" % self.limit)
+            temporary = self.path + ".tmp"
+            with open(temporary, "w", encoding="utf-8") as stream:
+                stream.write(str(self.spent + 1))
+            os.replace(temporary, self.path)
             self.spent += 1
-            with open(self.path, "w", encoding="utf-8") as stream:
-                stream.write(str(self.spent))
 
 
 def classify_error(err):

@@ -124,7 +124,10 @@ def main(argv=None):
         from stealthprint import survey
         from stealthprint.survey import BudgetExhausted, RequestBudget
 
-        budget = RequestBudget(args.max_requests, args.out + ".budget")
+        try:
+            budget = RequestBudget(args.max_requests, args.out + ".budget")
+        except BudgetExhausted as error:
+            sys.exit(str(error))
 
         class BudgetedClient(ChatClient):
             def request(self, *a, **k):
