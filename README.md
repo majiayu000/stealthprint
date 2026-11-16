@@ -233,7 +233,7 @@ each request; a model served through `/responses` is not captured directly.
 ./fetch_tokenizers.sh            # downloads the 48 pinned candidates in tokenizers.lock into tok/
 ```
 
-Downloads freeze the resolved revision and SHA-256 in `tok/sources.lock`; failures preserve existing files and return a nonzero exit status. Gated or non-JSON candidates are reported as unavailable, not silently substituted. Use a new directory to investigate newer revisions.
+Downloads freeze the resolved revision and SHA-256 in `tok/sources.lock`; failures preserve existing files and return a nonzero exit status. Gated or non-JSON candidates are reported as unavailable, not silently substituted. A directory that already has a `sources.lock` keeps its own revisions; the script says so where they differ from `tokenizers.lock` and never rewrites an existing pin. A new directory gets the pinned revisions, so to investigate a newer revision, delete that candidate's entry from `tokenizers.lock` and fetch into a new directory: the run resolves the current revision and adds it back to `tokenizers.lock`.
 
 Candidates are just files in a directory — drop in any `tokenizer.json` to add
 a suspect (e.g. `tok/mynewmodel.json`). The fetch script includes Mistral-Nemo's

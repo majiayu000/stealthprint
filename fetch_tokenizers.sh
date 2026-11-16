@@ -14,9 +14,10 @@ out.mkdir(parents=True, exist_ok=True)
 manifest = out / 'sources.lock'
 # The committed lock pins every revision, so a fresh checkout gets the same files.
 committed = Path(sys.argv[2]) if len(sys.argv) > 2 else None
-sources = json.loads(committed.read_text()) if committed and committed.exists() else {}
-if manifest.exists():
-    sources.update(json.loads(manifest.read_text()))
+pinned = json.loads(committed.read_text()) if committed and committed.exists() else {}
+# A directory keeps the revisions it froze earlier. They are never written over a committed pin.
+sources = json.loads(manifest.read_text()) if manifest.exists() else {}
+unpinned = {}
 candidates = [
     ('zai-org/GLM-5', 'glm5'),
     ('zai-org/GLM-5.3-Flash', 'glm53'),
@@ -76,9 +77,13 @@ for repo, name in candidates:
     destination = out / (name + ('.tiktoken' if name in TIKTOKEN_FILES else '.json'))
     temporary = out / (name + '.download')
     try:
-        source = sources.get(name)
+        pin = pinned.get(name)
+        source = sources.get(name) or pin
         if source and source['repo'] != repo:
             raise ValueError('source changed; use a separate candidate directory')
+        if pin and source['sha256'] != pin['sha256']:
+            print(f"NOTE {name}: this directory froze {source['revision']}, not the pinned {pin['revision']}; "
+                  'use a new directory for the pinned file', file=sys.stderr)
         if source:
             revision = source['revision']
         else:
@@ -96,6 +101,8 @@ for repo, name in candidates:
         temporary.write_bytes(raw)
         temporary.replace(destination)
         sources[name] = {'repo': repo, 'revision': revision, 'sha256': digest}
+        if not pin:
+            unpinned[name] = sources[name]
         pending = out / 'sources.lock.tmp'
         pending.write_text(json.dumps(sources, indent=2) + '\n')
         pending.replace(manifest)
@@ -103,8 +110,9 @@ for repo, name in candidates:
         temporary.unlink(missing_ok=True)
         failed.append(name)
         print(f'FAILED {name}: {error}; existing candidate retained', file=sys.stderr)
-if committed:
-    committed.write_text(json.dumps(sources, indent=2, sort_keys=True) + '\n')
+if committed and unpinned:
+    # The lock only gains candidates it did not pin; to move a pin, delete its entry and fetch into a new directory.
+    committed.write_text(json.dumps({**pinned, **unpinned}, indent=2, sort_keys=True) + '\n')
 print('Available candidates:', ', '.join(sorted(p.stem for p in [*out.glob('*.json'), *out.glob('*.tiktoken')])))
 print('o200k_base and cl100k_base are loaded by tiktoken.')
 if failed:

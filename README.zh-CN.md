@@ -185,7 +185,7 @@ stealthprint --base-url http://127.0.0.1:8898/v1 --model <free-model> --api-key 
 ./fetch_tokenizers.sh            # 按 tokenizers.lock 下载 48 份固定版本的候选到 tok/
 ```
 
-下载脚本把解析到的 revision 和 SHA-256 固定到 `tok/sources.lock`；下载失败保留已有文件并返回非零状态。门禁或非 JSON 格式的候选明确列为未下载，不用其他词表替代；更新研究使用新目录。
+下载脚本把解析到的 revision 和 SHA-256 固定到 `tok/sources.lock`；下载失败保留已有文件并返回非零状态。门禁或非 JSON 格式的候选明确列为未下载，不用其他词表替代。已有 `sources.lock` 的目录沿用自己固定的版本，与 `tokenizers.lock` 不一致时脚本会提示，但不会改写已有的固定版本。新目录拿到的是固定版本，所以要研究更新的 revision，先从 `tokenizers.lock` 删掉该候选的条目，再下载到新目录：脚本会解析当前 revision 并把它写回 `tokenizers.lock`。
 
 候选就是目录里的文件——把任何 `tokenizer.json` 丢进去即可新增嫌疑词表（如 `tok/mynewmodel.json`）。拉取脚本包含 Mistral-Nemo 发布的 `tokenizer.json`，已用内置探针核对其与 Tekken 文件的计数；tiktoken 的 `o200k_base` 和 `cl100k_base` 自动包含。只发布 `tiktoken.model` 的厂商（如月之暗面 Kimi）可用 tiktoken 直接构造词表——见 space-bunny 案例的复现章节。
 
