@@ -610,7 +610,8 @@ def sentinel(client, stored, probes, tokenizers_dir="tok", l1_probes=SENTINEL_L1
     now = count_integrity(client, extra=extra, verbose=verbose)
     was = (stored.get("count_integrity") or {}).get("status")
     out = {"model": stored.get("model"), "count_was": was, "count_now": now["status"], "changes": []}
-    if was and was != now["status"] and now["status"] != "incomplete":
+    # incomplete means requests failed, then or now; it is not a verdict on how the line counts.
+    if was and was != now["status"] and "incomplete" not in (was, now["status"]):
         out["changes"].append("count integrity %s -> %s" % (was, now["status"]))
     delta = stored.get("l1_delta") or {}
     usable = now["status"] == "trusted" and was != "untrusted"

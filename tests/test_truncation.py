@@ -308,6 +308,20 @@ class SentinelTests(unittest.TestCase):
         self.assertIn("trusted -> untrusted", out["changes"][0])
         measured.assert_not_called()
 
+    def test_stored_incomplete_count_check_is_not_a_count_change(self):
+        # incomplete means some count-check requests failed at profile time, not how the line counts.
+        stored = {"model": "m", "count_integrity": {"status": "incomplete"}, "l1_delta": {"p1": 1, "p2": 2}}
+        out, measured = self.run_sentinel(stored, deltas={"p1": 1, "p2": 2})
+        self.assertEqual(out["changes"], [])
+        self.assertEqual(out["status"], "unchanged")
+        measured.assert_called_once()
+        moved, _ = self.run_sentinel(stored, deltas={"p1": 1, "p2": 9})
+        self.assertEqual(moved["changes"], ["L1 changed on 1 of 2 probes"])
+        estimating, measured = self.run_sentinel(stored, status="untrusted")
+        self.assertEqual(estimating["changes"], [])
+        self.assertEqual(estimating["status"], "unverifiable")
+        measured.assert_not_called()
+
     def test_untrusted_profile_is_checked_through_truncation(self):
         stored = {"model": "m", "count_integrity": {"status": "untrusted"}, "tokenizer_candidates": ["llama4"]}
         ranking = {"llama4": {}, "o200k_base": {}}
