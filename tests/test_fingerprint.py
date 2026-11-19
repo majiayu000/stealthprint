@@ -99,6 +99,50 @@ class VisionFitTests(unittest.TestCase):
         self.assertEqual(fit["kind"], "none")
 
 
+def chat_usage(prompt_tokens):
+    return {"usage": {"prompt_tokens": prompt_tokens}, "choices": [{"message": {"content": "red"}}]}, None
+
+
+class VisionGridZeroUsageTests(unittest.TestCase):
+    """Some lines report usage 0 on a fraction of requests; a text prompt never costs 0 tokens."""
+
+    def grid(self, *prompt_tokens):
+        client = ChatClient(model="t", base_url="https://example.invalid/v1", api_key="dummy")
+        with mock.patch.object(client, "chat", side_effect=[chat_usage(n) for n in prompt_tokens]) as chat:
+            out = fp.vision_grid(client, sizes=[(32, 32), (64, 64)], verbose=False)
+        return out, chat.call_count
+
+    def tokens(self, out):
+        return {r["size"]: r.get("tokens") for r in out["rows"]}
+
+    def test_counts_are_image_requests_minus_the_text_control(self):
+        out, calls = self.grid(21, 23, 26)
+        self.assertEqual(self.tokens(out), {"32x32": 2, "64x64": 5})
+        self.assertEqual(calls, 3)
+
+    def test_zero_control_is_retried_instead_of_shifting_every_size(self):
+        out, _ = self.grid(0, 21, 23, 26)
+        self.assertEqual(out["text_only_prompt_tokens"], 21)
+        self.assertEqual(self.tokens(out), {"32x32": 2, "64x64": 5})
+
+    def test_zero_image_request_is_retried_instead_of_recorded_as_negative(self):
+        out, _ = self.grid(21, 23, 0, 26)
+        self.assertEqual(self.tokens(out), {"32x32": 2, "64x64": 5})
+
+    def test_image_request_stuck_at_zero_is_a_failed_row_not_a_count(self):
+        out, calls = self.grid(21, 0, 0, 0, 26)
+        self.assertEqual(calls, 5)
+        self.assertIn("stayed 0", out["rows"][0]["error"])
+        self.assertEqual(self.tokens(out), {"32x32": None, "64x64": 5})
+        self.assertEqual(fp.build_profile("m", vision=out)["vision"]["tokens"], {"32x32": None, "64x64": 5})
+
+    def test_control_stuck_at_zero_stops_before_image_requests(self):
+        out, calls = self.grid(0, 0, 0)
+        self.assertEqual(out["error"], "text-only control failed")
+        self.assertIn("stayed 0", out["detail"])
+        self.assertEqual(calls, 3)
+
+
 class ProfileMatchTests(unittest.TestCase):
     def test_match_requires_all_hard_layers(self):
         l1 = {"p%d" % i: i for i in range(8)}
@@ -304,6 +348,17 @@ class SegmentationLayerTests(unittest.TestCase):
                                   texts=[("a", "The quick"), ("b", "The quick")], verbose=False)
         self.assertFalse(out["per_token_chunks"])
         self.assertIn("warning", out)
+
+    def test_tokenizers_load_before_any_streamed_request(self):
+        # A missing dependency or unreadable candidate must stop the run before requests are paid for.
+        def fake(messages, max_tokens=0, extra=None):
+            return {"chunks": ["The", " quick"], "usage": {"completion_tokens": 2}}, None
+        with mock.patch.object(fp, "load_local_tokenizers", side_effect=RuntimeError("missing dependency")), \
+             mock.patch.object(self.client, "stream_chat", side_effect=fake) as stream, \
+             self.assertRaises(RuntimeError):
+            fp.segmentation(self.client, tokenizers_dir="tok", texts=[("a", "The quick"), ("b", "The quick")],
+                            verbose=False)
+        stream.assert_not_called()
 
 
 if __name__ == "__main__":

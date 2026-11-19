@@ -9,6 +9,18 @@ from .i18n import set_lang, get_lang, VALID_LANGS, load_probes, t
 from . import layers, probes_extra, survey, watch
 
 
+# sentinel is run from schedulers that read exit 1 as "the model changed".
+SENTINEL_ERROR_EXIT = 2
+
+
+def fail(args, message):
+    """Stop on an error. A sentinel run that failed is not a change, so it does not exit 1."""
+    if args.cmd == "sentinel":
+        print(message, file=sys.stderr)
+        sys.exit(SENTINEL_ERROR_EXIT)
+    sys.exit(message)
+
+
 def make_client(args):
     try:
         return ChatClient(model=args.model, base_url=args.base_url, api_key=args.api_key,
@@ -16,12 +28,25 @@ def make_client(args):
                           shell=getattr(args, "shell", None),
                           session_id=getattr(args, "session_id", None))
     except (ValueError, OSError) as e:
-        sys.exit(str(e))
+        fail(args, str(e))
 
 
 def emit(result, as_json):
     if as_json:
         print(json.dumps(result, ensure_ascii=False, indent=2, default=str))
+
+
+def write_json(path, value):
+    """Replace path in one step: a failed or interrupted write leaves the previous file whole."""
+    temporary = path + ".tmp"
+    try:
+        with open(temporary, "w", encoding="utf-8") as fh:
+            json.dump(value, fh, ensure_ascii=False, indent=1)
+        os.replace(temporary, path)
+    except BaseException:
+        with contextlib.suppress(OSError):
+            os.remove(temporary)
+        raise
 
 
 def build_parser():
@@ -101,7 +126,7 @@ def build_parser():
     p.add_argument("--max-requests", type=int, default=80, help="request cap per text")
     p.add_argument("--no-stream", action="store_true", help="skip the streamed echo used for model-to-model comparison")
     p = sub.add_parser("sentinel", parents=[common],
-                       help="re-measure a stored profile and report changes (exit 1 if changed)")
+                       help="re-measure a stored profile and report changes (exit 1 if changed, 2 if the run failed)")
     p.add_argument("--library", default="fingerprints", help="dir of profile JSON files")
     p.add_argument("--tokenizers", default="tok", help="dir of local tokenizer candidates")
     p.add_argument("--extra", default=None, help=extra_help)
@@ -111,7 +136,9 @@ def build_parser():
                        help="run count-check+tokenizer+segment+leaks+vision-grid and write one profile JSON; adds truncation when counts are untrusted")
     p.add_argument("--tokenizers", default="tok", help="dir of local tokenizer.json candidates")
     p.add_argument("--extra", default=None, help=extra_help)
-    p.add_argument("--out", required=True, help="profile JSON path (e.g. fingerprints/<model>.json)")
+    p.add_argument("--out", required=True,
+                   help="profile JSON path (e.g. fingerprints/<model>.json); an existing file is replaced only "
+                        "when the run finishes, until then progress is kept in <path>.partial")
     p.add_argument("--skip", default="", help="comma list of layers to skip: integrity,l1,segment,leaks,vision,truncation")
     p.add_argument("--with-truncation", action="store_true", help="run truncation even when counts are trusted")
     p = sub.add_parser("match", parents=[common], help="offline: compare a profile JSON against a library dir")
@@ -133,7 +160,8 @@ def build_parser():
     p.add_argument("--fingerprint", action="store_true",
                    help="L1-probe added ids via --base-url/--api-key (billable requests)")
     p.add_argument("--tokenizers", default="tok", help="dir of local tokenizer.json candidates")
-    p.add_argument("--webhook", default=None, help="POST new events as JSON to this URL (off by default)")
+    p.add_argument("--webhook", default=None, help="POST new events as JSON to this URL (off by default); "
+                        "events it did not accept are sent again on the next run")
     return ap
 
 
@@ -146,6 +174,10 @@ def main(argv=None):
     set_lang(args.lang)
     if args.cmd == "match":
         from . import fingerprint
+        if not os.path.isdir(args.library):
+            # Exit 4 means the comparison lacked evidence; a library that is not there compared nothing.
+            sys.exit("no library directory at %s: pass --library a directory of profile JSON files "
+                     "(fingerprints/ in the repository)" % args.library)
         with open(args.profile_path, encoding="utf-8") as fh:
             target = json.load(fh)
         rows = fingerprint.match_profile(target, fingerprint.load_library(args.library))
@@ -153,6 +185,8 @@ def main(argv=None):
         if not args.json:
             if fingerprint.counts_untrusted(target):
                 print("target usage counts are untrusted: L1 and vision excluded from every verdict")
+            if not rows:
+                print("no other profile in %s to compare against" % args.library)
             for r in rows:
                 print("%-30s %-10s %s" % (r["model"], r["verdict"],
                                           {k: v for k, v in r.items() if k not in ("model", "verdict")}))
@@ -168,17 +202,19 @@ def main(argv=None):
         emit(r, args.json)
         return 0
     if not args.model and args.cmd != "survey":
-        sys.exit(t("err.no_model"))
+        fail(args, t("err.no_model"))
     client = make_client(args)
 
     if args.transport == "anthropic" and args.cmd not in ("tokenizer", "wrapper"):
-        sys.exit("Anthropic CLI supports tokenizer/wrapper text counts only")
+        fail(args, "Anthropic CLI supports tokenizer/wrapper text counts only")
     try:
         with contextlib.redirect_stdout(sys.stderr) if args.json else contextlib.nullcontext():
             r = run(args, client)
     except (ValueError, RuntimeError, OSError) as error:
-        sys.exit(str(error))
+        fail(args, str(error))
     emit(r, args.json)
+    if args.cmd == "sentinel" and r["status"] == "error":
+        return SENTINEL_ERROR_EXIT
     return 1 if r.get("error") or r.get("status") in ("incomplete", "unstable_counts", "untrusted", "changed") else 0
 
 
@@ -197,9 +233,14 @@ def run_watch(args):
                         "mode": row.get("mode")} for m, row in measured.items()}
 
     catalog_key = args.api_key if args.source != "openrouter" else None
-    r = watch.run_watch(args.state, source=args.source, api_key=catalog_key, on_added=on_added)
-    if args.webhook and r["events"]:
-        watch.post_webhook(args.webhook, r["events"])
+    r = watch.run_watch(args.state, source=args.source, api_key=catalog_key, on_added=on_added,
+                        queue_webhook=bool(args.webhook))
+    if args.webhook:
+        # The queue also holds what an earlier pass could not deliver.
+        try:
+            watch.deliver_webhook(args.state, args.source, args.webhook)
+        except (RuntimeError, OSError) as error:
+            sys.exit("webhook failed, events stay queued for the next run: %s" % error)
     return r
 
 
@@ -258,21 +299,30 @@ def run(args, client):
             stored = fingerprint.load_library(args.library).get(args.model)
             if stored is None:
                 raise ValueError("no stored profile for %s in %s" % (args.model, args.library))
-            r = fingerprint.sentinel(client, stored, load_probes(), tokenizers_dir=args.tokenizers,
-                                     l1_probes=args.l1_probes, extra=extra)
+            try:
+                r = fingerprint.sentinel(client, stored, load_probes(), tokenizers_dir=args.tokenizers,
+                                         l1_probes=args.l1_probes, extra=extra)
+            except (ValueError, RuntimeError, OSError) as error:
+                # A run that could not finish says nothing about the model, but it still gets its line in --out.
+                print("sentinel %s: error %s" % (args.model, error), file=sys.stderr)
+                r = {"model": args.model, "status": "error", "error": str(error)}
             if args.out:
                 with open(args.out, "a", encoding="utf-8") as fh:
                     fh.write(json.dumps(r, ensure_ascii=False) + "\n")
         else:
             skip = {s.strip() for s in args.skip.split(",") if s.strip()}
             measured = {}
+            # A profile already at --out is replaced only by a run that finishes. Until then
+            # progress goes beside it, so a failed re-profile cannot wipe the stored layers.
+            progress = args.out + ".partial" if os.path.exists(args.out) else args.out
+            if progress != args.out:
+                print("%s exists: kept until this run finishes, progress is saved to %s" % (args.out, progress))
 
-            def save():
+            def save(path=progress):
                 # Written after every layer, so an interrupted run keeps what it paid for.
                 result = fingerprint.build_profile(args.model, meta={"base_url": client.base_url},
                                                    response_meta=client.response_meta(), **measured)
-                with open(args.out, "w", encoding="utf-8") as fh:
-                    json.dump(result, fh, ensure_ascii=False, indent=1)
+                write_json(path, result)
                 return result
 
             def layer(key, name, measure):
@@ -288,7 +338,10 @@ def run(args, client):
             if args.with_truncation or (measured.get("integrity") or {}).get("status") == "untrusted":
                 from . import truncation
                 layer("trunc", "truncation", lambda: truncation.truncation_probe(client, tokenizers_dir=args.tokenizers, extra=extra))
-            r = save()
+            r = save(args.out)
+            if progress != args.out:
+                with contextlib.suppress(FileNotFoundError):
+                    os.remove(progress)
     elif args.cmd == "survey":
         from .client import require_openai
         require_openai(client)

@@ -82,7 +82,7 @@ stealthprint watch --source https://api.example.com/v1/models --api-key ... --st
 stealthprint watch --fingerprint --base-url https://openrouter.ai/api/v1 --api-key ... --tokenizers tok/
 ```
 
-每次运行把目录保存到 `watch-state/<source>/latest.json`，并把 `added` / `removed` 事件追加到 `sightings.jsonl`。第一次运行只记录基线，不产生事件。适合放进 cron 定时跑。`--fingerprint` 会对新增 id 跑 L1 survey 并附上证据（会产生费用）；`--webhook URL` 会把新事件推送出去。sighting 只说明某个 id 何时出现，不说明它是谁做的；`stealth_hint` 只是按命名规则做的提示。[基于 180 份 OpenRouter 历史目录的回测](docs/watch-backtest.zh-CN.md)显示：10 个已确认的 stealth 发布全部早于官方发布，中位提前 7 天。`scripts/blind_eval.py` 用具名模型测 L1 结论的准确率。
+每次运行把目录保存到 `watch-state/<source>/latest.json`，并把 `added` / `removed` 事件追加到 `sightings.jsonl`。第一次运行只记录基线，不产生事件。适合放进 cron 定时跑；同一个 source 上一次运行还没结束时，新启动的运行直接报错退出，什么也不做。`--fingerprint` 会对新增 id 跑 L1 survey 并附上证据（会产生费用）；`--webhook URL` 会把新事件推送出去。目录或 webhook 返回重定向时直接报错、不跟随，key 不会被带到别的主机。webhook 没收下的事件留在 `webhook-pending.jsonl`，下次带 `--webhook` 运行时重发，所以接收端可能收到同一事件两次。sighting 只说明某个 id 何时出现，不说明它是谁做的；`stealth_hint` 只是按命名规则做的提示。[基于 180 份 OpenRouter 历史目录的回测](docs/watch-backtest.zh-CN.md)显示：10 个已确认的 stealth 发布全部早于官方发布，中位提前 7 天。`scripts/blind_eval.py` 用具名模型测 L1 结论的准确率。
 
 ## 第一次调查：先比较分词器，再选择大探针
 
@@ -156,9 +156,9 @@ CATALOGS["ja"] = {"cli.tok": "L1 トークナイザ差分 ...", ...}
 | L4b 错误泄露 | `leaks` | 非法参数的上游报错原文：推理框架（SGLang/vLLM）、PD 分离、Rust serde、各厂商官方 API 签名，以及泄露的输出/上下文上限 |
 | L6b 视觉网格 | `vision-grid` | 7 个尺寸的图片 token 开销，拟合 `ceil(w/p)*ceil(h/p)+c`；补丁尺寸、常数和是否缩放都是编码器指纹 |
 | 计数自检 | `count-check` | usage 是不是真词表计数：单字母同价、拼接可叠加、重复一致；不通过（退出码 1）时，L1 和视觉计数既不能认定也不能排除模型 |
-| 档案 | `profile` / `match` | 一次跑计数自检+L1+L1b+L4b+L6b 写入 `fingerprints/<model>.json`；`match` 离线与指纹库逐层比对，退出码 0 为匹配、3 为未匹配、4 为证据不足（见 [fingerprints/README.md](fingerprints/README.md)） |
+| 档案 | `profile` / `match` | 一次跑计数自检+L1+L1b+L4b+L6b 写入 `fingerprints/<model>.json`，每测完一层保存一次；文件已存在时进度先写到 `<out>.partial`，全部跑完才替换原文件；`match` 离线与指纹库逐层比对，退出码 0 为匹配、3 为未匹配、4 为证据不足；`--library` 目录不存在时报错（退出码 1）（见 [fingerprints/README.md](fingerprints/README.md)） |
 | 截断边界 | `truncation` | 看 `max_tokens` 把复述切断在哪，读出真实 token 边界，usage 不可信时也能用。所有断点都在边界上且不超预算，词表才算通过。会自动选最低可用的 `reasoning_effort`，思考吃掉预算时自动放大。通过不等于唯一证明：别的词表可能恰好切得一样 |
-| 复测 | `sentinel` | 低成本重测已有档案（约 25 次请求）：`unchanged`、`changed`（退出码 1）或 `unverifiable`。需要自己定时，比如 cron 加 `--out sentinel.jsonl`；每次都消耗额度 |
+| 复测 | `sentinel` | 低成本重测已有档案（约 25 次请求）：`unchanged`、`changed`（退出码 1）或 `unverifiable`。运行失败记为 `error`、退出码 2，所以退出码 1 只表示模型变了。需要自己定时，比如 cron 加 `--out sentinel.jsonl`；每次都消耗额度 |
 
 刻意**不实现**：自称探针（「你是谁」）、注入、审查探针、emoji 密度——对 stealth 模型来说自我介绍经常是诱饵。原因见案例报告。
 
@@ -175,6 +175,8 @@ bun scripts/opencode_relay.mjs go 8897                      # Go 线（MIN_TOKEN
 stealthprint --base-url http://127.0.0.1:8898/v1 --model <free-model> --api-key x profile --out fingerprints/<free-model>.json
 ```
 
+中继手里拿着你的 key，所以只服务本机程序：带 `Origin` 头、`Host` 不是 `127.0.0.1` / `localhost`、或 POST 不是 `application/json` 的请求一律拒绝，浏览器里打开的网页因此花不了这个 key。它运行期间本机其他程序仍然能用，用完就关掉。
+
 免费档每次重放都会重发信封，所以 `opencode_capture.py` 默认删除 `~/.claude/CLAUDE.md` 这类规则文件、工作目录、主目录路径、用户名、主机名和技能列表，加 `--raw` 才保留。使用前请自己读一遍信封：这里只覆盖已知模式。要用走 Chat Completions 的模型来抓，再在请求里指定目标模型；走 `/responses` 的模型抓不到。
 
 ## 拉取对照词表
@@ -183,7 +185,7 @@ stealthprint --base-url http://127.0.0.1:8898/v1 --model <free-model> --api-key 
 ./fetch_tokenizers.sh            # 按 tokenizers.lock 下载 48 份固定版本的候选到 tok/
 ```
 
-下载脚本把解析到的 revision 和 SHA-256 固定到 `tok/sources.lock`；下载失败保留已有文件并返回非零状态。门禁或非 JSON 格式的候选明确列为未下载，不用其他词表替代；更新研究使用新目录。
+下载脚本把解析到的 revision 和 SHA-256 固定到 `tok/sources.lock`；下载失败保留已有文件并返回非零状态。门禁或非 JSON 格式的候选明确列为未下载，不用其他词表替代。已有 `sources.lock` 的目录沿用自己固定的版本，与 `tokenizers.lock` 不一致时脚本会提示，但不会改写已有的固定版本。新目录拿到的是固定版本，所以要研究更新的 revision，先从 `tokenizers.lock` 删掉该候选的条目，再下载到新目录：脚本会解析当前 revision 并把它写回 `tokenizers.lock`。
 
 候选就是目录里的文件——把任何 `tokenizer.json` 丢进去即可新增嫌疑词表（如 `tok/mynewmodel.json`）。拉取脚本包含 Mistral-Nemo 发布的 `tokenizer.json`，已用内置探针核对其与 Tekken 文件的计数；tiktoken 的 `o200k_base` 和 `cl100k_base` 自动包含。只发布 `tiktoken.model` 的厂商（如月之暗面 Kimi）可用 tiktoken 直接构造词表——见 space-bunny 案例的复现章节。
 

@@ -31,7 +31,8 @@ tokenizer allows for unrelated models; disjoint non-empty candidates are `differ
 evidence, or the only agreement rests on too few points (fewer than 8 shared L1 probes or 2 vision sizes);
 a disagreement on few points still counts. `no_overlap` means both sides have evidence but share no layer.
 The command exits 0 when any profile is a `match`, 3 when comparisons found none, and 4 when nothing could
-be compared; `--json` carries the same result as `status`. An empty candidate list means no local tokenizer fits, which says
+be compared; `--json` carries the same result as `status`. A `--library` path that is not a directory is an
+error (exit 1 with a message), not a result. An empty candidate list means no local tokenizer fits, which says
 nothing about the other model. Vision counts of
 zero at every size and non-per-token streams are not evidence. 2026-11-05: every profile except
 `pixel-canary` carries a `count_integrity` result; only `crouton-alpha-free` is `untrusted`.

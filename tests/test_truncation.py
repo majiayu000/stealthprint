@@ -308,6 +308,20 @@ class SentinelTests(unittest.TestCase):
         self.assertIn("trusted -> untrusted", out["changes"][0])
         measured.assert_not_called()
 
+    def test_stored_incomplete_count_check_is_not_a_count_change(self):
+        # incomplete means some count-check requests failed at profile time, not how the line counts.
+        stored = {"model": "m", "count_integrity": {"status": "incomplete"}, "l1_delta": {"p1": 1, "p2": 2}}
+        out, measured = self.run_sentinel(stored, deltas={"p1": 1, "p2": 2})
+        self.assertEqual(out["changes"], [])
+        self.assertEqual(out["status"], "unchanged")
+        measured.assert_called_once()
+        moved, _ = self.run_sentinel(stored, deltas={"p1": 1, "p2": 9})
+        self.assertEqual(moved["changes"], ["L1 changed on 1 of 2 probes"])
+        estimating, measured = self.run_sentinel(stored, status="untrusted")
+        self.assertEqual(estimating["changes"], [])
+        self.assertEqual(estimating["status"], "unverifiable")
+        measured.assert_not_called()
+
     def test_untrusted_profile_is_checked_through_truncation(self):
         stored = {"model": "m", "count_integrity": {"status": "untrusted"}, "tokenizer_candidates": ["llama4"]}
         ranking = {"llama4": {}, "o200k_base": {}}
@@ -337,6 +351,45 @@ class SentinelTests(unittest.TestCase):
     def test_nothing_to_compare_is_unverifiable_not_unchanged(self):
         out, _ = self.run_sentinel({"model": "m", "count_integrity": {"status": "untrusted"}}, status="untrusted")
         self.assertEqual(out["status"], "unverifiable")
+
+
+class SentinelCliTests(unittest.TestCase):
+    # A scheduled job reads exit 1 as "the model changed", so a run that failed must not use it.
+    STORED = {"model": "m", "count_integrity": {"status": "trusted"}, "l1_delta": {"p1": 1, "p2": 2}}
+
+    def run_cli(self, model="m", **l1):
+        import contextlib
+        import io
+        import tempfile
+        from stealthprint.cli import main
+        with tempfile.TemporaryDirectory() as d:
+            (Path(d) / "m.json").write_text(json.dumps(self.STORED))
+            out = Path(d) / "sentinel.jsonl"
+            with mock.patch.object(fp, "count_integrity", return_value={"status": "trusted"}), \
+                 mock.patch.object(fp, "tokenizer_differential", **l1), \
+                 contextlib.redirect_stderr(io.StringIO()), contextlib.redirect_stdout(io.StringIO()):
+                try:
+                    code = main(["--base-url", "http://127.0.0.1:1", "--model", model, "--api-key", "k",
+                                 "sentinel", "--library", d, "--out", str(out)])
+                except SystemExit as stop:
+                    code = stop.code
+            rows = [json.loads(line) for line in out.read_text().splitlines()] if out.exists() else []
+        return code, rows
+
+    def test_changed_exits_one_and_unchanged_exits_zero(self):
+        code, rows = self.run_cli(return_value={"api_delta": {"p1": 1, "p2": 9}})
+        self.assertEqual((code, rows[0]["status"]), (1, "changed"))
+        code, rows = self.run_cli(return_value={"api_delta": {"p1": 1, "p2": 2}})
+        self.assertEqual((code, rows[0]["status"]), (0, "unchanged"))
+
+    def test_failed_measurement_is_recorded_and_does_not_exit_like_a_change(self):
+        code, rows = self.run_cli(side_effect=RuntimeError("base request failed: {'http': 503}"))
+        self.assertEqual(code, 2)
+        self.assertEqual(rows, [{"model": "m", "status": "error", "error": "base request failed: {'http': 503}"}])
+
+    def test_missing_stored_profile_does_not_exit_like_a_change(self):
+        code, rows = self.run_cli(model="other", return_value={"api_delta": {}})
+        self.assertEqual((code, rows), (2, []))
 
 
 class ProfileCliTests(unittest.TestCase):
@@ -370,6 +423,68 @@ class ProfileCliTests(unittest.TestCase):
                       "--out", str(out), "--skip", "l1,segment,leaks,vision"])
             probe.assert_called_once()
             self.assertEqual(json.loads(out.read_text())["tokenizer_candidates"], ["llama4"])
+
+    STORED = {"model": "m", "meta": {}, "l1_delta": {"p1": 1}, "vision": {"fit": None, "tokens": {"64x64": 7}}}
+
+    def test_failed_rerun_leaves_the_existing_profile_alone(self):
+        import contextlib
+        import io
+        import tempfile
+        from stealthprint.cli import main
+        with tempfile.TemporaryDirectory() as d:
+            out = Path(d) / "p.json"
+            out.write_text(json.dumps(self.STORED))
+            with mock.patch.object(fp, "count_integrity", return_value={"status": "incomplete"}), \
+                 mock.patch("stealthprint.layers.tokenizer_differential", side_effect=RuntimeError("base request failed")), \
+                 contextlib.redirect_stderr(io.StringIO()), contextlib.redirect_stdout(io.StringIO()), \
+                 self.assertRaises(SystemExit):
+                main(["--base-url", "http://127.0.0.1:1", "--model", "m", "--api-key", "k",
+                      "profile", "--out", str(out)])
+            self.assertEqual(json.loads(out.read_text()), self.STORED)
+            partial = json.loads(Path(str(out) + ".partial").read_text())
+            self.assertEqual(partial["count_integrity"]["status"], "incomplete")
+
+    def test_finished_rerun_replaces_the_existing_profile(self):
+        import contextlib
+        import io
+        import os
+        import tempfile
+        from stealthprint.cli import main
+        with tempfile.TemporaryDirectory() as d:
+            out = Path(d) / "p.json"
+            out.write_text(json.dumps(self.STORED))
+            with mock.patch.object(fp, "count_integrity", return_value={"status": "trusted"}), \
+                 contextlib.redirect_stdout(io.StringIO()):
+                main(["--base-url", "http://127.0.0.1:1", "--model", "m", "--api-key", "k", "profile",
+                      "--out", str(out), "--skip", "l1,segment,leaks,vision"])
+            self.assertEqual(json.loads(out.read_text())["count_integrity"]["status"], "trusted")
+            self.assertEqual(os.listdir(d), ["p.json"])
+
+    def test_interrupted_write_keeps_the_last_complete_save(self):
+        import contextlib
+        import io
+        import os
+        import tempfile
+        from stealthprint.cli import main
+        real_dump, dumps = json.dump, []
+
+        def dump(value, stream, **kwargs):
+            dumps.append(value)
+            if len(dumps) == 2:
+                stream.write('{"model": "m", "count_in')
+                raise KeyboardInterrupt
+            real_dump(value, stream, **kwargs)
+
+        with tempfile.TemporaryDirectory() as d:
+            out = Path(d) / "p.json"
+            with mock.patch.object(fp, "count_integrity", return_value={"status": "trusted"}), \
+                 mock.patch.object(fp, "error_leaks", return_value={"tags": ["vllm"], "limits": {}}), \
+                 mock.patch.object(json, "dump", side_effect=dump), \
+                 contextlib.redirect_stdout(io.StringIO()), self.assertRaises(KeyboardInterrupt):
+                main(["--base-url", "http://127.0.0.1:1", "--model", "m", "--api-key", "k", "profile",
+                      "--out", str(out), "--skip", "l1,segment,vision"])
+            self.assertEqual(json.loads(out.read_text())["count_integrity"]["status"], "trusted")
+            self.assertEqual(os.listdir(d), ["p.json"])
 
 
 class ScrubTests(unittest.TestCase):

@@ -16,7 +16,7 @@ import math
 import os
 import re
 
-from .client import nonzero_prompt_tokens, require_openai
+from .client import ZERO_USAGE_ATTEMPTS, nonzero_prompt_tokens, require_openai
 from . import truncation as truncation_layer
 from .layers import encode_len, png_b64, load_local_tokenizers, tokenizer_differential, visible_lengths
 
@@ -124,6 +124,8 @@ def segmentation(client, tokenizers_dir="tok", texts=None, extra=None, verbose=T
     chunk; the spread of that offset is reported, not assumed."""
     require_openai(client)
     texts = texts or SEGMENT_TEXTS
+    # Load candidates before any billable request.
+    local = load_local_tokenizers(tokenizers_dir) if tokenizers_dir is not None else {}
     samples, failures = [], []
     for name, text in texts:
         d, err = client.stream_chat([{"role": "user", "content": ECHO_PROMPT % text}],
@@ -154,7 +156,6 @@ def segmentation(client, tokenizers_dir="tok", texts=None, extra=None, verbose=T
                           "chunks may batch several tokens and boundary scores are unreliable")
     if tokenizers_dir is None or not usable:
         return out
-    local = load_local_tokenizers(tokenizers_dir)
     for name, tk in local.items():
         tp = fp = fn = identical = 0
         for row in usable:
@@ -291,7 +292,8 @@ def fit_grid_formula(points, patches=range(8, 129), max_const=64):
 def vision_grid(client, sizes=None, rgb=(220, 30, 30), extra=None, verbose=True):
     require_openai(client)
     q = "What single color fills this image? Answer with one word."
-    base, err = client.prompt_tokens([{"role": "user", "content": q}], max_tokens=64, extra=extra)
+    # An image may add 0 tokens, but no request costs 0 in total: that is a dropped usage report.
+    base, err = nonzero_prompt_tokens(client, [{"role": "user", "content": q}], max_tokens=64, extra=extra)
     if err:
         return {"error": "text-only control failed", "detail": str(err.get("body"))[:300]}
     rows = []
@@ -299,7 +301,12 @@ def vision_grid(client, sizes=None, rgb=(220, 30, 30), extra=None, verbose=True)
         msg = [{"role": "user", "content": [
             {"type": "text", "text": q},
             {"type": "image_url", "image_url": {"url": "data:image/png;base64," + png_b64((w, h), rgb)}}]}]
-        d, err = client.chat(msg, max_tokens=64, extra=extra)
+        for _ in range(ZERO_USAGE_ATTEMPTS):
+            d, err = client.chat(msg, max_tokens=64, extra=extra)
+            if err or d["usage"]["prompt_tokens"] > 0:
+                break
+        else:
+            err = {"body": "prompt tokens stayed 0 after %d attempts" % ZERO_USAGE_ATTEMPTS}
         if err:
             rows.append({"size": "%dx%d" % (w, h), "w": w, "h": h, "error": str(err.get("body"))[:200]})
         else:
@@ -610,7 +617,8 @@ def sentinel(client, stored, probes, tokenizers_dir="tok", l1_probes=SENTINEL_L1
     now = count_integrity(client, extra=extra, verbose=verbose)
     was = (stored.get("count_integrity") or {}).get("status")
     out = {"model": stored.get("model"), "count_was": was, "count_now": now["status"], "changes": []}
-    if was and was != now["status"] and now["status"] != "incomplete":
+    # incomplete means requests failed, then or now; it is not a verdict on how the line counts.
+    if was and was != now["status"] and "incomplete" not in (was, now["status"]):
         out["changes"].append("count integrity %s -> %s" % (was, now["status"]))
     delta = stored.get("l1_delta") or {}
     usable = now["status"] == "trusted" and was != "untrusted"

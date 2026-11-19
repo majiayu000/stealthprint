@@ -1,5 +1,6 @@
 """Counterexamples from the design review; no model API calls."""
 import contextlib
+import hashlib
 import http.client
 import io
 import json
@@ -143,13 +144,72 @@ class IntegrityTests(unittest.TestCase):
 
 
 class DownloadTests(unittest.TestCase):
-    def run_script(self, directory, fetch):
+    def run_script(self, directory, fetch, committed=None):
         script = (Path(__file__).resolve().parents[1] / 'fetch_tokenizers.sh').read_text()
         source = script.split("<<'PY'\n", 1)[1].rsplit('\nPY', 1)[0]
-        with mock.patch('sys.argv', ['fetch_tokenizers', directory]), \
+        errors = io.StringIO()
+        with mock.patch('sys.argv', ['fetch_tokenizers', directory] + ([str(committed)] if committed else [])), \
              mock.patch('urllib.request.urlopen', side_effect=fetch), \
-             contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+             contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(errors):
             exec(compile(source, 'fetch_tokenizers.sh', 'exec'), {'__name__': '__main__'})
+        return errors.getvalue()
+
+    def committed_lock(self, root, drop=()):
+        """A lock like the committed tokenizers.lock: every candidate pinned to revision-123."""
+        def fetch(url, **kwargs):
+            return io.BytesIO(b'{"sha":"revision-123"}' if '/api/models/' in url else b'{"version":"1.0"}')
+        self.run_script(str(root / 'maintainer'), fetch)
+        pins = json.loads((root / 'maintainer' / 'sources.lock').read_text())
+        lock = root / 'tokenizers.lock'
+        lock.write_text(json.dumps({k: v for k, v in pins.items() if k not in drop}, indent=2, sort_keys=True) + '\n')
+        return lock
+
+    def test_committed_lock_pins_a_new_directory_and_is_left_alone(self):
+        urls = []
+        def fetch(url, **kwargs):
+            urls.append(url)
+            return io.BytesIO(b'{"sha":"revision-456"}' if '/api/models/' in url else b'{"version":"1.0"}')
+        with tempfile.TemporaryDirectory() as directory:
+            lock = self.committed_lock(Path(directory))
+            before = lock.read_bytes()
+            self.run_script(str(Path(directory) / 'fresh'), fetch, lock)
+            self.assertEqual(len(urls), 48)
+            self.assertTrue(all('/resolve/revision-123/' in url for url in urls))
+            self.assertEqual(lock.read_bytes(), before)
+
+    def test_directory_revisions_never_rewrite_the_committed_lock(self):
+        old = b'{"version":"0.9"}'
+        def fetch(url, **kwargs):
+            return io.BytesIO(old if '/resolve/local-rev/' in url else b'{"version":"1.0"}')
+        with tempfile.TemporaryDirectory() as directory:
+            lock = self.committed_lock(Path(directory))
+            before = lock.read_bytes()
+            tok = Path(directory) / 'tok'
+            tok.mkdir()
+            (tok / 'glm5.json').write_bytes(old)
+            (tok / 'sources.lock').write_text(json.dumps({
+                'glm5': {'repo': 'zai-org/GLM-5', 'revision': 'local-rev', 'sha256': hashlib.sha256(old).hexdigest()},
+                'retired': {'repo': 'example/retired', 'revision': 'r', 'sha256': '0'}}))
+            errors = self.run_script(str(tok), fetch, lock)
+            self.assertEqual(lock.read_bytes(), before)
+            # The directory stays frozen where it was and says that it differs from the pin.
+            self.assertEqual((tok / 'glm5.json').read_bytes(), old)
+            self.assertEqual(json.loads((tok / 'sources.lock').read_text())['glm5']['revision'], 'local-rev')
+            self.assertIn('NOTE glm5', errors)
+
+    def test_candidate_without_a_pin_is_resolved_and_added_to_the_lock(self):
+        urls = []
+        def fetch(url, **kwargs):
+            urls.append(url)
+            return io.BytesIO(b'{"sha":"revision-456"}' if '/api/models/' in url else b'{"version":"1.0"}')
+        with tempfile.TemporaryDirectory() as directory:
+            lock = self.committed_lock(Path(directory), drop=('glm5',))
+            pins = json.loads(lock.read_text())
+            self.run_script(str(Path(directory) / 'fresh'), fetch, lock)
+            self.assertEqual([url for url in urls if '/api/models/' in url], ['https://huggingface.co/api/models/zai-org/GLM-5'])
+            after = json.loads(lock.read_text())
+            self.assertEqual(after.pop('glm5')['revision'], 'revision-456')
+            self.assertEqual(after, pins)
 
     def test_pinned_download_and_failure_preserve_existing_candidates(self):
         urls = []

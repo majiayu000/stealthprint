@@ -82,8 +82,13 @@ stealthprint watch --fingerprint --base-url https://openrouter.ai/api/v1 --api-k
 
 Each run stores the catalog under `watch-state/<source>/latest.json` and appends
 `added` / `removed` events to `sightings.jsonl`. The first run is a silent baseline.
-Run it from cron. `--fingerprint` adds L1 survey evidence to new ids (billable);
-`--webhook URL` posts new events. A sighting says when an id appeared, not who
+Run it from cron. A run that starts while another is still working on the same source
+exits with an error and does nothing. `--fingerprint` adds L1 survey evidence to new ids (billable);
+`--webhook URL` posts new events. A redirect from the catalog or the webhook is
+reported as an error and never followed, so the key stays with the host you named.
+Events the webhook did not accept stay in `webhook-pending.jsonl` and are sent again
+on the next `--webhook` run, so a receiver can see an event twice.
+A sighting says when an id appeared, not who
 built it, and `stealth_hint` is a naming heuristic.
 [Backtest on 180 archived OpenRouter catalogs](docs/watch-backtest.zh-CN.md):
 all 10 confirmed stealth releases appeared before launch, median 7 days early.
@@ -190,8 +195,8 @@ Data keys stay English regardless of display language.
 | L6b vision grid | `vision-grid` | Image token cost over 7 sizes fitted to `ceil(w/p)*ceil(h/p)+c`; patch size, constant and (no) resizing fingerprint the encoder |
 | count check | `count-check` | Does usage behave like a tokenizer: letters cost the same, concatenation adds up, repeats match. On failure (exit 1), L1 and vision counts can neither identify nor exclude a model |
 | truncation | `truncation` | Token boundaries read from where `max_tokens` cuts an echo, so it works when usage is untrusted. A tokenizer passes only if every cut is a boundary and none is over budget. Picks the lowest accepted `reasoning_effort` and widens the budget while thinking eats it. A pass is not unique proof: another tokenizer may split these texts the same way |
-| profiles | `profile` / `match` | Run the count check+L1+L1b+L4b+L6b into `fingerprints/<model>.json`, adding truncation when counts are untrusted (`--with-truncation` forces it); `match` compares offline against the library (see [fingerprints/README.md](fingerprints/README.md))  Exits 0 on a match, 3 on no match, 4 on insufficient evidence. |
-| sentinel | `sentinel` | Re-measure a stored profile cheaply (about 25 requests): `unchanged`, `changed` (exit 1) or `unverifiable`. Schedule it yourself, e.g. with cron and `--out sentinel.jsonl`; each run spends quota |
+| profiles | `profile` / `match` | Run the count check+L1+L1b+L4b+L6b into `fingerprints/<model>.json`, adding truncation when counts are untrusted (`--with-truncation` forces it). The profile is saved after every layer; a file that already exists is replaced only when the run finishes, with progress kept in `<out>.partial` until then. `match` compares offline against the library (see [fingerprints/README.md](fingerprints/README.md))  Exits 0 on a match, 3 on no match, 4 on insufficient evidence; a `--library` directory that does not exist is an error (exit 1). |
+| sentinel | `sentinel` | Re-measure a stored profile cheaply (about 25 requests): `unchanged`, `changed` (exit 1) or `unverifiable`. A run that fails is recorded as `error` and exits 2, so exit 1 always means a change. Schedule it yourself, e.g. with cron and `--out sentinel.jsonl`; each run spends quota |
 
 Self-identification ("who are you"), prompt injection, censorship probes and
 emoji density are deliberately **not** implemented as layers — for stealth
@@ -212,6 +217,11 @@ bun scripts/opencode_relay.mjs go 8897                      # Go plan (MIN_TOKEN
 stealthprint --base-url http://127.0.0.1:8898/v1 --model <free-model> --api-key x profile --out fingerprints/<free-model>.json
 ```
 
+The relay holds your key, so it serves local programs only: a request with an `Origin`
+header, a `Host` other than `127.0.0.1` / `localhost`, or a POST that is not
+`application/json` is refused, which keeps a web page open in your browser from spending
+the key. Any other program on the machine can still use it while it runs; stop it when done.
+
 Every replayed free-tier request resends the envelope, so `opencode_capture.py` removes
 rule files such as `~/.claude/CLAUDE.md`, the working directory, home path, user and host
 names and the skill list unless `--raw` is given. Read the envelope before use: this covers
@@ -224,7 +234,7 @@ each request; a model served through `/responses` is not captured directly.
 ./fetch_tokenizers.sh            # downloads the 48 pinned candidates in tokenizers.lock into tok/
 ```
 
-Downloads freeze the resolved revision and SHA-256 in `tok/sources.lock`; failures preserve existing files and return a nonzero exit status. Gated or non-JSON candidates are reported as unavailable, not silently substituted. Use a new directory to investigate newer revisions.
+Downloads freeze the resolved revision and SHA-256 in `tok/sources.lock`; failures preserve existing files and return a nonzero exit status. Gated or non-JSON candidates are reported as unavailable, not silently substituted. A directory that already has a `sources.lock` keeps its own revisions; the script says so where they differ from `tokenizers.lock` and never rewrites an existing pin. A new directory gets the pinned revisions, so to investigate a newer revision, delete that candidate's entry from `tokenizers.lock` and fetch into a new directory: the run resolves the current revision and adds it back to `tokenizers.lock`.
 
 Candidates are just files in a directory — drop in any `tokenizer.json` to add
 a suspect (e.g. `tok/mynewmodel.json`). The fetch script includes Mistral-Nemo's
