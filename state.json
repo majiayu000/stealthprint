@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-19T08:44:32.882165+00:00",
+  "checked_at": "2026-11-19T17:41:20.028571+00:00",
   "events": [
     {
       "after": {
@@ -158757,15 +158757,3063 @@
       "observed_at": "2026-11-19T08:44:32.882165+00:00",
       "published_at": null,
       "source_id": "models-dev"
+    },
+    {
+      "after": {
+        "maker": "inclusionAI",
+        "name": "deepseek-v4.1-flash-1017-singprobe",
+        "stage": "release",
+        "url": "https://live.aitracker.bot/deepseek-v4.1-flash-1017-singprobe"
+      },
+      "before": null,
+      "before_evidence": "evidence/592027cd227de91526a8f05ca0ac01a35675253555ea702c9485970bc4236718.json.gz",
+      "entity_id": "deepseek-v4.1-flash-1017-singprobe",
+      "evidence": "evidence/d4ad505c9079cca7b2d06b7972cefa85a7593892f238c6b3e1d63cdcfa3da131.json.gz",
+      "id": "892e4e8cd31acd5fc0fdf666",
+      "kind": "added",
+      "observed_at": "2026-11-19T17:41:20.028571+00:00",
+      "published_at": null,
+      "source_id": "aitracker-catalog"
+    },
+    {
+      "after": {
+        "maker": "Ideogram",
+        "name": "ideogram-4.6",
+        "stage": "release",
+        "url": "https://live.aitracker.bot/ideogram-4.6"
+      },
+      "before": null,
+      "before_evidence": "evidence/592027cd227de91526a8f05ca0ac01a35675253555ea702c9485970bc4236718.json.gz",
+      "entity_id": "ideogram-4.6",
+      "evidence": "evidence/d4ad505c9079cca7b2d06b7972cefa85a7593892f238c6b3e1d63cdcfa3da131.json.gz",
+      "id": "e8c86d2ffedecdc73b39aac7",
+      "kind": "added",
+      "observed_at": "2026-11-19T17:41:20.028571+00:00",
+      "published_at": null,
+      "source_id": "aitracker-catalog"
+    },
+    {
+      "after": {
+        "maker": "inclusionAI",
+        "name": "ling-3.1-flash-1019-singprobe",
+        "stage": "release",
+        "url": "https://live.aitracker.bot/ling-3.1-flash-1019-singprobe"
+      },
+      "before": null,
+      "before_evidence": "evidence/592027cd227de91526a8f05ca0ac01a35675253555ea702c9485970bc4236718.json.gz",
+      "entity_id": "ling-3.1-flash-1019-singprobe",
+      "evidence": "evidence/d4ad505c9079cca7b2d06b7972cefa85a7593892f238c6b3e1d63cdcfa3da131.json.gz",
+      "id": "4b17ef2d0fae371ba759ac2c",
+      "kind": "added",
+      "observed_at": "2026-11-19T17:41:20.028571+00:00",
+      "published_at": null,
+      "source_id": "aitracker-catalog"
+    },
+    {
+      "after": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "DeepSeek"
+        },
+        "canonical_slug": "deepseek/deepseek-v4-flash-20260731",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "DeepSeek: DeepSeek V4 Flash 0731",
+        "pricing": {
+          "completion": "0.0000003",
+          "input_cache_read": "0.000000035",
+          "prompt": "0.000000062"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "parallel_tool_calls",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_a",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/deepseek/deepseek-v4-flash-0731"
+      },
+      "before": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "DeepSeek"
+        },
+        "canonical_slug": "deepseek/deepseek-v4-flash-20260731",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "DeepSeek: DeepSeek V4 Flash 0731",
+        "pricing": {
+          "completion": "0.0000003",
+          "input_cache_read": "0.000000035",
+          "prompt": "0.000000065"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "parallel_tool_calls",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_a",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/deepseek/deepseek-v4-flash-0731"
+      },
+      "before_evidence": "evidence/70410d61bb5c06bdd95eb40298db2573909578c4f9178f64ab0a08d860a39000.json.gz",
+      "entity_id": "deepseek/deepseek-v4-flash-0731",
+      "evidence": "evidence/ff7aecc82af7c98b26b900f4a538b98d03f27a8b9ea6e6d95011037b3e93f406.json.gz",
+      "id": "dc906bf63e15d3b9032f4bfd",
+      "kind": "changed",
+      "observed_at": "2026-11-19T17:41:20.028571+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "DeepSeek"
+        },
+        "canonical_slug": "deepseek/deepseek-v4-pro-20260813",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "DeepSeek: DeepSeek V4 Pro 0813",
+        "pricing": {
+          "completion": "0.0000055",
+          "input_cache_read": "0.00000011",
+          "prompt": "0.00000013"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/deepseek/deepseek-v4-pro-0813"
+      },
+      "before": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "DeepSeek"
+        },
+        "canonical_slug": "deepseek/deepseek-v4-pro-20260813",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "DeepSeek: DeepSeek V4 Pro 0813",
+        "pricing": {
+          "completion": "0.00000444",
+          "input_cache_read": "0.000000097",
+          "prompt": "0.000000111"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/deepseek/deepseek-v4-pro-0813"
+      },
+      "before_evidence": "evidence/70410d61bb5c06bdd95eb40298db2573909578c4f9178f64ab0a08d860a39000.json.gz",
+      "entity_id": "deepseek/deepseek-v4-pro-0813",
+      "evidence": "evidence/ff7aecc82af7c98b26b900f4a538b98d03f27a8b9ea6e6d95011037b3e93f406.json.gz",
+      "id": "e8117b25e3f010aac1eeaf4b",
+      "kind": "changed",
+      "observed_at": "2026-11-19T17:41:20.028571+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image"
+          ],
+          "instruct_type": null,
+          "modality": "text+image->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "DeepSeek"
+        },
+        "canonical_slug": "deepseek/deepseek-v4.1-flash-20260910",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "DeepSeek: DeepSeek V4.1 Flash",
+        "pricing": {
+          "completion": "0.0000002028",
+          "input_cache_read": "0.000000001014",
+          "prompt": "0.0000000507"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "parallel_tool_calls",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_a",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/deepseek/deepseek-v4.1-flash"
+      },
+      "before": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image"
+          ],
+          "instruct_type": null,
+          "modality": "text+image->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "DeepSeek"
+        },
+        "canonical_slug": "deepseek/deepseek-v4.1-flash-20260910",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "DeepSeek: DeepSeek V4.1 Flash",
+        "pricing": {
+          "completion": "0.0000012",
+          "input_cache_read": "0.000000006",
+          "prompt": "0.0000003"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "parallel_tool_calls",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_a",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/deepseek/deepseek-v4.1-flash"
+      },
+      "before_evidence": "evidence/70410d61bb5c06bdd95eb40298db2573909578c4f9178f64ab0a08d860a39000.json.gz",
+      "entity_id": "deepseek/deepseek-v4.1-flash",
+      "evidence": "evidence/ff7aecc82af7c98b26b900f4a538b98d03f27a8b9ea6e6d95011037b3e93f406.json.gz",
+      "id": "3df1cf576f375053ee4c3679",
+      "kind": "changed",
+      "observed_at": "2026-11-19T17:41:20.028571+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image"
+          ],
+          "instruct_type": null,
+          "modality": "text+image->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "DeepSeek"
+        },
+        "canonical_slug": "deepseek/deepseek-v4.1-flash-20261017",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "DeepSeek: DeepSeek V4.1 Flash 1017",
+        "pricing": {
+          "completion": "0.0000006",
+          "input_cache_read": "0.000000003",
+          "overrides": [
+            {
+              "completion": "0.0000006",
+              "input_cache_read": "0.000000003",
+              "prompt": "0.00000015",
+              "utc_days": [
+                "saturday",
+                "sunday"
+              ]
+            },
+            {
+              "completion": "0.0000006",
+              "input_cache_read": "0.000000003",
+              "prompt": "0.00000015",
+              "utc_days": [
+                "monday",
+                "tuesday",
+                "wednesday",
+                "thursday",
+                "friday"
+              ],
+              "utc_end": 100,
+              "utc_start": 0
+            },
+            {
+              "completion": "0.0000012",
+              "input_cache_read": "0.000000006",
+              "prompt": "0.0000003",
+              "utc_days": [
+                "monday",
+                "tuesday",
+                "wednesday",
+                "thursday",
+                "friday"
+              ],
+              "utc_end": 400,
+              "utc_start": 100
+            },
+            {
+              "completion": "0.0000006",
+              "input_cache_read": "0.000000003",
+              "prompt": "0.00000015",
+              "utc_days": [
+                "monday",
+                "tuesday",
+                "wednesday",
+                "thursday",
+                "friday"
+              ],
+              "utc_end": 600,
+              "utc_start": 400
+            },
+            {
+              "completion": "0.0000012",
+              "input_cache_read": "0.000000006",
+              "prompt": "0.0000003",
+              "utc_days": [
+                "monday",
+                "tuesday",
+                "wednesday",
+                "thursday",
+                "friday"
+              ],
+              "utc_end": 1000,
+              "utc_start": 600
+            },
+            {
+              "completion": "0.0000006",
+              "input_cache_read": "0.000000003",
+              "prompt": "0.00000015",
+              "utc_days": [
+                "monday",
+                "tuesday",
+                "wednesday",
+                "thursday",
+                "friday"
+              ],
+              "utc_end": 0,
+              "utc_start": 1000
+            }
+          ],
+          "prompt": "0.00000015"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_completion_tokens",
+          "max_tokens",
+          "min_p",
+          "parallel_tool_calls",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/deepseek/deepseek-v4.1-flash-1017"
+      },
+      "before": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image"
+          ],
+          "instruct_type": null,
+          "modality": "text+image->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "DeepSeek"
+        },
+        "canonical_slug": "deepseek/deepseek-v4.1-flash-20261017",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "DeepSeek: DeepSeek V4.1 Flash 1017",
+        "pricing": {
+          "completion": "0.0000012",
+          "input_cache_read": "0.000000006",
+          "overrides": [
+            {
+              "completion": "0.0000006",
+              "input_cache_read": "0.000000003",
+              "prompt": "0.00000015",
+              "utc_days": [
+                "saturday",
+                "sunday"
+              ]
+            },
+            {
+              "completion": "0.0000006",
+              "input_cache_read": "0.000000003",
+              "prompt": "0.00000015",
+              "utc_days": [
+                "monday",
+                "tuesday",
+                "wednesday",
+                "thursday",
+                "friday"
+              ],
+              "utc_end": 100,
+              "utc_start": 0
+            },
+            {
+              "completion": "0.0000012",
+              "input_cache_read": "0.000000006",
+              "prompt": "0.0000003",
+              "utc_days": [
+                "monday",
+                "tuesday",
+                "wednesday",
+                "thursday",
+                "friday"
+              ],
+              "utc_end": 400,
+              "utc_start": 100
+            },
+            {
+              "completion": "0.0000006",
+              "input_cache_read": "0.000000003",
+              "prompt": "0.00000015",
+              "utc_days": [
+                "monday",
+                "tuesday",
+                "wednesday",
+                "thursday",
+                "friday"
+              ],
+              "utc_end": 600,
+              "utc_start": 400
+            },
+            {
+              "completion": "0.0000012",
+              "input_cache_read": "0.000000006",
+              "prompt": "0.0000003",
+              "utc_days": [
+                "monday",
+                "tuesday",
+                "wednesday",
+                "thursday",
+                "friday"
+              ],
+              "utc_end": 1000,
+              "utc_start": 600
+            },
+            {
+              "completion": "0.0000006",
+              "input_cache_read": "0.000000003",
+              "prompt": "0.00000015",
+              "utc_days": [
+                "monday",
+                "tuesday",
+                "wednesday",
+                "thursday",
+                "friday"
+              ],
+              "utc_end": 0,
+              "utc_start": 1000
+            }
+          ],
+          "prompt": "0.0000003"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_completion_tokens",
+          "max_tokens",
+          "min_p",
+          "parallel_tool_calls",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/deepseek/deepseek-v4.1-flash-1017"
+      },
+      "before_evidence": "evidence/70410d61bb5c06bdd95eb40298db2573909578c4f9178f64ab0a08d860a39000.json.gz",
+      "entity_id": "deepseek/deepseek-v4.1-flash-1017",
+      "evidence": "evidence/ff7aecc82af7c98b26b900f4a538b98d03f27a8b9ea6e6d95011037b3e93f406.json.gz",
+      "id": "c638f599eb91acee26e3fb84",
+      "kind": "changed",
+      "observed_at": "2026-11-19T17:41:20.028571+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image",
+            "video",
+            "file"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+file+video->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "meta/muse-spark-1.3-20260902",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "Meta: Muse Spark 1.3",
+        "pricing": {
+          "completion": "0.00000425",
+          "input_cache_read": "0.00000015",
+          "prompt": "0.00000125",
+          "web_search": "0.0025"
+        },
+        "supported_parameters": [
+          "include_reasoning",
+          "max_tokens",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/meta/muse-spark-1.3"
+      },
+      "before": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image",
+            "video",
+            "file"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+file+video->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "meta/muse-spark-1.3-20260902",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "Meta: Muse Spark 1.3",
+        "pricing": {
+          "completion": "0.00000425",
+          "input_cache_read": "0.00000015",
+          "prompt": "0.00000125",
+          "web_search": "0.01"
+        },
+        "supported_parameters": [
+          "include_reasoning",
+          "max_tokens",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/meta/muse-spark-1.3"
+      },
+      "before_evidence": "evidence/70410d61bb5c06bdd95eb40298db2573909578c4f9178f64ab0a08d860a39000.json.gz",
+      "entity_id": "meta/muse-spark-1.3",
+      "evidence": "evidence/ff7aecc82af7c98b26b900f4a538b98d03f27a8b9ea6e6d95011037b3e93f406.json.gz",
+      "id": "1ceecd1e91a3d2726c983c7b",
+      "kind": "changed",
+      "observed_at": "2026-11-19T17:41:20.028571+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image",
+            "video"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+video->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "minimax/minimax-m3.1-flash-20261019",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "MiniMax: MiniMax M3.1 Flash",
+        "pricing": {
+          "completion": "0.0000003",
+          "input_cache_read": "0.0000000075",
+          "overrides": [
+            {
+              "completion": "0.0000003",
+              "input_cache_read": "0.0000000075",
+              "prompt": "0.000000075",
+              "utc_end": 100,
+              "utc_start": 1500
+            },
+            {
+              "completion": "0.0000006",
+              "input_cache_read": "0.000000015",
+              "prompt": "0.00000015",
+              "utc_end": 1500,
+              "utc_start": 100
+            }
+          ],
+          "prompt": "0.000000075"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/minimax/minimax-m3.1-flash"
+      },
+      "before": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image",
+            "video"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+video->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "minimax/minimax-m3.1-flash-20261019",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "MiniMax: MiniMax M3.1 Flash",
+        "pricing": {
+          "completion": "0.0000006",
+          "input_cache_read": "0.000000015",
+          "overrides": [
+            {
+              "completion": "0.0000003",
+              "input_cache_read": "0.0000000075",
+              "prompt": "0.000000075",
+              "utc_end": 100,
+              "utc_start": 1500
+            },
+            {
+              "completion": "0.0000006",
+              "input_cache_read": "0.000000015",
+              "prompt": "0.00000015",
+              "utc_end": 1500,
+              "utc_start": 100
+            }
+          ],
+          "prompt": "0.00000015"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/minimax/minimax-m3.1-flash"
+      },
+      "before_evidence": "evidence/70410d61bb5c06bdd95eb40298db2573909578c4f9178f64ab0a08d860a39000.json.gz",
+      "entity_id": "minimax/minimax-m3.1-flash",
+      "evidence": "evidence/ff7aecc82af7c98b26b900f4a538b98d03f27a8b9ea6e6d95011037b3e93f406.json.gz",
+      "id": "849f81ad9289ebab03e62b33",
+      "kind": "changed",
+      "observed_at": "2026-11-19T17:41:20.028571+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image"
+          ],
+          "instruct_type": null,
+          "modality": "text+image->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "moonshotai/kimi-k2.7-code-20260612",
+        "context_length": 262144,
+        "expiration_date": null,
+        "name": "MoonshotAI: Kimi K2.7 Code",
+        "pricing": {
+          "completion": "0.0000035",
+          "input_cache_read": "0.00000016",
+          "prompt": "0.00000065"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "parallel_tool_calls",
+          "presence_penalty",
+          "reasoning",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/moonshotai/kimi-k2.7-code"
+      },
+      "before": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image"
+          ],
+          "instruct_type": null,
+          "modality": "text+image->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "moonshotai/kimi-k2.7-code-20260612",
+        "context_length": 262144,
+        "expiration_date": null,
+        "name": "MoonshotAI: Kimi K2.7 Code",
+        "pricing": {
+          "completion": "0.0000035",
+          "input_cache_read": "0.00000016",
+          "prompt": "0.0000006"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "parallel_tool_calls",
+          "presence_penalty",
+          "reasoning",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/moonshotai/kimi-k2.7-code"
+      },
+      "before_evidence": "evidence/70410d61bb5c06bdd95eb40298db2573909578c4f9178f64ab0a08d860a39000.json.gz",
+      "entity_id": "moonshotai/kimi-k2.7-code",
+      "evidence": "evidence/ff7aecc82af7c98b26b900f4a538b98d03f27a8b9ea6e6d95011037b3e93f406.json.gz",
+      "id": "07e346bae41b9b36b50ca8bd",
+      "kind": "changed",
+      "observed_at": "2026-11-19T17:41:20.028571+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image",
+            "video"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+video->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Qwen3"
+        },
+        "canonical_slug": "qwen/qwen3.5-9b-20260310",
+        "context_length": 262144,
+        "expiration_date": null,
+        "name": "Qwen: Qwen3.5-9B",
+        "pricing": {
+          "completion": "0.00000025",
+          "prompt": "0.00000017"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_completion_tokens",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/qwen/qwen3.5-9b"
+      },
+      "before": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image",
+            "video"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+video->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Qwen3"
+        },
+        "canonical_slug": "qwen/qwen3.5-9b-20260310",
+        "context_length": 262144,
+        "expiration_date": null,
+        "name": "Qwen: Qwen3.5-9B",
+        "pricing": {
+          "completion": "0.00000025",
+          "input_cache_read": "0.000000153",
+          "prompt": "0.00000017"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_completion_tokens",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/qwen/qwen3.5-9b"
+      },
+      "before_evidence": "evidence/70410d61bb5c06bdd95eb40298db2573909578c4f9178f64ab0a08d860a39000.json.gz",
+      "entity_id": "qwen/qwen3.5-9b",
+      "evidence": "evidence/ff7aecc82af7c98b26b900f4a538b98d03f27a8b9ea6e6d95011037b3e93f406.json.gz",
+      "id": "2ac00a6df02debda72ae679e",
+      "kind": "changed",
+      "observed_at": "2026-11-19T17:41:20.028571+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "tencent/hy3-20260706",
+        "context_length": 262144,
+        "expiration_date": null,
+        "name": "Tencent: Hy3",
+        "pricing": {
+          "completion": "0.00000033",
+          "input_cache_read": "0.000000020625",
+          "overrides": [
+            {
+              "completion": "0.000000528",
+              "input_cache_read": "0.000000033",
+              "prompt": "0.000000132",
+              "utc_end": 1600,
+              "utc_start": 0
+            },
+            {
+              "completion": "0.00000033",
+              "input_cache_read": "0.000000020625",
+              "prompt": "0.0000000825",
+              "utc_end": 0,
+              "utc_start": 1600
+            }
+          ],
+          "prompt": "0.0000000825"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "max_completion_tokens",
+          "max_tokens",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/tencent/hy3"
+      },
+      "before": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "tencent/hy3-20260706",
+        "context_length": 262144,
+        "expiration_date": null,
+        "name": "Tencent: Hy3",
+        "pricing": {
+          "completion": "0.000000528",
+          "input_cache_read": "0.000000033",
+          "overrides": [
+            {
+              "completion": "0.000000528",
+              "input_cache_read": "0.000000033",
+              "prompt": "0.000000132",
+              "utc_end": 1600,
+              "utc_start": 0
+            },
+            {
+              "completion": "0.00000033",
+              "input_cache_read": "0.000000020625",
+              "prompt": "0.0000000825",
+              "utc_end": 0,
+              "utc_start": 1600
+            }
+          ],
+          "prompt": "0.000000132"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "max_completion_tokens",
+          "max_tokens",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/tencent/hy3"
+      },
+      "before_evidence": "evidence/70410d61bb5c06bdd95eb40298db2573909578c4f9178f64ab0a08d860a39000.json.gz",
+      "entity_id": "tencent/hy3",
+      "evidence": "evidence/ff7aecc82af7c98b26b900f4a538b98d03f27a8b9ea6e6d95011037b3e93f406.json.gz",
+      "id": "6f8726a094123689b971d2e4",
+      "kind": "changed",
+      "observed_at": "2026-11-19T17:41:20.028571+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "tencent/hy4-preview-20260827",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "Tencent: Hy4 preview",
+        "pricing": {
+          "completion": "0.0000022509",
+          "input_cache_read": "0.0000000378",
+          "overrides": [
+            {
+              "completion": "0.000002501",
+              "input_cache_read": "0.000000042",
+              "prompt": "0.000000834",
+              "utc_end": 1600,
+              "utc_start": 0
+            },
+            {
+              "completion": "0.0000022509",
+              "input_cache_read": "0.0000000378",
+              "prompt": "0.0000007506",
+              "utc_end": 0,
+              "utc_start": 1600
+            }
+          ],
+          "prompt": "0.0000007506"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_completion_tokens",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/tencent/hy4-preview"
+      },
+      "before": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "tencent/hy4-preview-20260827",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "Tencent: Hy4 preview",
+        "pricing": {
+          "completion": "0.000002501",
+          "input_cache_read": "0.000000042",
+          "overrides": [
+            {
+              "completion": "0.000002501",
+              "input_cache_read": "0.000000042",
+              "prompt": "0.000000834",
+              "utc_end": 1600,
+              "utc_start": 0
+            },
+            {
+              "completion": "0.0000022509",
+              "input_cache_read": "0.0000000378",
+              "prompt": "0.0000007506",
+              "utc_end": 0,
+              "utc_start": 1600
+            }
+          ],
+          "prompt": "0.000000834"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_completion_tokens",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/tencent/hy4-preview"
+      },
+      "before_evidence": "evidence/70410d61bb5c06bdd95eb40298db2573909578c4f9178f64ab0a08d860a39000.json.gz",
+      "entity_id": "tencent/hy4-preview",
+      "evidence": "evidence/ff7aecc82af7c98b26b900f4a538b98d03f27a8b9ea6e6d95011037b3e93f406.json.gz",
+      "id": "27d65d7b39da93fce71b59d8",
+      "kind": "changed",
+      "observed_at": "2026-11-19T17:41:20.028571+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": null,
+      "before": {
+        "alias_target": null,
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image"
+          ],
+          "instruct_type": null,
+          "modality": "text+image->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "thinkingmachines/inkling-2-small-20261107",
+        "context_length": 1048576,
+        "expiration_date": "2026-11-19",
+        "name": "Thinking Machines: Inkling 2 Small (free)",
+        "pricing": {
+          "completion": "0",
+          "prompt": "0"
+        },
+        "supported_parameters": [
+          "include_reasoning",
+          "max_tokens",
+          "reasoning",
+          "reasoning_effort",
+          "seed",
+          "stop",
+          "temperature",
+          "tools",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/thinkingmachines/inkling-2-small:free"
+      },
+      "before_evidence": "evidence/70410d61bb5c06bdd95eb40298db2573909578c4f9178f64ab0a08d860a39000.json.gz",
+      "entity_id": "thinkingmachines/inkling-2-small:free",
+      "evidence": "evidence/ff7aecc82af7c98b26b900f4a538b98d03f27a8b9ea6e6d95011037b3e93f406.json.gz",
+      "id": "606b42a55bacd9e0b997d4f9",
+      "kind": "missing",
+      "observed_at": "2026-11-19T17:41:20.028571+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "alias_target": {
+          "name": "DeepSeek: DeepSeek V4.1 Flash 1017",
+          "slug": "deepseek/deepseek-v4.1-flash-1017"
+        },
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image"
+          ],
+          "instruct_type": null,
+          "modality": "text+image->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Router"
+        },
+        "canonical_slug": "~deepseek/deepseek-flash-latest",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "DeepSeek: DeepSeek Flash Latest",
+        "pricing": {
+          "completion": "0.0000005",
+          "input_cache_read": "0.00000001",
+          "prompt": "0.000000036"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_completion_tokens",
+          "max_tokens",
+          "min_p",
+          "parallel_tool_calls",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/~deepseek/deepseek-flash-latest"
+      },
+      "before": {
+        "alias_target": {
+          "name": "DeepSeek: DeepSeek V4.1 Flash 1017",
+          "slug": "deepseek/deepseek-v4.1-flash-1017"
+        },
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image"
+          ],
+          "instruct_type": null,
+          "modality": "text+image->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Router"
+        },
+        "canonical_slug": "~deepseek/deepseek-flash-latest",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "DeepSeek: DeepSeek Flash Latest",
+        "pricing": {
+          "completion": "0.00000015",
+          "input_cache_read": "0.0000000015",
+          "prompt": "0.000000035"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_completion_tokens",
+          "max_tokens",
+          "min_p",
+          "parallel_tool_calls",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/~deepseek/deepseek-flash-latest"
+      },
+      "before_evidence": "evidence/70410d61bb5c06bdd95eb40298db2573909578c4f9178f64ab0a08d860a39000.json.gz",
+      "entity_id": "~deepseek/deepseek-flash-latest",
+      "evidence": "evidence/ff7aecc82af7c98b26b900f4a538b98d03f27a8b9ea6e6d95011037b3e93f406.json.gz",
+      "id": "d62f22a1ad2ae6001b8761bf",
+      "kind": "changed",
+      "observed_at": "2026-11-19T17:41:20.028571+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "alias_target": {
+          "name": "DeepSeek: DeepSeek V4 Pro 0813",
+          "slug": "deepseek/deepseek-v4-pro-0813"
+        },
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Router"
+        },
+        "canonical_slug": "~deepseek/deepseek-pro-latest",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "DeepSeek: DeepSeek Pro Latest",
+        "pricing": {
+          "completion": "0.000008",
+          "input_cache_read": "0.00000012",
+          "prompt": "0.000000117"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/~deepseek/deepseek-pro-latest"
+      },
+      "before": {
+        "alias_target": {
+          "name": "DeepSeek: DeepSeek V4 Pro 0813",
+          "slug": "deepseek/deepseek-v4-pro-0813"
+        },
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Router"
+        },
+        "canonical_slug": "~deepseek/deepseek-pro-latest",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "DeepSeek: DeepSeek Pro Latest",
+        "pricing": {
+          "completion": "0.000008",
+          "input_cache_read": "0.0000000999",
+          "prompt": "0.0000000999"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/~deepseek/deepseek-pro-latest"
+      },
+      "before_evidence": "evidence/70410d61bb5c06bdd95eb40298db2573909578c4f9178f64ab0a08d860a39000.json.gz",
+      "entity_id": "~deepseek/deepseek-pro-latest",
+      "evidence": "evidence/ff7aecc82af7c98b26b900f4a538b98d03f27a8b9ea6e6d95011037b3e93f406.json.gz",
+      "id": "cd05b423f079aa453fab5485",
+      "kind": "changed",
+      "observed_at": "2026-11-19T17:41:20.028571+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "alias_target": {
+          "name": "DeepSeek: DeepSeek V4 Flash 0731",
+          "slug": "deepseek/deepseek-v4-flash-0731"
+        },
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Router"
+        },
+        "canonical_slug": "~deepseek/deepseek-v4-flash-latest",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "DeepSeek: DeepSeek V4 Flash Latest",
+        "pricing": {
+          "completion": "0.00000013992",
+          "input_cache_read": "0.000000001484",
+          "prompt": "0.00000004664"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "parallel_tool_calls",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_a",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/~deepseek/deepseek-v4-flash-latest"
+      },
+      "before": {
+        "alias_target": {
+          "name": "DeepSeek: DeepSeek V4 Flash 0731",
+          "slug": "deepseek/deepseek-v4-flash-0731"
+        },
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Router"
+        },
+        "canonical_slug": "~deepseek/deepseek-v4-flash-latest",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "DeepSeek: DeepSeek V4 Flash Latest",
+        "pricing": {
+          "completion": "0.00000018",
+          "input_cache_read": "0.000000015",
+          "prompt": "0.00000006"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "parallel_tool_calls",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_a",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/~deepseek/deepseek-v4-flash-latest"
+      },
+      "before_evidence": "evidence/70410d61bb5c06bdd95eb40298db2573909578c4f9178f64ab0a08d860a39000.json.gz",
+      "entity_id": "~deepseek/deepseek-v4-flash-latest",
+      "evidence": "evidence/ff7aecc82af7c98b26b900f4a538b98d03f27a8b9ea6e6d95011037b3e93f406.json.gz",
+      "id": "ebca2e257d1ea0da1eb7b3aa",
+      "kind": "changed",
+      "observed_at": "2026-11-19T17:41:20.028571+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "alias_target": {
+          "name": "MoonshotAI: Kimi K3",
+          "slug": "moonshotai/kimi-k3"
+        },
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image",
+            "video"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+video->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Router"
+        },
+        "canonical_slug": "~moonshotai/kimi-latest",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "MoonshotAI: Kimi Latest",
+        "pricing": {
+          "completion": "0.0000110055",
+          "input_cache_read": "0.00000018",
+          "prompt": "0.0000001805"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/~moonshotai/kimi-latest"
+      },
+      "before": {
+        "alias_target": {
+          "name": "MoonshotAI: Kimi K3",
+          "slug": "moonshotai/kimi-k3"
+        },
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image",
+            "video"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+video->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Router"
+        },
+        "canonical_slug": "~moonshotai/kimi-latest",
+        "context_length": 1048576,
+        "expiration_date": null,
+        "name": "MoonshotAI: Kimi Latest",
+        "pricing": {
+          "completion": "0.0000110055",
+          "input_cache_read": "0.00000018",
+          "prompt": "0.0000001824"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "url": "https://openrouter.ai/~moonshotai/kimi-latest"
+      },
+      "before_evidence": "evidence/70410d61bb5c06bdd95eb40298db2573909578c4f9178f64ab0a08d860a39000.json.gz",
+      "entity_id": "~moonshotai/kimi-latest",
+      "evidence": "evidence/ff7aecc82af7c98b26b900f4a538b98d03f27a8b9ea6e6d95011037b3e93f406.json.gz",
+      "id": "c37eb9642d6024a054ea640b",
+      "kind": "changed",
+      "observed_at": "2026-11-19T17:41:20.028571+00:00",
+      "published_at": null,
+      "source_id": "openrouter"
+    },
+    {
+      "after": {
+        "files": [
+          ".gitattributes",
+          "README.md",
+          "chat_template.jinja",
+          "config.json",
+          "configuration_minimax_m2.py",
+          "docs/mlx_deploy_guide.md",
+          "docs/sglang_deploy_guide.md",
+          "docs/sglang_deploy_guide_cn.md",
+          "docs/tool_calling_guide.md",
+          "docs/tool_calling_guide_cn.md",
+          "docs/transformers_deploy_guide.md",
+          "docs/transformers_deploy_guide_cn.md",
+          "docs/vllm_deploy_guide.md",
+          "docs/vllm_deploy_guide_cn.md",
+          "figures/Bench.png",
+          "figures/wechat.jpeg",
+          "generation_config.json",
+          "merges.txt",
+          "model-00000-of-00130.safetensors",
+          "model-00001-of-00130.safetensors",
+          "model-00002-of-00130.safetensors",
+          "model-00003-of-00130.safetensors",
+          "model-00004-of-00130.safetensors",
+          "model-00005-of-00130.safetensors",
+          "model-00006-of-00130.safetensors",
+          "model-00007-of-00130.safetensors",
+          "model-00008-of-00130.safetensors",
+          "model-00009-of-00130.safetensors",
+          "model-00010-of-00130.safetensors",
+          "model-00011-of-00130.safetensors",
+          "model-00012-of-00130.safetensors",
+          "model-00013-of-00130.safetensors",
+          "model-00014-of-00130.safetensors",
+          "model-00015-of-00130.safetensors",
+          "model-00016-of-00130.safetensors",
+          "model-00017-of-00130.safetensors",
+          "model-00018-of-00130.safetensors",
+          "model-00019-of-00130.safetensors",
+          "model-00020-of-00130.safetensors",
+          "model-00021-of-00130.safetensors",
+          "model-00022-of-00130.safetensors",
+          "model-00023-of-00130.safetensors",
+          "model-00024-of-00130.safetensors",
+          "model-00025-of-00130.safetensors",
+          "model-00026-of-00130.safetensors",
+          "model-00027-of-00130.safetensors",
+          "model-00028-of-00130.safetensors",
+          "model-00029-of-00130.safetensors",
+          "model-00030-of-00130.safetensors",
+          "model-00031-of-00130.safetensors",
+          "model-00032-of-00130.safetensors",
+          "model-00033-of-00130.safetensors",
+          "model-00034-of-00130.safetensors",
+          "model-00035-of-00130.safetensors",
+          "model-00036-of-00130.safetensors",
+          "model-00037-of-00130.safetensors",
+          "model-00038-of-00130.safetensors",
+          "model-00039-of-00130.safetensors",
+          "model-00040-of-00130.safetensors",
+          "model-00041-of-00130.safetensors",
+          "model-00042-of-00130.safetensors",
+          "model-00043-of-00130.safetensors",
+          "model-00044-of-00130.safetensors",
+          "model-00045-of-00130.safetensors",
+          "model-00046-of-00130.safetensors",
+          "model-00047-of-00130.safetensors",
+          "model-00048-of-00130.safetensors",
+          "model-00049-of-00130.safetensors",
+          "model-00050-of-00130.safetensors",
+          "model-00051-of-00130.safetensors",
+          "model-00052-of-00130.safetensors",
+          "model-00053-of-00130.safetensors",
+          "model-00054-of-00130.safetensors",
+          "model-00055-of-00130.safetensors",
+          "model-00056-of-00130.safetensors",
+          "model-00057-of-00130.safetensors",
+          "model-00058-of-00130.safetensors",
+          "model-00059-of-00130.safetensors",
+          "model-00060-of-00130.safetensors",
+          "model-00061-of-00130.safetensors",
+          "model-00062-of-00130.safetensors",
+          "model-00063-of-00130.safetensors",
+          "model-00064-of-00130.safetensors",
+          "model-00065-of-00130.safetensors",
+          "model-00066-of-00130.safetensors",
+          "model-00067-of-00130.safetensors",
+          "model-00068-of-00130.safetensors",
+          "model-00069-of-00130.safetensors",
+          "model-00070-of-00130.safetensors",
+          "model-00071-of-00130.safetensors",
+          "model-00072-of-00130.safetensors",
+          "model-00073-of-00130.safetensors",
+          "model-00074-of-00130.safetensors",
+          "model-00075-of-00130.safetensors",
+          "model-00076-of-00130.safetensors",
+          "model-00077-of-00130.safetensors",
+          "model-00078-of-00130.safetensors",
+          "model-00079-of-00130.safetensors",
+          "model-00080-of-00130.safetensors",
+          "model-00081-of-00130.safetensors",
+          "model-00082-of-00130.safetensors",
+          "model-00083-of-00130.safetensors",
+          "model-00084-of-00130.safetensors",
+          "model-00085-of-00130.safetensors",
+          "model-00086-of-00130.safetensors",
+          "model-00087-of-00130.safetensors",
+          "model-00088-of-00130.safetensors",
+          "model-00089-of-00130.safetensors",
+          "model-00090-of-00130.safetensors",
+          "model-00091-of-00130.safetensors",
+          "model-00092-of-00130.safetensors",
+          "model-00093-of-00130.safetensors",
+          "model-00094-of-00130.safetensors",
+          "model-00095-of-00130.safetensors",
+          "model-00096-of-00130.safetensors",
+          "model-00097-of-00130.safetensors",
+          "model-00098-of-00130.safetensors",
+          "model-00099-of-00130.safetensors",
+          "model-00100-of-00130.safetensors",
+          "model-00101-of-00130.safetensors",
+          "model-00102-of-00130.safetensors",
+          "model-00103-of-00130.safetensors",
+          "model-00104-of-00130.safetensors",
+          "model-00105-of-00130.safetensors",
+          "model-00106-of-00130.safetensors",
+          "model-00107-of-00130.safetensors",
+          "model-00108-of-00130.safetensors",
+          "model-00109-of-00130.safetensors",
+          "model-00110-of-00130.safetensors",
+          "model-00111-of-00130.safetensors",
+          "model-00112-of-00130.safetensors",
+          "model-00113-of-00130.safetensors",
+          "model-00114-of-00130.safetensors",
+          "model-00115-of-00130.safetensors",
+          "model-00116-of-00130.safetensors",
+          "model-00117-of-00130.safetensors",
+          "model-00118-of-00130.safetensors",
+          "model-00119-of-00130.safetensors",
+          "model-00120-of-00130.safetensors",
+          "model-00121-of-00130.safetensors",
+          "model-00122-of-00130.safetensors",
+          "model-00123-of-00130.safetensors",
+          "model-00124-of-00130.safetensors",
+          "model-00125-of-00130.safetensors",
+          "model-00126-of-00130.safetensors",
+          "model-00127-of-00130.safetensors",
+          "model-00128-of-00130.safetensors",
+          "model-00129-of-00130.safetensors",
+          "model.safetensors.index.json",
+          "modeling_minimax_m2.py",
+          "tokenizer.json",
+          "tokenizer_config.json",
+          "vocab.json"
+        ],
+        "gated": false,
+        "name": "MiniMaxAI/MiniMax-M2",
+        "pipeline_tag": "text-generation",
+        "revision": "2a6104622dd83ee7e424e7d218736021a56745bd",
+        "url": "https://huggingface.co/MiniMaxAI/MiniMax-M2"
+      },
+      "before": {
+        "files": [
+          ".gitattributes",
+          "README.md",
+          "chat_template.jinja",
+          "config.json",
+          "configuration_minimax_m2.py",
+          "docs/mlx_deploy_guide.md",
+          "docs/sglang_deploy_guide.md",
+          "docs/sglang_deploy_guide_cn.md",
+          "docs/tool_calling_guide.md",
+          "docs/tool_calling_guide_cn.md",
+          "docs/transformers_deploy_guide.md",
+          "docs/transformers_deploy_guide_cn.md",
+          "docs/vllm_deploy_guide.md",
+          "docs/vllm_deploy_guide_cn.md",
+          "figures/Bench.png",
+          "figures/wechat.jpeg",
+          "generation_config.json",
+          "merges.txt",
+          "model-00000-of-00130.safetensors",
+          "model-00001-of-00130.safetensors",
+          "model-00002-of-00130.safetensors",
+          "model-00003-of-00130.safetensors",
+          "model-00004-of-00130.safetensors",
+          "model-00005-of-00130.safetensors",
+          "model-00006-of-00130.safetensors",
+          "model-00007-of-00130.safetensors",
+          "model-00008-of-00130.safetensors",
+          "model-00009-of-00130.safetensors",
+          "model-00010-of-00130.safetensors",
+          "model-00011-of-00130.safetensors",
+          "model-00012-of-00130.safetensors",
+          "model-00013-of-00130.safetensors",
+          "model-00014-of-00130.safetensors",
+          "model-00015-of-00130.safetensors",
+          "model-00016-of-00130.safetensors",
+          "model-00017-of-00130.safetensors",
+          "model-00018-of-00130.safetensors",
+          "model-00019-of-00130.safetensors",
+          "model-00020-of-00130.safetensors",
+          "model-00021-of-00130.safetensors",
+          "model-00022-of-00130.safetensors",
+          "model-00023-of-00130.safetensors",
+          "model-00024-of-00130.safetensors",
+          "model-00025-of-00130.safetensors",
+          "model-00026-of-00130.safetensors",
+          "model-00027-of-00130.safetensors",
+          "model-00028-of-00130.safetensors",
+          "model-00029-of-00130.safetensors",
+          "model-00030-of-00130.safetensors",
+          "model-00031-of-00130.safetensors",
+          "model-00032-of-00130.safetensors",
+          "model-00033-of-00130.safetensors",
+          "model-00034-of-00130.safetensors",
+          "model-00035-of-00130.safetensors",
+          "model-00036-of-00130.safetensors",
+          "model-00037-of-00130.safetensors",
+          "model-00038-of-00130.safetensors",
+          "model-00039-of-00130.safetensors",
+          "model-00040-of-00130.safetensors",
+          "model-00041-of-00130.safetensors",
+          "model-00042-of-00130.safetensors",
+          "model-00043-of-00130.safetensors",
+          "model-00044-of-00130.safetensors",
+          "model-00045-of-00130.safetensors",
+          "model-00046-of-00130.safetensors",
+          "model-00047-of-00130.safetensors",
+          "model-00048-of-00130.safetensors",
+          "model-00049-of-00130.safetensors",
+          "model-00050-of-00130.safetensors",
+          "model-00051-of-00130.safetensors",
+          "model-00052-of-00130.safetensors",
+          "model-00053-of-00130.safetensors",
+          "model-00054-of-00130.safetensors",
+          "model-00055-of-00130.safetensors",
+          "model-00056-of-00130.safetensors",
+          "model-00057-of-00130.safetensors",
+          "model-00058-of-00130.safetensors",
+          "model-00059-of-00130.safetensors",
+          "model-00060-of-00130.safetensors",
+          "model-00061-of-00130.safetensors",
+          "model-00062-of-00130.safetensors",
+          "model-00063-of-00130.safetensors",
+          "model-00064-of-00130.safetensors",
+          "model-00065-of-00130.safetensors",
+          "model-00066-of-00130.safetensors",
+          "model-00067-of-00130.safetensors",
+          "model-00068-of-00130.safetensors",
+          "model-00069-of-00130.safetensors",
+          "model-00070-of-00130.safetensors",
+          "model-00071-of-00130.safetensors",
+          "model-00072-of-00130.safetensors",
+          "model-00073-of-00130.safetensors",
+          "model-00074-of-00130.safetensors",
+          "model-00075-of-00130.safetensors",
+          "model-00076-of-00130.safetensors",
+          "model-00077-of-00130.safetensors",
+          "model-00078-of-00130.safetensors",
+          "model-00079-of-00130.safetensors",
+          "model-00080-of-00130.safetensors",
+          "model-00081-of-00130.safetensors",
+          "model-00082-of-00130.safetensors",
+          "model-00083-of-00130.safetensors",
+          "model-00084-of-00130.safetensors",
+          "model-00085-of-00130.safetensors",
+          "model-00086-of-00130.safetensors",
+          "model-00087-of-00130.safetensors",
+          "model-00088-of-00130.safetensors",
+          "model-00089-of-00130.safetensors",
+          "model-00090-of-00130.safetensors",
+          "model-00091-of-00130.safetensors",
+          "model-00092-of-00130.safetensors",
+          "model-00093-of-00130.safetensors",
+          "model-00094-of-00130.safetensors",
+          "model-00095-of-00130.safetensors",
+          "model-00096-of-00130.safetensors",
+          "model-00097-of-00130.safetensors",
+          "model-00098-of-00130.safetensors",
+          "model-00099-of-00130.safetensors",
+          "model-00100-of-00130.safetensors",
+          "model-00101-of-00130.safetensors",
+          "model-00102-of-00130.safetensors",
+          "model-00103-of-00130.safetensors",
+          "model-00104-of-00130.safetensors",
+          "model-00105-of-00130.safetensors",
+          "model-00106-of-00130.safetensors",
+          "model-00107-of-00130.safetensors",
+          "model-00108-of-00130.safetensors",
+          "model-00109-of-00130.safetensors",
+          "model-00110-of-00130.safetensors",
+          "model-00111-of-00130.safetensors",
+          "model-00112-of-00130.safetensors",
+          "model-00113-of-00130.safetensors",
+          "model-00114-of-00130.safetensors",
+          "model-00115-of-00130.safetensors",
+          "model-00116-of-00130.safetensors",
+          "model-00117-of-00130.safetensors",
+          "model-00118-of-00130.safetensors",
+          "model-00119-of-00130.safetensors",
+          "model-00120-of-00130.safetensors",
+          "model-00121-of-00130.safetensors",
+          "model-00122-of-00130.safetensors",
+          "model-00123-of-00130.safetensors",
+          "model-00124-of-00130.safetensors",
+          "model-00125-of-00130.safetensors",
+          "model-00126-of-00130.safetensors",
+          "model-00127-of-00130.safetensors",
+          "model-00128-of-00130.safetensors",
+          "model-00129-of-00130.safetensors",
+          "model.safetensors.index.json",
+          "modeling_minimax_m2.py",
+          "tokenizer.json",
+          "tokenizer_config.json",
+          "vocab.json"
+        ],
+        "gated": false,
+        "name": "MiniMaxAI/MiniMax-M2",
+        "pipeline_tag": "text-generation",
+        "revision": "04312f0cfbdeefb912575595b7c045512a29293c",
+        "url": "https://huggingface.co/MiniMaxAI/MiniMax-M2"
+      },
+      "before_evidence": "evidence/c404dfa11241e9cc6b500b13c0e3e6c434e629b3d4dc1ea68663af0d1bc3a984.json.gz",
+      "entity_id": "MiniMaxAI/MiniMax-M2",
+      "evidence": "evidence/63f6e63159f429958915dc734bff886c5b10ec2191b2e0bed7b5a954cf7fe9fe.json.gz",
+      "id": "749142b2ddddba48c0993ed6",
+      "kind": "changed",
+      "observed_at": "2026-11-19T17:41:20.028571+00:00",
+      "published_at": null,
+      "source_id": "huggingface-minimax"
+    },
+    {
+      "after": {
+        "files": [
+          ".gitattributes",
+          "README.md",
+          "chat_template.jinja",
+          "config.json",
+          "configuration_minimax_m2.py",
+          "docs/mlx_deploy_guide.md",
+          "docs/sglang_deploy_guide.md",
+          "docs/sglang_deploy_guide_cn.md",
+          "docs/tool_calling_guide.md",
+          "docs/tool_calling_guide_cn.md",
+          "docs/transformers_deploy_guide.md",
+          "docs/transformers_deploy_guide_cn.md",
+          "docs/vllm_deploy_guide.md",
+          "docs/vllm_deploy_guide_cn.md",
+          "figures/bench.jpg",
+          "generation_config.json",
+          "merges.txt",
+          "model-00000-of-00130.safetensors",
+          "model-00001-of-00130.safetensors",
+          "model-00002-of-00130.safetensors",
+          "model-00003-of-00130.safetensors",
+          "model-00004-of-00130.safetensors",
+          "model-00005-of-00130.safetensors",
+          "model-00006-of-00130.safetensors",
+          "model-00007-of-00130.safetensors",
+          "model-00008-of-00130.safetensors",
+          "model-00009-of-00130.safetensors",
+          "model-00010-of-00130.safetensors",
+          "model-00011-of-00130.safetensors",
+          "model-00012-of-00130.safetensors",
+          "model-00013-of-00130.safetensors",
+          "model-00014-of-00130.safetensors",
+          "model-00015-of-00130.safetensors",
+          "model-00016-of-00130.safetensors",
+          "model-00017-of-00130.safetensors",
+          "model-00018-of-00130.safetensors",
+          "model-00019-of-00130.safetensors",
+          "model-00020-of-00130.safetensors",
+          "model-00021-of-00130.safetensors",
+          "model-00022-of-00130.safetensors",
+          "model-00023-of-00130.safetensors",
+          "model-00024-of-00130.safetensors",
+          "model-00025-of-00130.safetensors",
+          "model-00026-of-00130.safetensors",
+          "model-00027-of-00130.safetensors",
+          "model-00028-of-00130.safetensors",
+          "model-00029-of-00130.safetensors",
+          "model-00030-of-00130.safetensors",
+          "model-00031-of-00130.safetensors",
+          "model-00032-of-00130.safetensors",
+          "model-00033-of-00130.safetensors",
+          "model-00034-of-00130.safetensors",
+          "model-00035-of-00130.safetensors",
+          "model-00036-of-00130.safetensors",
+          "model-00037-of-00130.safetensors",
+          "model-00038-of-00130.safetensors",
+          "model-00039-of-00130.safetensors",
+          "model-00040-of-00130.safetensors",
+          "model-00041-of-00130.safetensors",
+          "model-00042-of-00130.safetensors",
+          "model-00043-of-00130.safetensors",
+          "model-00044-of-00130.safetensors",
+          "model-00045-of-00130.safetensors",
+          "model-00046-of-00130.safetensors",
+          "model-00047-of-00130.safetensors",
+          "model-00048-of-00130.safetensors",
+          "model-00049-of-00130.safetensors",
+          "model-00050-of-00130.safetensors",
+          "model-00051-of-00130.safetensors",
+          "model-00052-of-00130.safetensors",
+          "model-00053-of-00130.safetensors",
+          "model-00054-of-00130.safetensors",
+          "model-00055-of-00130.safetensors",
+          "model-00056-of-00130.safetensors",
+          "model-00057-of-00130.safetensors",
+          "model-00058-of-00130.safetensors",
+          "model-00059-of-00130.safetensors",
+          "model-00060-of-00130.safetensors",
+          "model-00061-of-00130.safetensors",
+          "model-00062-of-00130.safetensors",
+          "model-00063-of-00130.safetensors",
+          "model-00064-of-00130.safetensors",
+          "model-00065-of-00130.safetensors",
+          "model-00066-of-00130.safetensors",
+          "model-00067-of-00130.safetensors",
+          "model-00068-of-00130.safetensors",
+          "model-00069-of-00130.safetensors",
+          "model-00070-of-00130.safetensors",
+          "model-00071-of-00130.safetensors",
+          "model-00072-of-00130.safetensors",
+          "model-00073-of-00130.safetensors",
+          "model-00074-of-00130.safetensors",
+          "model-00075-of-00130.safetensors",
+          "model-00076-of-00130.safetensors",
+          "model-00077-of-00130.safetensors",
+          "model-00078-of-00130.safetensors",
+          "model-00079-of-00130.safetensors",
+          "model-00080-of-00130.safetensors",
+          "model-00081-of-00130.safetensors",
+          "model-00082-of-00130.safetensors",
+          "model-00083-of-00130.safetensors",
+          "model-00084-of-00130.safetensors",
+          "model-00085-of-00130.safetensors",
+          "model-00086-of-00130.safetensors",
+          "model-00087-of-00130.safetensors",
+          "model-00088-of-00130.safetensors",
+          "model-00089-of-00130.safetensors",
+          "model-00090-of-00130.safetensors",
+          "model-00091-of-00130.safetensors",
+          "model-00092-of-00130.safetensors",
+          "model-00093-of-00130.safetensors",
+          "model-00094-of-00130.safetensors",
+          "model-00095-of-00130.safetensors",
+          "model-00096-of-00130.safetensors",
+          "model-00097-of-00130.safetensors",
+          "model-00098-of-00130.safetensors",
+          "model-00099-of-00130.safetensors",
+          "model-00100-of-00130.safetensors",
+          "model-00101-of-00130.safetensors",
+          "model-00102-of-00130.safetensors",
+          "model-00103-of-00130.safetensors",
+          "model-00104-of-00130.safetensors",
+          "model-00105-of-00130.safetensors",
+          "model-00106-of-00130.safetensors",
+          "model-00107-of-00130.safetensors",
+          "model-00108-of-00130.safetensors",
+          "model-00109-of-00130.safetensors",
+          "model-00110-of-00130.safetensors",
+          "model-00111-of-00130.safetensors",
+          "model-00112-of-00130.safetensors",
+          "model-00113-of-00130.safetensors",
+          "model-00114-of-00130.safetensors",
+          "model-00115-of-00130.safetensors",
+          "model-00116-of-00130.safetensors",
+          "model-00117-of-00130.safetensors",
+          "model-00118-of-00130.safetensors",
+          "model-00119-of-00130.safetensors",
+          "model-00120-of-00130.safetensors",
+          "model-00121-of-00130.safetensors",
+          "model-00122-of-00130.safetensors",
+          "model-00123-of-00130.safetensors",
+          "model-00124-of-00130.safetensors",
+          "model-00125-of-00130.safetensors",
+          "model-00126-of-00130.safetensors",
+          "model-00127-of-00130.safetensors",
+          "model-00128-of-00130.safetensors",
+          "model-00129-of-00130.safetensors",
+          "model.safetensors.index.json",
+          "modeling_minimax_m2.py",
+          "tokenizer.json",
+          "tokenizer_config.json",
+          "vocab.json"
+        ],
+        "gated": false,
+        "name": "MiniMaxAI/MiniMax-M2.1",
+        "pipeline_tag": "text-generation",
+        "revision": "369ab97103ad5fa93f79081d1733529520d408fa",
+        "url": "https://huggingface.co/MiniMaxAI/MiniMax-M2.1"
+      },
+      "before": {
+        "files": [
+          ".gitattributes",
+          "README.md",
+          "chat_template.jinja",
+          "config.json",
+          "configuration_minimax_m2.py",
+          "docs/mlx_deploy_guide.md",
+          "docs/sglang_deploy_guide.md",
+          "docs/sglang_deploy_guide_cn.md",
+          "docs/tool_calling_guide.md",
+          "docs/tool_calling_guide_cn.md",
+          "docs/transformers_deploy_guide.md",
+          "docs/transformers_deploy_guide_cn.md",
+          "docs/vllm_deploy_guide.md",
+          "docs/vllm_deploy_guide_cn.md",
+          "figures/bench.jpg",
+          "generation_config.json",
+          "merges.txt",
+          "model-00000-of-00130.safetensors",
+          "model-00001-of-00130.safetensors",
+          "model-00002-of-00130.safetensors",
+          "model-00003-of-00130.safetensors",
+          "model-00004-of-00130.safetensors",
+          "model-00005-of-00130.safetensors",
+          "model-00006-of-00130.safetensors",
+          "model-00007-of-00130.safetensors",
+          "model-00008-of-00130.safetensors",
+          "model-00009-of-00130.safetensors",
+          "model-00010-of-00130.safetensors",
+          "model-00011-of-00130.safetensors",
+          "model-00012-of-00130.safetensors",
+          "model-00013-of-00130.safetensors",
+          "model-00014-of-00130.safetensors",
+          "model-00015-of-00130.safetensors",
+          "model-00016-of-00130.safetensors",
+          "model-00017-of-00130.safetensors",
+          "model-00018-of-00130.safetensors",
+          "model-00019-of-00130.safetensors",
+          "model-00020-of-00130.safetensors",
+          "model-00021-of-00130.safetensors",
+          "model-00022-of-00130.safetensors",
+          "model-00023-of-00130.safetensors",
+          "model-00024-of-00130.safetensors",
+          "model-00025-of-00130.safetensors",
+          "model-00026-of-00130.safetensors",
+          "model-00027-of-00130.safetensors",
+          "model-00028-of-00130.safetensors",
+          "model-00029-of-00130.safetensors",
+          "model-00030-of-00130.safetensors",
+          "model-00031-of-00130.safetensors",
+          "model-00032-of-00130.safetensors",
+          "model-00033-of-00130.safetensors",
+          "model-00034-of-00130.safetensors",
+          "model-00035-of-00130.safetensors",
+          "model-00036-of-00130.safetensors",
+          "model-00037-of-00130.safetensors",
+          "model-00038-of-00130.safetensors",
+          "model-00039-of-00130.safetensors",
+          "model-00040-of-00130.safetensors",
+          "model-00041-of-00130.safetensors",
+          "model-00042-of-00130.safetensors",
+          "model-00043-of-00130.safetensors",
+          "model-00044-of-00130.safetensors",
+          "model-00045-of-00130.safetensors",
+          "model-00046-of-00130.safetensors",
+          "model-00047-of-00130.safetensors",
+          "model-00048-of-00130.safetensors",
+          "model-00049-of-00130.safetensors",
+          "model-00050-of-00130.safetensors",
+          "model-00051-of-00130.safetensors",
+          "model-00052-of-00130.safetensors",
+          "model-00053-of-00130.safetensors",
+          "model-00054-of-00130.safetensors",
+          "model-00055-of-00130.safetensors",
+          "model-00056-of-00130.safetensors",
+          "model-00057-of-00130.safetensors",
+          "model-00058-of-00130.safetensors",
+          "model-00059-of-00130.safetensors",
+          "model-00060-of-00130.safetensors",
+          "model-00061-of-00130.safetensors",
+          "model-00062-of-00130.safetensors",
+          "model-00063-of-00130.safetensors",
+          "model-00064-of-00130.safetensors",
+          "model-00065-of-00130.safetensors",
+          "model-00066-of-00130.safetensors",
+          "model-00067-of-00130.safetensors",
+          "model-00068-of-00130.safetensors",
+          "model-00069-of-00130.safetensors",
+          "model-00070-of-00130.safetensors",
+          "model-00071-of-00130.safetensors",
+          "model-00072-of-00130.safetensors",
+          "model-00073-of-00130.safetensors",
+          "model-00074-of-00130.safetensors",
+          "model-00075-of-00130.safetensors",
+          "model-00076-of-00130.safetensors",
+          "model-00077-of-00130.safetensors",
+          "model-00078-of-00130.safetensors",
+          "model-00079-of-00130.safetensors",
+          "model-00080-of-00130.safetensors",
+          "model-00081-of-00130.safetensors",
+          "model-00082-of-00130.safetensors",
+          "model-00083-of-00130.safetensors",
+          "model-00084-of-00130.safetensors",
+          "model-00085-of-00130.safetensors",
+          "model-00086-of-00130.safetensors",
+          "model-00087-of-00130.safetensors",
+          "model-00088-of-00130.safetensors",
+          "model-00089-of-00130.safetensors",
+          "model-00090-of-00130.safetensors",
+          "model-00091-of-00130.safetensors",
+          "model-00092-of-00130.safetensors",
+          "model-00093-of-00130.safetensors",
+          "model-00094-of-00130.safetensors",
+          "model-00095-of-00130.safetensors",
+          "model-00096-of-00130.safetensors",
+          "model-00097-of-00130.safetensors",
+          "model-00098-of-00130.safetensors",
+          "model-00099-of-00130.safetensors",
+          "model-00100-of-00130.safetensors",
+          "model-00101-of-00130.safetensors",
+          "model-00102-of-00130.safetensors",
+          "model-00103-of-00130.safetensors",
+          "model-00104-of-00130.safetensors",
+          "model-00105-of-00130.safetensors",
+          "model-00106-of-00130.safetensors",
+          "model-00107-of-00130.safetensors",
+          "model-00108-of-00130.safetensors",
+          "model-00109-of-00130.safetensors",
+          "model-00110-of-00130.safetensors",
+          "model-00111-of-00130.safetensors",
+          "model-00112-of-00130.safetensors",
+          "model-00113-of-00130.safetensors",
+          "model-00114-of-00130.safetensors",
+          "model-00115-of-00130.safetensors",
+          "model-00116-of-00130.safetensors",
+          "model-00117-of-00130.safetensors",
+          "model-00118-of-00130.safetensors",
+          "model-00119-of-00130.safetensors",
+          "model-00120-of-00130.safetensors",
+          "model-00121-of-00130.safetensors",
+          "model-00122-of-00130.safetensors",
+          "model-00123-of-00130.safetensors",
+          "model-00124-of-00130.safetensors",
+          "model-00125-of-00130.safetensors",
+          "model-00126-of-00130.safetensors",
+          "model-00127-of-00130.safetensors",
+          "model-00128-of-00130.safetensors",
+          "model-00129-of-00130.safetensors",
+          "model.safetensors.index.json",
+          "modeling_minimax_m2.py",
+          "tokenizer.json",
+          "tokenizer_config.json",
+          "vocab.json"
+        ],
+        "gated": false,
+        "name": "MiniMaxAI/MiniMax-M2.1",
+        "pipeline_tag": "text-generation",
+        "revision": "917dbb7d0761e24d8623c0a5d97624550181c8e6",
+        "url": "https://huggingface.co/MiniMaxAI/MiniMax-M2.1"
+      },
+      "before_evidence": "evidence/c404dfa11241e9cc6b500b13c0e3e6c434e629b3d4dc1ea68663af0d1bc3a984.json.gz",
+      "entity_id": "MiniMaxAI/MiniMax-M2.1",
+      "evidence": "evidence/63f6e63159f429958915dc734bff886c5b10ec2191b2e0bed7b5a954cf7fe9fe.json.gz",
+      "id": "61b7acb4afaf4ce05d889c29",
+      "kind": "changed",
+      "observed_at": "2026-11-19T17:41:20.028571+00:00",
+      "published_at": null,
+      "source_id": "huggingface-minimax"
+    },
+    {
+      "after": {
+        "files": [
+          ".eval_results/gpqa.yaml",
+          ".eval_results/hle.yaml",
+          ".eval_results/swe_bench_verified.yaml",
+          ".gitattributes",
+          "LICENSE-MODEL",
+          "README.md",
+          "chat_template.jinja",
+          "config.json",
+          "configuration_minimax_m2.py",
+          "docs/sglang_deploy_guide.md",
+          "docs/sglang_deploy_guide_cn.md",
+          "docs/tool_calling_guide.md",
+          "docs/tool_calling_guide_cn.md",
+          "docs/transformers_deploy_guide.md",
+          "docs/transformers_deploy_guide_cn.md",
+          "docs/vllm_deploy_guide.md",
+          "docs/vllm_deploy_guide_cn.md",
+          "figures/bench_1.png",
+          "figures/bench_10.png",
+          "figures/bench_11.png",
+          "figures/bench_12.png",
+          "figures/bench_2.png",
+          "figures/bench_3.png",
+          "figures/bench_4.png",
+          "figures/bench_5.png",
+          "figures/bench_6.png",
+          "figures/bench_7.png",
+          "figures/bench_8.png",
+          "figures/bench_9.png",
+          "figures/rl_1.png",
+          "figures/rl_2.png",
+          "generation_config.json",
+          "merges.txt",
+          "model-00000-of-00126.safetensors",
+          "model-00001-of-00126.safetensors",
+          "model-00002-of-00126.safetensors",
+          "model-00003-of-00126.safetensors",
+          "model-00004-of-00126.safetensors",
+          "model-00005-of-00126.safetensors",
+          "model-00006-of-00126.safetensors",
+          "model-00007-of-00126.safetensors",
+          "model-00008-of-00126.safetensors",
+          "model-00009-of-00126.safetensors",
+          "model-00010-of-00126.safetensors",
+          "model-00011-of-00126.safetensors",
+          "model-00012-of-00126.safetensors",
+          "model-00013-of-00126.safetensors",
+          "model-00014-of-00126.safetensors",
+          "model-00015-of-00126.safetensors",
+          "model-00016-of-00126.safetensors",
+          "model-00017-of-00126.safetensors",
+          "model-00018-of-00126.safetensors",
+          "model-00019-of-00126.safetensors",
+          "model-00020-of-00126.safetensors",
+          "model-00021-of-00126.safetensors",
+          "model-00022-of-00126.safetensors",
+          "model-00023-of-00126.safetensors",
+          "model-00024-of-00126.safetensors",
+          "model-00025-of-00126.safetensors",
+          "model-00026-of-00126.safetensors",
+          "model-00027-of-00126.safetensors",
+          "model-00028-of-00126.safetensors",
+          "model-00029-of-00126.safetensors",
+          "model-00030-of-00126.safetensors",
+          "model-00031-of-00126.safetensors",
+          "model-00032-of-00126.safetensors",
+          "model-00033-of-00126.safetensors",
+          "model-00034-of-00126.safetensors",
+          "model-00035-of-00126.safetensors",
+          "model-00036-of-00126.safetensors",
+          "model-00037-of-00126.safetensors",
+          "model-00038-of-00126.safetensors",
+          "model-00039-of-00126.safetensors",
+          "model-00040-of-00126.safetensors",
+          "model-00041-of-00126.safetensors",
+          "model-00042-of-00126.safetensors",
+          "model-00043-of-00126.safetensors",
+          "model-00044-of-00126.safetensors",
+          "model-00045-of-00126.safetensors",
+          "model-00046-of-00126.safetensors",
+          "model-00047-of-00126.safetensors",
+          "model-00048-of-00126.safetensors",
+          "model-00049-of-00126.safetensors",
+          "model-00050-of-00126.safetensors",
+          "model-00051-of-00126.safetensors",
+          "model-00052-of-00126.safetensors",
+          "model-00053-of-00126.safetensors",
+          "model-00054-of-00126.safetensors",
+          "model-00055-of-00126.safetensors",
+          "model-00056-of-00126.safetensors",
+          "model-00057-of-00126.safetensors",
+          "model-00058-of-00126.safetensors",
+          "model-00059-of-00126.safetensors",
+          "model-00060-of-00126.safetensors",
+          "model-00061-of-00126.safetensors",
+          "model-00062-of-00126.safetensors",
+          "model-00063-of-00126.safetensors",
+          "model-00064-of-00126.safetensors",
+          "model-00065-of-00126.safetensors",
+          "model-00066-of-00126.safetensors",
+          "model-00067-of-00126.safetensors",
+          "model-00068-of-00126.safetensors",
+          "model-00069-of-00126.safetensors",
+          "model-00070-of-00126.safetensors",
+          "model-00071-of-00126.safetensors",
+          "model-00072-of-00126.safetensors",
+          "model-00073-of-00126.safetensors",
+          "model-00074-of-00126.safetensors",
+          "model-00075-of-00126.safetensors",
+          "model-00076-of-00126.safetensors",
+          "model-00077-of-00126.safetensors",
+          "model-00078-of-00126.safetensors",
+          "model-00079-of-00126.safetensors",
+          "model-00080-of-00126.safetensors",
+          "model-00081-of-00126.safetensors",
+          "model-00082-of-00126.safetensors",
+          "model-00083-of-00126.safetensors",
+          "model-00084-of-00126.safetensors",
+          "model-00085-of-00126.safetensors",
+          "model-00086-of-00126.safetensors",
+          "model-00087-of-00126.safetensors",
+          "model-00088-of-00126.safetensors",
+          "model-00089-of-00126.safetensors",
+          "model-00090-of-00126.safetensors",
+          "model-00091-of-00126.safetensors",
+          "model-00092-of-00126.safetensors",
+          "model-00093-of-00126.safetensors",
+          "model-00094-of-00126.safetensors",
+          "model-00095-of-00126.safetensors",
+          "model-00096-of-00126.safetensors",
+          "model-00097-of-00126.safetensors",
+          "model-00098-of-00126.safetensors",
+          "model-00099-of-00126.safetensors",
+          "model-00100-of-00126.safetensors",
+          "model-00101-of-00126.safetensors",
+          "model-00102-of-00126.safetensors",
+          "model-00103-of-00126.safetensors",
+          "model-00104-of-00126.safetensors",
+          "model-00105-of-00126.safetensors",
+          "model-00106-of-00126.safetensors",
+          "model-00107-of-00126.safetensors",
+          "model-00108-of-00126.safetensors",
+          "model-00109-of-00126.safetensors",
+          "model-00110-of-00126.safetensors",
+          "model-00111-of-00126.safetensors",
+          "model-00112-of-00126.safetensors",
+          "model-00113-of-00126.safetensors",
+          "model-00114-of-00126.safetensors",
+          "model-00115-of-00126.safetensors",
+          "model-00116-of-00126.safetensors",
+          "model-00117-of-00126.safetensors",
+          "model-00118-of-00126.safetensors",
+          "model-00119-of-00126.safetensors",
+          "model-00120-of-00126.safetensors",
+          "model-00121-of-00126.safetensors",
+          "model-00122-of-00126.safetensors",
+          "model-00123-of-00126.safetensors",
+          "model-00124-of-00126.safetensors",
+          "model.safetensors.index.json",
+          "modeling_minimax_m2.py",
+          "tokenizer.json",
+          "tokenizer_config.json",
+          "vocab.json"
+        ],
+        "gated": false,
+        "name": "MiniMaxAI/MiniMax-M2.5",
+        "pipeline_tag": "text-generation",
+        "revision": "36f171c15db66576b4b40a4011eb77fe9ac770c2",
+        "url": "https://huggingface.co/MiniMaxAI/MiniMax-M2.5"
+      },
+      "before": {
+        "files": [
+          ".eval_results/gpqa.yaml",
+          ".eval_results/hle.yaml",
+          ".eval_results/swe_bench_verified.yaml",
+          ".gitattributes",
+          "LICENSE-MODEL",
+          "README.md",
+          "chat_template.jinja",
+          "config.json",
+          "configuration_minimax_m2.py",
+          "docs/sglang_deploy_guide.md",
+          "docs/sglang_deploy_guide_cn.md",
+          "docs/tool_calling_guide.md",
+          "docs/tool_calling_guide_cn.md",
+          "docs/transformers_deploy_guide.md",
+          "docs/transformers_deploy_guide_cn.md",
+          "docs/vllm_deploy_guide.md",
+          "docs/vllm_deploy_guide_cn.md",
+          "figures/bench_1.png",
+          "figures/bench_10.png",
+          "figures/bench_11.png",
+          "figures/bench_12.png",
+          "figures/bench_2.png",
+          "figures/bench_3.png",
+          "figures/bench_4.png",
+          "figures/bench_5.png",
+          "figures/bench_6.png",
+          "figures/bench_7.png",
+          "figures/bench_8.png",
+          "figures/bench_9.png",
+          "figures/rl_1.png",
+          "figures/rl_2.png",
+          "generation_config.json",
+          "merges.txt",
+          "model-00000-of-00126.safetensors",
+          "model-00001-of-00126.safetensors",
+          "model-00002-of-00126.safetensors",
+          "model-00003-of-00126.safetensors",
+          "model-00004-of-00126.safetensors",
+          "model-00005-of-00126.safetensors",
+          "model-00006-of-00126.safetensors",
+          "model-00007-of-00126.safetensors",
+          "model-00008-of-00126.safetensors",
+          "model-00009-of-00126.safetensors",
+          "model-00010-of-00126.safetensors",
+          "model-00011-of-00126.safetensors",
+          "model-00012-of-00126.safetensors",
+          "model-00013-of-00126.safetensors",
+          "model-00014-of-00126.safetensors",
+          "model-00015-of-00126.safetensors",
+          "model-00016-of-00126.safetensors",
+          "model-00017-of-00126.safetensors",
+          "model-00018-of-00126.safetensors",
+          "model-00019-of-00126.safetensors",
+          "model-00020-of-00126.safetensors",
+          "model-00021-of-00126.safetensors",
+          "model-00022-of-00126.safetensors",
+          "model-00023-of-00126.safetensors",
+          "model-00024-of-00126.safetensors",
+          "model-00025-of-00126.safetensors",
+          "model-00026-of-00126.safetensors",
+          "model-00027-of-00126.safetensors",
+          "model-00028-of-00126.safetensors",
+          "model-00029-of-00126.safetensors",
+          "model-00030-of-00126.safetensors",
+          "model-00031-of-00126.safetensors",
+          "model-00032-of-00126.safetensors",
+          "model-00033-of-00126.safetensors",
+          "model-00034-of-00126.safetensors",
+          "model-00035-of-00126.safetensors",
+          "model-00036-of-00126.safetensors",
+          "model-00037-of-00126.safetensors",
+          "model-00038-of-00126.safetensors",
+          "model-00039-of-00126.safetensors",
+          "model-00040-of-00126.safetensors",
+          "model-00041-of-00126.safetensors",
+          "model-00042-of-00126.safetensors",
+          "model-00043-of-00126.safetensors",
+          "model-00044-of-00126.safetensors",
+          "model-00045-of-00126.safetensors",
+          "model-00046-of-00126.safetensors",
+          "model-00047-of-00126.safetensors",
+          "model-00048-of-00126.safetensors",
+          "model-00049-of-00126.safetensors",
+          "model-00050-of-00126.safetensors",
+          "model-00051-of-00126.safetensors",
+          "model-00052-of-00126.safetensors",
+          "model-00053-of-00126.safetensors",
+          "model-00054-of-00126.safetensors",
+          "model-00055-of-00126.safetensors",
+          "model-00056-of-00126.safetensors",
+          "model-00057-of-00126.safetensors",
+          "model-00058-of-00126.safetensors",
+          "model-00059-of-00126.safetensors",
+          "model-00060-of-00126.safetensors",
+          "model-00061-of-00126.safetensors",
+          "model-00062-of-00126.safetensors",
+          "model-00063-of-00126.safetensors",
+          "model-00064-of-00126.safetensors",
+          "model-00065-of-00126.safetensors",
+          "model-00066-of-00126.safetensors",
+          "model-00067-of-00126.safetensors",
+          "model-00068-of-00126.safetensors",
+          "model-00069-of-00126.safetensors",
+          "model-00070-of-00126.safetensors",
+          "model-00071-of-00126.safetensors",
+          "model-00072-of-00126.safetensors",
+          "model-00073-of-00126.safetensors",
+          "model-00074-of-00126.safetensors",
+          "model-00075-of-00126.safetensors",
+          "model-00076-of-00126.safetensors",
+          "model-00077-of-00126.safetensors",
+          "model-00078-of-00126.safetensors",
+          "model-00079-of-00126.safetensors",
+          "model-00080-of-00126.safetensors",
+          "model-00081-of-00126.safetensors",
+          "model-00082-of-00126.safetensors",
+          "model-00083-of-00126.safetensors",
+          "model-00084-of-00126.safetensors",
+          "model-00085-of-00126.safetensors",
+          "model-00086-of-00126.safetensors",
+          "model-00087-of-00126.safetensors",
+          "model-00088-of-00126.safetensors",
+          "model-00089-of-00126.safetensors",
+          "model-00090-of-00126.safetensors",
+          "model-00091-of-00126.safetensors",
+          "model-00092-of-00126.safetensors",
+          "model-00093-of-00126.safetensors",
+          "model-00094-of-00126.safetensors",
+          "model-00095-of-00126.safetensors",
+          "model-00096-of-00126.safetensors",
+          "model-00097-of-00126.safetensors",
+          "model-00098-of-00126.safetensors",
+          "model-00099-of-00126.safetensors",
+          "model-00100-of-00126.safetensors",
+          "model-00101-of-00126.safetensors",
+          "model-00102-of-00126.safetensors",
+          "model-00103-of-00126.safetensors",
+          "model-00104-of-00126.safetensors",
+          "model-00105-of-00126.safetensors",
+          "model-00106-of-00126.safetensors",
+          "model-00107-of-00126.safetensors",
+          "model-00108-of-00126.safetensors",
+          "model-00109-of-00126.safetensors",
+          "model-00110-of-00126.safetensors",
+          "model-00111-of-00126.safetensors",
+          "model-00112-of-00126.safetensors",
+          "model-00113-of-00126.safetensors",
+          "model-00114-of-00126.safetensors",
+          "model-00115-of-00126.safetensors",
+          "model-00116-of-00126.safetensors",
+          "model-00117-of-00126.safetensors",
+          "model-00118-of-00126.safetensors",
+          "model-00119-of-00126.safetensors",
+          "model-00120-of-00126.safetensors",
+          "model-00121-of-00126.safetensors",
+          "model-00122-of-00126.safetensors",
+          "model-00123-of-00126.safetensors",
+          "model-00124-of-00126.safetensors",
+          "model.safetensors.index.json",
+          "modeling_minimax_m2.py",
+          "tokenizer.json",
+          "tokenizer_config.json",
+          "vocab.json"
+        ],
+        "gated": false,
+        "name": "MiniMaxAI/MiniMax-M2.5",
+        "pipeline_tag": "text-generation",
+        "revision": "2515a3ea0afec1dd22d0c7794b3a91557804d195",
+        "url": "https://huggingface.co/MiniMaxAI/MiniMax-M2.5"
+      },
+      "before_evidence": "evidence/c404dfa11241e9cc6b500b13c0e3e6c434e629b3d4dc1ea68663af0d1bc3a984.json.gz",
+      "entity_id": "MiniMaxAI/MiniMax-M2.5",
+      "evidence": "evidence/63f6e63159f429958915dc734bff886c5b10ec2191b2e0bed7b5a954cf7fe9fe.json.gz",
+      "id": "3e026b8788386c8a8d3ab4c1",
+      "kind": "changed",
+      "observed_at": "2026-11-19T17:41:20.028571+00:00",
+      "published_at": null,
+      "source_id": "huggingface-minimax"
+    },
+    {
+      "after": {
+        "files": [
+          ".eval_results/lhtb.yaml",
+          ".eval_results/minimax-m3.yaml",
+          ".gitattributes",
+          "LICENSE",
+          "README.md",
+          "added_tokens.json",
+          "chat_template.jinja",
+          "config.json",
+          "configuration_minimax_m3_vl.py",
+          "figures/benchmark.jpeg",
+          "figures/efficiency_gqa_vs_msa.png",
+          "figures/logo.svg",
+          "generation_config.json",
+          "image_processor.py",
+          "merges.txt",
+          "model-00001-of-00059.safetensors",
+          "model-00002-of-00059.safetensors",
+          "model-00003-of-00059.safetensors",
+          "model-00004-of-00059.safetensors",
+          "model-00005-of-00059.safetensors",
+          "model-00006-of-00059.safetensors",
+          "model-00007-of-00059.safetensors",
+          "model-00008-of-00059.safetensors",
+          "model-00009-of-00059.safetensors",
+          "model-00010-of-00059.safetensors",
+          "model-00011-of-00059.safetensors",
+          "model-00012-of-00059.safetensors",
+          "model-00013-of-00059.safetensors",
+          "model-00014-of-00059.safetensors",
+          "model-00015-of-00059.safetensors",
+          "model-00016-of-00059.safetensors",
+          "model-00017-of-00059.safetensors",
+          "model-00018-of-00059.safetensors",
+          "model-00019-of-00059.safetensors",
+          "model-00020-of-00059.safetensors",
+          "model-00021-of-00059.safetensors",
+          "model-00022-of-00059.safetensors",
+          "model-00023-of-00059.safetensors",
+          "model-00024-of-00059.safetensors",
+          "model-00025-of-00059.safetensors",
+          "model-00026-of-00059.safetensors",
+          "model-00027-of-00059.safetensors",
+          "model-00028-of-00059.safetensors",
+          "model-00029-of-00059.safetensors",
+          "model-00030-of-00059.safetensors",
+          "model-00031-of-00059.safetensors",
+          "model-00032-of-00059.safetensors",
+          "model-00033-of-00059.safetensors",
+          "model-00034-of-00059.safetensors",
+          "model-00035-of-00059.safetensors",
+          "model-00036-of-00059.safetensors",
+          "model-00037-of-00059.safetensors",
+          "model-00038-of-00059.safetensors",
+          "model-00039-of-00059.safetensors",
+          "model-00040-of-00059.safetensors",
+          "model-00041-of-00059.safetensors",
+          "model-00042-of-00059.safetensors",
+          "model-00043-of-00059.safetensors",
+          "model-00044-of-00059.safetensors",
+          "model-00045-of-00059.safetensors",
+          "model-00046-of-00059.safetensors",
+          "model-00047-of-00059.safetensors",
+          "model-00048-of-00059.safetensors",
+          "model-00049-of-00059.safetensors",
+          "model-00050-of-00059.safetensors",
+          "model-00051-of-00059.safetensors",
+          "model-00052-of-00059.safetensors",
+          "model-00053-of-00059.safetensors",
+          "model-00054-of-00059.safetensors",
+          "model-00055-of-00059.safetensors",
+          "model-00056-of-00059.safetensors",
+          "model-00057-of-00059.safetensors",
+          "model-00058-of-00059.safetensors",
+          "model-00059-of-00059.safetensors",
+          "model.safetensors.index.json",
+          "preprocessor_config.json",
+          "processing_minimax.py",
+          "special_tokens_map.json",
+          "tokenizer.json",
+          "tokenizer_config.json",
+          "video_processor.py",
+          "vocab.json"
+        ],
+        "gated": false,
+        "name": "MiniMaxAI/MiniMax-M3",
+        "pipeline_tag": "image-text-to-text",
+        "revision": "8f11016727d9e05be3ca12d45ce8ad88ccb2bafe",
+        "url": "https://huggingface.co/MiniMaxAI/MiniMax-M3"
+      },
+      "before": {
+        "files": [
+          ".eval_results/lhtb.yaml",
+          ".eval_results/minimax-m3.yaml",
+          ".gitattributes",
+          "LICENSE",
+          "README.md",
+          "added_tokens.json",
+          "chat_template.jinja",
+          "config.json",
+          "configuration_minimax_m3_vl.py",
+          "figures/benchmark.jpeg",
+          "figures/efficiency_gqa_vs_msa.png",
+          "figures/logo.svg",
+          "generation_config.json",
+          "image_processor.py",
+          "merges.txt",
+          "model-00001-of-00059.safetensors",
+          "model-00002-of-00059.safetensors",
+          "model-00003-of-00059.safetensors",
+          "model-00004-of-00059.safetensors",
+          "model-00005-of-00059.safetensors",
+          "model-00006-of-00059.safetensors",
+          "model-00007-of-00059.safetensors",
+          "model-00008-of-00059.safetensors",
+          "model-00009-of-00059.safetensors",
+          "model-00010-of-00059.safetensors",
+          "model-00011-of-00059.safetensors",
+          "model-00012-of-00059.safetensors",
+          "model-00013-of-00059.safetensors",
+          "model-00014-of-00059.safetensors",
+          "model-00015-of-00059.safetensors",
+          "model-00016-of-00059.safetensors",
+          "model-00017-of-00059.safetensors",
+          "model-00018-of-00059.safetensors",
+          "model-00019-of-00059.safetensors",
+          "model-00020-of-00059.safetensors",
+          "model-00021-of-00059.safetensors",
+          "model-00022-of-00059.safetensors",
+          "model-00023-of-00059.safetensors",
+          "model-00024-of-00059.safetensors",
+          "model-00025-of-00059.safetensors",
+          "model-00026-of-00059.safetensors",
+          "model-00027-of-00059.safetensors",
+          "model-00028-of-00059.safetensors",
+          "model-00029-of-00059.safetensors",
+          "model-00030-of-00059.safetensors",
+          "model-00031-of-00059.safetensors",
+          "model-00032-of-00059.safetensors",
+          "model-00033-of-00059.safetensors",
+          "model-00034-of-00059.safetensors",
+          "model-00035-of-00059.safetensors",
+          "model-00036-of-00059.safetensors",
+          "model-00037-of-00059.safetensors",
+          "model-00038-of-00059.safetensors",
+          "model-00039-of-00059.safetensors",
+          "model-00040-of-00059.safetensors",
+          "model-00041-of-00059.safetensors",
+          "model-00042-of-00059.safetensors",
+          "model-00043-of-00059.safetensors",
+          "model-00044-of-00059.safetensors",
+          "model-00045-of-00059.safetensors",
+          "model-00046-of-00059.safetensors",
+          "model-00047-of-00059.safetensors",
+          "model-00048-of-00059.safetensors",
+          "model-00049-of-00059.safetensors",
+          "model-00050-of-00059.safetensors",
+          "model-00051-of-00059.safetensors",
+          "model-00052-of-00059.safetensors",
+          "model-00053-of-00059.safetensors",
+          "model-00054-of-00059.safetensors",
+          "model-00055-of-00059.safetensors",
+          "model-00056-of-00059.safetensors",
+          "model-00057-of-00059.safetensors",
+          "model-00058-of-00059.safetensors",
+          "model-00059-of-00059.safetensors",
+          "model.safetensors.index.json",
+          "preprocessor_config.json",
+          "processing_minimax.py",
+          "special_tokens_map.json",
+          "tokenizer.json",
+          "tokenizer_config.json",
+          "video_processor.py",
+          "vocab.json"
+        ],
+        "gated": false,
+        "name": "MiniMaxAI/MiniMax-M3",
+        "pipeline_tag": "image-text-to-text",
+        "revision": "d95e30cb912fe3021bb9c2ba66a8ce60b6c937a9",
+        "url": "https://huggingface.co/MiniMaxAI/MiniMax-M3"
+      },
+      "before_evidence": "evidence/c404dfa11241e9cc6b500b13c0e3e6c434e629b3d4dc1ea68663af0d1bc3a984.json.gz",
+      "entity_id": "MiniMaxAI/MiniMax-M3",
+      "evidence": "evidence/63f6e63159f429958915dc734bff886c5b10ec2191b2e0bed7b5a954cf7fe9fe.json.gz",
+      "id": "ff0d6ae2f1ab931a99dcfefe",
+      "kind": "changed",
+      "observed_at": "2026-11-19T17:41:20.028571+00:00",
+      "published_at": null,
+      "source_id": "huggingface-minimax"
     }
   ],
   "sources": {
     "aitracker-catalog": {
       "baseline_at": "2026-10-19T22:29:44.347714+00:00",
-      "checked_at": "2026-11-19T08:44:32.882165+00:00",
+      "checked_at": "2026-11-19T17:41:20.028571+00:00",
       "error": null,
-      "etag": "W/\"d3dd-6D7lvA7e6u2ueJnnPqZeiY9iS84\"",
-      "evidence": "evidence/592027cd227de91526a8f05ca0ac01a35675253555ea702c9485970bc4236718.json.gz",
+      "etag": "W/\"d73c-lddPvkECunO3wZc5oXGn9hDa0P0\"",
+      "evidence": "evidence/d4ad505c9079cca7b2d06b7972cefa85a7593892f238c6b3e1d63cdcfa3da131.json.gz",
       "interval": 900,
       "inventory": {
         "aion-1.0-instruct-2.3b": {
@@ -158875,6 +161923,12 @@
           "name": "deepseek-v4.1-flash-1017",
           "stage": "release",
           "url": "https://live.aitracker.bot/deepseek-v4.1-flash-1017"
+        },
+        "deepseek-v4.1-flash-1017-singprobe": {
+          "maker": "inclusionAI",
+          "name": "deepseek-v4.1-flash-1017-singprobe",
+          "stage": "release",
+          "url": "https://live.aitracker.bot/deepseek-v4.1-flash-1017-singprobe"
         },
         "deepseek-v4.1-flash-fast": {
           "maker": "DeepSeek",
@@ -159320,6 +162374,12 @@
           "stage": "release",
           "url": "https://live.aitracker.bot/hy4-flash"
         },
+        "ideogram-4.6": {
+          "maker": "Ideogram",
+          "name": "ideogram-4.6",
+          "stage": "release",
+          "url": "https://live.aitracker.bot/ideogram-4.6"
+        },
         "inkling-2-small": {
           "maker": "Thinking Machines",
           "name": "inkling-2-small",
@@ -159421,6 +162481,12 @@
           "name": "inclusionai/ling-3.1-flash",
           "stage": "leak",
           "url": "https://live.aitracker.bot/ling-3.1-flash"
+        },
+        "ling-3.1-flash-1019-singprobe": {
+          "maker": "inclusionAI",
+          "name": "ling-3.1-flash-1019-singprobe",
+          "stage": "release",
+          "url": "https://live.aitracker.bot/ling-3.1-flash-1019-singprobe"
         },
         "liquid-d1": {
           "maker": "",
@@ -160048,25 +163114,25 @@
         }
       },
       "kind": "tracker",
-      "last_changed_at": "2026-11-19T01:07:07.735058+00:00",
+      "last_changed_at": "2026-11-19T17:41:20.028571+00:00",
       "last_modified": null,
-      "last_success_at": "2026-11-19T08:44:32.882165+00:00",
+      "last_success_at": "2026-11-19T17:41:20.028571+00:00",
       "name": "AI Tracker 目录",
-      "next_check_at": "2026-11-19T08:59:32.882165+00:00",
+      "next_check_at": "2026-11-19T17:56:20.028571+00:00",
       "url": "https://live.aitracker.bot/api/model-pages"
     },
     "aitracker-feed": {
-      "checked_at": "2026-11-19T08:44:32.882165+00:00",
+      "checked_at": "2026-11-19T17:41:20.028571+00:00",
       "error": "ValueError: Source has an empty or duplicate identifier",
       "interval": 300,
       "kind": "feed",
       "name": "AI Tracker 消息",
-      "next_check_at": "2026-11-19T08:49:32.882165+00:00",
+      "next_check_at": "2026-11-19T17:46:20.028571+00:00",
       "url": "https://live.aitracker.bot/feeds/all.json"
     },
     "anthropic-sdk": {
       "baseline_at": "2026-10-19T18:04:35.626127+00:00",
-      "checked_at": "2026-11-19T08:44:32.882165+00:00",
+      "checked_at": "2026-11-19T17:41:20.028571+00:00",
       "error": null,
       "etag": "\"170712be972c4d31797654cf8892e4641d3d99a7\"",
       "evidence": "evidence/4bdac803732bb95e1c35b8d4b732dde2f4e0c623d319716981c755f72835dd9a.json.gz",
@@ -160105,9 +163171,9 @@
       "kind": "sdk",
       "last_changed_at": "2026-11-09T20:48:45.868641+00:00",
       "last_modified": "Mon, 09 Nov 2026 18:50:29 GMT",
-      "last_success_at": "2026-11-19T08:44:32.882165+00:00",
+      "last_success_at": "2026-11-19T17:41:20.028571+00:00",
       "name": "Anthropic SDK",
-      "next_check_at": "2026-11-19T08:59:32.882165+00:00",
+      "next_check_at": "2026-11-19T17:56:20.028571+00:00",
       "url": "https://api.github.com/repos/anthropics/anthropic-sdk-python/contents/src/anthropic/types/model.py?ref=main"
     },
     "gemini-cli-build": {
@@ -160118,7 +163184,7 @@
         "version": "0.69.0"
       },
       "baseline_at": "2026-10-28T06:21:39.408622+00:00",
-      "checked_at": "2026-11-19T08:44:32.882165+00:00",
+      "checked_at": "2026-11-19T17:41:20.028571+00:00",
       "error": null,
       "etag": null,
       "evidence": "evidence/34990d549efc87e793c5e23b41b96317609dfe08af05409c8711f8e946118196.json.gz",
@@ -160232,16 +163298,16 @@
       "kind": "gemini-build",
       "last_changed_at": "2026-10-28T06:21:39.408622+00:00",
       "last_modified": null,
-      "last_success_at": "2026-11-19T08:44:32.882165+00:00",
+      "last_success_at": "2026-11-19T17:41:20.028571+00:00",
       "name": "Gemini CLI · 公开构建",
-      "next_check_at": "2026-11-19T09:44:32.882165+00:00",
+      "next_check_at": "2026-11-19T18:41:20.028571+00:00",
       "url": "https://registry.npmjs.org/@google/gemini-cli-core/latest"
     },
     "huggingface-deepseek": {
       "baseline_at": "2026-10-19T18:04:35.626127+00:00",
-      "checked_at": "2026-11-19T08:44:32.882165+00:00",
+      "checked_at": "2026-11-19T17:41:20.028571+00:00",
       "error": null,
-      "etag": "W/\"44e0a-/TBQ9iyV/tgTH/WXcffZJ6cQOUs\"",
+      "etag": "W/\"44e0a-sAS7M+6r6t33UzoX0/lbXGBUWbw\"",
       "evidence": "evidence/2c6f1bc5bf72f20e764cd508f7e392ba3c3af9d794ff31ad98bcd90b3ee682b4.json.gz",
       "interval": 900,
       "inventory": {
@@ -166142,17 +169208,17 @@
       "kind": "huggingface",
       "last_changed_at": "2026-11-10T02:59:00.989990+00:00",
       "last_modified": null,
-      "last_success_at": "2026-11-19T08:44:32.882165+00:00",
+      "last_success_at": "2026-11-19T17:41:20.028571+00:00",
       "name": "Hugging Face · DeepSeek",
-      "next_check_at": "2026-11-19T08:59:32.882165+00:00",
+      "next_check_at": "2026-11-19T17:56:20.028571+00:00",
       "url": "https://huggingface.co/api/models?author=deepseek-ai&sort=lastModified&direction=-1&limit=100&full=true"
     },
     "huggingface-minimax": {
       "baseline_at": "2026-10-28T06:21:39.408622+00:00",
-      "checked_at": "2026-11-19T08:44:32.882165+00:00",
+      "checked_at": "2026-11-19T17:41:20.028571+00:00",
       "error": null,
-      "etag": "W/\"388f4-fztY8TaB6bbu72IfgEJ1NyjVyek\"",
-      "evidence": "evidence/c404dfa11241e9cc6b500b13c0e3e6c434e629b3d4dc1ea68663af0d1bc3a984.json.gz",
+      "etag": "W/\"388f4-t1PgeOHXI8oAS8wiDakFKVkfqsM\"",
+      "evidence": "evidence/63f6e63159f429958915dc734bff886c5b10ec2191b2e0bed7b5a954cf7fe9fe.json.gz",
       "interval": 900,
       "inventory": {
         "MiniMaxAI/MiniMax-H3": {
@@ -168512,7 +171578,7 @@
           "gated": false,
           "name": "MiniMaxAI/MiniMax-M2",
           "pipeline_tag": "text-generation",
-          "revision": "04312f0cfbdeefb912575595b7c045512a29293c",
+          "revision": "2a6104622dd83ee7e424e7d218736021a56745bd",
           "url": "https://huggingface.co/MiniMaxAI/MiniMax-M2"
         },
         "MiniMaxAI/MiniMax-M2.1": {
@@ -168673,7 +171739,7 @@
           "gated": false,
           "name": "MiniMaxAI/MiniMax-M2.1",
           "pipeline_tag": "text-generation",
-          "revision": "917dbb7d0761e24d8623c0a5d97624550181c8e6",
+          "revision": "369ab97103ad5fa93f79081d1733529520d408fa",
           "url": "https://huggingface.co/MiniMaxAI/MiniMax-M2.1"
         },
         "MiniMaxAI/MiniMax-M2.5": {
@@ -168845,7 +171911,7 @@
           "gated": false,
           "name": "MiniMaxAI/MiniMax-M2.5",
           "pipeline_tag": "text-generation",
-          "revision": "2515a3ea0afec1dd22d0c7794b3a91557804d195",
+          "revision": "36f171c15db66576b4b40a4011eb77fe9ac770c2",
           "url": "https://huggingface.co/MiniMaxAI/MiniMax-M2.5"
         },
         "MiniMaxAI/MiniMax-M2.7": {
@@ -169096,7 +172162,7 @@
           "gated": false,
           "name": "MiniMaxAI/MiniMax-M3",
           "pipeline_tag": "image-text-to-text",
-          "revision": "d95e30cb912fe3021bb9c2ba66a8ce60b6c937a9",
+          "revision": "8f11016727d9e05be3ca12d45ce8ad88ccb2bafe",
           "url": "https://huggingface.co/MiniMaxAI/MiniMax-M3"
         },
         "MiniMaxAI/MiniMax-M3-MXFP8": {
@@ -170829,18 +173895,18 @@
         }
       },
       "kind": "huggingface",
-      "last_changed_at": "2026-11-16T10:58:41.424445+00:00",
+      "last_changed_at": "2026-11-19T17:41:20.028571+00:00",
       "last_modified": null,
-      "last_success_at": "2026-11-19T08:44:32.882165+00:00",
+      "last_success_at": "2026-11-19T17:41:20.028571+00:00",
       "name": "Hugging Face · MiniMax",
-      "next_check_at": "2026-11-19T08:59:32.882165+00:00",
+      "next_check_at": "2026-11-19T17:56:20.028571+00:00",
       "url": "https://huggingface.co/api/models?author=MiniMaxAI&sort=lastModified&direction=-1&limit=100&full=true"
     },
     "huggingface-mistral": {
       "baseline_at": "2026-10-28T06:21:39.408622+00:00",
-      "checked_at": "2026-11-19T08:44:32.882165+00:00",
+      "checked_at": "2026-11-19T17:41:20.028571+00:00",
       "error": null,
-      "etag": "W/\"2e36a-8mXfXsh/9cMBZw9UiupK0L3TzrM\"",
+      "etag": "W/\"2e36a-nIOdP9UpJRDYinIbwq8JIxbBUV0\"",
       "evidence": "evidence/d7c6e22ca72e1b05cc27b75ee1b44e21011374981c22bf8a2411c8b4136ca9b4.json.gz",
       "interval": 900,
       "inventory": {
@@ -174441,16 +177507,16 @@
       "kind": "huggingface",
       "last_changed_at": "2026-11-02T18:33:43.558594+00:00",
       "last_modified": null,
-      "last_success_at": "2026-11-19T08:44:32.882165+00:00",
+      "last_success_at": "2026-11-19T17:41:20.028571+00:00",
       "name": "Hugging Face · Mistral",
-      "next_check_at": "2026-11-19T08:59:32.882165+00:00",
+      "next_check_at": "2026-11-19T17:56:20.028571+00:00",
       "url": "https://huggingface.co/api/models?author=mistralai&sort=lastModified&direction=-1&limit=100&full=true"
     },
     "huggingface-moonshot": {
       "baseline_at": "2026-10-28T06:21:39.408622+00:00",
-      "checked_at": "2026-11-19T08:44:32.882165+00:00",
+      "checked_at": "2026-11-19T17:41:20.028571+00:00",
       "error": null,
-      "etag": "W/\"11116-1rCOX43OIesXWTZ/eWqzuI24k3w\"",
+      "etag": "W/\"11117-D8i1LG6LUpaDCTIQh2SrbG2S0+Y\"",
       "evidence": "evidence/68039946b1a4116469741b8ea340ed08fb7d4225293beaadfde6c37d5142c9cc.json.gz",
       "interval": 900,
       "inventory": {
@@ -175940,16 +179006,16 @@
       "kind": "huggingface",
       "last_changed_at": "2026-11-05T08:34:04.869045+00:00",
       "last_modified": null,
-      "last_success_at": "2026-11-19T08:44:32.882165+00:00",
+      "last_success_at": "2026-11-19T17:41:20.028571+00:00",
       "name": "Hugging Face · Moonshot",
-      "next_check_at": "2026-11-19T08:59:32.882165+00:00",
+      "next_check_at": "2026-11-19T17:56:20.028571+00:00",
       "url": "https://huggingface.co/api/models?author=moonshotai&sort=lastModified&direction=-1&limit=100&full=true"
     },
     "huggingface-qwen": {
       "baseline_at": "2026-10-28T06:21:39.408622+00:00",
-      "checked_at": "2026-11-19T08:44:32.882165+00:00",
+      "checked_at": "2026-11-19T17:41:20.028571+00:00",
       "error": null,
-      "etag": "W/\"3667b-7gWRmOSaZn18wF3ued0rZt2Z5z0\"",
+      "etag": "W/\"3667b-R7BsyCcZvgL+iRinx1j+uQWCwa0\"",
       "evidence": "evidence/e185689da46ba99bf7ac2db7b1352f0a7bd1b5f2e9cd0737118dd3c11df2663b.json.gz",
       "interval": 900,
       "inventory": {
@@ -191808,16 +194874,16 @@
       "kind": "huggingface",
       "last_changed_at": "2026-11-07T07:49:59.568354+00:00",
       "last_modified": null,
-      "last_success_at": "2026-11-19T08:44:32.882165+00:00",
+      "last_success_at": "2026-11-19T17:41:20.028571+00:00",
       "name": "Hugging Face · Qwen",
-      "next_check_at": "2026-11-19T08:59:32.882165+00:00",
+      "next_check_at": "2026-11-19T17:56:20.028571+00:00",
       "url": "https://huggingface.co/api/models?author=Qwen&sort=lastModified&direction=-1&limit=100&full=true"
     },
     "models-dev": {
       "baseline_at": "2026-10-19T18:04:35.626127+00:00",
-      "checked_at": "2026-11-19T08:44:32.882165+00:00",
+      "checked_at": "2026-11-19T17:41:20.028571+00:00",
       "error": null,
-      "etag": "\"5d31ffdd3ba99204b2dcf433a9b802dc\"",
+      "etag": "\"eb90d6a80d8314e9be093bd5af9a13fd\"",
       "evidence": "evidence/2c9006dd38075823ab35bdc55ebd5c5c75dc52ebdc20b388a7c74545115e555d.json.gz",
       "interval": 900,
       "inventory": {
@@ -195903,14 +198969,14 @@
       "kind": "models-dev",
       "last_changed_at": "2026-11-19T08:44:32.882165+00:00",
       "last_modified": null,
-      "last_success_at": "2026-11-19T08:44:32.882165+00:00",
+      "last_success_at": "2026-11-19T17:41:20.028571+00:00",
       "name": "models.dev · OpenCode",
-      "next_check_at": "2026-11-19T08:59:32.882165+00:00",
+      "next_check_at": "2026-11-19T17:56:20.028571+00:00",
       "url": "https://models.dev/api.json"
     },
     "openai-sdk": {
       "baseline_at": "2026-10-19T18:04:35.626127+00:00",
-      "checked_at": "2026-11-19T08:44:32.882165+00:00",
+      "checked_at": "2026-11-19T17:41:20.028571+00:00",
       "error": null,
       "etag": "\"ffeaf29bd599fcca4122e00173d3a1ac4d448cc0\"",
       "evidence": "evidence/a542bf5dd26e110ba3ffabad9072d083f09a23f69bc63933de5e3f1983e7271d.json.gz",
@@ -196021,17 +199087,17 @@
       "kind": "sdk",
       "last_changed_at": "2026-11-17T20:46:13.005859+00:00",
       "last_modified": "Tue, 17 Nov 2026 18:34:32 GMT",
-      "last_success_at": "2026-11-19T08:44:32.882165+00:00",
+      "last_success_at": "2026-11-19T17:41:20.028571+00:00",
       "name": "OpenAI SDK",
-      "next_check_at": "2026-11-19T08:59:32.882165+00:00",
+      "next_check_at": "2026-11-19T17:56:20.028571+00:00",
       "url": "https://api.github.com/repos/openai/openai-python/contents/src/openai/types/shared/chat_model.py?ref=main"
     },
     "openrouter": {
       "baseline_at": "2026-10-19T18:04:35.626127+00:00",
-      "checked_at": "2026-11-19T08:44:32.882165+00:00",
+      "checked_at": "2026-11-19T17:41:20.028571+00:00",
       "error": null,
       "etag": null,
-      "evidence": "evidence/70410d61bb5c06bdd95eb40298db2573909578c4f9178f64ab0a08d860a39000.json.gz",
+      "evidence": "evidence/ff7aecc82af7c98b26b900f4a538b98d03f27a8b9ea6e6d95011037b3e93f406.json.gz",
       "interval": 300,
       "inventory": {
         "aion-labs/aion-2.0": {
@@ -198673,7 +201739,7 @@
           "pricing": {
             "completion": "0.0000003",
             "input_cache_read": "0.000000035",
-            "prompt": "0.000000065"
+            "prompt": "0.000000062"
           },
           "supported_parameters": [
             "frequency_penalty",
@@ -198857,9 +201923,9 @@
           "expiration_date": null,
           "name": "DeepSeek: DeepSeek V4 Pro 0813",
           "pricing": {
-            "completion": "0.00000444",
-            "input_cache_read": "0.000000097",
-            "prompt": "0.000000111"
+            "completion": "0.0000055",
+            "input_cache_read": "0.00000011",
+            "prompt": "0.00000013"
           },
           "supported_parameters": [
             "frequency_penalty",
@@ -198904,9 +201970,9 @@
           "expiration_date": null,
           "name": "DeepSeek: DeepSeek V4.1 Flash",
           "pricing": {
-            "completion": "0.0000012",
-            "input_cache_read": "0.000000006",
-            "prompt": "0.0000003"
+            "completion": "0.0000002028",
+            "input_cache_read": "0.000000001014",
+            "prompt": "0.0000000507"
           },
           "supported_parameters": [
             "frequency_penalty",
@@ -198953,8 +202019,8 @@
           "expiration_date": null,
           "name": "DeepSeek: DeepSeek V4.1 Flash 1017",
           "pricing": {
-            "completion": "0.0000012",
-            "input_cache_read": "0.000000006",
+            "completion": "0.0000006",
+            "input_cache_read": "0.000000003",
             "overrides": [
               {
                 "completion": "0.0000006",
@@ -199036,7 +202102,7 @@
                 "utc_start": 1000
               }
             ],
-            "prompt": "0.0000003"
+            "prompt": "0.00000015"
           },
           "supported_parameters": [
             "frequency_penalty",
@@ -202728,7 +205794,7 @@
             "completion": "0.00000425",
             "input_cache_read": "0.00000015",
             "prompt": "0.00000125",
-            "web_search": "0.01"
+            "web_search": "0.0025"
           },
           "supported_parameters": [
             "include_reasoning",
@@ -203069,8 +206135,8 @@
           "expiration_date": null,
           "name": "MiniMax: MiniMax M3.1 Flash",
           "pricing": {
-            "completion": "0.0000006",
-            "input_cache_read": "0.000000015",
+            "completion": "0.0000003",
+            "input_cache_read": "0.0000000075",
             "overrides": [
               {
                 "completion": "0.0000003",
@@ -203087,7 +206153,7 @@
                 "utc_start": 100
               }
             ],
-            "prompt": "0.00000015"
+            "prompt": "0.000000075"
           },
           "supported_parameters": [
             "frequency_penalty",
@@ -204283,7 +207349,7 @@
           "pricing": {
             "completion": "0.0000035",
             "input_cache_read": "0.00000016",
-            "prompt": "0.0000006"
+            "prompt": "0.00000065"
           },
           "supported_parameters": [
             "frequency_penalty",
@@ -211612,7 +214678,6 @@
           "name": "Qwen: Qwen3.5-9B",
           "pricing": {
             "completion": "0.00000025",
-            "input_cache_read": "0.000000153",
             "prompt": "0.00000017"
           },
           "supported_parameters": [
@@ -213342,8 +216407,8 @@
           "expiration_date": null,
           "name": "Tencent: Hy3",
           "pricing": {
-            "completion": "0.000000528",
-            "input_cache_read": "0.000000033",
+            "completion": "0.00000033",
+            "input_cache_read": "0.000000020625",
             "overrides": [
               {
                 "completion": "0.000000528",
@@ -213360,7 +216425,7 @@
                 "utc_start": 1600
               }
             ],
-            "prompt": "0.000000132"
+            "prompt": "0.0000000825"
           },
           "supported_parameters": [
             "frequency_penalty",
@@ -213511,8 +216576,8 @@
           "expiration_date": null,
           "name": "Tencent: Hy4 preview",
           "pricing": {
-            "completion": "0.000002501",
-            "input_cache_read": "0.000000042",
+            "completion": "0.0000022509",
+            "input_cache_read": "0.0000000378",
             "overrides": [
               {
                 "completion": "0.000002501",
@@ -213529,7 +216594,7 @@
                 "utc_start": 1600
               }
             ],
-            "prompt": "0.000000834"
+            "prompt": "0.0000007506"
           },
           "supported_parameters": [
             "frequency_penalty",
@@ -213763,41 +216828,6 @@
             "top_p"
           ],
           "url": "https://openrouter.ai/thinkingmachines/inkling-2-small"
-        },
-        "thinkingmachines/inkling-2-small:free": {
-          "alias_target": null,
-          "architecture": {
-            "input_modalities": [
-              "text",
-              "image"
-            ],
-            "instruct_type": null,
-            "modality": "text+image->text",
-            "output_modalities": [
-              "text"
-            ],
-            "tokenizer": "Other"
-          },
-          "canonical_slug": "thinkingmachines/inkling-2-small-20261107",
-          "context_length": 1048576,
-          "expiration_date": "2026-11-19",
-          "name": "Thinking Machines: Inkling 2 Small (free)",
-          "pricing": {
-            "completion": "0",
-            "prompt": "0"
-          },
-          "supported_parameters": [
-            "include_reasoning",
-            "max_tokens",
-            "reasoning",
-            "reasoning_effort",
-            "seed",
-            "stop",
-            "temperature",
-            "tools",
-            "top_p"
-          ],
-          "url": "https://openrouter.ai/thinkingmachines/inkling-2-small:free"
         },
         "thinkingmachines/inkling-small": {
           "alias_target": null,
@@ -215971,9 +219001,9 @@
           "expiration_date": null,
           "name": "DeepSeek: DeepSeek Flash Latest",
           "pricing": {
-            "completion": "0.00000015",
-            "input_cache_read": "0.0000000015",
-            "prompt": "0.000000035"
+            "completion": "0.0000005",
+            "input_cache_read": "0.00000001",
+            "prompt": "0.000000036"
           },
           "supported_parameters": [
             "frequency_penalty",
@@ -216023,8 +219053,8 @@
           "name": "DeepSeek: DeepSeek Pro Latest",
           "pricing": {
             "completion": "0.000008",
-            "input_cache_read": "0.0000000999",
-            "prompt": "0.0000000999"
+            "input_cache_read": "0.00000012",
+            "prompt": "0.000000117"
           },
           "supported_parameters": [
             "frequency_penalty",
@@ -216071,9 +219101,9 @@
           "expiration_date": null,
           "name": "DeepSeek: DeepSeek V4 Flash Latest",
           "pricing": {
-            "completion": "0.00000018",
-            "input_cache_read": "0.000000015",
-            "prompt": "0.00000006"
+            "completion": "0.00000013992",
+            "input_cache_read": "0.000000001484",
+            "prompt": "0.00000004664"
           },
           "supported_parameters": [
             "frequency_penalty",
@@ -216228,7 +219258,7 @@
           "pricing": {
             "completion": "0.0000110055",
             "input_cache_read": "0.00000018",
-            "prompt": "0.0000001824"
+            "prompt": "0.0000001805"
           },
           "supported_parameters": [
             "frequency_penalty",
@@ -216705,11 +219735,11 @@
         }
       },
       "kind": "openrouter",
-      "last_changed_at": "2026-11-19T08:44:32.882165+00:00",
+      "last_changed_at": "2026-11-19T17:41:20.028571+00:00",
       "last_modified": null,
-      "last_success_at": "2026-11-19T08:44:32.882165+00:00",
+      "last_success_at": "2026-11-19T17:41:20.028571+00:00",
       "name": "OpenRouter · 文本输出",
-      "next_check_at": "2026-11-19T08:49:32.882165+00:00",
+      "next_check_at": "2026-11-19T17:46:20.028571+00:00",
       "url": "https://openrouter.ai/api/v1/models"
     }
   }
