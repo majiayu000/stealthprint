@@ -76,7 +76,7 @@ Response headers are saved by name; values are kept only for `content-type`, `se
 
 ```bash
 stealthprint watch --state watch-state                     # OpenRouter, no key needed
-stealthprint watch --source https://api.example.com/v1/models --api-key ... --state watch-state
+STEALTHPRINT_SOURCE_API_KEY=... stealthprint watch --source https://api.example.com/v1/models --state watch-state
 stealthprint watch --fingerprint --base-url https://openrouter.ai/api/v1 --api-key ... --tokenizers tok/
 ```
 

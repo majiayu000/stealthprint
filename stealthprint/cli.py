@@ -156,6 +156,8 @@ def build_parser():
     p = sub.add_parser("watch", parents=[common], help=t("cli.watch"))
     p.add_argument("--source", default="openrouter",
                    help="catalog to poll: openrouter or an OpenAI-compatible /models URL")
+    p.add_argument("--source-api-key", default=os.environ.get("STEALTHPRINT_SOURCE_API_KEY"),
+                   help="key for an explicit --source URL (or STEALTHPRINT_SOURCE_API_KEY)")
     p.add_argument("--state", default="watch-state", help="directory for snapshots and sightings.jsonl")
     p.add_argument("--fingerprint", action="store_true",
                    help="L1-probe added ids via --base-url/--api-key (billable requests)")
@@ -232,7 +234,7 @@ def run_watch(args):
             return {m: {"l1_best": row.get("best"), "l1_scores": row.get("scores"),
                         "mode": row.get("mode")} for m, row in measured.items()}
 
-    catalog_key = args.api_key if args.source != "openrouter" else None
+    catalog_key = args.source_api_key if args.source != "openrouter" else None
     r = watch.run_watch(args.state, source=args.source, api_key=catalog_key, on_added=on_added,
                         queue_webhook=bool(args.webhook))
     if args.webhook:

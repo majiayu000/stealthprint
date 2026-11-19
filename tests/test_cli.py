@@ -1,6 +1,8 @@
+import os
 import unittest
+from unittest.mock import patch
 
-from stealthprint.cli import build_parser
+from stealthprint.cli import build_parser, run_watch
 
 
 class FlagPlacementTests(unittest.TestCase):
@@ -32,6 +34,24 @@ class FlagPlacementTests(unittest.TestCase):
         ns = build_parser().parse_args(["wrapper"])
         self.assertIsNone(ns.model)
         self.assertIs(ns.json, False)
+
+
+class WatchCredentialTests(unittest.TestCase):
+    def test_catalog_does_not_receive_probe_key(self):
+        with patch.dict(os.environ, {"STEALTHPRINT_API_KEY": "probe-only"}, clear=True):
+            args = build_parser().parse_args(["watch", "--source", "https://catalog.example/models"])
+        with patch("stealthprint.cli.watch.run_watch") as watch:
+            run_watch(args)
+        self.assertIsNone(watch.call_args.kwargs["api_key"])
+
+    def test_custom_catalog_uses_its_own_key(self):
+        with patch.dict(os.environ, {"STEALTHPRINT_SOURCE_API_KEY": "catalog-only"}, clear=True):
+            args = build_parser().parse_args([
+                "watch", "--source", "https://catalog.example/models", "--api-key", "probe-only",
+            ])
+        with patch("stealthprint.cli.watch.run_watch") as watch:
+            run_watch(args)
+        self.assertEqual(watch.call_args.kwargs["api_key"], "catalog-only")
 
 
 if __name__ == "__main__":
