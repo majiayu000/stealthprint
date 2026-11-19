@@ -78,7 +78,7 @@ stealthprint survey --out census.jsonl     # 网关普查：目录可达性分�
 
 ```bash
 stealthprint watch --state watch-state                     # OpenRouter，不需要 key
-stealthprint watch --source https://api.example.com/v1/models --api-key ... --state watch-state
+STEALTHPRINT_SOURCE_API_KEY=... stealthprint watch --source https://api.example.com/v1/models --state watch-state
 stealthprint watch --fingerprint --base-url https://openrouter.ai/api/v1 --api-key ... --tokenizers tok/
 ```
 
